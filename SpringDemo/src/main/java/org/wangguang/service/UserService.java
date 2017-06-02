@@ -6,7 +6,7 @@ import org.wangguang.entity.User;
 
 public interface UserService {
 
-    List<User> findByName(String name);
+    //List<User> findByName(String name);
 
     public void save(User user);
 

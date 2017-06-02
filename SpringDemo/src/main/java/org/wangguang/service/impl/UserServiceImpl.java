@@ -14,11 +14,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @Override
+    /*@Override
     public List<User> findByName(String name) {
         // TODO Auto-generated method stub
         return userDao.selectByName(name);
-    }
+    }*/
 
     @Override
     public void save(User user) {

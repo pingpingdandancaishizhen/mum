@@ -11,7 +11,7 @@ import org.wangguang.entity.User;
 @Repository
 public interface UserDao extends JpaRepository<User, Integer> {
 
-    @Query("select u.name from user u where u.name = ?1")
-    List<User> selectByName(String name);
+   /* @Query("select u.name from user u where u.name = ?1")
+    List<User> selectByName(String name);*/
 
 }

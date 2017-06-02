@@ -32,7 +32,7 @@ public class UserController {
     @ResponseBody
     public String save(User user) {
         // userService.save(user);
-        userService.findByName(user.getName());
+        //userService.findByName(user.getName());
         return "userShow";
     }
 

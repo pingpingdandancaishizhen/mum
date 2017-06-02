@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h1>添加用户</h1>
-	<form action="/SpringDemo/user/addUser" method="post">
+	<form action="/mumtea/user/addUser" method="post">
 		姓名：<input type="text" name="name"> 年龄：<input type="text"
 			name="age"> <input type="submit" value="保存">
 	</form>
