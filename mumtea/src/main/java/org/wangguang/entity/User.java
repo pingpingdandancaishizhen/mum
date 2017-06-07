@@ -12,6 +12,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
+@Table(name="tbl_user")
 @PrimaryKeyJoinColumn(name = "id")
 public class User implements Serializable{
 
