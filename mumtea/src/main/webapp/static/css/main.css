@@ -1,1 +1,5 @@
-#gnb_menu_layer li { float:left; list-style:none;}
+#content .g_menu_area {     margin: 0 auto;
+    border: 1px solid #eee;
+    width: 1224px;
+    height: 103px;
+    font-size: 20px;}

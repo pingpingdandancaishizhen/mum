@@ -12,7 +12,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tbl_user")
+@Table(name="mum_user")
 @PrimaryKeyJoinColumn(name = "id")
 public class User implements Serializable{
 
