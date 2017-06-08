@@ -1,0 +1,28 @@
+package cn.sunfit.risk.buz.api.vo.p2p.product.config;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class ZnjResFee implements Serializable {
+
+    private String name = "滞纳金率";
+
+    private List<Double> znjFee;
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Double> getZnjFee() {
+        return znjFee;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setZnjFee(List<Double> znjFee) {
+        this.znjFee = znjFee;
+    }
+
+}

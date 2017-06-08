@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.templates.MetaTemplatesDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.templates.MetaTemplates" >
+    <id column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="product_key" property="productKey" jdbcType="VARCHAR" />
+    <result column="engine_def_id" property="engineDefId" jdbcType="VARCHAR" />
+    <result column="bp_def_key" property="bpDefKey" jdbcType="VARCHAR" />
+    <result column="bp_name" property="bpName" jdbcType="VARCHAR" />
+    <result column="bp_desc" property="bpDesc" jdbcType="VARCHAR" />
+    <result column="bp_no_rule" property="bpNoRule" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="bind_clazz" property="bindClazz" jdbcType="VARCHAR" />
+    <result column="loan_type" property="loanType" jdbcType="TINYINT" />
+    <result column="loan_ext_table" property="loanExtTable" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.sunfit.risk.buz.api.beans.templates.MetaTemplates" extends="BaseResultMap" >
+    <result column="bpmn_xml" property="bpmnXml" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bp_def_id, product_key, bp_def_key,engine_def_id, bp_name, bp_desc, bp_no_rule, version, create_user_id, 
+    create_time, update_time, bind_clazz, loan_type, loan_ext_table
+  </sql>
+  <sql id="Blob_Column_List" >
+    bpmn_xml
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bp_meta_templates
+    where bp_def_id = #{bpDefId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaTemplates" >
+    insert into bp_meta_templates (bp_def_id, product_key, engine_def_id, 
+      bp_name, bp_desc, bp_no_rule, 
+      version, create_user_id, create_time, 
+      update_time, bind_clazz, loan_type, 
+      loan_ext_table, bpmn_xml,bp_def_key)
+    values (#{bpDefId,jdbcType=VARCHAR}, #{productKey,jdbcType=VARCHAR}, #{engineDefId,jdbcType=VARCHAR}, 
+      #{bpName,jdbcType=VARCHAR}, #{bpDesc,jdbcType=VARCHAR}, #{bpNoRule,jdbcType=VARCHAR}, 
+      #{version,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{bindClazz,jdbcType=VARCHAR}, #{loanType,jdbcType=TINYINT}, 
+      #{loanExtTable,jdbcType=VARCHAR}, #{bpmnXml,jdbcType=LONGVARCHAR},#{bpDefKey,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaTemplates" >
+    update bp_meta_templates
+    set product_key = #{productKey,jdbcType=VARCHAR},
+      engine_def_id = #{engineDefId,jdbcType=VARCHAR},
+      bp_def_key = #{bpDefKey,jdbcType=VARCHAR},
+      bp_name = #{bpName,jdbcType=VARCHAR},
+      bp_desc = #{bpDesc,jdbcType=VARCHAR},
+      bp_no_rule = #{bpNoRule,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      bind_clazz = #{bindClazz,jdbcType=VARCHAR},
+      loan_type = #{loanType,jdbcType=TINYINT},
+      loan_ext_table = #{loanExtTable,jdbcType=VARCHAR},
+      bpmn_xml = #{bpmnXml,jdbcType=LONGVARCHAR}
+    where bp_def_id = #{bpDefId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaTemplates" >
+    update bp_meta_templates
+    set product_key = #{productKey,jdbcType=VARCHAR},
+      engine_def_id = #{engineDefId,jdbcType=VARCHAR},
+      bp_def_key = #{bpDefKey,jdbcType=VARCHAR},
+      bp_name = #{bpName,jdbcType=VARCHAR},
+      bp_desc = #{bpDesc,jdbcType=VARCHAR},
+      bp_no_rule = #{bpNoRule,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      bind_clazz = #{bindClazz,jdbcType=VARCHAR},
+      loan_type = #{loanType,jdbcType=TINYINT},
+      loan_ext_table = #{loanExtTable,jdbcType=VARCHAR}
+    where bp_def_id = #{bpDefId,jdbcType=VARCHAR}
+  </update>
+  <select resultMap="BaseResultMap" id="selectMetaTemplates">
+  	select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bp_meta_templates
+  </select>
+  <select id="copy2Corp" parameterType="java.util.Map" statementType="CALLABLE" resultType="java.lang.String">
+    call copymeta(#{corpId,mode=IN,jdbcType=VARCHAR},#{domain,mode=IN,jdbcType=VARCHAR},#{bpDefId,mode=IN,jdbcType=VARCHAR});
+  </select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.templates.MetaCategoryTemplatesDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.templates.MetaCategoryTemplates" >
+    <id column="category_key" property="categoryKey" jdbcType="VARCHAR" />
+     <result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="category_desc" property="categoryDesc" jdbcType="VARCHAR" />
+     <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    category_id,category_key, name, category_desc,bp_def_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bp_meta_category_templates
+    where category_id = #{categoryId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaCategoryTemplates" >
+    insert into bp_meta_category_templates (category_id,category_key, name, category_desc,bp_def_id
+      )
+    values (#{categoryId,jdbcType=VARCHAR},#{categoryKey,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{categoryDesc,jdbcType=VARCHAR},#{bpDefId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaCategoryTemplates" >
+    update bp_meta_category_templates
+    set name = #{name,jdbcType=VARCHAR},category_key=#{categoryKey,jdbcType=VARCHAR}
+      category_desc = #{categoryDesc,jdbcType=VARCHAR}
+    where category_id = #{categoryId,jdbcType=VARCHAR}
+  </update>
+    <select id="selectMetaCategoryTemplates" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select  
+    <include refid="Base_Column_List" />
+    from bp_meta_category_templates
+    where bp_def_id = #{bpDefId,jdbcType=VARCHAR}
+  </select>
+      <select id="selectMetaCategoryTemplatesAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select  
+    <include refid="Base_Column_List" />
+    from bp_meta_category_templates
+    where bp_def_id = #{bpDefId,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,7 @@
+{
+    "loandebit_id": [],
+    "loandebit_name": [{"ruleType":"length","ruleLevel":"field","message":"请输入1到20位字符","fieldKey":"loandebit_name","condition":null,"detail":{"min":"1","max":"20"}}],
+    "loandebit_date": [],
+    "loandebit_amount":[{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100000000之间的2位小数","fieldKey":"loandebit_amount","condition":null,"detail":{"min":"0","max":"100000000","digits":"2"}}],
+    "loandebit_platform": []
+}

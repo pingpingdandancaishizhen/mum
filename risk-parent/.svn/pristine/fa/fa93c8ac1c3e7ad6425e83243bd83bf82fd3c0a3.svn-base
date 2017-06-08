@@ -1,0 +1,13 @@
+{
+    "loanapproval_limit": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100000000之间的2位小数","fieldKey":"loanapproval_limit","condition":null,"detail":{"min":"0","max":"100000000","digits":"2"}}],
+    "loanapproval_period": [],
+    "loanapproval_repayment": [],
+    "loanapproval_annual_rate": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100之间的2位小数","fieldKey":"loanapproval_annual_rate","condition":null,"detail":{"min":"0","max":"100","digits":"2"}}],
+    "loanapproval_monthly_interest": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100之间的2位小数","fieldKey":"loanapproval_monthly_interest","condition":null,"detail":{"min":"0","max":"100","digits":"2"}}],
+    "loanapproval_monthly_fee": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100之间的2位小数","fieldKey":"loanapproval_monthly_fee","condition":null,"detail":{"min":"0","max":"100","digits":"2"}}],
+    "loanapproval_fee_rate": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100之间的2位小数","fieldKey":"loanapproval_fee_rate","condition":null,"detail":{"min":"0","max":"100","digits":"2"}}],
+    "loanapproval_early_fee": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100000000之间的2位小数","fieldKey":"loanapproval_early_fee","condition":null,"detail":{"min":"0","max":"100000000","digits":"2"}}],
+    "loanapproval_margin_ratio": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100之间的2位小数","fieldKey":"loanapproval_margin_ratio","condition":null,"detail":{"min":"0","max":"100","digits":"2"}}],
+    "loanapproval_loan_term": [{"ruleType":"length","ruleLevel":"field","message":"请输入1到40位字符","fieldKey":"loanapproval_loan_term","condition":null,"detail":{"min":"1","max":"40"}}],
+    "loanapproval_comments": [{"ruleType":"length","ruleLevel":"field","message":"请输入1到40位字符","fieldKey":"loanapproval_loan_term","condition":null,"detail":{"min":"1","max":"40"}}]
+}

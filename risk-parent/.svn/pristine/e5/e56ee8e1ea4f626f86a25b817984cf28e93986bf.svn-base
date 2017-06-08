@@ -1,0 +1,112 @@
+<template>
+  <div>
+    <div class="row-right" :class="!checkedAdd?'col-sm-6':'col-sm-6 checkedAdd'">
+      <div class="form-group input-group " :id="data.key">
+        <label class="label-head label-head-lg label-head-top  text-right"  v-if="!checkedAdd"><span :class="data.required?'require':''">{{data.label}}:</span></label>
+        <div class="label-box label-box-sm">
+          <input type="text" class="form-control" :name="data.key"  placeholder="" v-model="formatValue" @input="handleInput" @blur="handleBlur" @focus="handleFocus" :disabled="data.readonly?true:false">
+        </div>
+        <div class="form-error-tip">{{errorMsg[data.key]}}</div>
+      </div>
+    </div>
+    <div class="row-right col-sm-6">
+      <div class="form-group input-group ">
+        <label class="label-head label-head-lg label-head-top  text-right" ><span >性别:</span></label>
+        <div class="label-box label-box-sm">
+          <input type="text" class="form-control" disabled="disabled" v-model="sex">
+          <div class="form-error-tip"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row-right col-sm-6">
+      <div class="form-group input-group ">
+        <label class="label-head label-head-lg label-head-top  text-right" ><span >生日:</span></label>
+        <div class="label-box label-box-sm">
+          <input type="text" class="form-control" disabled="disabled" v-model="birthday">
+          <div class="form-error-tip"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>
+<script>
+  import checkRule from '../mixins/checkRule'
+  export default{
+    mixins:[checkRule],
+    data(){
+      return {
+        value:'',
+        formatValue:'',
+        sex:'',
+        birthday:''
+      }
+    },
+    props: ['data','oData','attrsData','checkedAdd'],
+    created:function () {
+      var attrValue=this.attrsData[this.data.key];
+      var value=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+      this.value=value;
+      this.formatValue=tools.formatAccount(value);
+      this.$store.dispatch('setInputData', {key: this.data.key, value: value});
+      this.$watch('value',this.handleWatch)
+      var birthDay=this.getBirthDay(value);
+      var sex=this.getSex(value);
+      this.birthday=birthDay;
+      this.sex=sex;
+    },
+    methods:{
+      handleFocus(){
+        this.formatValue=this.value;
+      },
+      handleInput(e){
+        var value=e.target.value;
+        this.value=value;
+      },
+      handleBlur() {
+        this.formatValue=tools.formatAccount(this.value)
+      },
+      handleWatch(val){
+        var valData={};
+        valData[this.data.key]=val;
+        this.checkRuleValue=Object.assign({},this.checkRuleValue,valData);
+        var birthDay=this.getBirthDay(val);
+        var sex=this.getSex(val);
+        this.birthday=birthDay;
+        this.sex=sex;
+        this.$store.dispatch('setInputData', {key: this.data.key, value: val});
+      },
+      getBirthDay:function (IDNO) {
+        var birthdayno='',birthdaytemp='';
+        if(IDNO.length==18){
+          birthdayno=IDNO.substring(6,14)
+        }
+        if(IDNO.length==15){
+          birthdaytemp=IDNO.substring(6,12)
+          birthdayno="19"+birthdaytemp
+        }
+        var birthday=birthdayno&&(birthdayno.substring(0,4)+"-"+birthdayno.substring(4,6)+"-"+birthdayno.substring(6,8))
+        return birthday
+      },
+      getSex:function (IDNO) {
+        var sexno='',sex=''
+        if(IDNO.length==18){
+          sexno=IDNO.substring(16,17)
+        }
+        if(IDNO.length==15){
+          sexno=IDNO.substring(14,15)
+        }
+        var tempid=sexno%2;
+        if(sexno!=''){
+          if(tempid==0){
+            sex='女'
+          }else{
+            sex='男'
+          }
+        }
+
+        return sex
+      }
+    }
+  }
+</script>

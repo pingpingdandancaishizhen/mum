@@ -1,0 +1,9 @@
+{
+	"loanrebank_account_name" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入2-20个字，只支持中文或英文","fieldKey":"loanrebank_account_name","condition":null,"detail":{"regexp":"^[\\u4e00-\\u9fa5_a-zA-Z]{2,20}$"}}],
+	"loanrebank_account_no" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入正确银行卡号","fieldKey":"loanrebank_account_no","condition":null,"detail":{"regexp":"^\\d{16}|\\d{19}$"}}],
+	"loanrebank_bank" : [],
+	"loanrebank_addr" : [],
+	"loanrebank_addr_province" : [],
+	"loanrebank_addr_city" : [],
+	"loanrebank_branch" : []
+}

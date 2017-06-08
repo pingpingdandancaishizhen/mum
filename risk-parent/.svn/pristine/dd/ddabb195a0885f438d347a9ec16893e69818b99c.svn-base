@@ -1,0 +1,49 @@
+package cn.sunfit.risk.credit.server.service;
+
+import java.io.IOException;
+import java.util.Map;
+
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+
+import net.sf.json.JSONObject;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import cn.sunfit.risk.credit.api.beans.Resp;
+import cn.sunfit.risk.credit.api.constant.ResponseStatus;
+import cn.sunfit.risk.credit.api.service.NFCSService;
+import cn.sunfit.risk.credit.server.util.NfcsUtil;
+
+@Path("nfcs")
+@Service("credit.NFCSService")
+public class NFCSServiceImpl implements NFCSService {
+
+    private static final Logger logger = Logger.getLogger(NFCSServiceImpl.class);
+
+    @POST
+    @Path("query")
+    @Override
+    public String query(String req) {
+        Resp resp = new Resp();
+        JSONObject ob = null;
+        try {
+            ob = JSONObject.fromObject(req);
+            String idCard = ob.get("idCard") == null ? "" : ob.get("idCard").toString();
+            String name = ob.get("name") == null ? "" : ob.get("name").toString();
+            String plate = ob.get("plate") == null ? "" : ob.get("plate").toString();
+            Map<String, String> apiResp = NfcsUtil.query(idCard, name, plate);
+            NfcsUtil.writeFile(apiResp.get("VALUE"));
+            resp.setData(apiResp);
+        } catch (IOException e) {
+            logger.error(e);
+            resp = Resp.buildErrorResponse(e.getMessage());
+        } catch (Exception e) {
+            logger.error(e);
+            resp = Resp.buildErrorResponse(ResponseStatus.PARAM_ERROR);
+        }
+        return JSONObject.fromObject(resp).toString();
+
+    }
+}

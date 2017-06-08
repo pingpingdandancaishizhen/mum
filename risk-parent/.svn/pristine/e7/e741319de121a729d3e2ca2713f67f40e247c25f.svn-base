@@ -1,0 +1,78 @@
+package cn.sunfit.risk.buz.server.service.p2p.imp;
+
+import java.io.ByteArrayInputStream;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import cn.sunfit.risk.buz.api.beans.p2p.P2PProduct;
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.BPAttr;
+import cn.sunfit.risk.buz.api.beans.p2p.order.LoanInfoBean;
+import cn.sunfit.risk.buz.api.exception.ServiceException;
+import cn.sunfit.risk.buz.api.service.p2p.imp.ImportOrderService;
+import cn.sunfit.risk.buz.api.service.p2p.product.P2PProductService;
+import cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO;
+import cn.sunfit.risk.buz.api.vo.p2p.imp.ImportError;
+import cn.sunfit.risk.buz.api.vo.p2p.imp.ImportResult;
+import cn.sunfit.risk.buz.server.dao.p2p.activiti.BPAttrDAO;
+import cn.sunfit.risk.buz.server.dao.p2p.order.LoanInfoDAO;
+
+@Service("risk.p2p.importOrderService")
+public class ImportOrderServiceImpl implements ImportOrderService {
+
+    @Autowired
+    P2PProductService p2PProductService;
+
+    @Autowired
+    BPAttrDAO bpAttrDAO;
+
+    @Autowired
+    LoanInfoDAO loanInfoDAO;
+
+    @Autowired
+    private ImportOrderFactory factory;
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, timeout = 30)
+    public ImportResult importExcel(CorpUserDTO user, byte[] bytes, String productCode, String importCode)
+            throws ServiceException {
+        // 根据code查prodcut_type
+        List<P2PProduct> products = p2PProductService.findByProductCode(productCode);
+        String productType = null;
+        if (products != null && products.size() > 0) {
+            productType = products.get(0).getProductType();
+        } else {
+            throw new ServiceException("获取产品类型失败");
+        }
+        // 根据productType 获取处理类
+        ImportHandle h = factory.getHandle(productType);
+        if (h == null) {
+            throw new ServiceException("暂不支持此种类型P2P产品");
+        }
+        // 转值 验证 插入
+        try {
+            Map<String, Object> result = h.excelToBean(user.getDomain(), user.getCorpId(), productCode, user.getId(),
+                    importCode, new ByteArrayInputStream(bytes));
+            List<LoanInfoBean> loans = (List<LoanInfoBean>) result.get("loans");
+            List<BPAttr> attrs = (List<BPAttr>) result.get("attrs");
+            if (attrs != null && attrs.size() > 0) {
+                for (BPAttr attr : attrs) {
+                    bpAttrDAO.insertAttr(attr);
+                }
+            }
+            if (loans != null && loans.size() > 0) {
+                loanInfoDAO.insertLoanInfo(user.getDomain(), loans);
+            }
+            List<ImportError> errList = (List<ImportError>) result.get("err");
+            boolean success = (boolean) result.get("success");
+            String message = (String) result.get("message");
+            return new ImportResult(success, loans == null ? 0 : loans.size(), errList, message);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServiceException("获取文件失败");
+        }
+    }
+}

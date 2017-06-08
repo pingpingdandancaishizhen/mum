@@ -1,0 +1,7 @@
+{
+    "loanadvice_need": [],
+    "loanadvice_limit": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100000000之间的2位小数","fieldKey":"loanadvice_limit","condition":null,"detail":{"min":"0","max":"100000000","digits":"2"}}],
+    "loanadvice_repayment": [],
+    "loanadvice_daylyTerm": [{"ruleType":"integer","ruleLevel":"field","message":"仅支持1-100的数字","fieldKey":"loanadvice_daylyTerm","condition":null,"detail":{"min":"1","max":"100"}}],
+    "loanadvice_loan": [{"ruleType":"length","ruleLevel":"field","message":"请输入0到100位字符","fieldKey":"loanadvice_loan","condition":null,"detail":{"min":"0","max":"100"}}]
+}

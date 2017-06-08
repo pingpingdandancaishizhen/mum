@@ -1,0 +1,48 @@
+package cn.sunfit.risk.buz.server.dao.p2p.excel;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+import cn.sunfit.risk.buz.api.beans.p2p.ApiReq;
+import cn.sunfit.risk.buz.api.beans.p2p.LoanInfoAttachment;
+import cn.sunfit.risk.buz.api.beans.p2p.P2PParams;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.LoanInfoQueryReq;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.P2PImportExcelTemplateCYD;
+
+@Repository
+public interface ImportCydExcelTemplateDao {
+    void backupAttach(String attachId);
+
+    boolean hasLoanInfo(FormQuery req);
+
+    void insertLoanInfo(List<P2PImportExcelTemplateCYD> temp);
+
+    void insertLoanInfoAttach(LoanInfoAttachment temp);
+
+    List<LoanInfoAttachment> queryAttachmentList(Map<String, Object> req);
+
+    List<P2PParams> queryAttachParamList();
+
+    List<Long> queryExistLoanIds(Map<String, Object> req);
+
+    P2PImportExcelTemplateCYD queryLoanInfo(LoanInfoQueryReq req);
+
+    List<P2PImportExcelTemplateCYD> queryLoanInfoByCustomer(LoanInfoQueryReq req);
+
+    List<P2PImportExcelTemplateCYD> queryLoanInfoByCustomer(LoanInfoQueryReq req, RowBounds rowBounds);
+
+    List<P2PImportExcelTemplateCYD> queryLoanInfoList(LoanInfoQueryReq req, RowBounds rowBounds);
+
+    void removeAttach(String attachId);
+
+    void updateInfoAproveStatus(@Param("orderIds") String orderIds);
+
+    void updateInfoStatus(ApiReq req);
+
+    void updateLoanInfo(P2PImportExcelTemplateCYD info);
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.param.P2PParamsDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.p2p.P2PParams" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="param_name" property="paramName" jdbcType="VARCHAR" />
+    <result column="param_value" property="paramValue" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="param_group" property="paramGroup" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="findAttachments" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select id,param_name,param_value,status,param_group from p2p_params where param_type=#{id,jdbcType=VARCHAR}
+  	order by param_group
+  </select>
+  <insert id="saveAttParam" parameterType="java.util.Map">
+  	insert into p2p_params(id,param_name,param_value,status,param_group,param_type) 
+  	value(#{id,jdbcType=VARCHAR},#{paramName,jdbcType=VARCHAR},#{paramName,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{paramGroup,jdbcType=VARCHAR},#{paramType,jdbcType=VARCHAR});
+  </insert>
+</mapper>

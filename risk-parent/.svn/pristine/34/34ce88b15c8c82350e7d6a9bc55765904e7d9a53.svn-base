@@ -1,0 +1,29 @@
+package cn.sunfit.risk.buz.api.service.p2p.excel;
+
+import java.util.List;
+import java.util.Map;
+
+import cn.sunfit.risk.buz.api.beans.p2p.ApiReq;
+import cn.sunfit.risk.buz.api.beans.p2p.LoanInfoAttachment;
+import cn.sunfit.risk.buz.api.beans.p2p.P2PParams;
+import cn.sunfit.risk.buz.api.vo.RespPage;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.LoanInfoQueryReq;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.P2PImportExcelTemplateXJD;
+
+public interface ImportExcelTemplateService {
+    String insertLoanInfo(List<Map<String,Object>> temp,String productType);
+	public RespPage<List<P2PImportExcelTemplateXJD>> queryLoanInfoList(LoanInfoQueryReq req);
+	public P2PImportExcelTemplateXJD queryLoanInfo(LoanInfoQueryReq req);
+	public RespPage<List<P2PImportExcelTemplateXJD>> queryLoanInfoByCustomer(LoanInfoQueryReq req);
+	public List<P2PParams> queryAttachParamList();
+	void insertLoanInfoAttach(LoanInfoAttachment temp);
+	void removeAttach(String attachId);
+	void backupAttach(String attachId);
+	public void updateLoanInfo(P2PImportExcelTemplateXJD info);
+	public List<Long> queryExistLoanIds(Map<String,Object> req);
+	public List<P2PImportExcelTemplateXJD> queryLoanInfoByParam(LoanInfoQueryReq req);
+	void updateInfoAproveStatus(List<P2PImportExcelTemplateXJD> infos);
+	void updateInfoAproveStatus(ApiReq req);
+	boolean hasLoanInfo(FormQuery req);
+}

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:p="http://www.springframework.org/schema/p" xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+<bean id="processEngineConfiguration"  
+        class="org.activiti.spring.SpringProcessEngineConfiguration">  
+        <property name="dataSource" ref="dataSource" />  
+        <property name="databaseType" value="mysql"/>  
+        <property name="databaseSchemaUpdate" value="true" />  
+        <property name="jobExecutorActivate" value="false" />  
+        <property name="transactionManager" ref="transactionManager" />  
+        <property name="activityFontName"  value="宋体" />  
+        <property name="labelFontName"  value="宋体" />  
+        <property name="eventListeners">  
+	      <list>  
+	        <ref bean="globalEventListener"/>  
+	      </list>  
+	    </property>  
+        
+      <!--   <property name="customSessionFactories">   
+        <list>   
+             <bean class="cn.sunfit.risk.buz.server.activiti.identity.CustomGroupManagerFactory" >  
+                <property name="groupEntityManager">  
+                    <bean class="cn.sunfit.risk.buz.server.activiti.identity.CustomGroupManager"></bean>  
+                </property>  
+             </bean>  
+             <bean class="cn.sunfit.risk.buz.server.activiti.identity.CustomUserManagerFactory" >  
+                <property  name="userEntityManager">  
+                    <bean id="userEntityManager" class="cn.sunfit.risk.buz.server.activiti.identity.CustomUserManager"></bean>  
+                </property>  
+             </bean>  
+        </list>  
+    </property>  -->
+    </bean>  
+      
+    <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">  
+        <property name="processEngineConfiguration" ref="processEngineConfiguration" />  
+    </bean>  
+      
+    <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService" />  
+    <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService" />  
+    <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService" />  
+    <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" />  
+    <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" />  
+    <bean id="formService" factory-bean="processEngine" factory-method="getFormService" />  
+    <bean id="identityService" factory-bean="processEngine" factory-method="getIdentityService" /> 
+    
+    <bean id="globalEventListener" class="cn.sunfit.risk.buz.server.service.p2p.activiti.listener.GlobalEventListener">
+    	<property name="hanlders">
+    	<map>
+    	<entry key="ACTIVITY_STARTED" value="activityStartedHandler"/>  
+    	<entry key="ACTIVITY_COMPLETED" value="activityCompletedHandler"/>  
+    	<entry key="TASK_CREATED" value="taskCreatedHandler"/>
+    	<entry key="TASK_COMPLETED" value="taskCompletedHandler"/>
+    	<entry key="TASK_ASSIGNED" value="taskAssignedHandler"/>
+    	<entry key="PROCESS_COMPLETED" value="processCompletedHandler"/>
+    	</map>
+    	</property>
+    </bean>
+    
+    
+    <bean id="assignRuleFactory" class="cn.sunfit.risk.buz.server.service.p2p.activiti.assign.AssignRuleFactory">  
+        <property name="calcus">  
+         <map>
+         <entry key="0" value-ref="startUserCalculator"/>
+         <entry key="1" value-ref="userRoleCalculator"/>
+         </map>
+        </property>
+    </bean>  
+</beans>
+
+<!--  <entry key="TASK_CREATED" value="taskCreateListener"/>  
+   <entry key="TASK_COMPLETED" value="taskCompleteListener"/>  
+   <entry key="TASK_ASSIGNED" value="taskAssignedListener"/>  
+   <entry key="PROCESS_COMPLETED" value="processCompleteListener"/>  
+   <entry key="ACTIVITY_STARTED" value="activityStartedListener"/>  
+   <entry key="ACTIVITY_COMPLETED" value="activityCompletedListener"/>  
+   <entry key="ACTIVITY_SIGNALED" value="activitySignaledListener"/>   -->

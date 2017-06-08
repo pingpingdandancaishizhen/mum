@@ -1,0 +1,199 @@
+/**
+ * Created by RJS on 2017/4/27.
+ */
+export default {
+  data:function () {
+    return {
+      checkRuleValue:'',
+      errorTip:''
+    }
+  },
+  props: ['data','oData','attrsData','ruleData','checkedAdd'],
+  watch:{
+    checkRuleValue(val){
+      this.checkRules(val)
+    }
+  },
+  methods:{
+    checkRules: function (val) {
+//          condition是第一层判断，ruleType是第二层判断，然后才是下面的判断
+      var postParams = this.$store.state.submitData;
+      var rules = this.ruleData[this.data.key];
+      var canSubmit = true;
+      var message = '';//验证报错弹框信息
+      var status = this.hasEmpty(rules,postParams);
+      // console.log(status)
+      if (status == 1) {
+        //必须有值
+        if (rules) {
+          statValidate(rules)
+        }
+      }
+      else if (status == 2) {
+        if (val) { //有没有值，有值才
+          if (rules) {
+            statValidate(rules)
+          }
+        }
+      }
+      this.errorTip=message;
+      //验证函数
+      function statValidate(rule) {
+        for (var key1 in rule) {
+          var twoFlag = false;
+          var v1 = rule[key1];
+          //特殊ruleType规则
+          var ruleType = v1.ruleType;
+          if (ruleType == 'notEmpty') {
+            if (!/\S/.test(val)) {
+              twoFlag = true;
+              message = v1.message;
+              canSubmit = false;
+            }
+          }
+          if (tools.rules.hasOwnProperty(ruleType)) {
+            var toolsRule = tools.rules[ruleType];
+            if (new RegExp(toolsRule.reg).test(val)) {
+//                    canSubmit = true;
+            } else {
+              canSubmit = false;
+              twoFlag = true;
+              message =  toolsRule.message;
+            }
+          }
+          //具体的校验规则
+          if (!twoFlag) {
+            var detail = v1.detail;
+            if (detail) {
+              for (var dKey in detail) {
+                var dValue = detail[dKey];
+                //数字判断
+                if (ruleType=='integer'||ruleType=='decimal') {
+                  if(!/^(-?\d+)(\.\d+)?$/.test(val)){
+                    twoFlag = true;
+                    message = v1.message;
+                    canSubmit = false;
+                    break;
+                  }
+                  dValue=parseFloat(dValue);
+                  //最小值
+                  if (dKey == 'min') {
+                    if (val < dValue) {
+                      twoFlag = true;
+                      message = v1.message;
+                      canSubmit = false;
+                      break;
+                    }
+                  }
+                  //最大值
+                  if (dKey == 'max') {
+                    if (val > dValue) {
+                      twoFlag = true;
+                      message = v1.message;
+                      canSubmit = false;
+                      break;
+                    }
+                  }
+                  //小数
+                  val=val.toString();
+                  var digitsValue=val.split(".")[1]||'';
+                  var digitsLen = digitsValue.length;
+                  if (dKey == 'digits') {
+                    if (digitsLen > dValue) {
+                      twoFlag = true;
+                      message =v1.message;
+                      canSubmit = false;
+                      break;
+                    }
+                  }
+                } else {
+                  //字符串
+                  //长度
+                  var len = val && val.toString().length;
+                  //最小值
+                  if (dKey == 'min') {
+                    if (len < dValue) {
+                      twoFlag = true;
+                      message = '最小长度为' + dValue;
+                      canSubmit = false;
+                      break;
+                    }
+                  }
+                  //最大值
+                  if (dKey == 'max') {
+                    if (len > dValue) {
+                      twoFlag = true;
+                      message =  '最大长度为' + dValue;
+                      canSubmit = false;
+                      break;
+                    }
+                  }
+                }
+                //正则
+                if (dKey == 'regexp') {
+                  if (!new RegExp(dValue).test(val)) {
+                    twoFlag = true;
+                    message =  v1.message;
+                    canSubmit = false;
+                    break;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    hasEmpty: function (rules,postParams) {
+      if (rules && rules.length > 0) {
+        var has = false;
+        var emptyrule;
+        for (var rulekey in rules) {
+          var rule = rules[rulekey];
+          if (rule.ruleType == 'notEmpty') {
+            has = true;
+            emptyrule = rule;
+            break;
+          }
+        }
+        if (has) {
+          var condition = emptyrule.condition;
+          var conditionFlag;
+          if (condition && condition.length > 0) {
+            for (var k2 in condition) {
+              var v2 = condition[k2];
+              var bindingKeyValue = postParams[v2.fieldKey];
+              if(bindingKeyValue){
+                var evalOperation=bindingKeyValue+v2.operator+v2.value;
+                if (eval(evalOperation)) {
+                  conditionFlag = true;
+                } else {
+                  conditionFlag = false;
+                  break;
+                }
+              }else{
+                conditionFlag=true;
+              }
+
+            }
+            if (conditionFlag) {
+              return 1;
+            } else {
+              //不符合CONDITOIN
+              return 4;
+            }
+          } else {
+            //必须验证
+            return 1;
+          }
+        } else {
+          //没有NOTEMPTY
+          return 2;
+        }
+      } else {
+        //没有rules
+        return 5;
+      }
+    },
+  }
+}

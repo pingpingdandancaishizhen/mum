@@ -1,0 +1,41 @@
+package cn.sunfit.risk.web.utils;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+import cn.sunfit.risk.buz.api.vo.ReqBase;
+
+public class LoanInfoRequest extends ReqBase {
+    private static final long serialVersionUID = 1L;
+
+    @NotBlank
+    private String productCode;
+    @NotBlank
+    private String termText;// 如 “1个月”
+    @NotBlank
+    private String loanMoney;
+
+    public String getLoanMoney() {
+        return loanMoney;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public String getTermText() {
+        return termText;
+    }
+
+    public void setLoanMoney(String loanMoney) {
+        this.loanMoney = loanMoney;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public void setTermText(String termText) {
+        this.termText = termText;
+    }
+
+}

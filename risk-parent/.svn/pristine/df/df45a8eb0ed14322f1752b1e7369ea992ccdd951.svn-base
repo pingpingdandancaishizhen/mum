@@ -1,0 +1,17 @@
+{
+    "loancarinfo_geartype": [],
+    "loancarinfo_capacity": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在1到20之间的2位小数","fieldKey":"loancarinfo_capacity","condition":null,"detail":{"min":"1","max":"20","digits":"2"}}],
+    "loancarinfo_body_category_1": [],
+    "loancarinfo_body_category_2": [],
+    "loancarinfo_body_category_3": [],
+    "loancarinfo_use_nature": [],
+    "loancarinfo_mileage": [{"ruleType":"integer","ruleLevel":"field","message":"请输入在1到2000000之间的整数","fieldKey":"loancarinfo_mileage","condition":null,"detail":{"min":"1","max":"2000000"}}],
+    "loancarinfo_keys": [{"ruleType":"integer","ruleLevel":"field","message":"请输入在0到20之间的整数","fieldKey":"loancarinfo_keys","condition":null,"detail":{"min":"0","max":"20"}}],
+    "loancarinfo_detail_config": [],
+    "loancarinfo_detail_config_other": [],
+    "loancarinfo_procedure": [],
+    "loancarinfo_procedure_ci": [],
+    "loancarinfo_procedure_si": [],
+    "loancarinfo_procedure_other": [],
+    "loancarinfo_procedure_mot": []
+}

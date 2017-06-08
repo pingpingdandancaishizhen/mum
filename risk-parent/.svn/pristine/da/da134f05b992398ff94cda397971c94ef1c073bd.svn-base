@@ -1,0 +1,52 @@
+package cn.sunfit.risk.credit.server.service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+
+import net.sf.json.JSONObject;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import cn.sunfit.risk.credit.api.beans.Resp;
+import cn.sunfit.risk.credit.api.constant.ResponseStatus;
+import cn.sunfit.risk.credit.api.service.JXLService;
+import cn.sunfit.risk.credit.server.util.HttpClientUtils;
+import cn.sunfit.risk.credit.server.util.ServerConfig;
+
+@Path("jxl")
+@Service("credit.JXLService")
+public class JXLServiceImpl implements JXLService {
+
+    private static final Logger logger = Logger.getLogger(JXLServiceImpl.class);
+
+    @Override
+    @POST
+    @Path("query")
+    public String query(String req) {
+        Resp resp = new Resp();
+        JSONObject ob = null;
+        try {
+            ob = JSONObject.fromObject(req);
+            Map<String, Object> map = new HashMap<String, Object>();
+            // 通过接口向聚信立查询用户基本信息获取报告状态
+            map.put("org_name", ServerConfig.JXL_SERVICE_ORG_NAME);
+            map.put("access_token", ServerConfig.JXL_SERVICE_ACCESS_TOKEN);
+            map.put("client_secret", ServerConfig.JXL_SERVICE_CLIENT_SECRET);
+            map.put("name", ob.get("name").toString());
+            map.put("idcard", ob.get("idcard").toString());
+            map.put("phone", ob.get("phone").toString());
+            Map<String, Object> resultMap = HttpClientUtils.httpGet(map, ServerConfig.JXL_SERVICE_URL
+                    + "/access_report_data");
+            resp.setData(resultMap);
+        } catch (Exception e) {
+            logger.error(e);
+            resp = Resp.buildErrorResponse(ResponseStatus.PARAM_ERROR);
+        }
+        return JSONObject.fromObject(resp).toString();
+    }
+
+}

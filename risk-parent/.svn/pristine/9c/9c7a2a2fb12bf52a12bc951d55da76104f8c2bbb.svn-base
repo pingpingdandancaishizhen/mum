@@ -1,0 +1,11 @@
+package cn.sunfit.risk.buz.api.service.p2p.param;
+
+import java.util.List;
+import java.util.Map;
+
+import cn.sunfit.risk.buz.api.beans.p2p.P2PParams;
+
+public interface P2PParamsService {
+	public List<P2PParams> findAttachments(String paramType);
+	public void saveAttParam(Map params);
+}

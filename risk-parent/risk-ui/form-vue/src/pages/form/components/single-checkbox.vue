@@ -1,0 +1,42 @@
+<template>
+  <div class="row-right" :class="!checkedAdd?'col-sm-6':'col-sm-6 checkedAdd'">
+    <div class="form-group input-group " :id="data.key">
+      <label class="label-head label-head-lg label-head-top  text-right"  v-if="!checkedAdd"><span :class="data.required?'require':''">{{data.label}}:</span></label>
+      <div class="label-box label-box-sm label-head-top">
+        <app-checkbox-input v-for="item in oData[data.dataSource]" v-if="item" :type="'checkbox'" :oData="item" :attrData="attrsData[data.key]" :data="data" :checked="checkBox"></app-checkbox-input>
+        <div class="form-error-tip">{{errorMsg[data.key]}}</div>
+      </div>
+    </div>
+  </div>
+</template>
+<style>
+</style>
+<script>
+  import Input from './checkbox-input.vue'
+  import checkRule from '../mixins/checkRule'
+  export default{
+    mixins:[checkRule],
+    data(){
+      return{
+        checkBox:"",//单选 checkbox string 多选 checkbox Array
+      }
+    },
+    props:['data','oData','attrsData','checkedAdd'],
+    watch:{
+      checkBox:function (val) {
+        var valData={};
+        valData[this.data.key]=val;
+        this.checkRuleValue=Object.assign({},this.checkRuleValue,valData);
+        this.$store.dispatch('setInputData',{[this.data.key]:val})
+      }
+    },
+    created:function () {
+      var attrValue=this.attrsData[this.data.key]||{};
+      var defaultChecked=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+      this.checkBox=defaultChecked;
+    },
+    components:{
+      'app-checkbox-input':Input,
+    },
+  }
+</script>

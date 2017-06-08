@@ -1,0 +1,14 @@
+package cn.sunfit.risk.buz.server.dao.p2p.param;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
+
+import cn.sunfit.risk.buz.api.beans.p2p.P2PParams;
+
+@Repository
+public interface P2PParamsDAO {
+	 List<P2PParams> findAttachments(String paramType);
+	 void saveAttParam(Map params);
+}

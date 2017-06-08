@@ -1,0 +1,52 @@
+package cn.sunfit.risk.buz.server.service.p2p.product.form;
+
+import java.util.List;
+import java.util.Map;
+
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.BPAttr;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.P2PImportExcelTemplateXJD;
+
+public interface ProductFormHandler {
+
+    public boolean filter(String productId);
+
+    // public void finish(FormQuery req, BPLoan loan);
+
+    /**
+     * @Title: hasLoan
+     * @Description: 贷款数据校验
+     * @param @param req
+     * @param @param loan
+     * @param @return   
+     * @return boolean 
+     * @author XFL 2017年3月3日 
+     * @throws
+     */
+    public boolean hasLoan(FormQuery req, P2PImportExcelTemplateXJD loan);
+
+    /**
+     * @param r 
+     * 
+     * @Title: initStartAttr
+     * @Description: 初始化第一步的参数
+     * @param @param req   
+     * @return void 
+     * @author XFL 2017年3月3日 
+     * @throws
+     */
+    void loaninfo2Attr(FormQuery req, List<BPAttr> attrs);
+
+    /**
+     * 
+     * @Title: updateLoan
+     * @Description: 修改借款单横表
+     * @param @param req
+     * @param @param formdata   
+     * @return void 
+     * @author DELL 2017年5月4日 
+     * @throws
+     */
+    void updateLoan(FormQuery req, Map<String, String> formdata);
+
+}

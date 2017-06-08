@@ -1,0 +1,40 @@
+package cn.sunfit.risk.buz.api.constants.order;
+
+public enum OrderStatus {
+
+    ADD("1", "新增订单"),
+    AUDIT("2", "P2P审核"),
+    IMAGEAUDIT("3", "P2P影像审核"),
+    WAITFK("4", "待放款"),
+    YFK("5", "已放款"),
+    HKZ("6", "还款中"),
+    YQ("7", "逾期"),
+    HKTQ("8", "还款完成-提前结清"),
+    HKWC("9", "还款完成"),
+    CANCLE("10", "作废");
+    private String status;
+
+    private String name;
+
+    private OrderStatus(String status, String name) {
+        this.status = status;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+}

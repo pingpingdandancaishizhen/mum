@@ -1,0 +1,5 @@
+{
+	"custearn_security_fund" : [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"custearn_security_fund","condition":null,"detail":{"maxSize":"104857600","extension":"jpg,jpeg,png","type":"image/jpg,image/jpeg,image/png"}}],
+	"custearn_bank_bill" : [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"custearn_bank_bill","condition":null,"detail":{"maxSize":"104857600","extension":"jpg,jpeg,png","type":"image/jpg,image/jpeg,image/png"}}],
+	"custearn_credit_report" : [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"custearn_credit_report","condition":null,"detail":{"maxSize":"104857600","extension":"jpg,jpeg,png","type":"image/jpg,image/jpeg,image/png"}}]
+}

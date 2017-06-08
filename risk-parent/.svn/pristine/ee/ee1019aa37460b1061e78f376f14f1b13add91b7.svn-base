@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.api.jfjd.JFCarBmsDAO" >
+  <resultMap id="BmsResultMap" type="cn.sunfit.risk.buz.api.beans.api.jfjd.JFCarBms" >
+    <result column="id" property="id" />
+    <result column="name" property="name"/>
+    <result column="first_pinyin" property="firstPinyin"/>
+  </resultMap>
+  
+  <select id="selectAllCarBrand" resultMap="BmsResultMap">
+  	select brand_id id, brand_name `name`, first_pinyin
+    from risk_car_brand 
+    order by first_pinyin ASC
+  </select>
+  
+  <select id="selectSeriesByBrand" resultMap="BmsResultMap">
+  	select series_id id, series_name `name` 
+    from risk_car_series 
+    where brand_id=#{brandId}
+    order by `name` ASC
+  </select>
+ 
+  <select id="selectModelsBySeries" resultMap="BmsResultMap">
+  	select model_id id, model_name `name`
+	from risk_car_model 
+	where series_id=#{seriesId}
+    order by `name` ASC
+  </select>
+</mapper>

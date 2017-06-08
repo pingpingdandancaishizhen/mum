@@ -1,0 +1,18 @@
+{
+	"custsharer_name1" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入2-20个字，只支持中文或英文","fieldKey":"custsharer_name1","condition":null,"detail":{"regexp":"^[\\u4e00-\\u9fa5_a-zA-Z]{2,20}$"}}],
+	"custsharer_license_num1" : [{"ruleType":"idnumber","ruleLevel":"field","message":"请输入正确的身份证号","fieldKey":"custsharer_license_num1","condition":null,"detail":null}],
+	"custsharer_mobile1" : [{"ruleType":"phone","ruleLevel":"field","message":"请输入正确的手机号","fieldKey":"custsharer_mobile1","condition":null,"detail":null}],
+	"custsharer_live_addr1" : [],
+	"custsharer_live_addr_province1" : [],
+	"custsharer_live_addr_city1" : [],
+	"custsharer_live_addr_counties1" : [],
+	"custsharer_live_addr_detail1" : [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过30","fieldKey":"custsharer_live_addr_detail1","condition":null,"detail":{"max":"30","min":"1"}}],
+	"custsharer_name2" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入2-20个字，只支持中文或英文","fieldKey":"custsharer_name2","condition":null,"detail":{"regexp":"^[\\u4e00-\\u9fa5_a-zA-Z]{2,20}$"}}],
+	"custsharer_license_num2" : [{"ruleType":"idnumber","ruleLevel":"field","message":"请输入正确的身份证号","fieldKey":"custsharer_license_num2","condition":null,"detail":null}],
+	"custsharer_mobile2" : [{"ruleType":"phone","ruleLevel":"field","message":"请输入正确的手机号","fieldKey":"custsharer_mobile2","condition":null,"detail":null}],
+	"custsharer_live_addr2" : [],
+	"custsharer_live_addr_province2" : [],
+	"custsharer_live_addr_city2" : [],
+	"custsharer_live_addr_counties2" : [],
+	"custsharer_live_addr_detail2" : [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过30","fieldKey":"custsharer_live_addr_detail2","condition":null,"detail":{"max":"30","min":"1"}}]
+}

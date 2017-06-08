@@ -1,0 +1,81 @@
+<template>
+  <div>
+    <div class="row-right" :class="!checkedAdd?'col-sm-6':'col-sm-6 checkedAdd'">
+      <div class="form-group input-group " :id="data.key">
+        <label class="label-head label-head-lg label-head-top  text-right"  v-if="!checkedAdd"><span :class="data.required?'require':''">{{data.label}}:</span></label>
+        <div class="label-box label-box-sm">
+          <input type="text"  class="form-control" :name="data.key"  placeholder="" v-model="industry" readonly :id="data.key+'_input'">
+          <div class="form-error-tip">{{errorMsg[data.key]}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="row-right" :class="!checkedAdd?'col-sm-6':'col-sm-6 checkedAdd'" v-if='data.extEditors&&data.extEditors[0]&&data.extEditors[0][0]'>
+      <div class="form-group input-group " :id="data.extEditors[0][0].key">
+        <label class="label-head label-head-lg label-head-top  text-right"  v-if="!checkedAdd"><span :class="data.extEditors[0][0].required?'require':''">{{data.extEditors[0][0].label}}:</span></label>
+        <div class="label-box label-box-sm">
+          <input type="text" class="form-control" :name="data.extEditors[0][0].key"  placeholder="" v-model="job" readonly :id="data.extEditors[0][0].key">
+      </div>
+        <div class="form-error-tip"></div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  import checkRule from '../mixins/checkRule'
+  export default{
+    mixins:[checkRule],
+    data(){
+      return {
+        positionSelect:'',
+        industry:'',
+        job:'',
+        jobKey:''
+      }
+    },
+    props: ['data','oData','attrsData','checkedAdd'],
+    created:function () {
+
+      var extEditors=this.data.extEditors||{};
+      var jobData=extEditors[0]||[];
+      var jobKey=jobData[0]?jobData[0].key:'';
+      this.jobKey=jobKey;
+      this.$store.dispatch('setInputData', {[this.data.key]:''});
+      this.$store.dispatch('setInputData', {[jobKey]: ''});
+      var industryAttrValue=this.attrsData[this.data.key]||{};
+      var industry=industryAttrValue ? (industryAttrValue.draftValue==null?(industryAttrValue.attrValue||''):industryAttrValue.draftValue) : '';
+      this.industry=industry;
+      var jobAttrValue=this.attrsData[jobKey]||{};
+      var job=jobAttrValue ? (jobAttrValue.draftValue==null?(jobAttrValue.attrValue||''):jobAttrValue.draftValue) : '';
+      this.job=job;
+    },
+    mounted:function () {
+
+      var _this=this;
+      if(!_this.positionSelect&&!this.data.readonly){
+       var positionSelect= $('#'+this.data.key+"_input").positionSelect({
+          maxCount : 1,
+          containerId: "positionDiv",
+          industryId: this.data.key+'_input',
+          className: "big-window",
+          nameId: "job",
+         defaultValue:[this.industry,this.job].join(',')
+        },function (industry,job) {
+         _this.industry=industry
+         _this.job=job;
+        })
+      }
+      this.positionSelect=positionSelect
+    },
+    watch:{
+      industry:function (val) {
+        var valData={};
+        valData[this.data.key]=val;
+        this.checkRuleValue=Object.assign({},this.checkRuleValue,valData);
+        this.$store.dispatch('setInputData', {[this.data.key]:val});
+      },
+      job:function (val) {
+        this.$store.dispatch('setInputData', {[this.jobKey]:val});
+      }
+    }
+  }
+</script>

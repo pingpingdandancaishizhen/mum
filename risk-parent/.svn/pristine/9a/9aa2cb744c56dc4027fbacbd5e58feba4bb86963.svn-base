@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.activiti.BPDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.p2p.activiti.BP" >
+    <id column="bp_id" property="bpId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="bp_no" property="bpNo" jdbcType="VARCHAR" />
+    <result column="product_type" property="productType" jdbcType="VARCHAR" />
+    <result column="bp_status" property="bpStatus" jdbcType="TINYINT" />
+    <result column="engine_key" property="engineKey" jdbcType="VARCHAR" />
+    <result column="current_task_key" property="currentTaskKey" jdbcType="VARCHAR" />
+    <result column="current_task_id" property="currentTaskId" jdbcType="VARCHAR" />
+    <result column="current_task_name" property="currentTaskName" jdbcType="VARCHAR" />
+     <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="channel" property="channel" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <resultMap id="TodoQueryResultMap" type="cn.sunfit.risk.buz.api.beans.p2p.activiti.TodoQueryDTO" >
+    <id column="task_id" property="taskId" jdbcType="VARCHAR" />
+    <result column="bp_id" property="bpId" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="bp_def_key" property="bpDefKey" jdbcType="VARCHAR" />
+    <result column="bp_no" property="bpNo" jdbcType="VARCHAR" />
+    <result column="task_name" property="taskName" jdbcType="VARCHAR" />
+    <result column="cust_name" property="custName" jdbcType="VARCHAR" />
+    <result column="cust_gender" property="custGender" jdbcType="VARCHAR" />
+    <result column="cust_license_num" property="custLicenseNum" jdbcType="VARCHAR" />
+    <result column="cust_mobile" property="custMobile" jdbcType="VARCHAR" />
+    <result column="cust_type" property="custType" jdbcType="VARCHAR" />
+    <result column="product_type" property="productType" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="apply_amount" property="applyAmount" jdbcType="DECIMAL" />
+    <result column="loan_usage" property="loanUsage" jdbcType="VARCHAR" />
+    <result column="loan_apply_daylyTerm" property="loanApplyDaylyTerm" jdbcType="VARCHAR" />
+    <result column="loan_apply_monthlyTerm" property="loanApplyMonthlyTerm" jdbcType="VARCHAR" />
+    <result column="loan_repayment_method" property="loanRepaymentMethod" jdbcType="VARCHAR" />
+    <result column="loanapproval_repaymentTypes" property="loanApprovalRepaymentMethod" jdbcType="VARCHAR" />
+        <result column="loan_approval_amount" property="loanApprovalAmount" jdbcType="DECIMAL" />
+        <result column="loan_approval_daylyTerm" property="loanApprovalDaylyTerm" jdbcType="VARCHAR" />
+    	<result column="loan_approval_monthlyTerm" property="loanApprovalMonthlyTerm" jdbcType="VARCHAR" />
+    <result column="loancar_license_plate" property="loancarLicensePlate" jdbcType="VARCHAR" />
+    <result column="loancar_car_brand" property="loancarCarBrand" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="current_task_name" property="currentTaskName" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    <result column="dept_id" property="deptId" jdbcType="VARCHAR" />
+    <result column="dept_head" property="deptHead" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    bp_id, corp_id, bp_def_id, bp_no, product_type, bp_status, engine_key, current_task_key, current_task_id,
+     create_user_id, create_time, update_time,current_task_name,channel
+  </sql>
+  <select id="findById" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_risk_bps
+    where bp_id = #{bpId,jdbcType=VARCHAR}
+  </select>
+  
+  <sql id="BP_Base_COL">
+  	base.bp_id ,base.bp_no ,base.cust_name ,base.cust_gender ,base.cust_license_num ,base.cust_mobile ,base.cust_type ,
+  	base.customer_id ,base.product_type , base.create_time , base.apply_amount , base.loan_usage , base.loan_apply_monthlyTerm, base.loan_apply_daylyTerm,base.loanapproval_repaymentTypes,
+  	base.loan_repayment_method ,base.loancar_license_plate ,base.loancar_car_brand ,base.create_user_id,
+  	base.bp_status , base.current_task_key, base.current_task_name,base.loan_approval_amount,base.loan_approval_daylyTerm,base.loan_approval_monthlyTerm
+  </sql>
+  
+  <update id="update"  parameterType="cn.sunfit.risk.buz.api.beans.p2p.activiti.BP">
+    update ${domain}_risk_bps
+    set corp_id = #{corpId,jdbcType=VARCHAR},
+      bp_def_id = #{bpDefId,jdbcType=VARCHAR},
+      bp_no = #{bpNo,jdbcType=VARCHAR},
+      product_type = #{productType,jdbcType=VARCHAR},
+      bp_status = #{bpStatus,jdbcType=TINYINT},
+      engine_key = #{engineKey,jdbcType=VARCHAR},
+      current_task_key = #{currentTaskKey,jdbcType=VARCHAR},
+      current_task_id = #{currentTaskId,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      current_task_name=#{currentTaskName}
+    where bp_id = #{bpId,jdbcType=VARCHAR}
+  </update>
+  
+    <insert id="insertBp"  parameterType="cn.sunfit.risk.buz.api.beans.p2p.activiti.BP">
+    insert into ${domain}_risk_bps (bp_id, corp_id, bp_def_id, 
+      bp_no, product_type, bp_status, 
+      engine_key, current_task_key, current_task_id,
+      create_user_id, create_time, update_time,current_task_name,channel
+      )
+    values (#{bpId,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, #{bpDefId,jdbcType=VARCHAR}, 
+      #{bpNo,jdbcType=VARCHAR}, #{productType,jdbcType=VARCHAR}, #{bpStatus,jdbcType=TINYINT}, 
+      #{engineKey,jdbcType=VARCHAR}, #{currentTaskKey,jdbcType=VARCHAR},  #{currentTaskId,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},#{currentTaskName},#{channel}
+      )
+  </insert>
+  
+  
+  <select id="getProductByBpId" parameterType="java.util.Map" resultType="string">
+  	select product_type from ${domain}_risk_bps where bp_id = #{bpId} limit 1;
+  </select>
+  
+  
+  <select id="selectFeeConfigByBpId"  resultType="java.lang.String">
+  	SELECT p.fee_config from  ${domain}_risk_bps r ,p2p_product p 
+	where p.id = r.product_type
+	and r.bp_id = #{bpId,jdbcType=VARCHAR}
+  </select>
+  <sql id="TASK_Base_TABLE">
+  	SELECT
+		TASK.ID_ task_id,
+		TASK.NAME_ task_name,
+		bp.bp_id,
+		bp.bp_no,
+		bp.product_type,
+		bp.create_time,
+		bp.create_user_id,
+		bp.current_task_key,
+		bp.current_task_name,
+		bp.bp_def_id,
+		bp.bp_status
+	FROM
+		(
+			SELECT DISTINCT
+				RES.ID_,
+				RES.NAME_
+			FROM
+				ACT_RU_TASK RES
+			LEFT JOIN ACT_RU_IDENTITYLINK I ON I.TASK_ID_ = RES.ID_
+			WHERE
+				(
+					RES.ASSIGNEE_ = #{uid}
+					OR (
+						RES.ASSIGNEE_ IS NULL
+						AND I.TYPE_ = 'candidate'
+						AND (I.USER_ID_ = #{uid})
+					)
+				)
+		) TASK,
+		${domain}_risk_bps bp
+	WHERE
+		bp.current_task_id LIKE concat('%', TASK.ID_, '%')
+  </sql>
+  <sql id="Todo_Base_TABLE">
+  	SELECT
+			(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id
+			) cust_name,
+			(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_gender' AND a.bp_id = bp.bp_id
+			) cust_gender,
+			(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_license_num' AND a.bp_id = bp.bp_id
+			) cust_license_num,
+			(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = bp.bp_id
+			) cust_mobile,
+			(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_type' AND a.bp_id = bp.bp_id
+			) cust_type,
+			(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loan_usage' AND a.bp_id = bp.bp_id
+			) loan_usage,
+			(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loan_apply_monthlyTerm' AND a.bp_id = bp.bp_id
+			) loan_apply_monthlyTerm,
+			(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loan_apply_daylyTerm' AND a.bp_id = bp.bp_id
+			) loan_apply_daylyTerm,
+			(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loan_apply_repaymentTypes' AND a.bp_id = bp.bp_id
+			) loan_repayment_method,
+			(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = bp.bp_id
+			) loanapproval_repaymentTypes,
+					(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = bp.bp_id
+			) loan_approval_amount,
+					(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanapproval_daylyTerm' AND a.bp_id = bp.bp_id
+			) loan_approval_daylyTerm,
+					(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanapproval_monthlyTerm' AND a.bp_id = bp.bp_id
+			) loan_approval_monthlyTerm,
+			(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loancar_license_plate' AND a.bp_id = bp.bp_id
+			) loancar_license_plate,
+			(
+				SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loancar_car_bms_brand' AND a.bp_id = bp.bp_id
+			) loancar_car_brand,
+			bp.task_id ,bp.task_name ,bp.bp_id ,bp.bp_no ,bp.product_type ,bp.bp_def_id ,
+			bp.create_time ,bp.create_user_id ,
+			bp.current_task_key,bp.current_task_name,bp.bp_status ,bm.bp_def_key
+		from (
+			<include refid="TASK_Base_TABLE"/>
+		) bp,
+		${domain}_bp_meta bm 
+	WHERE
+		bp.bp_def_id = bm.bp_def_id
+  </sql>
+  <select id="selectTodoList" resultMap="TodoQueryResultMap" parameterType="cn.sunfit.risk.buz.api.beans.p2p.activiti.TodoQueryReq">
+  	SELECT 
+  		<include refid="BP_Base_COL"/> ,base.task_id ,base.task_name,base.bp_def_id,base.bp_def_key , p.id product_id , p.product_name, cu.user_name ,cd.dept_name, cd.dept_head,cd.id dept_id
+		from (
+			<include refid="Todo_Base_TABLE"/>
+		) base 
+		LEFT JOIN p2p_product p on base.product_type = p.id
+		LEFT JOIN risk_corp_user cu on base.create_user_id = cu.id
+		LEFT JOIN risk_corp_dept cd on cu.dept_id = cd.id
+	where 
+		1 = 1
+	<if test="productType != null and productType != ''">
+		and base.product_type = #{productType,jdbcType=VARCHAR}
+	</if>
+	<if test="bpNo != null and bpNo != ''">
+		and base.bp_no like concat('%',#{bpNo,jdbcType=VARCHAR},'%')
+	</if>
+	<if test="custName != null and custName != ''">
+		and base.cust_name like concat('%',#{custName,jdbcType=VARCHAR},'%')
+	</if>
+	<if test="custLicenseNum != null and custLicenseNum != ''">
+		and base.cust_license_num like concat('%',#{custLicenseNum,jdbcType=VARCHAR},'%')
+	</if>
+	<if test="custType != null and custType != ''">
+		and base.cust_type = #{custType,jdbcType=VARCHAR}
+	</if>
+	<if test="loancarLicensePlate != null and loancarLicensePlate != ''">
+		and base.loancar_license_plate like concat('%',#{loancarLicensePlate,jdbcType=VARCHAR},'%')
+	</if>
+	<if test="startDate != null and endDate !=null ">
+    	and base.create_time between #{startDate,jdbcType=TIMESTAMP} and #{endDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="currentTaskKey != null and currentTaskKey !='' ">
+    	and base.current_task_key like concat('%,',#{currentTaskKey,jdbcType=VARCHAR},',%') 
+    </if>
+	order by base.create_time desc
+  </select>
+</mapper>

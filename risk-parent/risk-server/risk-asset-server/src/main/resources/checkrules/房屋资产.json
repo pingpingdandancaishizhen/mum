@@ -1,0 +1,10 @@
+{
+    "loanasseth_type": [],
+    "loanasseth_ownership": [],
+    "loanasseth_valuation": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100000000之间的2位小数","fieldKey":"loanasseth_valuation","condition":null,"detail":{"min":"0","max":"100000000","digits":"2"}}],
+    "loanasseth_address_province": [],
+    "loanasseth_address_city": [],
+    "loanasseth_address_counties": [],
+    "loanasseth_address": [],
+    "loanasseth_address_detail": [{"ruleType":"length","ruleLevel":"field","message":"请输入1到50位字符","fieldKey":"loanasseth_address_detail","condition":null,"detail":{"min":"1","max":"50"}}]
+}

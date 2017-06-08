@@ -1,0 +1,22 @@
+package cn.sunfit.risk.buz.api.service.p2p.productType;
+
+import java.util.List;
+
+import cn.sunfit.risk.buz.api.beans.p2p.ProductType;
+
+public interface ProductTypeService {
+
+    int deleteByPrimaryKey(String id);
+
+    List<ProductType> findAll();
+
+    int insert(ProductType record);
+
+    int insertSelective(ProductType record);
+
+    ProductType selectByPrimaryKey(String id);
+
+    int updateByPrimaryKey(ProductType record);
+
+    int updateByPrimaryKeySelective(ProductType record);
+}

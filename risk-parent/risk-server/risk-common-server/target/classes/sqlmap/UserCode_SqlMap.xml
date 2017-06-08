@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.corp.UserCodeDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.corp.UserCode" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="code_type" property="codeType" jdbcType="VARCHAR" />
+    <result column="effective_time" property="effectiveTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, code, create_time, phone, code_type, effective_time, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from risk_user_code
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.corp.UserCode" >
+    insert into risk_user_code (id, user_id, code, 
+      create_time, phone, code_type, 
+      effective_time, status)
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{phone,jdbcType=VARCHAR}, #{codeType,jdbcType=VARCHAR}, 
+      #{effectiveTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.corp.UserCode" >
+    update risk_user_code
+    set user_id = #{userId,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      phone = #{phone,jdbcType=VARCHAR},
+      code_type = #{codeType,jdbcType=VARCHAR},
+      effective_time = #{effectiveTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectSmsCode" resultType="java.lang.Long" parameterType="cn.sunfit.risk.buz.api.beans.corp.UserCode" >
+    select count(1)
+    from risk_user_code 
+    where  user_id=#{userId} and  code = #{code} and code_type=#{codeType} 
+    and create_time <![CDATA[< ]]> #{createTime} and effective_time <![CDATA[> ]]> #{createTime} 
+  </select>
+    <select id="selectLastCode" resultMap="BaseResultMap"  parameterType="java.util.Map" >
+    select <include refid="Base_Column_List" />
+    from risk_user_code 
+    where  user_id=#{userId}  and code_type=#{type} order by create_time desc limit 1
+  </select>
+  <select id="countSendCode" resultType="java.lang.Long"  parameterType="java.util.Map" >
+    select count(1)
+    from risk_user_code 
+    where  user_id=#{userId}  and code_type=#{type} and date(create_time) = curdate();
+  </select>
+</mapper>

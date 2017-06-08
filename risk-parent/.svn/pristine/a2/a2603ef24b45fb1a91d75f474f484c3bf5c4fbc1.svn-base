@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.activiti.BPMetaNodeDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPMetaNode" >
+    <id column="node_id" property="nodeId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="node_key" property="nodeKey" jdbcType="VARCHAR" />
+    <result column="node_name" property="nodeName" jdbcType="VARCHAR" />
+    <result column="node_desc" property="nodeDesc" jdbcType="VARCHAR" />
+     <result column="node_type" property="nodeType" jdbcType="VARCHAR" />
+    <result column="form_key" property="formKey" jdbcType="VARCHAR" />
+    <result column="query_form_key" property="queryFormKey" jdbcType="VARCHAR" />
+    <result column="gateway" property="gateway" jdbcType="VARCHAR" />
+      <result column="audit" property="audit" jdbcType="BIT" />
+      <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="cn.sunfit.risk.buz.api.vo.p2p.activiti.BpMetaNodeVO" id="NodeMetaMap" extends="BaseResultMap">
+   <result column="bp_name" property="bpName" jdbcType="VARCHAR" />
+   <result column="form_name" property="formName" jdbcType="VARCHAR" />
+   <result column="query_form_name" property="queryFormName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    node_id, corp_id, bp_def_id, node_key, node_name, node_desc, form_key, gateway,query_form_key,node_type,audit,status
+  </sql>
+   <sql id="Base_Column_List_N" >
+    n.node_id, n.corp_id, n.bp_def_id, n.node_key, n.node_name, n.node_desc, n.form_key, n.gateway, n.query_form_key,n.node_type,n.audit,n.status
+  </sql>
+  
+  <select id="selectBpMetaNodeMetaTask" parameterType="cn.sunfit.risk.buz.api.vo.p2p.activiti.BpMetaNodeQueryReq" resultMap="NodeMetaMap">
+  	select <include refid="Base_Column_List_N"/>,m.bp_name from ${domain}_bp_meta_nodes n left join ${domain}_bp_meta m on n.bp_def_id = m.bp_def_id
+  	where 1=1 and n.bp_def_id=#{bpDefId} and n.node_type='usertask' 
+  </select>
+  
+  <select id="selectBpMetaNodeMetaTaskAndStart" parameterType="cn.sunfit.risk.buz.api.vo.p2p.activiti.BpMetaNodeQueryReq" resultMap="NodeMetaMap">
+  	select <include refid="Base_Column_List_N"/>,m.bp_name,f.form_name as form_name,f1.form_name as query_form_name from ${domain}_bp_meta_nodes n left join ${domain}_bp_meta m on n.bp_def_id = m.bp_def_id
+  	left join ${domain}_bp_meta_forms f on n.form_key=f.form_key and n.bp_def_id=f.bp_def_id 
+  	left join ${domain}_bp_meta_forms f1 on n.query_form_key=f1.form_key and n.bp_def_id=f.bp_def_id
+  	where 1=1 and n.bp_def_id=#{bpDefId} and n.node_type in('usertask','startevent')
+  </select>
+  <select id="selectAllBPMetaNode" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from ${domain}_bp_meta_nodes 
+  </select>
+  
+  <select id="selectBPMetaNodeByProduct" resultMap="BaseResultMap">
+  	select 
+  		a.node_id node_id, 
+  		a.corp_id corp_id, 
+  		a.bp_def_id bp_def_id, 
+  		a.node_key node_key, 
+  		a.node_name node_name, 
+  		a.node_desc node_desc, 
+  		a.form_key form_key, 
+  		a.gateway gateway,
+  		a.query_form_key query_form_key,
+  		a.node_type node_type,
+  		a.audit audit
+  	from ${domain}_bp_meta_nodes as a
+  	left join ${domain}_bp_meta as b on a.bp_def_id = b.bp_def_id
+  	where b.product_key = #{product};
+  </select>
+  
+  <update id="updateFormKeyByNodeId" parameterType="cn.sunfit.risk.buz.api.vo.p2p.activiti.BpMetaFormRelateReq">
+    update ${domain}_bp_meta_nodes set form_key=#{formKey} where node_id= #{nodeId} and bp_def_id=#{bpDefId}
+  </update>
+  
+    <select id="selectByNodeKey" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List_N" />
+    from  ${domain}_bp_meta_nodes n  
+    left join ${domain}_bp_meta a on a.bp_def_id = n.bp_def_id
+    where n.node_key = #{nodeKey,jdbcType=VARCHAR} and a.bp_def_id=#{bpDefId,jdbcType=VARCHAR} 
+  </select>
+  
+   <select id="selectBpMetaNodeMetaAllTask" parameterType="cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery" resultMap="NodeMetaMap">
+  	select <include refid="Base_Column_List_N"/>,m.bp_name from ${domain}_bp_meta_nodes n left join ${domain}_bp_meta m on n.bp_def_id = m.bp_def_id
+  	where 1=1 and n.bp_def_id=#{bpDefId} and n.node_type='usertask' 
+  </select>
+ <select id="selectAuditNodeByProduct" resultMap="BaseResultMap" parameterType="java.util.Map">
+     select 
+      <include refid="Base_Column_List_N" />
+    from ${domain}_bp_meta m left join p2p_product p on m.product_key=p.id  
+    left join ${domain}_bp_meta_nodes  n on n.bp_def_id = m.bp_def_id 
+    where 1=1 
+    <if test="productId!=null and productId!=''">
+    and m.product_key=#{productId}  
+    </if>
+     and m.latest=1 
+     and p.product_type=m.loan_type and n.audit =1
+ </select>
+</mapper>

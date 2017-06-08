@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.buz.BPAttrDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.buz.BPAttr" >
+    <id column="attr_id" property="attrId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="bp_id" property="bpId" jdbcType="VARCHAR" />
+    <result column="attr_name" property="attrName" jdbcType="VARCHAR" />
+    <result column="attr_value" property="attrValue" jdbcType="VARCHAR" />
+    <result column="draft_value" property="draftValue" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="ValueSelectMap" type="cn.sunfit.risk.buz.api.beans.buz.ValueSelectDTO">
+  	<result column="field_key" property="fieldKey" jdbcType="VARCHAR" />
+    <result column="field_name" property="fieldName" jdbcType="VARCHAR" />
+    <result column="field_value" property="fieldValue" jdbcType="VARCHAR" />
+    <result column="provider" property="provider" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    attr_id, corp_id, bp_id, attr_name, attr_value, draft_value, update_time
+  </sql>
+  <select id="findByBP" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.vo.form.FormQuery" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_bp_attrs
+    where bp_id = #{bpId,jdbcType=VARCHAR}
+  </select>
+    <insert id="insertAttr"  parameterType="cn.sunfit.risk.buz.api.beans.buz.BPAttr">
+    insert into ${domain}_bp_attrs 
+    (attr_id, corp_id, bp_id, attr_name, attr_value, draft_value, update_time)
+    values (#{attrId,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, #{bpId,jdbcType=VARCHAR}, 
+      #{attrName,jdbcType=VARCHAR}, #{attrValue,jdbcType=VARCHAR},  #{draftValue,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateDraftByNameBpId"  parameterType="cn.sunfit.risk.buz.api.beans.buz.BPAttr">
+    update ${domain}_bp_attrs
+    set 
+      draft_value = #{draftValue,jdbcType=VARCHAR}
+    where attr_name = #{attrName,jdbcType=VARCHAR} and bp_id=#{bpId}
+  </update>
+  <select id="selectValueByNameBpId"  parameterType="cn.sunfit.risk.buz.api.beans.buz.BPAttr" resultType="java.lang.String">
+    select attr_value from ${domain}_bp_attrs
+    where attr_name = #{attrName,jdbcType=VARCHAR} and bp_id=#{bpId}
+  </select>
+   <update id="updateValueByNameBpId"  parameterType="cn.sunfit.risk.buz.api.beans.buz.BPAttr">
+    update ${domain}_bp_attrs
+    set 
+      attr_value = #{attrValue,jdbcType=VARCHAR},
+      draft_value=null
+    where attr_name = #{attrName,jdbcType=VARCHAR} and bp_id=#{bpId}
+  </update>
+     <update id="clearDraftValueByBpId"  parameterType="cn.sunfit.risk.buz.api.beans.buz.BPAttr">
+    update ${domain}_bp_attrs
+    set 
+      draft_value=null
+    where bp_id=#{bpId}
+  </update>
+  
+  <select id="getValueByBpAndKey" parameterType="cn.sunfit.risk.buz.api.beans.buz.ValueSelectReq" resultMap="ValueSelectMap">
+  	SELECT a.attr_name field_key,a.attr_value field_value,c.field_name field_name,c.data_provider provider
+	FROM ${domain}_bp_attrs AS a
+		INNER JOIN ${domain}_risk_bps AS b ON a.bp_id = b.bp_id
+		INNER JOIN ${domain}_bp_meta_fields AS c ON b.bp_def_id = c.bp_def_id AND a.attr_name = c.field_key
+	WHERE a.bp_id = #{bpId}
+	AND a.attr_name=#{fieldKey}
+	LIMIT 1;
+  </select>
+  <select id="getValueFromDic" parameterType="cn.sunfit.risk.buz.api.beans.buz.ValueSelectReq" resultType="string">
+  	SELECT a.dic_value 
+  	FROM risk_data_dic AS a
+		INNER JOIN ${domain}_risk_bps AS b ON a.bp_def_id = b.bp_def_id and a.product_id=b.product_type 
+	WHERE b.bp_id = #{bpId}
+	AND a.dic_type = #{dicType}
+	AND a.dic_key=#{dicKey}
+	LIMIT 1;
+  </select>
+  
+   <select id="selectBatch" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_bp_attrs
+    where bp_id = #{bpId,jdbcType=VARCHAR} and attr_name in 
+    <foreach collection="attrs" separator="," open="(" close=")" item="a">#{a.attrName}</foreach>
+  </select>
+</mapper>

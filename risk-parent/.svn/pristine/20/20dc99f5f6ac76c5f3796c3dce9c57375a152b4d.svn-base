@@ -1,0 +1,110 @@
+ALTER TABLE `cxph_customers`
+ADD COLUMN `age`  int(4) NULL COMMENT '年龄' AFTER `gender`,
+ADD COLUMN `birthday`  date NULL COMMENT '生日' AFTER `age`,
+ADD COLUMN `idCard_vaild`  date NULL COMMENT '身份证有效期' AFTER `birthday`,
+ADD COLUMN `job_type`  varchar(4) NULL COMMENT '职业身份' AFTER `dept_name`,
+ADD COLUMN `job_title`  varchar(10) NULL COMMENT '职称' AFTER `job`,
+ADD COLUMN `credit_report`  varchar(255) NULL COMMENT '征信报告资源id' AFTER `id_card_back`,
+ADD COLUMN `resource_id`  varchar(255) NULL COMMENT '社保流水/营业执照资源Id' AFTER `credit_report`;
+
+ALTER TABLE `ddk_customers`
+ADD COLUMN `age`  int(4) NULL COMMENT '年龄' AFTER `gender`,
+ADD COLUMN `birthday`  date NULL COMMENT '生日' AFTER `age`,
+ADD COLUMN `idCard_vaild`  date NULL COMMENT '身份证有效期' AFTER `birthday`,
+ADD COLUMN `job_type`  varchar(4) NULL COMMENT '职业身份' AFTER `dept_name`,
+ADD COLUMN `job_title`  varchar(10) NULL COMMENT '职称' AFTER `job`,
+ADD COLUMN `credit_report`  varchar(255) NULL COMMENT '征信报告资源id' AFTER `id_card_back`,
+ADD COLUMN `resource_id`  varchar(255) NULL COMMENT '社保流水/营业执照资源Id' AFTER `credit_report`;
+
+ALTER TABLE `myd_customers`
+ADD COLUMN `age`  int(4) NULL COMMENT '年龄' AFTER `gender`,
+ADD COLUMN `birthday`  date NULL COMMENT '生日' AFTER `age`,
+ADD COLUMN `idCard_vaild`  date NULL COMMENT '身份证有效期' AFTER `birthday`,
+ADD COLUMN `job_type`  varchar(4) NULL COMMENT '职业身份' AFTER `dept_name`,
+ADD COLUMN `job_title`  varchar(10) NULL COMMENT '职称' AFTER `job`,
+ADD COLUMN `credit_report`  varchar(255) NULL COMMENT '征信报告资源id' AFTER `id_card_back`,
+ADD COLUMN `resource_id`  varchar(255) NULL COMMENT '社保流水/营业执照资源Id' AFTER `credit_report`;
+
+ALTER TABLE `wdgs_customers`
+ADD COLUMN `age`  int(4) NULL COMMENT '年龄' AFTER `gender`,
+ADD COLUMN `birthday`  date NULL COMMENT '生日' AFTER `age`,
+ADD COLUMN `idCard_vaild`  date NULL COMMENT '身份证有效期' AFTER `birthday`,
+ADD COLUMN `job_type`  varchar(4) NULL COMMENT '职业身份' AFTER `dept_name`,
+ADD COLUMN `job_title`  varchar(10) NULL COMMENT '职称' AFTER `job`,
+ADD COLUMN `credit_report`  varchar(255) NULL COMMENT '征信报告资源id' AFTER `id_card_back`,
+ADD COLUMN `resource_id`  varchar(255) NULL COMMENT '社保流水/营业执照资源Id' AFTER `credit_report`;
+
+ALTER TABLE `tyz_customers`
+ADD COLUMN `age`  int(4) NULL COMMENT '年龄' AFTER `gender`,
+ADD COLUMN `birthday`  date NULL COMMENT '生日' AFTER `age`,
+ADD COLUMN `idCard_vaild`  date NULL COMMENT '身份证有效期' AFTER `birthday`,
+ADD COLUMN `job_type`  varchar(4) NULL COMMENT '职业身份' AFTER `dept_name`,
+ADD COLUMN `job_title`  varchar(10) NULL COMMENT '职称' AFTER `job`,
+ADD COLUMN `credit_report`  varchar(255) NULL COMMENT '征信报告资源id' AFTER `id_card_back`,
+ADD COLUMN `resource_id`  varchar(255) NULL COMMENT '社保流水/营业执照资源Id' AFTER `credit_report`;
+
+DROP TABLE IF EXISTS `cxph_cust_contact`;
+CREATE TABLE `cxph_cust_contact` (
+  `id` varchar(60) NOT NULL,
+  `cust_id` varchar(60) NOT NULL COMMENT '客户id',
+  `index` int(2) NOT NULL,
+  `relation` varchar(4) DEFAULT NULL COMMENT '关系',
+  `name` varchar(10) DEFAULT NULL COMMENT '姓名',
+  `is_know` tinyint(2) DEFAULT NULL COMMENT '是否知情',
+  `mobile` varchar(20) DEFAULT NULL COMMENT '手机',
+  `company` varchar(60) DEFAULT NULL COMMENT '公司名称',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ddk_cust_contact`;
+CREATE TABLE `ddk_cust_contact` (
+  `id` varchar(60) NOT NULL,
+  `cust_id` varchar(60) NOT NULL COMMENT '客户id',
+  `index` int(2) NOT NULL,
+  `relation` varchar(4) DEFAULT NULL COMMENT '关系',
+  `name` varchar(10) DEFAULT NULL COMMENT '姓名',
+  `is_know` tinyint(2) DEFAULT NULL COMMENT '是否知情',
+  `mobile` varchar(20) DEFAULT NULL COMMENT '手机',
+  `company` varchar(60) DEFAULT NULL COMMENT '公司名称',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `myd_cust_contact`;
+CREATE TABLE `myd_cust_contact` (
+  `id` varchar(60) NOT NULL,
+  `cust_id` varchar(60) NOT NULL COMMENT '客户id',
+  `index` int(2) NOT NULL,
+  `relation` varchar(4) DEFAULT NULL COMMENT '关系',
+  `name` varchar(10) DEFAULT NULL COMMENT '姓名',
+  `is_know` tinyint(2) DEFAULT NULL COMMENT '是否知情',
+  `mobile` varchar(20) DEFAULT NULL COMMENT '手机',
+  `company` varchar(60) DEFAULT NULL COMMENT '公司名称',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `wdgs_cust_contact`;
+CREATE TABLE `wdgs_cust_contact` (
+  `id` varchar(60) NOT NULL,
+  `cust_id` varchar(60) NOT NULL COMMENT '客户id',
+  `index` int(2) NOT NULL,
+  `relation` varchar(4) DEFAULT NULL COMMENT '关系',
+  `name` varchar(10) DEFAULT NULL COMMENT '姓名',
+  `is_know` tinyint(2) DEFAULT NULL COMMENT '是否知情',
+  `mobile` varchar(20) DEFAULT NULL COMMENT '手机',
+  `company` varchar(60) DEFAULT NULL COMMENT '公司名称',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `tyz_cust_contact`;
+CREATE TABLE `tyz_cust_contact` (
+  `id` varchar(60) NOT NULL,
+  `cust_id` varchar(60) NOT NULL COMMENT '客户id',
+  `index` int(2) NOT NULL,
+  `relation` varchar(4) DEFAULT NULL COMMENT '关系',
+  `name` varchar(10) DEFAULT NULL COMMENT '姓名',
+  `is_know` tinyint(2) DEFAULT NULL COMMENT '是否知情',
+  `mobile` varchar(20) DEFAULT NULL COMMENT '手机',
+  `company` varchar(60) DEFAULT NULL COMMENT '公司名称',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

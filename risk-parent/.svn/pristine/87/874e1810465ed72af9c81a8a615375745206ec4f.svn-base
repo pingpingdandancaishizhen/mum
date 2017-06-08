@@ -1,0 +1,19 @@
+[
+	{"fieldName":"客户姓名","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"cust_name","condition":null,"detail":null},
+	{"fieldName":"性别","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"cust_gender","condition":null,"detail":null},
+	{"fieldName":"身份证号","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"cust_license_num","condition":null,"detail":null},
+	{"fieldName":"手机号1","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"cust_mobile","condition":null,"detail":null},
+	{"fieldName":"借款金额","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"loan_amount","condition":null,"detail":null},
+	{"fieldName":"收款账户户名","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"loanbank_account_name","condition":null,"detail":null},
+	{"fieldName":"收款银行账号","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"loanbank_account_no","condition":null,"detail":null},
+	{"fieldName":"收款银行开户行","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"loanbank_bank","condition":null,"detail":null},
+	{"fieldName":"收款银行开户地省","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"loanbank_addr_province","condition":null,"detail":null},
+	{"fieldName":"收款银行开户地市","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"loanrebank_addr_city","condition":null,"detail":null},
+	{"fieldName":"收款银行支行","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"loanbank_branch","condition":null,"detail":null},
+	{"fieldName":"还款账户户名","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"loanrebank_account_name","condition":null,"detail":null},
+	{"fieldName":"还款银行账号","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"loanrebank_account_no","condition":null,"detail":null},
+	{"fieldName":"还款银行开户行","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"loanrebank_bank","condition":null,"detail":null},
+	{"fieldName":"还款银行开户地省","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"loanrebank_addr_province","condition":null,"detail":null},
+	{"fieldName":"还款银行开户地市","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"loanrebank_addr_city","condition":null,"detail":null},
+	{"fieldName":"还款银行支行","ruleType":"notEmpty","ruleLevel":"field","message":"必填","fieldKey":"loanrebank_branch","condition":null,"detail":null}
+]

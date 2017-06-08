@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.templates.MetaFieldsTemplatesDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.templates.MetaFieldsTemplates" >
+    <id column="field_id" property="fieldId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="field_key" property="fieldKey" jdbcType="VARCHAR" />
+    <result column="field_name" property="fieldName" jdbcType="VARCHAR" />
+    <result column="field_desc" property="fieldDesc" jdbcType="VARCHAR" />
+    <result column="datatype" property="datatype" jdbcType="VARCHAR" />
+    <result column="field_table" property="fieldTable" jdbcType="VARCHAR" />
+    <result column="is_attr" property="isAttr" jdbcType="TINYINT" />
+    <result column="check_rule" property="checkRule" jdbcType="VARCHAR" />
+    <result column="data_provider" property="dataProvider" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="default_order" property="defaultOrder" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="default_value" property="defaultValue" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    field_id, bp_def_id, field_key, field_name, field_desc, datatype, field_table, is_attr, 
+    check_rule, category, default_order, update_time, default_value,data_provider
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bp_meta_fields_templates
+    where field_id = #{fieldId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaFieldsTemplates" >
+    insert into bp_meta_fields_templates (field_id, bp_def_id, field_key, 
+      field_name, field_desc, datatype, 
+      field_table, is_attr, check_rule, 
+      category, default_order, update_time, 
+      default_value,data_provider)
+    values (#{fieldId,jdbcType=VARCHAR}, #{bpDefId,jdbcType=VARCHAR}, #{fieldKey,jdbcType=VARCHAR}, 
+      #{fieldName,jdbcType=VARCHAR}, #{fieldDesc,jdbcType=VARCHAR}, #{datatype,jdbcType=VARCHAR}, 
+      #{fieldTable,jdbcType=VARCHAR}, #{isAttr,jdbcType=TINYINT}, #{checkRule,jdbcType=VARCHAR}, 
+      #{category,jdbcType=VARCHAR}, #{defaultOrder,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{defaultValue,jdbcType=VARCHAR},#{dataProvider,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaFieldsTemplates" >
+    update bp_meta_fields_templates
+    set bp_def_id = #{bpDefId,jdbcType=VARCHAR},
+      field_key = #{fieldKey,jdbcType=VARCHAR},
+      field_name = #{fieldName,jdbcType=VARCHAR},
+      field_desc = #{fieldDesc,jdbcType=VARCHAR},
+      datatype = #{datatype,jdbcType=VARCHAR},
+      field_table = #{fieldTable,jdbcType=VARCHAR},
+      is_attr = #{isAttr,jdbcType=TINYINT},
+      check_rule = #{checkRule,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
+      default_order = #{defaultOrder,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      default_value = #{defaultValue,jdbcType=VARCHAR},
+      data_provider=#{dataProvider,jdbcType=VARCHAR}
+    where field_id = #{fieldId,jdbcType=VARCHAR}
+  </update>
+    <select id="selectMetaFieldsTemplates" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bp_meta_fields_templates
+    where bp_def_id = #{bpDefId,jdbcType=VARCHAR}
+  </select>
+</mapper>

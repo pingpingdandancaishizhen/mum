@@ -1,0 +1,8 @@
+{
+    "loancheckph_phone1": [{"ruleType":"length","ruleLevel":"field","message":"请输入1到20位字符","fieldKey":"loancheckph_phone1","condition":null,"detail":{"min":"1","max":"20"}}],
+    "loancheckph_phone2": [{"ruleType":"length","ruleLevel":"field","message":"请输入1到20位字符","fieldKey":"loancheckph_phone2","condition":null,"detail":{"min":"1","max":"20"}}],
+    "loancheckph_spouse": [{"ruleType":"length","ruleLevel":"field","message":"请输入1到20位字符","fieldKey":"loancheckph_spouse","condition":null,"detail":{"min":"1","max":"20"}}],
+    "loancheckph_friends": [{"ruleType":"length","ruleLevel":"field","message":"请输入1到20位字符","fieldKey":"loancheckph_friends","condition":null,"detail":{"min":"1","max":"20"}}],
+    "loancheckph_telephone": [{"ruleType":"length","ruleLevel":"field","message":"请输入1到20位字符","fieldKey":"loancheckph_telephone","condition":null,"detail":{"min":"1","max":"20"}}],
+    "loancheckph_company": [{"ruleType":"length","ruleLevel":"field","message":"请输入1到20位字符","fieldKey":"loancheckph_company","condition":null,"detail":{"min":"1","max":"20"}}]
+}

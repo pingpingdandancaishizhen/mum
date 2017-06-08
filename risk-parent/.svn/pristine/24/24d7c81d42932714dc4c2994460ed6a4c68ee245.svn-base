@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.repayment.RepaymentDetailDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.repayment.RepaymentDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="bp_no" property="bpNo" jdbcType="VARCHAR" />
+    <result column="issue" property="issue" jdbcType="INTEGER" />
+    <result column="issue_date" property="issueDate" jdbcType="DATE" />
+    <result column="interest" property="interest" jdbcType="DECIMAL" />
+    <result column="principle" property="principle" jdbcType="DECIMAL" />
+    <result column="payment" property="payment" jdbcType="DECIMAL" />
+    <result column="manage_fee" property="manageFee" jdbcType="DECIMAL" />
+    <result column="extra_fee" property="extraFee" jdbcType="DECIMAL" />
+    <result column="extra_fee_2" property="extraFee2" jdbcType="DECIMAL" />
+    <result column="left_principle" property="leftPrinciple" jdbcType="DECIMAL" />
+    <result column="is_finish" property="isFinish" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="payed_interest" property="payedInterest" jdbcType="DECIMAL" />
+    <result column="payed_principle" property="payedPrinciple" jdbcType="DECIMAL" />
+    <result column="payed_manage_fee" property="payedManageFee" jdbcType="DECIMAL" />
+    <result column="payed_extra_fee" property="payedExtraFee" jdbcType="DECIMAL" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, bp_no, issue, issue_date, interest, principle, payment, manage_fee,
+    extra_fee, left_principle, 
+    is_finish, create_time, create_by,
+    payed_interest, payed_principle, payed_manage_fee, payed_extra_fee, update_time, update_by
+  </sql>
+  
+  <select id="queryRepaymentDetailInfo" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from 
+  	${domain}_repayment_detail 
+  	where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateRepaymentFee">
+    update ${domain}_repayment_detail
+    set 
+      payed_principle = payed_principle + #{detail.payedPrinciple,jdbcType=DECIMAL}, 
+      payed_interest = payed_interest + #{detail.payedInterest,jdbcType=DECIMAL}, 
+      payed_manage_fee = payed_manage_fee + #{detail.payedManageFee,jdbcType=DECIMAL},
+      payed_extra_fee = payed_extra_fee + #{detail.payedExtraFee,jdbcType=DECIMAL}, 
+      payed_extra_fee_2 = payed_extra_fee_2 + #{detail.payedExtraFee2,jdbcType=DECIMAL}, 
+      is_finish = IF(
+		interest <![CDATA[<=]]> payed_interest 
+		and principle <![CDATA[<=]]> payed_principle
+		and manage_fee <![CDATA[<=]]> payed_manage_fee
+		and extra_fee <![CDATA[<=]]> payed_extra_fee
+		and extra_fee_2 <![CDATA[<=]]> payed_extra_fee_2
+		<if test="znjFee != null and overdueCount != null and overdueAmount != null and znjFeeCal != null">
+		AND (
+		<!-- znjFeeCal -->
+			SELECT
+				shouldpayOverdue
+			FROM
+				(	
+					<if test='znjFeeCal =="1"'>
+					SELECT
+						ROUND((
+							(
+								detail.left_principle + detail.principle - IFNULL(
+									(
+										SELECT
+											SUM(record.repayment_principle)
+										FROM
+											${domain}_repayment_record record
+										WHERE
+											record.repayment_detail_id = detail.id
+										AND record.repayment_time<![CDATA[<=]]> detail.issue_date
+									),
+									0
+								)
+							) * ${znjFee} * ${overdueCount} / 100
+						),2) shouldpayOverdue
+					FROM
+						${domain}_repayment_detail detail
+					WHERE
+						detail.id = #{detail.id,jdbcType=VARCHAR}
+					</if>
+					<if test='znjFeeCal =="2"'>
+					SELECT
+						ROUND((
+							(
+								IFNULL(
+									(
+										SELECT 
+											loan.approved_amount + fee.fee_value 
+										FROM
+											${domain}_bp_loans loan
+										LEFT JOIN ${domain}_loan_fee fee 
+										ON fee.bp_no = loan.bp_id AND fee.fee_name = 'loan_guarantee_fee'
+										WHERE loan.bp_id = detail.bp_no
+									),
+									0
+								)
+							) * ${znjFee} * ${overdueCount} / 100
+						),2) shouldpayOverdue
+					FROM
+						${domain}_repayment_detail detail
+					WHERE
+						detail.id = #{detail.id,jdbcType=VARCHAR}
+					</if>
+				) a
+		) <![CDATA[<=]]> (
+			SELECT
+				payed_overdue
+			FROM
+				(
+					SELECT
+						(
+							IFNULL(
+								SUM(record.overdue_fee) + SUM(record.overdue_derate),
+								0
+							) + ${overdueAmount}
+						) payed_overdue
+					FROM
+						${domain}_repayment_record record
+					WHERE
+						record.repayment_detail_id = #{detail.id,jdbcType=VARCHAR}
+				) b
+		)
+		</if>
+		, 1, 0),
+      update_time = #{detail.updateTime,jdbcType=TIMESTAMP},
+      update_by = #{detail.updateBy,jdbcType=VARCHAR}
+    where id = #{detail.id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="queryRepaymentDetailList" resultMap="BaseResultMap">
+    select 
+    detail.id, detail.bp_no, detail.issue, detail.issue_date, detail.interest, detail.principle, 
+    detail.payment, detail.manage_fee,
+    detail.extra_fee, detail.extra_fee_2, 
+    detail.left_principle + detail.principle - IFNULL((
+	SELECT SUM(record.repayment_principle)
+	from ${domain}_repayment_record record
+	WHERE 
+		record.repayment_detail_id = detail.id
+		and record.repayment_time <![CDATA[ <= ]]> detail.issue_date 
+	),0 ) left_principle, 
+    is_finish, create_time, create_by,
+    payed_interest, payed_principle, payed_manage_fee, payed_extra_fee, update_time, update_by
+    from ${domain}_repayment_detail detail
+    where detail.bp_no = #{bpId,jdbcType=VARCHAR}
+    order by detail.issue 
+  </select>
+  
+  <resultMap id="RepaymentRecordDTOMap" type="cn.sunfit.risk.buz.api.vo.repayment.RepaymentRecordDTO" >
+  	<id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="bp_no" property="bpNo" jdbcType="VARCHAR" />
+    <result column="issue" property="issue" jdbcType="INTEGER" />
+    <result column="issue_date" property="issueDate" jdbcType="DATE" />
+    <result column="interest" property="interest" jdbcType="DECIMAL" />
+    <result column="principle" property="principle" jdbcType="DECIMAL" />
+    <result column="payment" property="payment" jdbcType="DECIMAL" />
+    <result column="manage_fee" property="manageFee" jdbcType="DECIMAL" />
+    <result column="extra_fee" property="extraFee" jdbcType="DECIMAL" />
+    <result column="extra_fee_2" property="extraFee2" jdbcType="DECIMAL" />
+    <result column="left_principle" property="leftPrinciple" jdbcType="DECIMAL" />
+    <result column="left_manage_fee" property="leftManageFee" jdbcType="DECIMAL" />
+    <result column="is_finish" property="isFinish" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="payed_interest" property="payedInterest" jdbcType="DECIMAL" />
+    <result column="payed_principle" property="payedPrinciple" jdbcType="DECIMAL" />
+    <result column="payed_manage_fee" property="payedManageFee" jdbcType="DECIMAL" />
+    <result column="payed_extra_fee" property="payedExtraFee" jdbcType="DECIMAL" />
+    <result column="payed_extra_fee_2" property="payedExtraFee2" jdbcType="DECIMAL" />
+    <result column="overdue" property="overdue" jdbcType="TINYINT" />
+    <result column="overdue_day" property="overdueDay" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <collection property="records" javaType="ArrayList" column="{repaymentDetailId=id,domain=domain}" fetchType="eager" 
+    	select="cn.sunfit.risk.buz.server.dao.repayment.RepaymentRecordDAO.selectRepaymentRecords4Detail"/>
+  </resultMap>
+  
+  <select id="queryRepaymentRecordList" resultMap="RepaymentRecordDTOMap">
+    select 
+    detail.id, detail.bp_no, detail.issue, detail.issue_date, detail.interest, detail.principle, 
+    detail.payment, detail.manage_fee,
+    detail.extra_fee, detail.extra_fee_2, 
+    detail.left_principle + detail.principle - IFNULL((
+	SELECT SUM(record.repayment_principle)
+	from ${domain}_repayment_record record
+	WHERE 
+		record.repayment_detail_id = detail.id
+		and record.repayment_time <![CDATA[ <= ]]> detail.issue_date
+	),0 ) left_principle, 
+	detail.manage_fee - IFNULL((
+	SELECT SUM(record.repayment_manage_fee)
+	from ${domain}_repayment_record record
+	WHERE 
+		record.repayment_detail_id = detail.id
+		and record.repayment_time <![CDATA[ <= ]]> detail.issue_date
+	),0 ) left_manage_fee, 
+	IF(is_finish = 1 , 0 , IF( TIMESTAMPDIFF(DAY,issue_date,now())<![CDATA[>]]>0,1,0)
+		<!-- (
+			SELECT IF( TIMESTAMPDIFF(DAY,MIN(d.issue_date),now())<![CDATA[>]]>0,1,0) from ${domain}_repayment_detail d
+			where d.bp_no = detail.bp_no
+			and d.is_finish = 0
+			GROUP BY
+				d.bp_no 
+		) -->
+	) overdue,
+	IF(is_finish = 1 , 0 , IF( TIMESTAMPDIFF(DAY,  issue_date ,now())<![CDATA[>]]> 0, TIMESTAMPDIFF(DAY, issue_date ,now()),0)
+		<!-- (
+			SELECT IF( TIMESTAMPDIFF(DAY,MIN(d.issue_date),now())<![CDATA[>]]>0,TIMESTAMPDIFF(DAY,MIN(d.issue_date),now()),0) from ${domain}_repayment_detail d
+			where d.bp_no = detail.bp_no
+			and d.is_finish = 0
+			GROUP BY
+				d.bp_no 
+		) -->
+	) overdue_day,
+    is_finish, create_time, create_by,
+    payed_interest, payed_principle, payed_manage_fee, payed_extra_fee, payed_extra_fee_2, update_time, update_by, '${domain}' domain
+    from ${domain}_repayment_detail detail
+    where detail.bp_no = #{bpId,jdbcType=VARCHAR}
+    order by detail.issue 
+  </select>
+  
+  <insert id="addRepaymentDetail"  parameterType="java.util.Map" >
+    insert into ${domain}_repayment_detail (id, bp_no, issue, 
+      issue_date, interest, principle, 
+      manage_fee, extra_fee ,extra_fee_2,
+      payed_interest, payed_principle, 
+      payed_manage_fee, payed_extra_fee ,payed_extra_fee_2,
+      payment, left_principle, 
+      is_finish, create_time, create_by, 
+      update_time, update_by)
+    values 
+    <foreach collection="repaymentDetailList" item="item" index="index" separator=",">
+    (#{item.id,jdbcType=VARCHAR}, #{item.bpNo,jdbcType=VARCHAR}, #{item.issue,jdbcType=INTEGER}, 
+      #{item.issueDate,jdbcType=DATE}, #{item.interest,jdbcType=DECIMAL}, #{item.principle,jdbcType=DECIMAL}, 
+      #{item.manageFee,jdbcType=DECIMAL}, #{item.extraFee,jdbcType=DECIMAL}, #{item.extraFee2,jdbcType=DECIMAL},
+      #{item.payedInterest,jdbcType=DECIMAL}, #{item.payedPrinciple,jdbcType=DECIMAL}, 
+      #{item.payedManageFee,jdbcType=DECIMAL}, #{item.payedExtraFee,jdbcType=DECIMAL}, #{item.payedExtraFee2,jdbcType=DECIMAL},
+      #{item.payment,jdbcType=DECIMAL}, #{item.leftPrinciple,jdbcType=DECIMAL}, 
+      #{item.isFinish,jdbcType=TINYINT}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.createBy,jdbcType=VARCHAR}, 
+      #{item.updateTime,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=VARCHAR})
+	</foreach>
+    
+  </insert>
+  
+  <resultMap id="RepaymentResultMap" type="cn.sunfit.risk.buz.api.vo.repayment.RepaymentQueryResp">
+  	<id column="bp_id" property="bpId" jdbcType="VARCHAR" />
+    <result column="name" property="loanCustName" jdbcType="VARCHAR" />
+  	<result column="loan_contract_id" property="loanContractId" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    
+    <result column="loan_guarantee_fee" property="loanGuaranteeFee" jdbcType="DECIMAL" />
+    <result column="loan_approval_repayment" property="loanApprovalRepayment" jdbcType="VARCHAR" />
+    
+    <result column="payed_issue" property="payedIssue" jdbcType="DECIMAL" />
+    <result column="payed_interest" property="payedInterest" jdbcType="TIMESTAMP" />
+    <result column="payed_principle" property="payedPrinciple" jdbcType="VARCHAR" />
+    <result column="issue_day" property="issueDay" jdbcType="INTEGER" />
+    <result column="debit_amount" property="debitAmount" jdbcType="DECIMAL" />
+    
+    <result column="overdue_day" property="overdueDay" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="overdue" property="overdue" jdbcType="TINYINT" />
+    
+    
+    <collection property="details" javaType="ArrayList" column="{bpId=bp_id,domain=domain}" fetchType="eager" 
+    	select="queryRepaymentRecordList"/>
+  </resultMap>
+  
+  <resultMap id="RepaymentExportMap" type="cn.sunfit.risk.buz.api.vo.repayment.RepaymentQueryVO">
+    <result column="name" property="loanCustName" jdbcType="VARCHAR" />
+  	<result column="loan_contract_id" property="loanContractId" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    
+    <result column="loan_guarantee_fee" property="loanGuaranteeFee" jdbcType="DECIMAL" />
+    <result column="loan_approval_repayment" property="loanApprovalRepayment" jdbcType="VARCHAR" />
+    
+    <result column="payed_issue" property="payedIssue" jdbcType="DECIMAL" />
+    <result column="payed_interest" property="payedInterest" jdbcType="TIMESTAMP" />
+    <result column="payed_principle" property="payedPrinciple" jdbcType="VARCHAR" />
+    <result column="left_principle" property="leftPrinciple" jdbcType="VARCHAR" />
+    <result column="issue_day" property="issueDay" jdbcType="INTEGER" />
+    <result column="debit_amount" property="debitAmount" jdbcType="DECIMAL" />
+    
+    <result column="overdue_day" property="overdueDay" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="overdue" property="overdue" jdbcType="TINYINT" />
+  </resultMap>
+  
+  <sql id="queryRepayment_BASE">
+	 SELECT
+		repay.bp_id,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = loan.bp_id
+		) name,
+		repay.payed_interest,
+		repay.payed_principle,
+		<!-- repay.payed_issue, -->
+		repay.status,
+		loan.contract_id loan_contract_id,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = loan.bp_id
+		) debit_amount,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_guarantee_fee' AND a.bp_no = loan.bp_id
+		) loan_guarantee_fee,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = loan.bp_id
+		) loan_approval_repayment,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanapproval_eachTimes' AND a.bp_id = loan.bp_id
+		) loan_approval_eachTimes,
+		IFNULL((
+			SELECT MAX(detail.issue) from ${domain}_repayment_detail detail
+			where detail.bp_no = loan.bp_id
+			and detail.is_finish = 1
+			GROUP BY
+				detail.bp_no 
+		) , 0) payed_issue,
+		(
+			SELECT DAY(MIN(detail.issue_date)) from ${domain}_repayment_detail detail
+			where detail.bp_no = loan.bp_id
+			GROUP BY
+				detail.bp_no 
+		) issue_day,
+		IFNULL((
+			SELECT IF( TIMESTAMPDIFF(DAY,MIN(detail.issue_date),now())<![CDATA[>]]>0,TIMESTAMPDIFF(DAY,MIN(detail.issue_date),now()),0) from ${domain}_repayment_detail detail
+			where detail.bp_no = loan.bp_id
+			and detail.is_finish = 0
+			GROUP BY
+				detail.bp_no 
+		), 0 ) overdue_day,
+		(
+			SELECT IF( TIMESTAMPDIFF(DAY,MIN(detail.issue_date),now())<![CDATA[>]]>0,1,0) from ${domain}_repayment_detail detail
+			where detail.bp_no = loan.bp_id
+			and detail.is_finish = 0
+			GROUP BY
+				detail.bp_no 
+		) overdue
+	FROM
+		${domain}_repayment_base repay,
+		${domain}_bp_loans loan
+	WHERE
+		repay.bp_id = loan.bp_id
+		and loan.loan_status = 2
+  </sql>
+  
+  <sql id="BP_DEPT_SQL">
+  	SELECT bps.bp_id ,depts.dept_name 
+  	from ${domain}_risk_bps bps ,risk_corp_user users ,risk_corp_dept depts
+	where bps.create_user_id = users.id and users.dept_id = depts.id
+  </sql>
+  
+  <resultMap type="cn.sunfit.risk.buz.api.vo.repayment.OverdueQueryVO" id="OverdueExportMap">
+    <result column="name" property="loanCustName" jdbcType="VARCHAR" />
+  	<result column="loan_contract_id" property="loanContractId" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    
+    <result column="loan_approval_repayment" property="loanApprovalRepayment" jdbcType="VARCHAR" />
+    
+    <result column="payed_issue" property="payedIssue" jdbcType="DECIMAL" />
+    <result column="issue_day" property="issueDay" jdbcType="INTEGER" />
+    <result column="debit_amount" property="debitAmount" jdbcType="DECIMAL" />
+    
+    <result column="status" property="status" jdbcType="INTEGER" />
+    
+    <result column="overdue_fee" property="overdueZnj" jdbcType="DECIMAL" />
+    <result column="overdue_day" property="overdueDay" jdbcType="INTEGER" />
+    <result column="overdue_derate" property="overdueDerate" jdbcType="INTEGER" />
+    
+    <result column="loan_approval_monthlyTerm" property="monthlyTerm" jdbcType="VARCHAR" />
+    <result column="loan_approval_daylyTerm" property="daylyTerm" jdbcType="VARCHAR" />
+    <result column="loan_approval_znjFee" property="overdueZnjFee" jdbcType="DECIMAL" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="queryOverdueExportList" resultMap="OverdueExportMap" >
+  	select
+  		base.bp_id,
+		base.name,
+		base.payed_issue,
+		base.status,
+		base.loan_contract_id,
+		(
+			base.debit_amount + base.loan_guarantee_fee
+		) debit_amount,
+		base.loan_approval_repayment,
+		base.issue_day,
+		base.overdue_day,
+		base.overdue_fee,
+		base.overdue,
+		base.overdue_derate,
+		base.loan_approval_eachTimes,
+		base.loan_approval_monthlyTerm,
+		base.loan_approval_daylyTerm,
+		base.loan_approval_znjFee,
+		depts.dept_name,
+		p.product_name,
+		(
+			base.debit_amount + base.loan_guarantee_fee - rb.payed_principle
+		)  leftAmount,
+		'${domain}' domain
+  	from 
+  		(<include refid="queryOverdue_BASE"/>) base left join (<include refid="BP_DEPT_SQL"/>) depts
+  	ON base.bp_id = depts.bp_id
+ 	LEFT JOIN
+		${domain}_repayment_base rb 
+	ON base.bp_id = rb.bp_id
+	LEFT JOIN
+		${domain}_risk_bps bps
+	ON base.bp_id = bps.bp_id
+	LEFT JOIN
+		risk_product p
+	ON bps.product_type = p.id
+	WHERE
+		base.overdue = 1
+  		<if test="req.loanContractId != null and req.loanContractId != ''">
+  			and base.loan_contract_id like concat('%',#{req.loanContractId,jdbcType=VARCHAR},'%')
+  		</if>
+  		<if test="req.loanCustName != null and req.loanCustName != ''">
+  			and base.name like concat('%',#{req.loanCustName,jdbcType=VARCHAR},'%')
+  		</if>
+  		<if test="req.repaymentType != null and req.repaymentType != ''">
+		 	and base.loan_approval_repayment = #{req.repaymentType,jdbcType=VARCHAR}
+		</if>
+		<if test="req.startDate != null and req.endDate !=null ">
+	    	and base.issue_date between #{req.startDate,jdbcType=TIMESTAMP} and #{req.endDate,jdbcType=TIMESTAMP}
+	    </if>
+  		order by base.bp_id desc
+  </select>
+  
+  <select id="queryRepaymentExportList" resultMap="RepaymentExportMap">
+  	select
+  		base.bp_id, base.name, base.payed_interest,
+		base.payed_principle, base.payed_issue, base.status, (base.debit_amount + base.loan_guarantee_fee - base.payed_principle) left_principle ,
+		base.loan_contract_id, (base.debit_amount + base.loan_guarantee_fee) debit_amount, base.loan_approval_repayment,
+		base.loan_guarantee_fee, base.issue_day, base.overdue_day, base.overdue, base.loan_approval_eachTimes,
+  		depts.dept_name,
+  		'${domain}' domain
+  	from 
+  		(<include refid="queryRepayment_BASE"/>) base left join (<include refid="BP_DEPT_SQL"/>) depts
+  		on base.bp_id = depts.bp_id
+  	where
+  		1 = 1 
+  		<if test="req.loanContractId != null and req.loanContractId != ''">
+  			and base.loan_contract_id like concat('%',#{req.loanContractId,jdbcType=VARCHAR},'%')
+  		</if>
+  		<if test="req.loanCustName != null and req.loanCustName != ''">
+  			and base.name like concat('%',#{req.loanCustName,jdbcType=VARCHAR},'%')
+  		</if>
+  		<if test="req.repaymentType != null and req.repaymentType != ''">
+		 	and base.loan_approval_repayment = #{req.repaymentType,jdbcType=VARCHAR}
+		</if>
+		<if test="req.startDate != null and req.endDate !=null ">
+	    	and base.issue_date between #{req.startDate,jdbcType=TIMESTAMP} and #{req.endDate,jdbcType=TIMESTAMP}
+	    </if>
+	    <if test='req.status != null and req.status != "" and (req.status == "2" or req.status == "3") '>
+	    	and base.status = #{req.status}
+	    </if>
+	    <if test='req.status != null and req.status != "" and (req.status == "0" or req.status == "1") '>
+	    	and base.status = 0
+	    	and base.overdue = #{req.status}
+	    </if>
+  		order by base.bp_id desc
+  </select>
+  
+  
+  <select id="queryRepaymentList" resultMap="RepaymentResultMap">
+  	select
+  		base.bp_id, base.name, base.payed_interest,
+		base.payed_principle, base.payed_issue, base.status,
+		base.loan_contract_id, (base.debit_amount + base.loan_guarantee_fee) debit_amount, base.loan_approval_repayment,
+		base.loan_guarantee_fee, base.issue_day, base.overdue_day, base.overdue,base.loan_approval_eachTimes,
+  		depts.dept_name,
+  		'${domain}' domain
+  	from 
+  		(<include refid="queryRepayment_BASE"/>) base left join (<include refid="BP_DEPT_SQL"/>) depts
+  		on base.bp_id = depts.bp_id
+  	where
+  		1 = 1 
+  		<if test="req.loanContractId != null and req.loanContractId != ''">
+  			and base.loan_contract_id like concat('%',#{req.loanContractId,jdbcType=VARCHAR},'%')
+  		</if>
+  		<if test="req.loanCustName != null and req.loanCustName != ''">
+  			and base.name like concat('%',#{req.loanCustName,jdbcType=VARCHAR},'%')
+  		</if>
+  		<if test="req.repaymentType != null and req.repaymentType != ''">
+		 	and base.loan_approval_repayment = #{req.repaymentType,jdbcType=VARCHAR}
+		</if>
+		<if test="req.startDate != null and req.endDate !=null ">
+	    	and base.issue_date between #{req.startDate,jdbcType=TIMESTAMP} and #{req.endDate,jdbcType=TIMESTAMP}
+	    </if>
+	    <if test='req.status != null and req.status != "" and (req.status == "2" or req.status == "3") '>
+	    	and base.status = #{req.status}
+	    </if>
+	    <if test='req.status != null and req.status != "" and (req.status == "0" or req.status == "1") '>
+	    	and base.status = 0
+	    	and base.overdue = #{req.status}
+	    </if>
+  		order by base.bp_id desc
+  </select>
+  
+  <sql id="queryOverdue_BASE">
+	 SELECT
+		repay.bp_id,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = loan.bp_id
+		) name,
+		repay.payed_interest,
+		repay.payed_principle,
+		<!-- repay.payed_issue, -->
+		repay.status,
+		loan.contract_id loan_contract_id,
+		(
+			SELECT
+				a.attr_value
+			FROM
+				${domain}_bp_attrs a
+			WHERE
+				a.attr_name = 'loanapproval_limit'
+			AND a.bp_id = loan.bp_id
+		) debit_amount,
+		(
+			SELECT
+				a.fee_value
+			FROM
+				${domain}_loan_fee a
+			WHERE
+				a.fee_name = 'loan_guarantee_fee'
+			AND a.bp_no = loan.bp_id
+		) loan_guarantee_fee,
+		(
+			SELECT
+				a.attr_value
+			FROM
+				${domain}_bp_attrs a
+			WHERE
+				a.attr_name = 'loanapproval_repaymentTypes'
+			AND a.bp_id = loan.bp_id
+		) loan_approval_repayment,
+		(
+			SELECT
+				a.attr_value
+			FROM
+				${domain}_bp_attrs a
+			WHERE
+				a.attr_name = 'loanapproval_eachTimes'
+			AND a.bp_id = loan.bp_id
+		) loan_approval_eachTimes,
+		(
+			SELECT
+				a.attr_value
+			FROM
+				${domain}_bp_attrs a
+			WHERE
+				a.attr_name = 'loanapproval_monthlyTerm'
+			AND a.bp_id = loan.bp_id
+		) loan_approval_monthlyTerm,
+		(
+			SELECT
+				a.attr_value
+			FROM
+				${domain}_bp_attrs a
+			WHERE
+				a.attr_name = 'loanapproval_daylyTerm'
+			AND a.bp_id = loan.bp_id
+		) loan_approval_daylyTerm,
+		(
+			SELECT
+				a.attr_value
+			FROM
+				${domain}_bp_attrs a
+			WHERE
+				a.attr_name = 'loanapproval_znjFee'
+			AND a.bp_id = loan.bp_id
+		) loan_approval_znjFee,
+		IFNULL(
+			(
+				SELECT
+					MAX(detail.issue)
+				FROM
+					${domain}_repayment_detail detail
+				WHERE
+					detail.bp_no = loan.bp_id
+				AND detail.is_finish = 1
+				GROUP BY
+					detail.bp_no
+			),
+			0
+		) payed_issue,
+		(
+			SELECT
+				DAY (MIN(detail.issue_date))
+			FROM
+				${domain}_repayment_detail detail
+			WHERE
+				detail.bp_no = loan.bp_id
+			GROUP BY
+				detail.bp_no
+		) issue_day,
+		IFNULL(
+			(
+				SELECT
+
+				IFNULL(
+					overdue.overdue_count,
+					0
+				)
+				FROM
+					${domain}_repayment_detail detail
+				LEFT JOIN
+					${domain}_repayment_overdue overdue
+				ON 
+					detail.id = overdue.repayment_detail_id
+				WHERE
+					detail.bp_no = loan.bp_id
+				AND detail.is_finish = 0
+				GROUP BY
+					detail.bp_no
+			),
+			0
+		) overdue_day,
+		IFNULL(
+			(
+				SELECT
+
+				IFNULL(
+					overdue.overdue_fee,
+					0
+				)
+				FROM
+					${domain}_repayment_detail detail
+				LEFT JOIN
+					${domain}_repayment_overdue overdue
+				ON 
+					detail.id = overdue.repayment_detail_id
+				WHERE
+					detail.bp_no = loan.bp_id
+				AND detail.is_finish = 0
+				GROUP BY
+					detail.bp_no
+			),
+			0
+		) overdue_fee,
+		IFNULL(
+			(
+				SELECT
+
+				IFNULL(
+					SUM(record.overdue_derate),
+					0
+				)
+				FROM
+					${domain}_repayment_detail detail
+				LEFT JOIN
+					${domain}_repayment_record record
+				ON 
+					detail.id = record.repayment_detail_id
+				WHERE
+					detail.bp_no = loan.bp_id
+				AND detail.is_finish = 0
+				GROUP BY
+					detail.bp_no
+			),
+			0
+		) overdue_derate,
+		(
+			SELECT
+
+			IF (
+				TIMESTAMPDIFF(
+					DAY,
+					MIN(detail.issue_date),
+					now()
+				) > 0,
+				1,
+				0
+			)
+			FROM
+				${domain}_repayment_detail detail
+			WHERE
+				detail.bp_no = loan.bp_id
+			AND detail.is_finish = 0
+			GROUP BY
+				detail.bp_no
+		) overdue
+	FROM
+		${domain}_repayment_base repay,
+		${domain}_bp_loans loan
+	WHERE
+		repay.bp_id = loan.bp_id
+		and loan.loan_status = 2
+  </sql>
+  
+  <resultMap id="OverdueResultMap" type="cn.sunfit.risk.buz.api.vo.repayment.OverdueQueryResp">
+  	<id column="bp_id" property="bpId" jdbcType="VARCHAR" />
+    <result column="name" property="loanCustName" jdbcType="VARCHAR" />
+  	<result column="loan_contract_id" property="loanContractId" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    
+    <result column="loan_approval_repayment" property="loanApprovalRepayment" jdbcType="VARCHAR" />
+    
+    <result column="payed_issue" property="payedIssue" jdbcType="DECIMAL" />
+    <result column="issue_day" property="issueDay" jdbcType="INTEGER" />
+    <result column="debit_amount" property="debitAmount" jdbcType="DECIMAL" />
+    
+    <result column="status" property="status" jdbcType="INTEGER" />
+    
+    <result column="overdue_fee" property="overdueZnj" jdbcType="DECIMAL" />
+    <result column="overdue_day" property="overdueDay" jdbcType="INTEGER" />
+    <result column="overdue_derate" property="overdueDerate" jdbcType="INTEGER" />
+    
+    <result column="loan_approval_monthlyTerm" property="monthlyTerm" jdbcType="VARCHAR" />
+    <result column="loan_approval_daylyTerm" property="daylyTerm" jdbcType="VARCHAR" />
+    <result column="loan_approval_znjFee" property="overdueZnjFee" jdbcType="DECIMAL" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    
+    
+   <!--  <collection property="details" javaType="ArrayList" column="{bpId=bp_id,domain=domain}" fetchType="eager" 
+    	select="queryRepaymentRecordList"/> -->
+  </resultMap>
+  
+  <select id="queryOverdueList" resultMap="OverdueResultMap">
+  	select
+  		base.bp_id,
+		base.name,
+		base.payed_issue,
+		base.status,
+		base.loan_contract_id,
+		(
+			base.debit_amount + base.loan_guarantee_fee
+		) debit_amount,
+		base.loan_approval_repayment,
+		base.issue_day,
+		base.overdue_day,
+		base.overdue_fee,
+		base.overdue,
+		base.overdue_derate,
+		base.loan_approval_eachTimes,
+		base.loan_approval_monthlyTerm,
+		base.loan_approval_daylyTerm,
+		base.loan_approval_znjFee,
+		depts.dept_name,
+		p.product_name,
+		(
+			base.debit_amount + base.loan_guarantee_fee - rb.payed_principle
+		)  leftAmount,
+		'${domain}' domain
+  	from 
+  		(<include refid="queryOverdue_BASE"/>) base left join (<include refid="BP_DEPT_SQL"/>) depts
+  	ON base.bp_id = depts.bp_id
+ 	LEFT JOIN
+		${domain}_repayment_base rb 
+	ON base.bp_id = rb.bp_id
+	LEFT JOIN
+		${domain}_risk_bps bps
+	ON base.bp_id = bps.bp_id
+	LEFT JOIN
+		risk_product p
+	ON bps.product_type = p.id
+	WHERE
+		base.overdue = 1
+  		<if test="req.loanContractId != null and req.loanContractId != ''">
+  			and base.loan_contract_id like concat('%',#{req.loanContractId,jdbcType=VARCHAR},'%')
+  		</if>
+  		<if test="req.loanCustName != null and req.loanCustName != ''">
+  			and base.name like concat('%',#{req.loanCustName,jdbcType=VARCHAR},'%')
+  		</if>
+  		<if test="req.repaymentType != null and req.repaymentType != ''">
+		 	and base.loan_approval_repayment = #{req.repaymentType,jdbcType=VARCHAR}
+		</if>
+		<if test="req.startDate != null and req.endDate !=null ">
+	    	and base.issue_date between #{req.startDate,jdbcType=TIMESTAMP} and #{req.endDate,jdbcType=TIMESTAMP}
+	    </if>
+  		order by base.bp_id desc
+  </select>
+  
+</mapper>

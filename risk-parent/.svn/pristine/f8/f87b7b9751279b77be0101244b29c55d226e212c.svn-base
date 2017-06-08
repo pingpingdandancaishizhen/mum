@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.excel.ImportCydExcelTemplateDao" >
+  <resultMap id="P2PImportExcelTemplateCYD" type="cn.sunfit.risk.buz.api.vo.p2p.excel.P2PImportExcelTemplateCYD" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="thirdLoanId" property="thirdloanid" jdbcType="VARCHAR" />
+    <result column="productCode" property="productcode" jdbcType="VARCHAR" />
+    <result column="productName" property="productname" jdbcType="VARCHAR" />
+    <result column="loanWayType" property="loanwaytype" jdbcType="VARCHAR" />
+    <result column="loanPurpose" property="loanpurpose" jdbcType="VARCHAR" />
+    <result column="repayType" property="repaytype" jdbcType="VARCHAR" />
+    <result column="loanPeriod" property="loanperiod" jdbcType="VARCHAR" />
+    <result column="loanMoney" property="loanmoney" jdbcType="DECIMAL" />
+    <result column="pledgee" property="pledgee" jdbcType="VARCHAR" />
+    <result column="consultingFee" property="consultingfee" jdbcType="DECIMAL" />
+    <result column="gpsInstallationFee" property="gpsinstallationfee" jdbcType="DECIMAL" />
+    <result column="customerType" property="customertype" jdbcType="VARCHAR" />
+    <result column="customerName" property="customername" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="idCard" property="idcard" jdbcType="VARCHAR" />
+    <result column="residenceHouseHoldProvince" property="residencehouseholdprovince" jdbcType="VARCHAR" />
+    <result column="residenceHouseHoldCity" property="residencehouseholdcity" jdbcType="VARCHAR" />
+    <result column="residenceHouseHoldRegion" property="residencehouseholdregion" jdbcType="VARCHAR" />
+    <result column="residenceHouseHoldAddress" property="residencehouseholdaddress" jdbcType="VARCHAR" />
+    <result column="marriage" property="marriage" jdbcType="VARCHAR" />
+    <result column="hasChild" property="haschild" jdbcType="INTEGER" />
+    <result column="hightDegree" property="hightdegree" jdbcType="VARCHAR" />
+    <result column="mobilePhoneOne" property="mobilephoneone" jdbcType="VARCHAR" />
+    <result column="mobilePhoneTwo" property="mobilephonetwo" jdbcType="VARCHAR" />
+    <result column="homePhone" property="homephone" jdbcType="VARCHAR" />
+    <result column="qq" property="qq" jdbcType="VARCHAR" />
+    <result column="mail" property="mail" jdbcType="VARCHAR" />
+    <result column="wechat" property="wechat" jdbcType="VARCHAR" />
+    <result column="arrivedCityTime" property="arrivedcitytime" jdbcType="VARCHAR" />
+    <result column="curHouseHoldProvince" property="curhouseholdprovince" jdbcType="VARCHAR" />
+    <result column="curHouseHoldCity" property="curhouseholdcity" jdbcType="VARCHAR" />
+    <result column="curHouseHoldRegion" property="curhouseholdregion" jdbcType="VARCHAR" />
+    <result column="curHouseHoldAddress" property="curhouseholdaddress" jdbcType="VARCHAR" />
+    <result column="checkInTime" property="checkintime" jdbcType="VARCHAR" />
+    <result column="houseProperty" property="houseproperty" jdbcType="VARCHAR" />
+    <result column="zMCreditScore" property="zmcreditscore" jdbcType="INTEGER" />
+    <result column="houseHoldProvince" property="householdprovince" jdbcType="VARCHAR" />
+    <result column="houseHoldCity" property="householdcity" jdbcType="VARCHAR" />
+    <result column="houseHoldRegion" property="householdregion" jdbcType="VARCHAR" />
+    <result column="houseHoldAddress" property="householdaddress" jdbcType="VARCHAR" />
+    <result column="buyingOption" property="buyingoption" jdbcType="VARCHAR" />
+    <result column="buyOrBuildDate" property="buyorbuilddate" jdbcType="VARCHAR" />
+    <result column="ownershipOfProperty" property="ownershipofproperty" jdbcType="VARCHAR" />
+    <result column="plateNumber" property="platenumber" jdbcType="VARCHAR" />
+    <result column="recordDate" property="recorddate" jdbcType="VARCHAR" />
+    <result column="carBrands" property="carbrands" jdbcType="VARCHAR" />
+    <result column="jobType" property="jobtype" jdbcType="VARCHAR" />
+    <result column="companyName" property="companyname" jdbcType="VARCHAR" />
+    <result column="companyTel" property="companytel" jdbcType="VARCHAR" />
+    <result column="jobTitle" property="jobtitle" jdbcType="VARCHAR" />
+    <result column="graduateInstitutions" property="graduateinstitutions" jdbcType="VARCHAR" />
+    <result column="schoolProvince" property="schoolprovince" jdbcType="VARCHAR" />
+    <result column="schoolCity" property="schoolcity" jdbcType="VARCHAR" />
+    <result column="schoolRegion" property="schoolregion" jdbcType="VARCHAR" />
+    <result column="schoolAddress" property="schooladdress" jdbcType="VARCHAR" />
+    <result column="urgenContactOne" property="urgencontactone" jdbcType="VARCHAR" />
+    <result column="relationOne" property="relationone" jdbcType="VARCHAR" />
+    <result column="urgenPhoneOne" property="urgenphoneone" jdbcType="VARCHAR" />
+    <result column="urgenContactTwo" property="urgencontacttwo" jdbcType="VARCHAR" />
+    <result column="relationTwo" property="relationtwo" jdbcType="VARCHAR" />
+    <result column="urgenPhoneTwo" property="urgenphonetwo" jdbcType="VARCHAR" />
+    <result column="realFKMoney" property="realfkmoney" jdbcType="DECIMAL" />
+    <result column="receiversName" property="receiversname" jdbcType="VARCHAR" />
+    <result column="receiversBankAccount" property="receiversbankaccount" jdbcType="VARCHAR" />
+    <result column="receiversBankName" property="receiversbankname" jdbcType="VARCHAR" />
+    <result column="receiversBankProvince" property="receiversbankprovince" jdbcType="VARCHAR" />
+    <result column="receiversBankCity" property="receiversbankcity" jdbcType="VARCHAR" />
+    <result column="receiversBankBranch" property="receiversbankbranch" jdbcType="VARCHAR" />
+    <result column="repaymentName" property="repaymentname" jdbcType="VARCHAR" />
+    <result column="repaymentBankAccount" property="repaymentbankaccount" jdbcType="VARCHAR" />
+    <result column="repaymentBankName" property="repaymentbankname" jdbcType="VARCHAR" />
+    <result column="repaymentBankProvince" property="repaymentbankprovince" jdbcType="VARCHAR" />
+    <result column="repaymentBankCity" property="repaymentbankcity" jdbcType="VARCHAR" />
+    <result column="repaymentBankBranch" property="repaymentbankbranch" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseParamMap" type="cn.sunfit.risk.buz.api.beans.p2p.P2PParams" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="param_name" property="paramName" jdbcType="VARCHAR" />
+    <result column="param_value" property="paramValue" jdbcType="VARCHAR" />
+    <result column="param_group" property="paramGroup" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseAttachmentMap" type="cn.sunfit.risk.buz.api.beans.p2p.LoanInfoAttachment" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="loan_info_id" property="loanInfoId" jdbcType="VARCHAR" />
+    <result column="attach_old_name" property="attachOldName" jdbcType="VARCHAR" />
+    <result column="attach_new_name" property="attachNewName" jdbcType="VARCHAR" />
+    <result column="attach_type" property="attachType" jdbcType="VARCHAR" />
+    <result column="attach_path" property="attachPath" jdbcType="VARCHAR" />
+    <result column="attach_size" property="attachSize" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="attach_group" property="attachGroup" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+  	 id, thirdLoanId, productCode, productName, loanWayType, loanPurpose, repayType, loanPeriod, 
+    loanMoney, pledgee, consultingFee, gpsInstallationFee, customerType, customerName, 
+    gender, age, idCard, residenceHouseHoldProvince, residenceHouseHoldCity, residenceHouseHoldRegion, 
+    residenceHouseHoldAddress, marriage, hasChild, hightDegree, mobilePhoneOne, mobilePhoneTwo, 
+    homePhone, qq, mail, wechat, arrivedCityTime, curHouseHoldProvince, curHouseHoldCity, 
+    curHouseHoldRegion, curHouseHoldAddress, checkInTime, houseProperty, zMCreditScore, 
+    houseHoldProvince, houseHoldCity, houseHoldRegion, houseHoldAddress, buyingOption, 
+    buyOrBuildDate, ownershipOfProperty, plateNumber, recordDate, carBrands, jobType, 
+    companyName, companyTel, jobTitle, graduateInstitutions, schoolProvince, schoolCity, 
+    schoolRegion, schoolAddress, urgenContactOne, relationOne, urgenPhoneOne, urgenContactTwo, 
+    relationTwo, urgenPhoneTwo, realFKMoney, receiversName, receiversBankAccount, receiversBankName, 
+    receiversBankProvince, receiversBankCity, receiversBankBranch, repaymentName, repaymentBankAccount, 
+    repaymentBankName, repaymentBankProvince, repaymentBankCity, repaymentBankBranch
+  </sql>
+  
+  <sql id="Base_Column_List_two" >
+  	thirdLoanId, productCode, productName, loanWayType, loanPurpose, repayType, loanPeriod, 
+    loanMoney, pledgee, consultingFee, gpsInstallationFee, customerType, customerName, 
+    gender, age, idCard, residenceHouseHoldProvince, residenceHouseHoldCity, residenceHouseHoldRegion, 
+    residenceHouseHoldAddress, marriage, hasChild, hightDegree, mobilePhoneOne, mobilePhoneTwo, 
+    homePhone, qq, mail, wechat, arrivedCityTime, curHouseHoldProvince, curHouseHoldCity, 
+    curHouseHoldRegion, curHouseHoldAddress, checkInTime, houseProperty, zMCreditScore, 
+    houseHoldProvince, houseHoldCity, houseHoldRegion, houseHoldAddress, buyingOption, 
+    buyOrBuildDate, ownershipOfProperty, plateNumber, recordDate, carBrands, jobType, 
+    companyName, companyTel, jobTitle, graduateInstitutions, schoolProvince, schoolCity, 
+    schoolRegion, schoolAddress, urgenContactOne, relationOne, urgenPhoneOne, urgenContactTwo, 
+    relationTwo, urgenPhoneTwo, realFKMoney, receiversName, receiversBankAccount, receiversBankName, 
+    receiversBankProvince, receiversBankCity, receiversBankBranch, repaymentName, repaymentBankAccount, 
+    repaymentBankName, repaymentBankProvince, repaymentBankCity, repaymentBankBranch
+  </sql>
+  
+ <insert id="insertLoanInfo" parameterType="cn.sunfit.risk.buz.api.vo.p2p.excel.P2PImportExcelTemplateCYD" >
+  	INSERT INTO p2p_loan_info_cyd(<include refid="Base_Column_List_two" />) 
+  	VALUES
+  	<foreach collection="list" item="cydObj"
+			separator=",">
+			( #{cydObj.thirdloanid,jdbcType=VARCHAR}, #{cydObj.productcode,jdbcType=VARCHAR}, 
+      #{cydObj.productname,jdbcType=VARCHAR}, #{cydObj.loanwaytype,jdbcType=VARCHAR}, #{cydObj.loanpurpose,jdbcType=VARCHAR}, 
+      #{cydObj.repaytype,jdbcType=VARCHAR}, #{cydObj.loanperiod,jdbcType=VARCHAR}, #{cydObj.loanmoney,jdbcType=DECIMAL}, 
+      #{cydObj.pledgee,jdbcType=VARCHAR}, #{cydObj.consultingfee,jdbcType=DECIMAL}, #{cydObj.gpsinstallationfee,jdbcType=DECIMAL}, 
+      #{cydObj.customertype,jdbcType=VARCHAR}, #{cydObj.customername,jdbcType=VARCHAR}, #{cydObj.gender,jdbcType=VARCHAR}, 
+      #{cydObj.age,jdbcType=INTEGER}, #{cydObj.idcard,jdbcType=VARCHAR}, #{cydObj.residencehouseholdprovince,jdbcType=VARCHAR}, 
+      #{cydObj.residencehouseholdcity,jdbcType=VARCHAR}, #{cydObj.residencehouseholdregion,jdbcType=VARCHAR}, 
+      #{cydObj.residencehouseholdaddress,jdbcType=VARCHAR}, #{cydObj.marriage,jdbcType=VARCHAR}, #{cydObj.haschild,jdbcType=INTEGER}, 
+      #{cydObj.hightdegree,jdbcType=VARCHAR}, #{cydObj.mobilephoneone,jdbcType=VARCHAR}, #{cydObj.mobilephonetwo,jdbcType=VARCHAR}, 
+      #{cydObj.homephone,jdbcType=VARCHAR}, #{cydObj.qq,jdbcType=VARCHAR}, #{cydObj.mail,jdbcType=VARCHAR}, 
+      #{cydObj.wechat,jdbcType=VARCHAR}, #{cydObj.arrivedcitytime,jdbcType=VARCHAR}, #{cydObj.curhouseholdprovince,jdbcType=VARCHAR}, 
+      #{cydObj.curhouseholdcity,jdbcType=VARCHAR}, #{cydObj.curhouseholdregion,jdbcType=VARCHAR}, #{cydObj.curhouseholdaddress,jdbcType=VARCHAR}, 
+      #{cydObj.checkintime,jdbcType=VARCHAR}, #{cydObj.houseproperty,jdbcType=VARCHAR}, #{cydObj.zmcreditscore,jdbcType=INTEGER}, 
+      #{cydObj.householdprovince,jdbcType=VARCHAR}, #{cydObj.householdcity,jdbcType=VARCHAR}, #{cydObj.householdregion,jdbcType=VARCHAR}, 
+      #{cydObj.householdaddress,jdbcType=VARCHAR}, #{cydObj.buyingoption,jdbcType=VARCHAR}, #{cydObj.buyorbuilddate,jdbcType=VARCHAR}, 
+      #{cydObj.ownershipofproperty,jdbcType=VARCHAR}, #{cydObj.platenumber,jdbcType=VARCHAR}, #{cydObj.recorddate,jdbcType=VARCHAR}, 
+      #{cydObj.carbrands,jdbcType=VARCHAR}, #{cydObj.jobtype,jdbcType=VARCHAR}, #{cydObj.companyname,jdbcType=VARCHAR}, 
+      #{cydObj.companytel,jdbcType=VARCHAR}, #{cydObj.jobtitle,jdbcType=VARCHAR}, #{cydObj.graduateinstitutions,jdbcType=VARCHAR}, 
+      #{cydObj.schoolprovince,jdbcType=VARCHAR}, #{cydObj.schoolcity,jdbcType=VARCHAR}, #{cydObj.schoolregion,jdbcType=VARCHAR}, 
+      #{cydObj.schooladdress,jdbcType=VARCHAR}, #{cydObj.urgencontactone,jdbcType=VARCHAR}, #{cydObj.relationone,jdbcType=VARCHAR}, 
+      #{cydObj.urgenphoneone,jdbcType=VARCHAR}, #{cydObj.urgencontacttwo,jdbcType=VARCHAR}, #{cydObj.relationtwo,jdbcType=VARCHAR}, 
+      #{cydObj.urgenphonetwo,jdbcType=VARCHAR}, #{cydObj.realfkmoney,jdbcType=DECIMAL}, #{cydObj.receiversname,jdbcType=VARCHAR}, 
+      #{cydObj.receiversbankaccount,jdbcType=VARCHAR}, #{cydObj.receiversbankname,jdbcType=VARCHAR}, 
+      #{cydObj.receiversbankprovince,jdbcType=VARCHAR}, #{cydObj.receiversbankcity,jdbcType=VARCHAR}, 
+      #{cydObj.receiversbankbranch,jdbcType=VARCHAR}, #{cydObj.repaymentname,jdbcType=VARCHAR}, #{cydObj.repaymentbankaccount,jdbcType=VARCHAR}, 
+      #{cydObj.repaymentbankname,jdbcType=VARCHAR}, #{cydObj.repaymentbankprovince,jdbcType=VARCHAR}, 
+      #{cydObj.repaymentbankcity,jdbcType=VARCHAR}, #{cydObj.repaymentbankbranch,jdbcType=VARCHAR})
+	</foreach>
+  </insert>
+  
+  
+  
+</mapper>

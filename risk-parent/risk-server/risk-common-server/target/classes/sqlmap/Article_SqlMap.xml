@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.corp.ArticleDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.corp.Article" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="art_info" property="artInfo" jdbcType="VARCHAR" />
+    <result column="art_writer" property="artWriter" jdbcType="VARCHAR" />
+    <result column="art_time" property="artTime" jdbcType="TIMESTAMP" />
+    <result column="type_id" property="typeId" jdbcType="VARCHAR" />
+    <result column="art_img" property="artImg" jdbcType="VARCHAR" />
+    <result column="is_hot" property="isHot" jdbcType="BIT" />
+    <result column="view_count" property="viewCount" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="art_reviewer" property="artReviewer" jdbcType="VARCHAR" />
+    <result column="review_time" property="reviewTime" jdbcType="TIMESTAMP" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.sunfit.risk.buz.api.beans.corp.Article" extends="BaseResultMap" >
+    <result column="art_content" property="artContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <resultMap id="ArticleQueryMap" type="cn.sunfit.risk.buz.api.vo.corp.ArticleQueryDTO" extends="BaseResultMap" >
+  	<result column="art_writer_name" property="artWriterName" jdbcType="VARCHAR" />
+  	<result column="art_reviewer_name" property="artReviewerName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, corp_id, title, art_info, art_writer, art_time, type_id, art_img, is_hot, view_count, art_reviewer,review_time
+    status
+  </sql>
+  <sql id="Blob_Column_List" >
+    art_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from risk_article
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.corp.Article" >
+    insert into risk_article (id, corp_id, title, 
+      art_info, art_writer, art_time, 
+      type_id, art_img, is_hot, 
+      view_count, status, art_content
+      )
+    values (#{id,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{artInfo,jdbcType=VARCHAR}, #{artWriter,jdbcType=VARCHAR}, #{artTime,jdbcType=TIMESTAMP}, 
+      #{typeId,jdbcType=VARCHAR}, #{artImg,jdbcType=VARCHAR}, #{isHot,jdbcType=BIT}, 
+      #{viewCount,jdbcType=INTEGER}, #{status,jdbcType=BIT}, #{artContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.sunfit.risk.buz.api.beans.corp.Article" >
+    update risk_article
+    set corp_id = #{corpId,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      art_info = #{artInfo,jdbcType=VARCHAR},
+      art_writer = #{artWriter,jdbcType=VARCHAR},
+      art_time = #{artTime,jdbcType=TIMESTAMP},
+      type_id = #{typeId,jdbcType=VARCHAR},
+      art_img = #{artImg,jdbcType=VARCHAR},
+      is_hot = #{isHot,jdbcType=BIT},
+      view_count = #{viewCount,jdbcType=INTEGER},
+      status = #{status,jdbcType=BIT},
+      art_content = #{artContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.corp.Article" >
+    update risk_article
+    set corp_id = #{corpId,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      art_info = #{artInfo,jdbcType=VARCHAR},
+      art_writer = #{artWriter,jdbcType=VARCHAR},
+      art_time = #{artTime,jdbcType=TIMESTAMP},
+      type_id = #{typeId,jdbcType=VARCHAR},
+      art_img = #{artImg,jdbcType=VARCHAR},
+      is_hot = #{isHot,jdbcType=BIT},
+      view_count = #{viewCount,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="reviewCorpNoticeStatus" parameterType="cn.sunfit.risk.buz.api.beans.corp.Article">
+  	update risk_article
+    set 
+      art_reviewer = #{artReviewer,jdbcType=VARCHAR},
+      review_time = #{reviewTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <delete id="deleteByPrimaryKey">
+  	delete from risk_article
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="changeCorpNoticeStatus">
+  	update risk_article
+    set 
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateCorpNotice" parameterType="cn.sunfit.risk.buz.api.beans.corp.Article" >
+    update risk_article
+    set 
+      art_content = #{artContent,jdbcType=LONGVARCHAR},
+      type_id = #{typeId,jdbcType=VARCHAR},
+      art_writer = #{artWriter,jdbcType=VARCHAR},
+      art_time = #{artTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="queryNoticeList" resultMap="ArticleQueryMap">
+  	select
+  	a.id, a.corp_id, a.title, a.art_info, a.art_writer, a.art_time, a.type_id, a.art_img, a.is_hot, a.view_count, 
+  	a.art_reviewer,a.review_time,a.status ,a.art_content ,cu1.user_name art_writer_name ,cu2.user_name art_reviewer_name,rc.type_name
+    from risk_article a
+    left join risk_corp_user cu1 on cu1.id = a.art_writer
+    left join risk_corp_user cu2 on cu2.id = a.art_reviewer
+    left join risk_article_category rc on a.type_id = rc.id
+    where 
+    a.corp_id = #{article.corpId,jdbcType=VARCHAR}
+    <if test="article.artContent != null and article.artContent !=''">
+    	and a.art_content like concat('%',#{article.artContent,jdbcType=VARCHAR},'%')
+    </if>
+	<if test="typeIdList != null">
+    and a.type_id in
+	    <foreach collection="typeIdList" item="typeId" open="(" separator="," close=")"  index="index">
+	    	${typeId}
+	    </foreach>
+	</if>    
+	<if test="article.startTime != null and article.endTime !=null ">
+    	and a.art_time between #{article.startTime,jdbcType=TIMESTAMP} and #{article.endTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="article.artWriter != null and article.artWriter !=''">
+    	and cu1.user_name like concat('%',#{article.artWriter,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="article.status != null and article.status != '' ">
+    	and a.status = #{article.status,jdbcType=VARCHAR}
+    </if>
+    order by a.art_time desc
+  </select>
+  <select id="selectArticleCategory" parameterType="java.lang.String" resultType="cn.sunfit.risk.buz.api.vo.corp.ArticleCategory">
+  	select id as typeId,type_name as typeTitle from risk_article_category where parent_id=#{parentId}
+  </select>
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.metadata.BPMetaDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.metadata.BPMeta" >
+    <id column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="product_key" property="productKey" jdbcType="VARCHAR" />
+    <result column="bp_def_key" property="bpDefKey" jdbcType="VARCHAR" />
+    <result column="engine_def_id" property="engineDefId" jdbcType="VARCHAR" />
+    <result column="bp_name" property="bpName" jdbcType="VARCHAR" />
+    <result column="bp_desc" property="bpDesc" jdbcType="VARCHAR" />
+    <result column="bp_no_rule" property="bpNoRule" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="bind_clazz" property="bindClazz" jdbcType="VARCHAR" />
+    <result column="loan_type" property="loanType" jdbcType="TINYINT" />
+    <result column="latest" property="latest" jdbcType="TINYINT" />
+    <result column="loan_ext_table" property="loanExtTable" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.sunfit.risk.buz.api.beans.metadata.BPMeta" extends="BaseResultMap" >
+    <result column="bpmn_xml" property="bpmnXml" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <resultMap type="cn.sunfit.risk.buz.api.vo.solution.BpMetaCorpProductVO" id="MetaProductCorpMap" extends="BaseResultMap">
+  <result column="product_name" property="productName" jdbcType="VARCHAR" />
+  <result column="product_type" property="productType" jdbcType="VARCHAR" />
+  <result column="corp_name" property="corpName" jdbcType="VARCHAR" />
+   <result column="medium" property="medium" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    bp_def_id, corp_id, product_key,bp_def_key, engine_def_id, bp_name, bp_desc, bp_no_rule, version, create_user_id, 
+    create_time, update_time, bind_clazz, loan_type, loan_ext_table,latest
+  </sql>
+  <sql id="Blob_Column_List" >
+    bpmn_xml
+  </sql>
+  <sql id="Base_Column_List_M">
+      m.bp_def_id, m.corp_id, m.product_key,m.bp_def_key, m.engine_def_id, m.bp_name, m.bp_desc, m.bp_no_rule, m.version, m.create_user_id, 
+    m.create_time, m.update_time, m.bind_clazz, m.loan_type, m.loan_ext_table,m.latest
+  </sql>
+  <select id="findById" resultMap="ResultMapWithBLOBs" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ${domain}_bp_meta
+    where bp_def_id = #{bpDefId, jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.metadata.BPMeta" >
+    update ${domain}_bp_meta
+    set corp_id = #{corpId,jdbcType=VARCHAR},
+      product_key = #{productKey,jdbcType=VARCHAR},
+      bp_def_key =  #{bpDefKey,jdbcType=VARCHAR},
+      bp_name = #{bpName,jdbcType=VARCHAR},
+      engine_def_id = #{engineDefId,jdbcType=VARCHAR},
+      bp_desc = #{bpDesc,jdbcType=VARCHAR},
+      bp_no_rule = #{bpNoRule,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      bind_clazz = #{bindClazz,jdbcType=VARCHAR},
+      loan_type = #{loanType,jdbcType=TINYINT},
+      loan_ext_table = #{loanExtTable,jdbcType=VARCHAR},
+      latest=#{latest,jdbcType=TINYINT}
+    where bp_def_id = #{bpDefId,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="selectBPMetaCorpProduct" resultMap="MetaProductCorpMap" parameterType="cn.sunfit.risk.buz.api.vo.solution.BpMetaQueryReq">
+    select 
+    <include refid="Base_Column_List_M" />,p.product_type,c.corp_name,p.product_name 
+    from ${domain}_bp_meta m left join risk_product p on m.product_key=p.id left join risk_corp c on m.corp_id = c.id
+    where 1=1 
+    <if test="productId !=null and productId !=''">and product_key=#{productId} </if>
+    <if test="lastest">and m.latest=1 </if>
+  </select>
+  <update id="updateLastest" parameterType="cn.sunfit.risk.buz.api.beans.metadata.BPMeta">
+    update ${domain}_bp_meta set latest=0 where bp_def_key=#{bpDefKey} and product_key=#{productKey}
+  </update>
+    
+   <select id="selectMetaByProduct" resultMap="MetaProductCorpMap" parameterType="cn.sunfit.risk.buz.api.vo.solution.BpMetaQueryReq">
+    select 
+    <include refid="Base_Column_List_M" />,p.product_type,c.corp_name,p.product_name,p.medium 
+    from ${domain}_bp_meta m left join risk_product p on m.product_key=p.id left join risk_corp c on m.corp_id = c.id
+    where 1=1 
+    and m.product_key=#{productId}  
+     and m.latest=1 
+     and p.product_type=m.loan_type
+  </select>
+</mapper>

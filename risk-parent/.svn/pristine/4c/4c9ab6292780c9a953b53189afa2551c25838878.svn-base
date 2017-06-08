@@ -1,0 +1,742 @@
+package cn.sunfit.risk.buz.server.service.p2p.activiti;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.activiti.engine.ActivitiTaskAlreadyClaimedException;
+import org.activiti.engine.FormService;
+import org.activiti.engine.HistoryService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import orj.worf.util.JsonUtils;
+import cn.sunfit.risk.buz.api.beans.corp.CorpDept;
+import cn.sunfit.risk.buz.api.beans.metadata.form.LayoutInfo;
+import cn.sunfit.risk.buz.api.beans.metadata.rule.CheckRuleInfo;
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.BP;
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.BPAttr;
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.BPBigAttr;
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.BPMeta;
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.BPMetaField;
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.BPMetaForm;
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.BPMetaOperation;
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.BPOperLog;
+import cn.sunfit.risk.buz.api.constants.BpStatus;
+import cn.sunfit.risk.buz.api.constants.OperationType;
+import cn.sunfit.risk.buz.api.constants.form.FormModelType;
+import cn.sunfit.risk.buz.api.exception.ServiceException;
+import cn.sunfit.risk.buz.api.service.corp.CorpDataRoleService;
+import cn.sunfit.risk.buz.api.service.p2p.activiti.AssignService;
+import cn.sunfit.risk.buz.api.service.p2p.activiti.OperLogService;
+import cn.sunfit.risk.buz.api.service.p2p.activiti.SuperFormService;
+import cn.sunfit.risk.buz.api.utils.IdUtil;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.Attr;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.BpMetaNodeVO;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.FormData;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.ModifyField;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.Opera;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.cmd.ProcessHandleHelper;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.cmd.ProcessNextCmd;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.cmd.ProcessStartCmd;
+import cn.sunfit.risk.buz.server.dao.corp.CorpDeptDAO;
+import cn.sunfit.risk.buz.server.dao.p2p.activiti.BPAttrDAO;
+import cn.sunfit.risk.buz.server.dao.p2p.activiti.BPBigAttrDAO;
+import cn.sunfit.risk.buz.server.dao.p2p.activiti.BPDAO;
+import cn.sunfit.risk.buz.server.dao.p2p.activiti.BPMetaDAO;
+import cn.sunfit.risk.buz.server.dao.p2p.activiti.BPMetaFieldDAO;
+import cn.sunfit.risk.buz.server.dao.p2p.activiti.BPMetaFormDAO;
+import cn.sunfit.risk.buz.server.dao.p2p.activiti.BPMetaNodeDAO;
+import cn.sunfit.risk.buz.server.dao.p2p.activiti.BPMetaOperationDAO;
+import cn.sunfit.risk.buz.server.dao.p2p.excel.ImportExcelTemplateDao;
+import cn.sunfit.risk.buz.server.dao.p2p.product.P2PProductDAO;
+import cn.sunfit.risk.buz.server.service.p2p.product.form.ProductFormFactory;
+import cn.sunfit.risk.buz.server.util.p2p.CmdUtil;
+import cn.sunfit.risk.buz.server.util.p2p.OperLogUtil;
+import cn.sunfit.risk.buz.server.util.p2p.SolutionUtil;
+
+@Service("risk.p2p.superFormService")
+public class SuperFormServiceImpl implements SuperFormService {
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Autowired
+    BPMetaFieldDAO bpMetaFieldDAO;
+    @Autowired
+    BPMetaOperationDAO bpMetaOperationDAO;
+    @Autowired
+    BPMetaFormDAO bpMetaFormDAO;
+    @Autowired
+    BPMetaDAO bpMetaDAO;
+    @Autowired
+    BPMetaNodeDAO bpMetaNodeDAO;
+    @Autowired
+    private RuntimeService runtimeService;
+    @Autowired
+    private HistoryService historyService;
+    @Autowired
+    private TaskService taskService;
+    @Autowired
+    private P2PProductDAO productDAO;
+
+    @Autowired
+    private BPDAO bpdao;
+
+    @Autowired
+    private OperLogService operLogService;
+    @Autowired
+    private SpecialTaskService specialTaskService;
+    @Autowired
+    private CorpDataRoleService corpDataRoleService;
+    @Autowired
+    private CorpDeptDAO corpDeptDAO;
+    @Autowired
+    private FormService formService;
+
+    @Autowired
+    private AssignService assignService;
+    @Autowired
+    BPAttrDAO bpAttrDAO;
+
+    @Autowired
+    BPBigAttrDAO bpBigAttrDAO;
+    @Autowired
+    private ImportExcelTemplateDao importExcelTemplateDao;
+    @Autowired
+    private ProductFormFactory productFormFactory;
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Override
+    public void editFormData(FormQuery req, Map<String, String> formdata) throws ServiceException {
+        // 提交任务
+        List<ModifyField> modifyFields = null;
+        BP bp = bpdao.findById(req.getCorpId(), req.getDomain(), req.getBpId());
+        modifyFields = this.modifyBpsLoanAttr(req, formdata, bp);
+        BPOperLog log = OperLogUtil.createEditLog(req, bp, formdata, modifyFields);
+        operLogService.insert(log);
+    }
+
+    @Override
+    public void editFormDataDraft(FormQuery req, Map<String, String> formdata) {
+        List<ModifyField> modifys = new ArrayList<ModifyField>();
+        BP bp = bpdao.findById(req.getCorpId(), req.getDomain(), req.getBpId());
+        List<BPMetaField> fileds = bpMetaFieldDAO.findFieldKey(req);
+        // 修改attr的日志值
+        List<BPAttr> attrs = new ArrayList<BPAttr>();
+        List<BPBigAttr> bigattrs = new ArrayList<BPBigAttr>();
+        Map<String, String> fieldMap = new HashMap<String, String>();
+        for (BPMetaField f : fileds) {
+            fieldMap.put(f.getFieldKey(), f.getFieldName());
+            if (StringUtils.equals(f.getFieldTable(), SolutionUtil.ATTR_TYPE)) {
+                String oldValue = bpAttrDAO.selectValueByNameBpId(new BPAttr(null, null, req.getBpId(),
+                        f.getFieldKey(), formdata.get(f.getFieldKey()), null, null, req.getDomain()));
+                if (formdata.get(f.getFieldKey()) == null
+                        || StringUtils.equals(oldValue, formdata.get(f.getFieldKey()))) {
+                    continue;
+                } else {
+                    attrs.add(new BPAttr(null, null, req.getBpId(), f.getFieldKey(), formdata.get(f.getFieldKey()),
+                            null, null, req.getDomain()));
+                }
+
+            } else if (StringUtils.equals(f.getFieldTable(), SolutionUtil.ATTR_TYPE_BIG)) {
+                String oldValue = bpBigAttrDAO.selectValueByNameBpId(new BPBigAttr(null, null, req.getBpId(), f
+                        .getFieldKey(), formdata.get(f.getFieldKey()), null, null, req.getDomain()));
+                if (formdata.get(f.getFieldKey()) == null
+                        || StringUtils.equals(oldValue, formdata.get(f.getFieldKey()))) {
+                    continue;
+                } else {
+                    bigattrs.add(new BPBigAttr(null, null, req.getBpId(), f.getFieldKey(),
+                            formdata.get(f.getFieldKey()), null, null, req.getDomain()));
+                }
+            }
+        }
+        // 一次性查询出本次传递值的原value然后对比
+        if (!attrs.isEmpty()) {
+            List<BPAttr> oldvalues = bpAttrDAO.selectBatch(attrs, req.getBpId(), req.getDomain());
+            if (!oldvalues.isEmpty()) {
+                for (BPAttr bpAttr : oldvalues) {
+                    if (StringUtils.equals(bpAttr.getAttrValue(), formdata.get(bpAttr.getAttrName()))) {
+                        continue;
+                    } else {
+                        modifys.add(new ModifyField(fieldMap.get(bpAttr.getAttrName()), bpAttr.getAttrValue(), formdata
+                                .get(bpAttr.getAttrName())));
+                        BPAttr tmp = new BPAttr();
+                        BeanUtils.copyProperties(bpAttr, tmp);
+                        tmp.setDraftValue(formdata.get(bpAttr.getAttrName()));
+                        tmp.setDomain(req.getDomain());
+                        bpAttrDAO.updateDraftByNameBpId(tmp);
+                    }
+                }
+            }
+        }
+        if (!bigattrs.isEmpty()) {
+            List<BPBigAttr> oldbigvalues = bpBigAttrDAO.selectBatch(bigattrs, req.getBpId(), req.getDomain());
+            if (!oldbigvalues.isEmpty()) {
+                for (BPBigAttr bpBigAttr : oldbigvalues) {
+                    if (StringUtils.equals(bpBigAttr.getAttrValue(), formdata.get(bpBigAttr.getAttrName()))) {
+                        continue;
+                    } else {
+                        modifys.add(new ModifyField(fieldMap.get(bpBigAttr.getAttrName()), null, null));
+                        BPBigAttr tmp = new BPBigAttr();
+                        BeanUtils.copyProperties(bpBigAttr, tmp);
+                        tmp.setDraftValue(formdata.get(bpBigAttr.getAttrName()));
+                        tmp.setDomain(req.getDomain());
+                        bpBigAttrDAO.updateDraftByNameBpId(tmp);
+                    }
+                }
+            }
+        }
+        // 记录日志
+        BPOperLog log = OperLogUtil.createDraftLog(req, bp, formdata, modifys);
+        operLogService.insert(log);
+    }
+
+    private Map<String, Attr> getAttrs(FormQuery req) {
+        if (FormModelType.isHandle(req.getModel())) {
+            // if (StringUtils.isBlank(req.getTaskId())) {
+            // return null;
+            // }
+        }
+        Map<String, Attr> r = new HashMap<String, Attr>();
+        List<BPAttr> attrs = bpAttrDAO.findByBP(req);
+        List<BPBigAttr> bigAttrs = bpBigAttrDAO.findByBP(req);
+        attrs.addAll(bigAttrs);
+        // 将loaninfo的信息放入map
+        // productFormFactory.getHandler(req.getProductId()).loaninfo2Attr(req, attrs);
+        for (BPAttr attr : attrs) {
+            r.put(attr.getAttrName(), new Attr(attr.getAttrName(), attr.getAttrValue(), attr.getDraftValue()));
+        }
+        if (StringUtils.isBlank(req.getBpId())) {
+            return null;
+        } else {
+            return r;
+        }
+    }
+
+    private Map<String, List<CheckRuleInfo>> getFieldCheckRule(FormQuery req) {
+        Map<String, List<CheckRuleInfo>> m = new HashMap<String, List<CheckRuleInfo>>();
+        List<BPMetaField> fileds = bpMetaFieldDAO.findFieldKey(req);
+        for (BPMetaField f : fileds) {
+            if (StringUtils.isNotBlank(f.getCheckRule())) {
+                List<CheckRuleInfo> list = JsonUtils.parseJSON(f.getCheckRule(), List.class, CheckRuleInfo.class);
+                if (list != null && !list.isEmpty()) {
+                    for (CheckRuleInfo cf : list) {
+                        cf.setFieldName(f.getFieldName());
+                    }
+                }
+
+                m.put(f.getFieldKey(), list);
+            } else {
+                m.put(f.getFieldKey(), new ArrayList<CheckRuleInfo>());
+            }
+        }
+        return m;
+    }
+
+    private BPMetaForm getMetaForm(FormQuery req, Task task) {
+        BPMetaForm form;
+        if (FormModelType.isHandle(req.getModel())) {
+            if (StringUtils.isBlank(req.getTaskId())) {
+                form = bpMetaFormDAO.selectStartFormByBpDefId(req);
+            } else {
+                form = bpMetaFormDAO.selectTaskFormByBpDefIdTaskKey(req, task.getTaskDefinitionKey());
+            }
+        } else if (FormModelType.isView(req.getModel())) {
+            form = bpMetaFormDAO.selectViewFormByBpDefId(req);
+        } else if (FormModelType.isEdit(req.getModel())) {
+            form = bpMetaFormDAO.selectEditFormByBpDefId(req);
+        } else {
+            throw new ServiceException("获取表单配置失败");
+        }
+        if (form == null) {
+            throw new ServiceException("获取表单配置失败");
+        }
+        return form;
+    }
+
+    private List<Opera> getOperations(FormQuery req, Task task) {
+        List<BPMetaOperation> operations;
+        List<Opera> r = new ArrayList<Opera>();
+        if (StringUtils.isBlank(req.getTaskId())) {
+            operations = bpMetaOperationDAO.selectStartOperation(req.getCorpId(), req.getDomain(), req.getBpDefId());
+        } else {
+            operations = bpMetaOperationDAO.selectNodeOperation(req.getCorpId(), req.getDomain(), req.getBpDefId(),
+                    task.getTaskDefinitionKey());
+        }
+        SolutionUtil.operations2Opers(operations, r);
+        return r;
+    }
+
+    private Map<String, String> getSubmitFormData(Map<String, String> formdata) {
+        Map<String, String> submitformdata = new HashMap<String, String>();
+        submitformdata.put("operation", formdata.get("operation"));
+        submitformdata.put("oper_type", formdata.get("oper_type"));
+        submitformdata.put("reason", formdata.get("reason"));
+        submitformdata.put("formdata", JsonUtils.toJSON(formdata));
+        submitformdata.put("to_node", formdata.get("to_node") == null ? "" : formdata.get("to_node"));
+        return submitformdata;
+    }
+
+    private void isEnd(FormQuery req, BP bp, BPMetaOperation operationshas) {
+        ProcessInstance rpi = runtimeService.createProcessInstanceQuery().processInstanceId(bp.getEngineKey())
+                .singleResult();
+        if (rpi == null) {
+            List<HistoricActivityInstance> hai = historyService.createHistoricActivityInstanceQuery()
+                    .activityTenantId(req.getCorpId()).processInstanceId(bp.getEngineKey()).activityType("endEvent")
+                    .finished().orderByHistoricActivityInstanceEndTime().desc().list();
+            if (hai == null || hai.isEmpty()) {
+                throw new ServiceException("流程未结束");
+            } else {
+
+                SolutionUtil.bpFillTaskIdKeyEnd(hai.get(0), bp);
+                if (operationshas != null
+                        && OperationType.REJECT.getStatus().equals(String.valueOf(operationshas.getOperType()))) {
+                    bp.setBpStatus(BpStatus.LOAN_REFUSE.getStatus());
+                } else {
+                    bp.setBpStatus(BpStatus.LOAN_ING.getStatus());
+                }
+            }
+        }
+
+    }
+
+    private List<ModifyField> modifyBpsLoanAttr(FormQuery req, Map<String, String> formdata, BP bp) {
+
+        List<ModifyField> modifys = new ArrayList<ModifyField>();
+        bp.setDomain(req.getDomain());
+        // 把值更新到横表
+        // TODO 还没决定好怎么写 可能会把横表的值全部转换成String 或者 横表相对固定 直接写死
+        productFormFactory.getHandler(req.getProductId()).updateLoan(req, formdata);
+        // 更新attr
+        List<BPMetaField> fileds = bpMetaFieldDAO.findFieldKey(req);
+        // 修改attr的日志值
+        bpAttrDAO.clearDraftValueByBpId(new BPAttr(null, null, req.getBpId(), null, null, null, null, req.getDomain()));
+        bpBigAttrDAO.clearDraftValueByBpId(new BPBigAttr(null, null, req.getBpId(), null, null, null, null, req
+                .getDomain()));
+        List<BPAttr> attrs = new ArrayList<BPAttr>();
+        List<BPBigAttr> bigattrs = new ArrayList<BPBigAttr>();
+        Map<String, String> fieldMap = new HashMap<String, String>();
+        for (BPMetaField f : fileds) {
+            fieldMap.put(f.getFieldKey(), f.getFieldName());
+            if (StringUtils.equals(f.getFieldTable(), SolutionUtil.ATTR_TYPE)) {
+                if (formdata.get(f.getFieldKey()) == null) {
+                    continue;
+                } else {
+                    attrs.add(new BPAttr(null, null, req.getBpId(), f.getFieldKey(), formdata.get(f.getFieldKey()),
+                            null, null, req.getDomain()));
+                }
+            } else if (StringUtils.equals(f.getFieldTable(), SolutionUtil.ATTR_TYPE_BIG)) {
+                if (formdata.get(f.getFieldKey()) == null) {
+                    continue;
+                } else {
+                    bigattrs.add(new BPBigAttr(null, null, req.getBpId(), f.getFieldKey(),
+                            formdata.get(f.getFieldKey()), null, null, req.getDomain()));
+                }
+            }
+        }
+        // 一次性查询出本次传递值的原value然后对比
+        if (!attrs.isEmpty()) {
+            List<BPAttr> oldvalues = bpAttrDAO.selectBatch(attrs, req.getBpId(), req.getDomain());
+            if (!oldvalues.isEmpty()) {
+                for (BPAttr bpAttr : oldvalues) {
+                    if (StringUtils.equals(bpAttr.getAttrValue(), formdata.get(bpAttr.getAttrName()))) {
+                        continue;
+                    } else {
+                        modifys.add(new ModifyField(fieldMap.get(bpAttr.getAttrName()), bpAttr.getAttrValue(), formdata
+                                .get(bpAttr.getAttrName())));
+                        BPAttr tmp = new BPAttr();
+                        BeanUtils.copyProperties(bpAttr, tmp);
+                        tmp.setAttrValue(formdata.get(bpAttr.getAttrName()));
+                        tmp.setDomain(req.getDomain());
+                        bpAttrDAO.updateValueByNameBpId(tmp);
+                    }
+                }
+            }
+
+        }
+        if (!bigattrs.isEmpty()) {
+            List<BPBigAttr> oldbigvalues = bpBigAttrDAO.selectBatch(bigattrs, req.getBpId(), req.getDomain());
+            if (!oldbigvalues.isEmpty()) {
+                for (BPBigAttr bpBigAttr : oldbigvalues) {
+                    if (StringUtils.equals(bpBigAttr.getAttrValue(), formdata.get(bpBigAttr.getAttrName()))) {
+                        continue;
+                    } else {
+                        modifys.add(new ModifyField(fieldMap.get(bpBigAttr.getAttrName()), null, null));
+                        BPBigAttr tmp = new BPBigAttr();
+                        BeanUtils.copyProperties(bpBigAttr, tmp);
+                        tmp.setAttrValue(formdata.get(bpBigAttr.getAttrName()));
+                        tmp.setDomain(req.getDomain());
+                        bpBigAttrDAO.updateValueByNameBpId(tmp);
+                    }
+                }
+            }
+        }
+        bpdao.update(bp);
+        return modifys;
+    }
+
+    @Override
+    public FormData queryNodeFormData(FormQuery req) throws ServiceException {
+        FormData fd = new FormData();
+        Task task = null;
+        if (StringUtils.isNotBlank(req.getTaskId())) {
+            task = taskService.createTaskQuery().processDefinitionKey(req.getBpDefKey())
+                    .taskCandidateOrAssigned(req.getUserId()).taskId(req.getTaskId()).singleResult();
+            if (task == null) {
+                throw new ServiceException("该任务您无权受理");
+            }
+        }
+        BPMetaForm form = getMetaForm(req, task);
+        // 查询表单，封装
+        fd.setLayoutInfo(JsonUtils.parseJSON(form.getLayout(), LayoutInfo.class));
+        // 查询字段
+        Map<String, List<CheckRuleInfo>> checkrules = getFieldCheckRule(req);
+        SolutionUtil.joinCheckRuleFieldForm(checkrules, form.getCheckRules());
+        fd.setCheckrules(checkrules);
+        // 查询值
+        Map<String, Attr> attrs = getAttrs(req);
+        fd.setAttrs(attrs);
+        // 设置默认hidden的表单
+        Map<String, String> defaultHidden = SolutionUtil.createDefaultHidden(req);
+        fd.setDefaultHidden(defaultHidden);
+        fd.setOperations(getOperations(req, task));
+        return fd;
+    }
+
+    @Override
+    public FormData queryNodeFormData4Edit(FormQuery req) {
+        FormData fd = new FormData();
+        BPMetaForm form = getMetaForm(req, null);
+        // 查询表单，封装
+        fd.setLayoutInfo(JsonUtils.parseJSON(form.getLayout(), LayoutInfo.class));
+        // 查询字段
+        Map<String, List<CheckRuleInfo>> checkrules = getFieldCheckRule(req);
+        SolutionUtil.joinCheckRuleFieldForm(checkrules, form.getCheckRules());
+        fd.setCheckrules(checkrules);
+        // 查询值
+        Map<String, Attr> attrs = getAttrs(req);
+        fd.setAttrs(attrs);
+        // 设置默认hidden的表单
+        Map<String, String> defaultHidden = SolutionUtil.createDefaultHidden(req);
+        fd.setDefaultHidden(defaultHidden);
+        BPOperLog log = OperLogUtil.createViewLog(req);
+        operLogService.insert(log);
+        return fd;
+    }
+
+    @Override
+    public FormData queryNodeFormData4View(FormQuery req) {
+        FormData fd = new FormData();
+        BPMetaForm form = getMetaForm(req, null);
+        // 查询表单，封装
+        fd.setLayoutInfo(JsonUtils.parseJSON(form.getLayout(), LayoutInfo.class));
+        Map<String, Attr> attrs = getAttrs(req);
+        fd.setAttrs(attrs);
+        // 设置默认hidden的表单
+        Map<String, String> defaultHidden = SolutionUtil.createDefaultHidden(req);
+        fd.setDefaultHidden(defaultHidden);
+        BPOperLog log = OperLogUtil.createViewLog(req);
+        operLogService.insert(log);
+        return fd;
+    }
+
+    private BP saveBpsLoanAttr(FormQuery req, Map<String, String> formdata) {
+        // 创建BPS
+        BP bp = new BP();
+        bp.setBpDefId(req.getBpDefId());
+        bp.setBpId(req.getBpId());
+        bp.setBpNo(IdUtil.generateBPNo(req.getProductId()));
+        bp.setBpStatus(BpStatus.LOAN_BEFORE.getStatus());
+        bp.setCorpId(req.getCorpId());
+        bp.setCreateTime(new Date());
+        bp.setCreateUserId(req.getUserId());
+        bp.setProductType(req.getProductId());
+        bp.setUpdateTime(new Date());
+        bp.setDomain(req.getDomain());
+        // if (StringUtils.isBlank(req.getChannel())) {
+        // bp.setChannel(LoanChannel.LEDAI.getStatus());
+        // } else {
+        // bp.setChannel(req.getChannel());
+        // }
+        // bp.setFeeConfig(productDAO.selectFeeConfig(bp.getProductType()));
+        bpdao.insertBp(bp);
+        req.setBpId(bp.getBpId());
+        // 创建loan
+        // BPLoan loan = new BPLoan(bp.getCorpId(), bp.getBpId());
+        // loan.setCustomerId(req.getCustomerId());
+        // productFormFactory.getHandler(req.getProductId()).fillLoan(loan, formdata);
+        // loan.setDomain(req.getDomain());
+        // bpLoanDAO.insertLoan(loan);
+        // productFormFactory.getHandler(req.getProductId()).hasLoan(req, loan);
+        // 放入ATTR
+        List<BPMetaField> fileds = bpMetaFieldDAO.findFieldKey(req);
+        List<BPAttr> attrs = new ArrayList<BPAttr>();
+        List<BPBigAttr> bigattrs = new ArrayList<BPBigAttr>();
+        // 把所有的field先插入到attr和bigattr里
+        // SolutionUtil.translateFormdata2Attr(attrs, bigattrs, fileds, req, formdata);
+        for (BPAttr attr : attrs) {
+            bpAttrDAO.insertAttr(attr);
+        }
+        for (BPBigAttr attr : bigattrs) {
+            bpBigAttrDAO.insertBigAttr(attr);
+        }
+        return bp;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, timeout = 30)
+    public void saveDraft(FormQuery req, Map<String, String> formdata) throws ServiceException {
+        try {
+            if (StringUtils.isBlank(req.getTaskId())) {
+                ProcessStartCmd cmd = CmdUtil.createStartCmd(req, formdata);
+                // 开始节点，推进节点，
+                this.submitStartForm(req, formdata, cmd, true);
+            } else {
+                if (StringUtils.isBlank(req.getBpId())) {
+                    throw new ServiceException("数据异常");
+                }
+                // 不是开始节点，不推进流程，不记录操作日志，更新草稿值
+                this.saveTaskDraft(req, formdata);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("保存草稿出错" + e.getMessage());
+            throw e;
+        } finally {
+            ProcessHandleHelper.clearProcessCmd();
+            ProcessHandleHelper.clearBackPath();
+        }
+    }
+
+    private void saveTaskDraft(FormQuery req, Map<String, String> formdata) throws ServiceException {
+        // 更新bpattr的值
+        // 根据TASKID 获得task的key，这样才能拿到表单
+        Task task = taskService.createTaskQuery().processDefinitionKey(req.getBpDefKey())
+                .taskCandidateOrAssigned(req.getUserId()).taskId(req.getTaskId()).singleResult();
+        if (task == null) {
+            throw new ServiceException("该任务您无权受理");
+        } else {
+            this.editFormDataDraft(req, formdata);
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, timeout = 30)
+    public BP submit(FormQuery req, Map<String, String> formdata) throws ServiceException {
+        try {
+            if (StringUtils.isBlank(req.getTaskId())) {
+                ProcessStartCmd cmd = CmdUtil.createStartCmd(req, formdata);
+                BP m = this.submitStartForm(req, formdata, cmd, false);
+                return m;
+            } else {
+                ProcessNextCmd cmd = CmdUtil.createNextCmd(req, formdata);
+                // 验证是否有权限操作
+                this.submitTask(req, formdata, cmd);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("提交出错" + e.getMessage());
+            throw e;
+        } finally {
+            ProcessHandleHelper.clearProcessCmd();
+            ProcessHandleHelper.clearBackPath();
+        }
+        return null;
+    }
+
+    /**
+     * @param draft 
+     * 
+     * @Title: submitStartForm
+     * @Description: 提交开始表单
+     * @param @param req
+     * @param @param formdata   
+     * @return void 
+     * @author XFL 2017年1月14日 
+     * @throws
+     */
+    private BP submitStartForm(FormQuery req, Map<String, String> formdata, ProcessStartCmd cmd, boolean draft) {
+        // 需要创建bps，loan，ATTR等
+        BP bp = bpdao.findById(req.getCorpId(), req.getDomain(), req.getBpId());
+        boolean isold = false;
+        List<ModifyField> modifyFields = null;
+        if (bp == null) {
+            bp = saveBpsLoanAttr(req, formdata);
+        } else {
+            isold = true;
+            // BPLoan loan = bpLoanDAO.selectByBp(req);
+            // 恢复的单子，直接查出来就行了。因为他的值已经拷贝好了
+            // modifyFields = this.modifyBpsLoanAttr(req, formdata, bp, loan);
+            // bp = bpdao.findById(req.getCorpId(), req.getDomain(), req.getBpId());
+        }
+        validateFlowConfig(req, bp);
+        BPMeta bpMeta = bpMetaDAO.findById(req.getCorpId(), req.getDomain(), req.getBpDefId());
+        // 修改完毕后，提交activiti
+        String buzKey = BPUtils.toBusinessKey(req.getCorpId(), bpMeta.getBpDefKey(), bpMeta.getVersion().split(":")[0],
+                bp.getBpId(), bpMeta.getBpDefId());
+        // 操作。
+        // 查询节点的所有operation，如果存在operation在提交的时候 放到里面
+        List<BPMetaOperation> operations = bpMetaOperationDAO.selectStartOperation(req.getCorpId(), req.getDomain(),
+                bp.getBpDefId());
+        SolutionUtil.validateOperations(operations, formdata);
+        ProcessHandleHelper.setProcessCmd(cmd);
+        // 提交开始表单
+        if (draft) {
+            formdata.put("oper_type", OperationType.SAVE.getStatus());
+        } else {
+            formdata.put("oper_type", OperationType.PASS.getStatus());
+        }
+
+        ProcessInstance process = formService.submitStartFormData(bpMeta.getEngineDefId(), buzKey,
+                getSubmitFormData(formdata));
+        // 流程实例
+        bp.setEngineKey(process.getId());
+        String pretask = bp.getCurrentTaskName();
+        List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByProcessInstanceId()
+                .desc().list();
+        SolutionUtil.bpFillTaskIdKey(tasks, bp);
+        bp.setDomain(req.getDomain());
+        bpdao.update(bp);
+
+        // 日志再看 XXX发起了流程
+        BPOperLog log = OperLogUtil.createStartLog(req, bp, isold, formdata, pretask, modifyFields);
+        operLogService.insert(log);
+        return bp;
+    }
+
+    /**
+     * 
+     * @Title: saveTask
+     * @Description: 提交任务
+     * @param @param req
+     * @param @param formdata   
+     * @return void 
+     * @author XFL 2017年1月14日 
+     * @throws
+     */
+    private void submitTask(FormQuery req, Map<String, String> formdata, ProcessNextCmd cmd) {
+        // 提交任务
+        if (StringUtils.isBlank(req.getBpId()) || StringUtils.isBlank(req.getTaskId())) {
+            throw new ServiceException("数据异常");
+        }
+        List<ModifyField> modifyFields = null;
+        BP bp = bpdao.findById(req.getCorpId(), req.getDomain(), req.getBpId());
+        // BPLoan loan = bpLoanDAO.selectByBp(req);
+        Task task = taskService.createTaskQuery().processDefinitionKey(req.getBpDefKey())
+                .taskCandidateOrAssigned(req.getUserId()).taskId(req.getTaskId()).singleResult();
+        validateFlowConfig(req, bp);
+        if (task == null) {
+            throw new ServiceException("该任务您无权受理");
+        } else {
+            // 看看任务是否已经指派，如果没指派 认领
+            try {
+                taskService.claim(task.getId(), req.getUserId());
+            } catch (ActivitiTaskAlreadyClaimedException e) {
+                // 如果已经被别人认领
+                throw new ServiceException("该任务已经被他人认领，您无权受理");
+            }
+
+        }
+        String pretask = bp.getCurrentTaskName();
+        String pretaskkey = bp.getCurrentTaskKey();
+        List<BPMetaOperation> operations = bpMetaOperationDAO.selectNodeOperation(req.getCorpId(), req.getDomain(),
+                bp.getBpDefId(), task.getTaskDefinitionKey());
+        BPMetaOperation operationshas = SolutionUtil.validateOperations(operations, formdata);
+        cmd.setActInstId(bp.getEngineKey());
+        cmd.setNodeKey(task.getTaskDefinitionKey());
+        ProcessHandleHelper.setProcessCmd(cmd);
+        // 设置跳转的节点
+        if (operationshas != null) {
+            cmd.setOperaType(String.valueOf(operationshas.getOperType()));
+            if (OperationType.BACK2PREV.getStatus().equals(String.valueOf(operationshas.getOperType()))) {
+                // TODO 回退到上一个节点，特殊操作 查询执行路径 //
+                // BPRunPath path = getBackPath(task.getProcessInstanceId(), task.getTaskDefinitionKey());
+                // if(path){
+                //
+                // }
+            } else {
+                // 目标节点不为空
+                if (StringUtils.isNotBlank(operationshas.getBinding())) {
+                    // 拒绝 和回退到哪个节点
+                    // 设置自由跳转节点
+                    cmd.setDestNodeKey(operationshas.getBinding());
+                }
+            }
+        } else {
+            cmd.setOperaType(OperationType.PASS.getStatus());
+        }
+        cmd.setOption(formdata.get("reason"));
+        ProcessHandleHelper.setProcessCmd(cmd);
+        // 提交到ACTIVITI 如果目标节点不为空，则使用跳转方法。
+        if (StringUtils.isNotBlank(cmd.getDestNodeKey())) {
+            specialTaskService.completeTask(req.getTaskId(), new String[] { cmd.getDestNodeKey() });
+        } else {
+            formService.submitTaskFormData(req.getTaskId(), getSubmitFormData(formdata));
+        }
+        List<Task> tasks = taskService.createTaskQuery().processInstanceId(bp.getEngineKey())
+                .orderByProcessInstanceId().desc().list();
+        SolutionUtil.bpFillTaskIdKey(tasks, bp);
+        // TODO 此处增加修改订单状态的处理
+
+        // 判断流程是否结束，并赋值BPtask结束点
+        isEnd(req, bp, operationshas);
+
+        // 改值 TODO 如果是退回或者拒绝 是不是不该填写？
+        modifyFields = this.modifyBpsLoanAttr(req, formdata, bp);
+        BPOperLog log = OperLogUtil.createReviewLog(req, bp, formdata, operationshas, pretask, pretaskkey,
+                modifyFields, task);
+        operLogService.insert(log);
+    }
+
+    private void validateFlowConfig(FormQuery req, BP bp) {
+        // 验证流程配置是否正常
+        List<BpMetaNodeVO> list = bpMetaNodeDAO.selectBpMetaNodeMetaAllTask(req);
+        BPMeta meta = bpMetaDAO.findById(req.getCorpId(), req.getDomain(), req.getBpDefId());
+        StringBuilder sb = new StringBuilder();
+        boolean pass = true;
+        for (BpMetaNodeVO node : list) {
+            boolean error = false;
+            List<String> userIds = assignService.getUserIdsByNode(meta.getBpDefId(), node.getNodeKey(),
+                    req.getCorpId(), req.getBpId());
+            // 查看此单号有没有数据权限
+            List<String> roleusers = corpDataRoleService.getPermissionByBpId(req.getBpId(), req.getCorpId());
+            CorpDept dept = corpDeptDAO.selectDeptByUserId(bp.getCreateUserId());
+            if (userIds.isEmpty()) {
+                error = true;// 节点审批分配不对
+                sb.append("节点【" + node.getNodeName() + "】审批分配有误！<br/>");
+            }
+            if (roleusers.isEmpty()) {
+                error = true;// 部门数据权限没有
+                sb.append("部门【" + dept.getDeptName() + "】数据权限配置有误！<br/>");
+            }
+            if (!error) {
+                if (userIds.retainAll(roleusers)) {
+                    if (userIds.isEmpty()) {
+                        error = true;// 部门数据权限没有 审批分配的没有
+                        sb.append("节点【" + node.getNodeName() + "】审批分配和部门【" + dept.getDeptName() + "】数据权限配置没有交集！<br/>");
+                    }
+                }
+            }
+            pass = pass & !error;
+        }
+        if (!pass) {
+            throw new ServiceException(sb.toString());
+        }
+
+    }
+
+}

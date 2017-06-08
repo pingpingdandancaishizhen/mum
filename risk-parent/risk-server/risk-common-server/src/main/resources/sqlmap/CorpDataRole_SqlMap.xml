@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.corp.CorpDataRoleDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.corp.CorpDataRole" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="self_only" property="selfOnly" jdbcType="VARCHAR" />
+    <result column="dept_only" property="deptOnly" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap type="cn.sunfit.risk.buz.api.vo.corp.CorpDataRoleDTO" id="CorpDataRoleDTOMap" extends="BaseResultMap">
+  	<result column="depts" property="depts" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, corp_id, role_name, `desc`, status, create_time, self_only, dept_only
+  </sql>
+  <sql id="Base_Column_List_CR">
+  	 cr.id, cr.corp_id, cr.role_name, cr.`desc`, cr.status ,cr.create_time, cr.self_only, cr.dept_only
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from risk_corp_datarole
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.corp.CorpDataRole" >
+    insert into risk_corp_datarole (id, corp_id, role_name, 
+      `desc`, status, create_time, 
+      self_only, dept_only)
+    values (#{id,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, 
+      #{desc,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{selfOnly,jdbcType=VARCHAR}, #{deptOnly,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.corp.CorpDataRole" >
+    update risk_corp_datarole
+    set corp_id = #{corpId,jdbcType=VARCHAR},
+      role_name = #{roleName,jdbcType=VARCHAR},
+      `desc` = #{desc,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      self_only = #{selfOnly,jdbcType=VARCHAR},
+      dept_only = #{deptOnly,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectCorpDataRole" resultMap="CorpDataRoleDTOMap" parameterType="cn.sunfit.risk.buz.api.vo.corp.DataRoleQueryReq">
+  	select  <include refid="Base_Column_List_CR" />
+	    ,(select group_concat(cd.dept_name) from risk_corp_datarole_dept_rel dpr  
+	     left join risk_corp_dept cd on cd.id=dpr.dept_id  where dpr.role_id=cr.id) depts
+	    	from risk_corp_datarole cr
+	    where cr.corp_id = #{corpId,jdbcType=VARCHAR} and cr.status <![CDATA[<>]]>  2  
+	    <if test="roleName !=null and roleName !=''">
+	    	and cr.role_name like  concat('%',#{roleName},'%')
+	    </if>
+	    order by cr.create_time desc
+  </select>
+  
+  <select id="selectUserCorpDataRole" resultMap="CorpDataRoleDTOMap">
+  	select  <include refid="Base_Column_List_CR" />
+    ,(select group_concat(cd.id) from risk_corp_datarole_dept_rel dpr  
+     left join risk_corp_dept cd on cd.id=dpr.dept_id  where dpr.role_id=cr.id) depts
+    	from risk_corp_datarole_user_rel crr, risk_corp_datarole cr 
+    where crr.role_id = cr.id
+    and cr.corp_id = #{corpId,jdbcType=VARCHAR} 
+    and cr.status <![CDATA[<>]]>  2  
+    AND crr.user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="insertDataRoleDept"  parameterType="java.util.Map" >
+  	    insert into
+		risk_corp_datarole_dept_rel(role_id,dept_id,create_time) values
+		<foreach collection="deptIds" item="item" index="index"
+			separator=",">
+			(#{roleId},
+			#{item},
+			now()
+			)
+		</foreach>
+  </insert>
+  
+  <delete id="deleteDataRoleDept" parameterType="java.lang.String" >
+  	delete from risk_corp_datarole_dept_rel where role_id=#{roleId}
+  </delete>
+  
+  <select id="countDataRoleUse" resultType="java.lang.Long" parameterType="java.lang.String">
+	    select count(1)  
+	    	from risk_corp_datarole_user_rel crr left join risk_corp_user cu on crr.user_id=cu.id
+	    where  crr.role_id=#{roleId} and cu.status<![CDATA[<>]]>'2'
+  </select>
+  
+  <select id="selectAllDataRole" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select  <include refid="Base_Column_List_CR" />
+    	from risk_corp_datarole cr
+    where cr.corp_id = #{corpId,jdbcType=VARCHAR} and cr.status = '0'
+    order by cr.create_time desc
+  </select>
+  
+  <select id="selectBpPermission" resultType="java.lang.String" parameterType="java.lang.String">
+  	SELECT DISTINCT
+		crr.user_id
+	FROM
+		risk_corp_datarole cr,
+		risk_corp_datarole_user_rel crr,
+		risk_corp_datarole_dept_rel dpr
+	WHERE
+		dpr.role_id = cr.id
+	AND cr.id = crr.role_id
+	AND dpr.dept_id = #{deptId,jdbcType=VARCHAR}
+		UNION ALL
+	SELECT
+		crr.user_id
+	FROM
+		risk_corp_datarole cr,
+		risk_corp_datarole_user_rel crr,
+		risk_corp_user cu
+	WHERE
+		cu.id = crr.user_id
+	AND cr.id = crr.role_id
+	AND cu.dept_id = #{deptId,jdbcType=VARCHAR}
+	AND cr.dept_only = '1'
+	ORDER BY
+		user_id
+  </select>
+</mapper>

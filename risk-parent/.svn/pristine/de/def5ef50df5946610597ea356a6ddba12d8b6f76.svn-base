@@ -1,0 +1,261 @@
+package cn.sunfit.risk.buz.server.service.p2p.imp.handle;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import orj.worf.util.StringUtils;
+import cn.sunfit.risk.buz.api.beans.corp.District;
+import cn.sunfit.risk.buz.api.beans.p2p.order.LoanInfoBean;
+import cn.sunfit.risk.buz.api.constants.BaseEnum;
+import cn.sunfit.risk.buz.api.constants.order.LoanEachTimeType;
+import cn.sunfit.risk.buz.api.service.system.DistrictService;
+import cn.sunfit.risk.buz.api.vo.p2p.imp.ImportError;
+import cn.sunfit.risk.buz.server.service.p2p.imp.ImportHandle;
+import cn.sunfit.risk.buz.server.util.p2p.DataDisposeUtil;
+
+/**
+ * 
+ * @Title: ImportHandleAbstrat.java
+ * @Package cn.sunfit.risk.buz.server.service.p2p.imp.handle
+ * @Description: 各种类型的EXCEL导入公共代码可写在这里面
+ * @author DELL
+ * @date 2017年5月5日 下午1:10:49
+ * @version V1.0
+ */
+public abstract class ImportHandleAbstrat implements ImportHandle {
+
+    private static List<District> districts;
+
+    @Autowired
+    private DistrictService districtService;
+
+    protected DataDisposeUtil dataUtil = new DataDisposeUtil<LoanInfoBean>();
+
+    protected void cellCheck(XSSFCell cell, List<String> cellNames, List<Map<String, Object>> checkTemps, int index,
+            Map<String, Object> data, ImportError err, int row) {
+        Map<String, Object> checkTemp = checkTemps.get(index);
+        if (cell != null)
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+        // 非空判断
+        if ((cell == null || "".equals(cell.getStringCellValue().replace(" ", "")))
+                && (checkTemp.get("isNotNull") != null && (boolean) checkTemp.get("isNotNull"))) {
+            getErrObj(cell, data, row, index, cellNames.get(index) + "不能为空", err);
+        } else {
+            String key = checkTemp.get("key").toString();
+            String parentKey = checkTemp.get("parentKey") != null ? checkTemp.get("parentKey").toString() : null;
+            // 如值为空进来，那么定为非必填，如必填进来，则值必定不为空
+            if (cell == null || "".equals(cell.getStringCellValue())) {
+                data.put(key, null);
+            } else {
+                String value = cell.getStringCellValue().replace(" ", "");
+                // 如果列有指定只能填写的项值，那么只需要判断值有没有匹配
+                if (checkTemp.containsKey("baseEnums")) {
+                    BaseEnum[] BaseEnums = (BaseEnum[]) checkTemp.get("baseEnums");
+                    boolean type = false;
+                    BaseEnum val = null;
+                    for (BaseEnum be : BaseEnums) {
+                        if (be.getEnumName().equals(value)) {
+                            type = true;
+                            val = be;
+                            break;
+                        }
+                    }
+                    if (!type) {
+                        getErrObj(cell, data, row, index, cellNames.get(index) + "填写错误", err);
+                    } else {
+                        data.put(key, valConvertType(val.getEnumType(), checkTemp.get("type").toString()));
+                    }
+                } else if (checkTemp.containsKey("valItem")) {
+                    List<String> valItem = (List<String>) checkTemp.get("valItem");
+                    if (!valItem.contains(value)) {
+                        getErrObj(cell, data, row, index, cellNames.get(index) + "填写错误", err);
+                    } else {
+                        data.put(key, valConvertType(value, checkTemp.get("type").toString()));
+                    }
+                } else {
+                    if (!hasValType(value, checkTemp.get("checkWay").toString())
+                            || !(checkTemp.containsKey("checkFun") ? checkFun(checkTemp.get("checkFun").toString(),
+                                    value, key, parentKey, data) : true)) {
+                        getErrObj(cell, data, row, index, cellNames.get(index) + checkTemp.get("typeName").toString(),
+                                err);
+                    } else if (value.length() > Integer.valueOf(checkTemp.get("length").toString())) {
+                        getErrObj(cell, data, row, index, cellNames.get(index) + "输入长度不可超过"
+                                + checkTemp.get("length").toString(), err);
+                    } else {
+                        data.put(key, valConvertType(value, checkTemp.get("type").toString()));
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean checkFun(String fun, String val, String key, String parentKey, Map<String, Object> data) {
+        if ("idCarValidate".equals(fun)) {
+            return idCarValidate(val);
+        } else if ("districtValidate".equals(fun)) {
+            return districtValidate(val, key, parentKey, data);
+        } else if ("periodValidate".equals(fun)) {
+            return periodValidate(val, key, parentKey, data);
+        }
+        return false;
+    }
+
+    private boolean districtValidate(String district, String key, String parentKey, Map<String, Object> data) {
+        List<District> dists = getDistricts();
+        District parent = null;
+        if (parentKey != null)
+            parent = (District) data.get(parentKey + "Dis");
+        String newDistName = null;
+        for (District d : dists) {
+            if (parent != null) {
+                newDistName = d.getDistName().endsWith("市") || d.getDistName().endsWith("区")
+                        || d.getDistName().endsWith("县") ? d.getDistName().substring(0, d.getDistName().length() - 1)
+                        : d.getDistName();
+                if (d.getParentCode().equals(parent.getDistCode())
+                        && (d.getDistName().equals(district) || newDistName.equals(district))) {
+                    data.put(key + "Dis", d);
+                    return true;
+                }
+            } else {
+                newDistName = d.getDistName().replace("省", "");
+                if ((d.getDistName().equals(district) || newDistName.equals(district)) && "1".equals(d.getParentCode())) {
+                    data.put(key + "Dis", d);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    protected List<String> getCellNames(XSSFRow row) {
+        if (row == null)
+            return null;
+        List<String> cellNames = new ArrayList<String>();
+        int totalCellNum = row.getLastCellNum();
+        XSSFCell cell = null;
+        for (int i = 0; i < totalCellNum; i++) {
+            cell = row.getCell(i);
+            if (cell != null) {
+                cell.setCellType(Cell.CELL_TYPE_STRING);
+                cellNames.add(cell.getStringCellValue().replace("*", ""));
+            }
+        }
+        return cellNames;
+    }
+
+    private List<District> getDistricts() {
+        if (districts == null) {
+            districts = districtService.selectNodes();
+        }
+        return districts;
+    }
+
+    /**
+     * 封装错误提示
+     * @Title: getErrObj
+     * @Description: TODO
+     * @param @param cell
+     * @param @param data
+     * @param @param index
+     * @param @param err
+     * @param @return   
+     * @return Map<String,Object> 
+     * @author RJS 2017年4月12日 
+     * @throws
+     */
+    private void getErrObj(XSSFCell cell, Map<String, Object> data, int row, int index, String err, ImportError errObj) {
+        errObj.setLine(row);
+        if (index == 0) {
+            errObj.setLoanId(cell == null ? "无" : cell.getStringCellValue());
+        } else {
+            errObj.setLoanId(data.get("thirdLoanId").toString());
+        }
+        errObj.setErrorInfo(err);
+    }
+
+    private boolean hasValType(String val, String checkWay) {
+        if (checkWay == null || "".equals(checkWay))
+            return true;
+        if (val.matches(checkWay))
+            return true;
+        return false;
+    }
+
+    /**
+     * 身份证验证
+     * 验证方法：
+     * 1、将前面的身份证号码17位数分别乘以不同的系数。从第一位到第十七位的系数分别为：7－9－10－5－8－4－2－1－6－3－7－9－10－5－8－4－2
+     * 2、将这17位数字和系数相乘的结果相加
+     * 3、用加出来和除以11，看余数是多少？
+     * 4、余数只可能有0－1－2－3－4－5－6－7－8－9－10这11个数字。其分别对应的最后一位身份证的号码为1－0－X －9－8－7－6－5－4－3－2
+     * 5、通过上面得知如果余数是3，就会在身份证的第18位数字上出现的是9。
+     * @param idCar
+     * @return
+     */
+    private boolean idCarValidate(String idCar) {
+        int[] numArr = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 }; // 系数
+        String[] lastArr = { "1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2" }; // 最后一位身份证的号码
+        if (idCar == null || idCar.length() != 18) {
+            return false;
+        }
+        int sum = 0;
+        String[] strArr = idCar.toUpperCase().split("");
+        for (int i = 0; i < strArr.length - 2; i++) {
+            sum += Integer.valueOf(strArr[i + 1]) * numArr[i];
+        }
+        return strArr[18].equals(lastArr[sum % 11]);
+    }
+
+    protected boolean isNotEmpty(XSSFRow row, int cellLength) {
+        if (row == null)
+            return false;
+        XSSFCell cell = null;
+        for (int i = 0; i < cellLength; i++) {
+            cell = row.getCell(i);
+            if (cell != null) {
+                cell.setCellType(Cell.CELL_TYPE_STRING);
+                if (StringUtils.isNotEmpty(cell.getStringCellValue()))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean periodValidate(String period, String key, String parentKey, Map<String, Object> data) {
+        String repayType = data.get(parentKey).toString();
+        List<LoanEachTimeType> letts = null;
+        if ("3".equals(repayType)) {
+            letts = LoanEachTimeType.getEnumByNameSuffix("天");
+        } else {
+            letts = LoanEachTimeType.getEnumByNameSuffix("月");
+        }
+
+        for (LoanEachTimeType lett : letts) {
+            if (lett.getStatus().equals(period))
+                return true;
+        }
+
+        return false;
+    }
+
+    private Object valConvertType(String val, String type) {
+        if ("Long".equals(type)) {
+            return Long.valueOf(val);
+        } else if ("Double".equals(type)) {
+            return Double.valueOf(val);
+        } else if ("BigDecimal".equals(type)) {
+            return BigDecimal.valueOf(Double.valueOf(val));
+        } else if ("Integer".equals(type)) {
+            return Integer.valueOf(val);
+        } else {
+            return val;
+        }
+    }
+}

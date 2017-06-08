@@ -1,0 +1,65 @@
+<template>
+<div>
+  <div class="tabs-nav">
+    <div class="tab-item" v-for="item,key in data" v-if="item.tabName" :class="key==activeKey?'active':''" @click="handleChangeTabs(key)">
+      <span>{{item.tabName}}</span>
+    </div>
+  </div>
+  <div class="tabs-content">
+      <div class="tab-item-content" v-for="item,key in data" :class="key==activeKey?'active':'tab-pane'">
+        <app-form :data="item.tabList"   keep-alive ></app-form>
+        <app-operations v-if="item.handle&&!view&&operationsData&&operationsData.length>0" :data="operationsData" keep-alive></app-operations>
+        <app-submit v-if="item.handle&&!view" keep-alive></app-submit>
+      </div>
+  </div>
+</div>
+</template>
+<script>
+    import {mapGetters} from 'vuex'
+    import Form from './form.vue'
+    import submitOperation  from './sumitOperation.vue'
+    import Operations  from './operations.vue'
+    export default{
+        data(){
+            return{
+              activeKey:0
+            }
+        },
+      props:['data'],
+      components: {
+        'app-form':Form,
+        'app-submit': submitOperation,
+        'app-operations': Operations,
+      },
+      mounted:function () {
+        this.activeKey=this.getDeActiveKey();
+        this.$emit('changeTab',this.activeKey)
+      },
+      computed: {
+        ...mapGetters({
+          'view':'view',
+          'operationsData': 'operationsData',
+        }),
+
+      },
+      methods:{
+        handleChangeTabs:function (key) {
+          this.activeKey=key;
+          this.$emit('changeTab',key)
+        },
+        getDeActiveKey:function () {
+          var _this=this;
+          var flag=false;
+          var activeKey='0';
+          $.each(_this.data,function (index, item) {
+            if(item.handle){
+              flag=true;
+              activeKey=index;
+              return ;
+            }
+          });
+          return activeKey;
+        },
+      }
+    }
+</script>

@@ -1,0 +1,69 @@
+version: '2'
+services:
+  riskasset:
+    image: risk-asset-server-test:1.5
+    network_mode: "host"
+    environment:
+       - ZOOKEEPER_ADDR=172.16.88.50:2181
+       - JDBC_URL=Sw9HjYyh64g6ytrrkfhq8vU4zamtDgdl3pn28c79u1RxXfx%2F6YZQ54r33ZkkgcWZUZIRqPghmL0cJA5BtlnJd4wbAkLasnO%2FewfVZwhdypdDRvdqIFJJrA%3D%3D
+       - JDBC_USERNAME=liv5h%2BPF%2Bpc%3D
+       - JDBC_PASSWORD=Z7qnFWWetEM%3D
+       - JDBC_POOL_SIZE_MAX=0wJtKFLGjoY%3D
+       - JDBC1_URL=Sw9HjYyh64g6ytrrkfhq8vU4zamtDgdl3pn28c79u1RxXfx%2F6YZQ54r33ZkkgcWZUZIRqPghmL0cJA5BtlnJd4wbAkLasnO%2FewfVZwhdypdDRvdqIFJJrA%3D%3D
+       - JDBC1_USERNAME=liv5h%2BPF%2Bpc%3D
+       - JDBC1_PASSWORD=Z7qnFWWetEM%3D
+       - JDBC1_POOL_SIZE_MAX=0wJtKFLGjoY%3D
+    ports:
+     - "10010:10010"
+    volumes:
+     - /root/risk-docker-dev/riskasset/logs:/home/deploy/risk_server/risk_asset_server/logs
+  riskp2p:
+     image: risk-p2p-server-test:1.5
+     network_mode: "host"
+     environment:
+       - ZOOKEEPER_ADDR=127.0.0.1:2181
+       - JDBC_URL=Sw9HjYyh64g6ytrrkfhq8vU4zamtDgdl3pn28c79u1TnZbx4rVNAgEqZp%2FT8rOe1jihXMwe7Xrow8NWE%2F69NtWzFerdeHu7go1Stgol95KdfHuyQ6MHfmg%3D%3D
+       - JDBC_USERNAME=liv5h%2BPF%2Bpc%3D
+       - JDBC_PASSWORD=Z7qnFWWetEM%3D
+       - JDBC_POOL_SIZE_MAX=0wJtKFLGjoY%3D
+       - JDBC1_URL=Sw9HjYyh64g6ytrrkfhq8vU4zamtDgdl3pn28c79u1TnZbx4rVNAgEqZp%2FT8rOe1jihXMwe7Xrow8NWE%2F69NtWzFerdeHu7go1Stgol95KdfHuyQ6MHfmg%3D%3D
+       - JDBC1_USERNAME=liv5h%2BPF%2Bpc%3D
+       - JDBC1_PASSWORD=Z7qnFWWetEM%3D
+       - JDBC1_POOL_SIZE_MAX=0wJtKFLGjoY%3D
+     ports:
+     - "10020:10020"
+     volumes:
+     - /root/risk-docker-dev/riskp2p/logs:/home/deploy/risk_server/risk_p2p_server/logs
+  riskreport:
+     image: risk-report-server-test:1.5
+     network_mode: "host"
+     environment:
+       - ZOOKEEPER_ADDR=172.16.88.50:2181
+       - JDBC_URL=Sw9HjYyh64g6ytrrkfhq8vU4zamtDgdl3pn28c79u1RxXfx%2F6YZQ54r33ZkkgcWZUZIRqPghmL0cJA5BtlnJd4wbAkLasnO%2FewfVZwhdypdDRvdqIFJJrA%3D%3D
+       - JDBC_USERNAME=liv5h%2BPF%2Bpc%3D
+       - JDBC_PASSWORD=Z7qnFWWetEM%3D
+       - JDBC_POOL_SIZE_MAX=0wJtKFLGjoY%3D
+       - JDBC1_URL=Sw9HjYyh64g6ytrrkfhq8vU4zamtDgdl3pn28c79u1RxXfx%2F6YZQ54r33ZkkgcWZUZIRqPghmL0cJA5BtlnJd4wbAkLasnO%2FewfVZwhdypdDRvdqIFJJrA%3D%3D
+       - JDBC1_USERNAME=liv5h%2BPF%2Bpc%3D
+       - JDBC1_PASSWORD=Z7qnFWWetEM%3D
+       - JDBC1_POOL_SIZE_MAX=0wJtKFLGjoY%3D
+     ports:
+     - "10030:10030"
+     volumes:
+     - /root/risk-docker-dev/riskreport/logs:/home/deploy/risk_report/risk_report_server/logs
+  riskweb:
+    image: risk-asset-web-server-test:1.5
+    environment:
+      - ZOOKEEPER_ADDR=172.16.88.50:2181
+    ports:
+     - "8080:8080"
+    volumes:
+     - /root/risk-docker-dev/riskassetweb/logs:/home/deploy/apache-tomcat/logs
+  riskweb2:
+    image: risk-p2p-web-server-test:1.5
+    environment:
+      - ZOOKEEPER_ADDR=172.16.88.221:2181
+    ports:
+     - "8081:8080"
+    volumes:
+     - /root/risk-docker-dev/riskp2pweb/logs2:/home/deploy/apache-tomcat/logs

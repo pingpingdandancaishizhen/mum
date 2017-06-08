@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.repayment.RepaymentBaseDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.repayment.RepaymentBase" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="bp_id" property="bpId" jdbcType="VARCHAR" />
+    <result column="payed_issue" property="payedIssue" jdbcType="INTEGER" />
+    <result column="payed_principle" property="payedPrinciple" jdbcType="DECIMAL" />
+    <result column="payed_interest" property="payedInterest" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bp_id, payed_issue, payed_principle, payed_interest, status
+  </sql>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.repayment.RepaymentBase" >
+    insert into ${domain}_repayment_base (id, bp_id, payed_issue, 
+      payed_principle, payed_interest, status
+      )
+    values (#{record.id,jdbcType=VARCHAR}, #{record.bpId,jdbcType=VARCHAR}, #{record.payedIssue,jdbcType=INTEGER}, 
+      #{record.payedPrinciple,jdbcType=DECIMAL}, #{record.payedInterest,jdbcType=DECIMAL}, #{record.status,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <update id="updateRepaymentFee">
+    update ${domain}_repayment_base
+    set 
+      payed_issue = IFNULL((
+      	SELECT MAX(issue) from ${domain}_repayment_detail
+		where bp_no = #{base.bpId,jdbcType=VARCHAR}
+		and is_finish = 1
+	  ),0),
+      payed_principle = payed_principle + #{base.payedPrinciple,jdbcType=DECIMAL},
+      payed_interest = payed_interest + #{base.payedInterest,jdbcType=DECIMAL},
+      status = IF(
+		(SELECT count(*) 
+		from ${domain}_repayment_detail
+		where 
+		bp_no = #{base.bpId,jdbcType=VARCHAR}
+		and is_finish = 0
+		) > 0
+		,status, 3)
+    where bp_id = #{base.bpId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateRepaymentFee4Settlement">
+    update ${domain}_repayment_base
+    set 
+      payed_issue = IFNULL((
+      	SELECT MAX(issue) from ${domain}_repayment_detail
+		where bp_no = #{base.bpId,jdbcType=VARCHAR}
+	  ),0),
+      payed_principle = payed_principle + #{base.payedPrinciple,jdbcType=DECIMAL},
+      payed_interest = payed_interest + #{base.payedInterest,jdbcType=DECIMAL},
+      status = 2
+    where bp_id = #{base.bpId,jdbcType=VARCHAR}
+  </update>
+  
+  <sql id="planAmountSQL">
+  	SELECT 
+		date , COUNT(DISTINCT repayment_detail_id) planCount , SUM(principle) planPrinciple, SUM(interest) planInterest,
+		SUM(manage_fee) planManageFee ,SUM(extra_fee) planExtraFee , SUM(extra_fee_2) planExtraFee2 , SUM(overdue_fee) planOverdueFee
+	FROM (
+		select 
+			detail.issue_date date , detail.id repayment_detail_id, 
+			detail.principle - detail.payed_principle
+			+ IFNULL((SELECT SUM(record.repayment_principle) from ${req.domain}_repayment_record record where detail.id = record.repayment_detail_id and detail.issue_date <![CDATA[ < ]]> record.repayment_time ),0 )
+			  principle ,
+			detail.interest - detail.payed_interest
+			+ IFNULL((SELECT SUM(record.repayment_interest) from ${req.domain}_repayment_record record where detail.id = record.repayment_detail_id and detail.issue_date <![CDATA[ < ]]> record.repayment_time ),0 ) 
+			  interest ,
+			detail.manage_fee - detail.payed_manage_fee 
+			+ IFNULL((SELECT SUM(record.repayment_manage_fee) from ${req.domain}_repayment_record record where detail.id = record.repayment_detail_id and detail.issue_date <![CDATA[ < ]]> record.repayment_time ),0 ) 
+			 manage_fee,
+			detail.extra_fee - detail.payed_extra_fee 
+			+ IFNULL((SELECT SUM(record.repayment_extra_fee) from ${req.domain}_repayment_record record where detail.id = record.repayment_detail_id and detail.issue_date <![CDATA[ < ]]> record.repayment_time ),0 ) 
+			 extra_fee,
+			detail.extra_fee_2 - detail.payed_extra_fee_2
+			+ IFNULL((SELECT SUM(record.repayment_extra_fee_2) from ${req.domain}_repayment_record record where detail.id = record.repayment_detail_id and detail.issue_date <![CDATA[ < ]]> record.repayment_time ),0 )
+			 extra_fee_2,
+			0 overdue_fee
+		from ${req.domain}_repayment_detail detail
+		left join 
+		${req.domain}_repayment_record  record 
+		on detail.id = record.repayment_detail_id
+		union ALL
+		SELECT 
+			DISTINCT date , repayment_detail_id , principle ,interest ,
+			manage_fee ,  extra_fee , extra_fee_2 , overdue_fee
+		from ${req.domain}_repayment_overdue
+	) plan 
+	GROUP BY date
+	ORDER BY date
+  </sql>
+  
+  <sql id="payedAmountSQL">
+  	SELECT 
+		date ,COUNT(DISTINCT bp_no) payedCount, SUM(repayment_principle) payedPrinciple, SUM(repayment_interest) payedInterest,
+		SUM(repayment_manage_fee) payedManageFee, SUM(repayment_extra_fee) payedExtraFee, SUM(repayment_extra_fee_2) payedExtraFee2,
+		SUM(overdue_fee) payedOverdue, SUM(repayment_penalty) payedPenalty
+	FROM (
+		select 
+			DATE(record.repayment_time) date, detail.bp_no bp_no , record.repayment_principle repayment_principle,
+			record.repayment_interest repayment_interest ,record.repayment_manage_fee repayment_manage_fee, 
+			record.repayment_extra_fee repayment_extra_fee, record.repayment_extra_fee_2 repayment_extra_fee_2, 
+			IFNULL(record.overdue_fee,0) overdue_fee  ,
+			0 repayment_penalty
+		from ${req.domain}_repayment_record  record
+		LEFT JOIN ${req.domain}_repayment_detail detail on record.repayment_detail_id = detail.id
+		union all 
+		SELECT 
+			settlement_date date,bp_id bp_no, settlement_principle repayment_principle,
+			settlement_interest repayment_interest,settlement_manage_fee repayment_manage_fee, 
+			0 repayment_extra_fee, 0 repayment_extra_fee_2, 
+			0 overdue_fee,
+			settlement_penalty repayment_penalty 
+		from ${req.domain}_repayment_settlement
+	) payed
+	GROUP BY date
+	ORDER BY date
+  </sql>
+  
+  <select id="selectRepaymentReport" resultType="cn.sunfit.risk.buz.api.vo.repayment.RepaymentReportDTO">
+  	SELECT 
+		*
+	from (
+		select 
+			t1.date date , 
+			t1.planCount , t1.planPrinciple , t1.planInterest , t1.planManageFee , t1.planExtraFee , t1.planExtraFee2 , t1.planOverdueFee , 
+			IFNULL(t2.payedCount,0) payedCount,
+			IFNULL(t2.payedPrinciple,0) payedPrinciple, 
+			IFNULL(t2.payedInterest,0) payedInterest, 
+			IFNULL(t2.payedManageFee,0) payedManageFee, 
+			IFNULL(t2.payedExtraFee,0) payedExtraFee, 
+			IFNULL(t2.payedExtraFee2,0) payedExtraFee2, 
+			IFNULL(t2.payedOverdue,0) payedOverdue, 
+			IFNULL(t2.payedPenalty,0) payedPenalty
+		from
+		( <include refid="planAmountSQL"/> ) t1
+		left join 
+		( <include refid="payedAmountSQL"/> ) t2
+		on t1.date = t2.date
+	union
+		select 
+			t2.date date , 
+			IFNULL(t1.planCount,0) planCount, 
+			IFNULL(t1.planPrinciple,0) planPrinciple, 
+			IFNULL(t1.planInterest,0) planInterest, 
+			IFNULL(t1.planManageFee,0) planManageFee, 
+			IFNULL(t1.planExtraFee,0) planExtraFee, 
+			IFNULL(t1.planExtraFee2,0) planExtraFee2, 
+			IFNULL(t1.planOverdueFee,0) planOverdueFee, 
+			t2.payedCount ,t2.payedPrinciple, t2.payedInterest, t2.payedManageFee, t2.payedExtraFee, t2.payedExtraFee2, t2.payedOverdue , t2.payedPenalty
+		from
+		( <include refid="planAmountSQL"/> ) t1
+		right join 
+		( <include refid="payedAmountSQL"/> ) t2
+		on t1.date = t2.date
+	) t
+  	where 
+	1 = 1 
+	<if test="req.startDate != null and req.endDate !=null ">
+		and t.date between #{req.startDate,jdbcType=TIMESTAMP} and #{req.endDate,jdbcType=TIMESTAMP}
+	</if>
+	<choose>
+		<when test="req.orderName!= null and req.orderName !='' and req.orderType!= null and req.orderType!='' ">
+			ORDER BY ${req.orderName} ${req.orderType}
+		</when>
+		<otherwise>
+			ORDER BY t.date 
+		</otherwise>
+	</choose>
+  </select>
+  
+  <select id="selectStatusByBp" parameterType="cn.sunfit.risk.buz.api.vo.api.jfjd.JFBpStatusGetReq" resultType="int">
+  	SELECT status FROM ${domain}_repayment_base WHERE bp_id = #{bpId} LIMIT 1;
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List"/> FROM ${domain}_repayment_base WHERE bp_id = #{bpId} LIMIT 1;
+  </select>
+  
+</mapper>

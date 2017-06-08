@@ -1,0 +1,35 @@
+package cn.sunfit.risk.buz.api.constants;
+
+public enum SystemNoticeType {
+
+    INTERNAL_NOTICE("2", "内部告示"),
+    COM_RULE("3", "公司规章"),
+    HOLIDAY_NOTICE("4", "放假告示");
+
+    private String typeId;
+
+    private String typeTitle;
+
+    SystemNoticeType(String typeId, String typeTitle) {
+        this.typeId = typeId;
+        this.typeTitle = typeTitle;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public String getTypeTitle() {
+        return typeTitle;
+    }
+
+    public static SystemNoticeType getNameByStatus(String typeId) {
+        for (SystemNoticeType systemNoticeType : SystemNoticeType.values()) {
+            if (systemNoticeType.typeId.equals(typeId)) {
+                return systemNoticeType;
+            }
+        }
+        return null;
+    }
+
+}

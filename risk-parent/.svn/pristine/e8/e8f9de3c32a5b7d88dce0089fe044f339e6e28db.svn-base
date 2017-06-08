@@ -1,0 +1,4 @@
+{
+	"custimg_idcard1" : [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"custimg_idcard1","condition":null,"detail":{"maxSize":"104857600","extension":"jpg,jpeg,png","type":"image/jpg,image/jpeg,image/png"}}],
+	"custimg_idcard2" : [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"custimg_idcard2","condition":null,"detail":{"maxSize":"104857600","extension":"jpg,jpeg,png","type":"image/jpg,image/jpeg,image/png"}}]
+}

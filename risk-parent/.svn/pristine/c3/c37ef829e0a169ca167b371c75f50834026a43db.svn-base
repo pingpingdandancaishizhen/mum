@@ -1,0 +1,73 @@
+package cn.sunfit.risk.credit.server.util;
+
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import cn.sunfit.risk.credit.api.exception.ServiceException;
+
+public class XMLUtil {
+
+    public static String createXML4PYRequest(String queryType, Map<String, Object> params) {
+        try {
+            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+            Element root = document.createElement("conditions");
+            document.appendChild(root);
+            Element condition = document.createElement("condition");
+            condition.setAttribute("queryType", queryType);
+
+            for (Entry<String, Object> param : params.entrySet()) {
+                Element item = document.createElement("item");
+                Element name = document.createElement("name");
+                name.appendChild(document.createTextNode(param.getKey()));
+                Element value = document.createElement("value");
+                value.appendChild(document.createTextNode(param.getValue().toString()));
+                item.appendChild(name);
+                item.appendChild(value);
+
+                condition.appendChild(item);
+            }
+            root.appendChild(condition);
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            document.setXmlStandalone(true);
+            DOMSource source = new DOMSource(document);
+            transformer.setOutputProperty(OutputKeys.ENCODING, "GBK");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            StringWriter sw = new StringWriter();
+            StreamResult result = new StreamResult(sw);
+            transformer.transform(source, result);
+            return sw.getBuffer().toString();
+        } catch (TransformerConfigurationException e) {
+            throw new ServiceException(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            throw new ServiceException(e.getMessage());
+        } catch (TransformerException e) {
+            throw new ServiceException(e.getMessage());
+        } catch (ParserConfigurationException e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("corpName", "tyz");
+        map.put("documentNo", "320503xxxx");
+        System.out.println(createXML4PYRequest("1111", map));
+    }
+
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.templates.MetaOperationsTemplatesDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.templates.MetaOperationsTemplates" >
+    <id column="operation_id" property="operationId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="oper_key" property="operKey" jdbcType="VARCHAR" />
+    <result column="oper_name" property="operName" jdbcType="VARCHAR" />
+    <result column="oper_desc" property="operDesc" jdbcType="VARCHAR" />
+    <result column="binding" property="binding" jdbcType="VARCHAR" />
+    <result column="is_basic" property="isBasic" jdbcType="VARCHAR" />
+    <result column="pre_condition" property="preCondition" jdbcType="VARCHAR" />
+    <result column="post_condition" property="postCondition" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="oper_type" property="operType" jdbcType="VARCHAR" />
+    <result column="node_key" property="nodeKey" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    operation_id, bp_def_id, oper_key, oper_name, oper_desc, binding, is_basic, pre_condition, 
+    post_condition, update_time,oper_type,node_key
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bp_meta_operations_templates
+    where operation_id = #{operationId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaOperationsTemplates" >
+    insert into bp_meta_operations_templates (operation_id, bp_def_id, oper_key, 
+      oper_name, oper_desc, binding, 
+      is_basic, pre_condition, post_condition, 
+      update_time,oper_type,node_key)
+    values (#{operationId,jdbcType=VARCHAR}, #{bpDefId,jdbcType=VARCHAR}, #{operKey,jdbcType=VARCHAR}, 
+      #{operName,jdbcType=VARCHAR}, #{operDesc,jdbcType=VARCHAR}, #{binding,jdbcType=VARCHAR}, 
+      #{isBasic,jdbcType=VARCHAR}, #{preCondition,jdbcType=VARCHAR}, #{postCondition,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP},#{operType,jdbcType=VARCHAR},#{nodeKey,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaOperationsTemplates" >
+    update bp_meta_operations_templates
+    set bp_def_id = #{bpDefId,jdbcType=VARCHAR},
+      oper_key = #{operKey,jdbcType=VARCHAR},
+      oper_name = #{operName,jdbcType=VARCHAR},
+      oper_desc = #{operDesc,jdbcType=VARCHAR},
+      binding = #{binding,jdbcType=VARCHAR},
+      is_basic = #{isBasic,jdbcType=VARCHAR},
+      pre_condition = #{preCondition,jdbcType=VARCHAR},
+      post_condition = #{postCondition,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      oper_type= #{operType,jdbcType=VARCHAR},node_key=#{nodeKey,jdbcType=VARCHAR}
+    where operation_id = #{operationId,jdbcType=VARCHAR}
+  </update>
+    <select id="selectMetaOperationsTemplates" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bp_meta_operations_templates
+    where bp_def_id = #{bpDefId,jdbcType=VARCHAR}
+  </select>
+      <select id="selectMetaOperationsTemplatesNoNode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bp_meta_operations_templates
+    where bp_def_id = #{bpDefId,jdbcType=VARCHAR} and node_key is null
+  </select>
+  <update id="updateOperationsNodeKey" parameterType="java.util.Map">
+  update bp_meta_operations_templates set node_key=#{nodeKey}
+  where  bp_def_id = #{bpDefId,jdbcType=VARCHAR} and operation_id in
+  <foreach collection="operationIds" open="(" close=")" item="item" separator=",">
+  #{item}
+  </foreach>
+  </update>
+</mapper>

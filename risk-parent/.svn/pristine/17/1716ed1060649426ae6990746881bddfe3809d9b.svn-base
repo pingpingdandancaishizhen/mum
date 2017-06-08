@@ -1,0 +1,860 @@
+package cn.sunfit.risk.buz.api.beans.p2p.order;
+
+import java.math.BigDecimal;
+
+import orj.worf.core.model.BaseObject;
+
+/**
+ * 
+ * @Title: LoanInfo.java
+ * @Package cn.sunfit.risk.buz.api.beans.p2p.order
+ * @Description: TODO
+ * @author RJS
+ * @date 2017年5月5日 下午5:50:17
+ * @version V1.0
+ */
+public class LoanInfoBean extends BaseObject {
+
+    private static final long serialVersionUID = 8571615871445061547L;
+
+    /**
+     * 订单ID
+     */
+    private String bpId;
+
+    /**
+     * 导入方式
+     * 订单新增方式
+     */
+    private String importWay;
+
+    /**
+     * 发标平台的当前发标状态
+     * 0为作废或则不启用状态，1为初始状态
+     */
+    private String aproveStatus = "1";
+
+    /**
+     * 订单来源
+     * 标的来自于公司名
+     */
+    private String corporation;
+
+    /**
+     * 标的所在原始借款编号
+     */
+    private String thirdLoanId;
+
+    /**
+     * 标的在原始机构最新状态
+     */
+    private String thirdStatus;
+
+    /**
+     * 产品代码
+     */
+    private String productCode;
+
+    /**
+     * 产品名称
+     */
+    private String productName;
+
+    /**
+     * 借款用途
+     */
+    private String loanPurpose;
+
+    /**
+     * 借款期限
+     */
+    private Integer loanPeriod;
+
+    /**
+     * 客户类型
+     * 个人，企业
+     */
+    private String customerType;
+
+    /**
+     * 借款金额 小数点后2位
+     */
+    private BigDecimal loanMoney;
+
+    /**
+     * 借款日利率
+     * 百分比 小数点后2位
+     */
+    private BigDecimal loanDayRate;
+
+    /**
+     * 借款日管理费率
+     * 百分比 小数点后2位
+     */
+    private BigDecimal manageDayRate;
+
+    /**
+     * 其他费用
+     * 单位元 小数点后2位
+     */
+    private BigDecimal otherFee;
+
+    /**
+     * 实际放款金额
+     * 单位元 小数点后2位
+     */
+    private BigDecimal realFKMoney;
+
+    /**
+     * 还款方式
+     */
+    private String repayType;
+
+    /**
+     * 客户姓名
+     */
+    private String customerName;
+
+    /**
+     * 性别
+     */
+    private String gender;
+
+    /**
+     * 手机号
+     */
+    private String mobilePhone;
+
+    /**
+     * 身份证号
+     */
+    private String idCard;
+
+    /**
+     * 户口所在地 省
+     */
+    private String residenceHouseHoldProvince;
+
+    /**
+     * 户口所在地 市
+     */
+    private String residenceHouseHoldCity;
+
+    /**
+     * 户口所在地 区/县
+     */
+    private String residenceHouseHoldRegion;
+
+    /**
+     * 户口所在地详细地址
+     */
+    private String residenceHouseHoldAddress;
+
+    /**
+     * 婚姻状况
+     */
+    private Integer marriage;
+
+    /**
+     * 子女数
+     */
+    private Integer hasChild;
+
+    /**
+     * 职业类型
+     */
+    private String jobType;
+
+    /**
+     * 公司名称
+     */
+    private String companyName;
+
+    /**
+     * 公司地址-省
+     */
+    private String companyProvince;
+
+    /**
+     * 公司地址-市
+     */
+    private String companyCity;
+
+    /**
+     * 公司地址-区/县
+     */
+    private String companyRegion;
+
+    /**
+     * 公司详细地址
+     */
+    private String companyAddress;
+
+    /**
+     * 公司电话
+     */
+    private String companyTel;
+
+    /**
+     * 职位
+     */
+    private String jobTitle;
+
+    /**
+     * 最高学历
+     */
+    private String hightDegree;
+
+    /**
+     * 毕业院校
+     */
+    private String graduateInstitutions;
+
+    /**
+     * 学校地址-省
+     */
+    private String schoolProvince;
+
+    /**
+     * 学校地址-市
+     */
+    private String schoolCity;
+
+    /**
+     * 学校地址-区/县
+     */
+    private String schoolRegion;
+
+    /**
+     * 学校详细地址
+     */
+    private String schoolAddress;
+
+    /**
+     * 紧急联系人1
+     */
+    private String urgenContact1;
+
+    /**
+     * 紧急联系人1的关系
+     */
+    private String relation1;
+
+    /**
+     * 紧急联系人1的电话
+     */
+    private String urgenPhone1;
+
+    /**
+     * 紧急联系人2
+     */
+    private String urgenContact2;
+
+    /**
+     * 紧急联系人2的关系
+     */
+    private String relation2;
+
+    /**
+     * 紧急联系人2的电话
+     */
+    private String urgenPhone2;
+
+    /**
+     * 芝麻信用分数
+     */
+    private Integer zMCreditScore;
+
+    /**
+     * 收款人姓名
+     */
+    private String receiversName;
+
+    /**
+     * 收款人银行账号
+     */
+    private String receiversBankAccount;
+
+    /**
+     * 收款银行
+     */
+    private String receiversBankName;
+
+    /**
+     * 收款银行省
+     */
+    private String receiversBankProvince;
+
+    /**
+     * 收款银行市
+     */
+    private String receiversBankCity;
+
+    /**
+     * 收款银行支行
+     */
+    private String receiversBankBranch;
+
+    /**
+     * 还款人姓名
+     */
+    private String repaymentName;
+
+    /**
+     * 还款人银行账号
+     */
+    private String repaymentBankAccount;
+
+    /**
+     * 还款银行
+     */
+    private String repaymentBankName;
+
+    /**
+     * 还款银行省
+     */
+    private String repaymentBankProvince;
+
+    /**
+     * 还款银行市
+     */
+    private String repaymentBankCity;
+
+    /**
+     * 还款银行支行
+     */
+    private String repaymentBankBranch;
+
+    /**
+     * 借款性质
+     * 新增，结清再贷，展期
+     */
+    private String loanHandleType;
+
+    /**
+     * 录单人
+     */
+    private String createUser;
+
+    /**
+     * 创建时间
+     */
+    private String createTime;
+
+    /**
+     * 导入编号
+     */
+    private String importCode;
+
+    public String getAproveStatus() {
+        return aproveStatus;
+    }
+
+    public String getBpId() {
+        return bpId;
+    }
+
+    public String getCompanyAddress() {
+        return companyAddress;
+    }
+
+    public String getCompanyCity() {
+        return companyCity;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getCompanyProvince() {
+        return companyProvince;
+    }
+
+    public String getCompanyRegion() {
+        return companyRegion;
+    }
+
+    public String getCompanyTel() {
+        return companyTel;
+    }
+
+    public String getCorporation() {
+        return corporation;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public String getCustomerType() {
+        return customerType;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getGraduateInstitutions() {
+        return graduateInstitutions;
+    }
+
+    public Integer getHasChild() {
+        return hasChild;
+    }
+
+    public String getHightDegree() {
+        return hightDegree;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public String getImportCode() {
+        return importCode;
+    }
+
+    public String getImportWay() {
+        return importWay;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public String getJobType() {
+        return jobType;
+    }
+
+    public BigDecimal getLoanDayRate() {
+        return loanDayRate;
+    }
+
+    public String getLoanHandleType() {
+        return loanHandleType;
+    }
+
+    public BigDecimal getLoanMoney() {
+        return loanMoney;
+    }
+
+    public Integer getLoanPeriod() {
+        return loanPeriod;
+    }
+
+    public String getLoanPurpose() {
+        return loanPurpose;
+    }
+
+    public BigDecimal getManageDayRate() {
+        return manageDayRate;
+    }
+
+    public Integer getMarriage() {
+        return marriage;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public BigDecimal getOtherFee() {
+        return otherFee;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public BigDecimal getRealFKMoney() {
+        return realFKMoney;
+    }
+
+    public String getReceiversBankAccount() {
+        return receiversBankAccount;
+    }
+
+    public String getReceiversBankBranch() {
+        return receiversBankBranch;
+    }
+
+    public String getReceiversBankCity() {
+        return receiversBankCity;
+    }
+
+    public String getReceiversBankName() {
+        return receiversBankName;
+    }
+
+    public String getReceiversBankProvince() {
+        return receiversBankProvince;
+    }
+
+    public String getReceiversName() {
+        return receiversName;
+    }
+
+    public String getRelation1() {
+        return relation1;
+    }
+
+    public String getRelation2() {
+        return relation2;
+    }
+
+    public String getRepaymentBankAccount() {
+        return repaymentBankAccount;
+    }
+
+    public String getRepaymentBankBranch() {
+        return repaymentBankBranch;
+    }
+
+    public String getRepaymentBankCity() {
+        return repaymentBankCity;
+    }
+
+    public String getRepaymentBankName() {
+        return repaymentBankName;
+    }
+
+    public String getRepaymentBankProvince() {
+        return repaymentBankProvince;
+    }
+
+    public String getRepaymentName() {
+        return repaymentName;
+    }
+
+    public String getRepayType() {
+        return repayType;
+    }
+
+    public String getResidenceHouseHoldAddress() {
+        return residenceHouseHoldAddress;
+    }
+
+    public String getResidenceHouseHoldCity() {
+        return residenceHouseHoldCity;
+    }
+
+    public String getResidenceHouseHoldProvince() {
+        return residenceHouseHoldProvince;
+    }
+
+    public String getResidenceHouseHoldRegion() {
+        return residenceHouseHoldRegion;
+    }
+
+    public String getSchoolAddress() {
+        return schoolAddress;
+    }
+
+    public String getSchoolCity() {
+        return schoolCity;
+    }
+
+    public String getSchoolProvince() {
+        return schoolProvince;
+    }
+
+    public String getSchoolRegion() {
+        return schoolRegion;
+    }
+
+    public String getThirdLoanId() {
+        return thirdLoanId;
+    }
+
+    public String getThirdStatus() {
+        return thirdStatus;
+    }
+
+    public String getUrgenContact1() {
+        return urgenContact1;
+    }
+
+    public String getUrgenContact2() {
+        return urgenContact2;
+    }
+
+    public String getUrgenPhone1() {
+        return urgenPhone1;
+    }
+
+    public String getUrgenPhone2() {
+        return urgenPhone2;
+    }
+
+    public Integer getzMCreditScore() {
+        return zMCreditScore;
+    }
+
+    public void setAproveStatus(String aproveStatus) {
+        this.aproveStatus = aproveStatus;
+    }
+
+    public void setBpId(String bpId) {
+        this.bpId = bpId;
+    }
+
+    public void setCompanyAddress(String companyAddress) {
+        this.companyAddress = companyAddress;
+    }
+
+    public void setCompanyCity(String companyCity) {
+        this.companyCity = companyCity;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setCompanyProvince(String companyProvince) {
+        this.companyProvince = companyProvince;
+    }
+
+    public void setCompanyRegion(String companyRegion) {
+        this.companyRegion = companyRegion;
+    }
+
+    public void setCompanyTel(String companyTel) {
+        this.companyTel = companyTel;
+    }
+
+    public void setCorporation(String corporation) {
+        this.corporation = corporation;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public void setCustomerType(String customerType) {
+        this.customerType = customerType;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setGraduateInstitutions(String graduateInstitutions) {
+        this.graduateInstitutions = graduateInstitutions;
+    }
+
+    public void setHasChild(Integer hasChild) {
+        this.hasChild = hasChild;
+    }
+
+    public void setHightDegree(String hightDegree) {
+        this.hightDegree = hightDegree;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public void setImportCode(String importCode) {
+        this.importCode = importCode;
+    }
+
+    public void setImportWay(String importWay) {
+        this.importWay = importWay;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public void setJobType(String jobType) {
+        this.jobType = jobType;
+    }
+
+    public void setLoanDayRate(BigDecimal loanDayRate) {
+        this.loanDayRate = loanDayRate;
+    }
+
+    public void setLoanHandleType(String loanHandleType) {
+        this.loanHandleType = loanHandleType;
+    }
+
+    public void setLoanMoney(BigDecimal loanMoney) {
+        this.loanMoney = loanMoney;
+    }
+
+    public void setLoanPeriod(Integer loanPeriod) {
+        this.loanPeriod = loanPeriod;
+    }
+
+    public void setLoanPurpose(String loanPurpose) {
+        this.loanPurpose = loanPurpose;
+    }
+
+    public void setManageDayRate(BigDecimal manageDayRate) {
+        this.manageDayRate = manageDayRate;
+    }
+
+    public void setMarriage(Integer marriage) {
+        this.marriage = marriage;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+    public void setOtherFee(BigDecimal otherFee) {
+        this.otherFee = otherFee;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setRealFKMoney(BigDecimal realFKMoney) {
+        this.realFKMoney = realFKMoney;
+    }
+
+    public void setReceiversBankAccount(String receiversBankAccount) {
+        this.receiversBankAccount = receiversBankAccount;
+    }
+
+    public void setReceiversBankBranch(String receiversBankBranch) {
+        this.receiversBankBranch = receiversBankBranch;
+    }
+
+    public void setReceiversBankCity(String receiversBankCity) {
+        this.receiversBankCity = receiversBankCity;
+    }
+
+    public void setReceiversBankName(String receiversBankName) {
+        this.receiversBankName = receiversBankName;
+    }
+
+    public void setReceiversBankProvince(String receiversBankProvince) {
+        this.receiversBankProvince = receiversBankProvince;
+    }
+
+    public void setReceiversName(String receiversName) {
+        this.receiversName = receiversName;
+    }
+
+    public void setRelation1(String relation1) {
+        this.relation1 = relation1;
+    }
+
+    public void setRelation2(String relation2) {
+        this.relation2 = relation2;
+    }
+
+    public void setRepaymentBankAccount(String repaymentBankAccount) {
+        this.repaymentBankAccount = repaymentBankAccount;
+    }
+
+    public void setRepaymentBankBranch(String repaymentBankBranch) {
+        this.repaymentBankBranch = repaymentBankBranch;
+    }
+
+    public void setRepaymentBankCity(String repaymentBankCity) {
+        this.repaymentBankCity = repaymentBankCity;
+    }
+
+    public void setRepaymentBankName(String repaymentBankName) {
+        this.repaymentBankName = repaymentBankName;
+    }
+
+    public void setRepaymentBankProvince(String repaymentBankProvince) {
+        this.repaymentBankProvince = repaymentBankProvince;
+    }
+
+    public void setRepaymentName(String repaymentName) {
+        this.repaymentName = repaymentName;
+    }
+
+    public void setRepayType(String repayType) {
+        this.repayType = repayType;
+    }
+
+    public void setResidenceHouseHoldAddress(String residenceHouseHoldAddress) {
+        this.residenceHouseHoldAddress = residenceHouseHoldAddress;
+    }
+
+    public void setResidenceHouseHoldCity(String residenceHouseHoldCity) {
+        this.residenceHouseHoldCity = residenceHouseHoldCity;
+    }
+
+    public void setResidenceHouseHoldProvince(String residenceHouseHoldProvince) {
+        this.residenceHouseHoldProvince = residenceHouseHoldProvince;
+    }
+
+    public void setResidenceHouseHoldRegion(String residenceHouseHoldRegion) {
+        this.residenceHouseHoldRegion = residenceHouseHoldRegion;
+    }
+
+    public void setSchoolAddress(String schoolAddress) {
+        this.schoolAddress = schoolAddress;
+    }
+
+    public void setSchoolCity(String schoolCity) {
+        this.schoolCity = schoolCity;
+    }
+
+    public void setSchoolProvince(String schoolProvince) {
+        this.schoolProvince = schoolProvince;
+    }
+
+    public void setSchoolRegion(String schoolRegion) {
+        this.schoolRegion = schoolRegion;
+    }
+
+    public void setThirdLoanId(String thirdLoanId) {
+        this.thirdLoanId = thirdLoanId;
+    }
+
+    public void setThirdStatus(String thirdStatus) {
+        this.thirdStatus = thirdStatus;
+    }
+
+    public void setUrgenContact1(String urgenContact1) {
+        this.urgenContact1 = urgenContact1;
+    }
+
+    public void setUrgenContact2(String urgenContact2) {
+        this.urgenContact2 = urgenContact2;
+    }
+
+    public void setUrgenPhone1(String urgenPhone1) {
+        this.urgenPhone1 = urgenPhone1;
+    }
+
+    public void setUrgenPhone2(String urgenPhone2) {
+        this.urgenPhone2 = urgenPhone2;
+    }
+
+    public void setzMCreditScore(Integer zMCreditScore) {
+        this.zMCreditScore = zMCreditScore;
+    }
+}

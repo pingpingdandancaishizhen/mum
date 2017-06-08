@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.loan.LoanFeeDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.loan.LoanFee" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="bp_no" property="bpNo" jdbcType="VARCHAR" />
+    <result column="fee_name" property="feeName" jdbcType="VARCHAR" />
+    <result column="fee_value" property="feeValue" jdbcType="DECIMAL" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bp_no, fee_name, fee_value, update_time
+  </sql>
+  <insert id="insertLoanFeeList"  parameterType="java.util.Map" >
+  	insert into ${domain}_loan_fee (id, bp_no, fee_name, 
+      fee_value, update_time)
+    values 
+    <foreach collection="loanFeeList" item="item" index="index" separator=",">
+    (#{item.id,jdbcType=VARCHAR}, #{item.bpNo,jdbcType=VARCHAR}, #{item.feeName,jdbcType=VARCHAR}, 
+      #{item.feeValue,jdbcType=DECIMAL}, #{item.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  
+</mapper>

@@ -1,0 +1,11 @@
+{
+    "loancontractimg_loan": [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"loancontractimg_loan","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}],
+    "loancontractimg_service": [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"loancontractimg_service","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}],
+    "loancontractimg_car": [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"loancontractimg_car","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}],
+    "loancontractimg_r_mortgage": [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"loancontractimg_r_mortgage","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}],
+    "loancontractimg_transfer": [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"loancontractimg_transfer","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}],
+    "loancontractimg_attorney": [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"loancontractimg_attorney","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}],
+    "loancontractimg_withhold": [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"loancontractimg_withhold","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}],
+    "loancontractimg_gps": [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"loancontractimg_gps","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}],
+    "loancontractimg_trust": [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"loancontractimg_trust","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}]
+}

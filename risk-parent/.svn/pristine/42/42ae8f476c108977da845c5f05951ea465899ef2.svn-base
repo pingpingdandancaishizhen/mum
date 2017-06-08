@@ -1,0 +1,66 @@
+package cn.sunfit.risk.buz.server.service.p2p.product.form.handler;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.BPAttr;
+import cn.sunfit.risk.buz.api.constants.order.LoanInfo2AttrEnum;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.LoanInfoQueryReq;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.P2PImportExcelTemplateXJD;
+import cn.sunfit.risk.buz.server.dao.p2p.excel.ImportExcelTemplateDao;
+import cn.sunfit.risk.buz.server.service.p2p.product.form.ProductFormAbstractHandler;
+
+/**
+ * 
+ * @Title: DefaultProductFormHandler.java
+ * @Package cn.sunfit.risk.buz.server.service.product.form.handler
+ * @Description: 默认产品表单处理
+ * @author XFL
+ * @date 2017年3月3日 上午11:00:15
+ * @version V1.0
+ */
+@Service("defaultProductFormHandler")
+public class DefaultProductFormHandler extends ProductFormAbstractHandler {
+    @Autowired
+    private ImportExcelTemplateDao importExcelTemplateDao;
+
+    @Override
+    public boolean filter(String productId) {
+        return true;
+    }
+
+    @Override
+    public boolean hasLoan(FormQuery req, P2PImportExcelTemplateXJD loan) {
+        // importExcelTemplateDao.hasLoanInfo(req);
+        return false;
+    }
+
+    @Override
+    public void loaninfo2Attr(FormQuery req, List<BPAttr> attrs) {
+        LoanInfoQueryReq lreq = new LoanInfoQueryReq();
+        lreq.setId(req.getBpId());
+        // 将横表loan里面的字段取出来装进attr里面
+        P2PImportExcelTemplateXJD xjd = importExcelTemplateDao.queryLoanInfo(lreq);
+        if (xjd == null) {
+            xjd = new P2PImportExcelTemplateXJD();
+        }
+        List<BPAttr> infoAttrs = LoanInfo2AttrEnum.convertInfoToAttrs(xjd);
+        attrs.addAll(infoAttrs);
+    }
+
+    @Override
+    public void updateLoan(FormQuery req, Map<String, String> formdata) {
+        LoanInfoQueryReq lreq = new LoanInfoQueryReq();
+        lreq.setId(req.getBpId());
+        P2PImportExcelTemplateXJD xjd = importExcelTemplateDao.queryLoanInfo(lreq);
+        // 先查询，获取老值//TODO
+
+        // 设置值 更新
+
+    }
+
+}

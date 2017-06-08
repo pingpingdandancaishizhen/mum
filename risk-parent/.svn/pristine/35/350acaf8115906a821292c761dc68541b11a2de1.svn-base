@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.excel.P2PBankDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.p2p.P2PBank" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="bankCode" property="bank_code" jdbcType="VARCHAR" />
+    <result column="bankName" property="bank_name" jdbcType="VARCHAR" />
+    <result column="bankShort" property="bank_short" jdbcType="VARCHAR" />
+    <result column="thirdType" property="third_type" jdbcType="VARCHAR" />
+    <result column="effectTag" property="effect_tag" jdbcType="SMALLINT" />
+  </resultMap>
+  
+  <select id="findBank" resultMap="BaseResultMap">
+  	SELECT * FROM p2p_bank pb
+  </select>
+  
+  <select id="getBankList" resultType="java.util.Map">
+  	select pb.bank_code bankCode,pb.bank_name bankName from p2p_bank pb
+  </select>
+
+  <select id="getBankcodeByName" parameterType="string" resultType="string">
+  	SELECT pb.bank_code FROM p2p_bank pb WHERE bank_name = #{bankName} AND effect_tag = 1 LIMIT 1;
+  </select>
+</mapper>

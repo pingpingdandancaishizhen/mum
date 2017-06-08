@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.activiti.BPMetaOperationDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPMetaOperation" >
+    <id column="operation_id" property="operationId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="oper_key" property="operKey" jdbcType="VARCHAR" />
+    <result column="oper_name" property="operName" jdbcType="VARCHAR" />
+    <result column="oper_desc" property="operDesc" jdbcType="VARCHAR" />
+    <result column="oper_type" property="operType" jdbcType="VARCHAR" />
+    <result column="node_key" property="nodeKey" jdbcType="VARCHAR" />
+    <result column="binding" property="binding" jdbcType="VARCHAR" />
+    <result column="is_basic" property="isBasic" jdbcType="VARCHAR" />
+    <result column="pre_condition" property="preCondition" jdbcType="VARCHAR" />
+    <result column="post_condition" property="postCondition" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    operation_id, corp_id, bp_def_id, oper_key, oper_name, oper_desc, oper_type, binding, is_basic, node_key,
+    pre_condition, post_condition, update_time
+  </sql>
+  
+  <sql id="Base_Column_List_O" >
+    o.operation_id, o.corp_id, o.bp_def_id, o.oper_key, o.oper_name, o.oper_desc, o.oper_type, o.binding, o.is_basic, o.node_key,
+    o.pre_condition, o.post_condition, o.update_time
+  </sql>
+  
+   <select id="selectStartOperation" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List_O" />
+    from ${domain}_bp_meta_operations o right join ${domain}_bp_meta_nodes n on o.bp_def_id=n.bp_def_id and o.node_key=n.node_key
+    where o.bp_def_id= #{bpDefId} and n.node_type='startevent' and n.form_key is not null
+  </select>
+  
+   <select id="selectNodeOperation" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List_O" />
+    from ${domain}_bp_meta_operations o right join ${domain}_bp_meta_nodes n on o.bp_def_id=n.bp_def_id and o.node_key=n.node_key
+    where o.bp_def_id= #{bpDefId} and n.node_key=#{nodeKey}
+  </select>
+  
+   <select id="selectNodeOperationByType" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List_O" />
+    from ${domain}_bp_meta_operations o right join ${domain}_bp_meta_nodes n on o.bp_def_id=n.bp_def_id and o.node_key=n.node_key
+    where o.bp_def_id= #{bpDefId} and n.node_key=#{nodeKey} and o.oper_type=#{opertype}
+  </select>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.api.jfjd.JFCorpDAO" >
+  <resultMap id="CorpShowResultMap" type="cn.sunfit.risk.buz.api.beans.api.jfjd.JFCorpShowVO" >
+    <result column="id" property="id"/>
+    <result column="simple_name" property="simpleName"/>
+    <result column="full_name" property="fullName"/>
+  </resultMap>
+  
+  <select id="queryCorps" resultMap="CorpShowResultMap" >
+  	select id,simple_name,corp_name full_name 
+  	from risk_corp
+  	where `status` = '0'
+  	and jf_support = '1'
+  </select>
+  
+  <select id="getDomainByCorpId" parameterType="string" resultType="string">
+  	select domain from risk_corp where id = #{corpId} limit 1;
+  </select>
+</mapper>

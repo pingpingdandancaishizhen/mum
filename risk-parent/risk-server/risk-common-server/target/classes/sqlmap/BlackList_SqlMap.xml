@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.corp.BlackListDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.corp.BlackList" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="license_num" property="licenseNum" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, license_num
+  </sql>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.corp.BlackList" >
+    insert into ${domain}_blacklist (id, license_num)
+    values (#{id,jdbcType=VARCHAR}, #{licenseNum,jdbcType=VARCHAR})
+  </insert>
+  
+  <delete id="delete">
+	delete from ${domain}_blacklist 
+	where license_num = #{licenseNum,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="selectByLicenseNum" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from ${domain}_blacklist 
+	where license_num = #{licenseNum,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

@@ -1,0 +1,11 @@
+{
+    "loancheckinfo_person": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"loancheckinfo_person","condition":null,"detail":{"max":"40","min":"1"}}],
+    "loancheckinfo_check": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"loancheckinfo_check","condition":null,"detail":{"max":"40","min":"1"}}],
+    "loancheckinfo_credit": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"loancheckinfo_credit","condition":null,"detail":{"max":"40","min":"1"}}],
+    "loancheckinfo_car": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"loancheckinfo_car","condition":null,"detail":{"max":"40","min":"1"}}],
+    "loancheckinfo_finance": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"loancheckinfo_finance","condition":null,"detail":{"max":"40","min":"1"}}],
+    "loancheckinfo_audit": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"loancheckinfo_audit","condition":null,"detail":{"max":"40","min":"1"}}],
+    "loancheckinfo_data": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"loancheckinfo_data","condition":null,"detail":{"max":"40","min":"1"}}],
+    "loancheckinfo_asset": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"loancheckinfo_asset","condition":null,"detail":{"max":"40","min":"1"}}],
+    "loancheckinfo_yearcount": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"loancheckinfo_yearcount","condition":null,"detail":{"max":"40","min":"1"}}]
+}

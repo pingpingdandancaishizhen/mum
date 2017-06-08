@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>jQuery Entropizer demos</title>
+    <link rel="stylesheet" href="http://172.16.88.221:8080/static/assets/bootstrap/css/bootstrap.min.css?time=20170315" />
+    
+    <link type="text/css" rel="stylesheet" href="./css/jquery-entropizer.min.css" />
+    <script src="js/jquery-entropizer.js"></script>
+</head>
+<body data-spy="scroll" data-target="#sidebar">
+    <div id="top" class="container">
+        <div class="page-header">
+            <h1>Entropizer Demos</h1>
+        </div>
+        <div class="col-md-9">
+            <div id="default" class="panel panel-primary">
+                <div class="panel-heading">
+                    Default UI
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="password" class="col-md-2 control-label">Password:</label>
+                            <div class="col-md-5">
+                                <input type="password" id="password" class="form-control" placeholder="Enter a password" />
+                            </div>
+                            <div class="col-md-5" id="meter">
+                            </div>
+                        </div>
+                    </form>
+                    <hr />
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script type="text/javascript" src="http://172.16.88.221:8080/static/assets/plugins/jQuery/jquery-2.2.3.min.js?time=20170315"></script>
+    <script type="text/javascript" src="http://172.16.88.221:8080/static/assets/bootstrap/js/bootstrap.min.js?time=20170315"></script>
+
+    <script type="text/javascript" src="js/entropizer.js"></script>
+    <script type="text/javascript" src="js/jquery-entropizer.js"></script>
+    <script type="text/javascript">
+        (function($) {
+            $('#meter').entropizer({
+
+                // The input field to watch: any selector, DOM element or jQuery instance
+                // Default: 'input[type=password]:first'
+                target: '#password',
+
+                // The event(s) upon which to update the meter UI
+                // Default: 'keydown keyup'
+                on: 'input',
+
+                // Used to calculate the percentage of the bar to fill (see map function below)
+                // Default: 100
+                maximum: 100,
+                min:6,
+
+                // An array of ranges to use when classifying password strength. Used internally by default map
+                // function and can be used publicly via $.entropizer.classify(value, buckets). Properties
+                // 'min' and 'max' are used to calculate which bucket to use - upon finding a match, an object
+                // containing all the other properties is returned, e.g. below, a value of 42 returns
+                // { message: ':)' }
+                // Default: 4 ranges with strength and color properties (see source for values)
+                buckets: [
+                    { max: 50, message: '差' ,color: '#e13'},
+                    { min: 50, max: 75, message: '还行',color: '#f80' },
+                    { min: 75, message: '强', color: '#0c8'}
+                ],
+                engine: {
+                    classes: ['lowercase','uppercase','numeric','symbols']
+                },
+                create: function(container) {
+                    var track = $('<div>').addClass('entropizer-track').appendTo(container),
+                            bar = $('<div>').addClass('entropizer-bar').appendTo(track),
+                            text = $('<div>').addClass('entropizer-text').appendTo(track);
+                    return {
+                        track: track,
+                        bar: bar,
+                        text: text
+                    };
+                },
+                destroy: function(ui) {
+                    ui.track.remove();
+                },
+                map: function(entropy, mapOptions) {
+                    var selectedBucket = $.entropizer.classify(entropy, mapOptions.buckets);
+                    var percent = Math.min(1, entropy / mapOptions.maximum) * 100;
+                    return $.extend({ entropy: entropy, percent: percent }, selectedBucket);
+
+                },
+                update: function(data, ui) {
+                    if(data.percent){
+                        ui.track.css({
+                            "display":'block'
+                        })
+                    }
+                    ui.bar.css({
+                        'background-color': data.color,
+                        'width': data.percent + '%'
+                    });
+                    ui.text.html(data.message);
+                },
+            });
+        })($);
+    </script>
+</body>
+</html>

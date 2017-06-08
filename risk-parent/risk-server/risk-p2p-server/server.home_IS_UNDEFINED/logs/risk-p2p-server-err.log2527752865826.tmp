@@ -1,0 +1,711 @@
+WARN  [risk-p2p-server] 2017-05-04 08:59:53.829 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+ERROR [risk-p2p-server] 2017-05-04 09:07:58.547 [DubboServerHandler-172.16.88.108:10020-thread-11] cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl - ********************** Exception is thrown **********************
+异常编号 : EXCEPTION_CODE_011539361052882
+产生异常的类名 : cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl
+产生异常的方法名 : selectTodoList
+方法参数 : [cn.sunfit.risk.buz.api.beans.p2p.activiti.TodoQueryReq@2fd71f9f]
+异常提示信息 : 在业务层发生了异常,可能是一个BUG,请将日志文件中异常编号为[EXCEPTION_CODE_011539361052882]的异常明细发送给开发团队
+异常发生的时间 : 2017-05-04 09:07:58
+异常堆栈信息 : orj.worf.exception.AppRuntimeException: nested exception is org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+### The error may exist in file [D:\workspace\risk-parent\risk-server\risk-p2p-server\target\classes\sqlmap\p2p\activiti\BP_SqlMap.xml]
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.activiti.BPDAO.selectTodoList-Inline
+### The error occurred while setting parameters
+### SQL: SELECT base.bp_id ,base.bp_no ,base.cust_name ,base.cust_gender ,base.cust_license_num ,base.cust_mobile ,base.cust_type , base.customer_id ,base.product_type , base.create_time , base.apply_amount , base.loan_usage , base.loan_apply_monthlyTerm, base.loan_apply_daylyTerm,base.loanapproval_repaymentTypes, base.loan_repayment_method ,base.loancar_license_plate ,base.loancar_car_brand ,base.create_user_id, base.bp_status , base.current_task_key, base.current_task_name,base.loan_approval_amount,base.loan_approval_daylyTerm,base.loan_approval_monthlyTerm ,base.task_id ,base.task_name,base.bp_def_id,base.bp_def_key , p.id product_id , p.product_name, cu.user_name ,cd.dept_name, cd.dept_head,cd.id dept_id from ( SELECT ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id ) cust_name, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_gender' AND a.bp_id = bp.bp_id ) cust_gender, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_license_num' AND a.bp_id = bp.bp_id ) cust_license_num, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = bp.bp_id ) cust_mobile, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_type' AND a.bp_id = bp.bp_id ) cust_type, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_usage' AND a.bp_id = bp.bp_id ) loan_usage, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_apply_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_daylyTerm' AND a.bp_id = bp.bp_id ) loan_apply_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_repaymentTypes' AND a.bp_id = bp.bp_id ) loan_repayment_method, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = bp.bp_id ) loanapproval_repaymentTypes, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = bp.bp_id ) loan_approval_amount, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_daylyTerm' AND a.bp_id = bp.bp_id ) loan_approval_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_approval_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_license_plate' AND a.bp_id = bp.bp_id ) loancar_license_plate, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_car_bms_brand' AND a.bp_id = bp.bp_id ) loancar_car_brand, bp.task_id ,bp.task_name ,bp.bp_id ,bp.bp_no ,bp.product_type ,bp.bp_def_id , bp.create_time ,bp.create_user_id , bp.current_task_key,bp.current_task_name,bp.bp_status ,bm.bp_def_key from ( SELECT TASK.ID_ task_id, TASK.NAME_ task_name, bp.bp_id, bp.bp_no, bp.product_type, bp.create_time, bp.create_user_id, bp.current_task_key, bp.current_task_name, bp.bp_def_id, bp.bp_status FROM ( SELECT DISTINCT RES.ID_, RES.NAME_ FROM ACT_RU_TASK RES LEFT JOIN ACT_RU_IDENTITYLINK I ON I.TASK_ID_ = RES.ID_ WHERE ( RES.ASSIGNEE_ = ? OR ( RES.ASSIGNEE_ IS NULL AND I.TYPE_ = 'candidate' AND (I.USER_ID_ = ?) ) ) ) TASK, rjs_risk_bps bp WHERE bp.current_task_id LIKE concat('%', TASK.ID_, '%') ) bp, rjs_bp_meta bm WHERE bp.bp_def_id = bm.bp_def_id ) base LEFT JOIN p2p_product p on base.product_type = p.id LEFT JOIN risk_corp_user cu on base.create_user_id = cu.id LEFT JOIN risk_corp_dept cd on cu.dept_id = cd.id where 1 = 1 order by base.create_time desc limit 0, 5
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+	at orj.worf.exception.util.ExceptionUtils.createAppRuntimeException(ExceptionUtils.java:78)
+	at orj.worf.exception.interceptor.ExceptionInterceptor.validateException(ExceptionInterceptor.java:55)
+	at orj.worf.exception.interceptor.ExceptionInterceptor.handleAppException(ExceptionInterceptor.java:44)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:603)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:62)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:85)
+	at orj.worf.service.aspect.ServiceLogAspect.logInboundOutbound(ServiceLogAspect.java:33)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:610)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:68)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:653)
+	at cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl$$EnhancerBySpringCGLIB$$32dde816.selectTodoList(<generated>)
+	at com.alibaba.dubbo.common.bytecode.Wrapper28.invokeMethod(Wrapper28.java)
+	at com.alibaba.dubbo.rpc.proxy.javassist.JavassistProxyFactory$1.doInvoke(JavassistProxyFactory.java:48)
+	at com.alibaba.dubbo.rpc.proxy.AbstractProxyInvoker.invoke(AbstractProxyInvoker.java:77)
+	at com.alibaba.dubbo.rpc.protocol.InvokerWrapper.invoke(InvokerWrapper.java:57)
+	at com.alibaba.dubbo.rpc.filter.ExceptionFilter.invoke(ExceptionFilter.java:58)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.TimeoutFilter.invoke(TimeoutFilter.java:43)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.monitor.support.MonitorFilter.invoke(MonitorFilter.java:75)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.protocol.dubbo.filter.TraceFilter.invoke(TraceFilter.java:79)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.ContextFilter.invoke(ContextFilter.java:57)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.GenericFilter.invoke(GenericFilter.java:106)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.ClassLoaderFilter.invoke(ClassLoaderFilter.java:39)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.EchoFilter.invoke(EchoFilter.java:40)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol$1.reply(DubboProtocol.java:114)
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.handleRequest(HeaderExchangeHandler.java:88)
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.received(HeaderExchangeHandler.java:178)
+	at com.alibaba.dubbo.remoting.transport.DecodeHandler.received(DecodeHandler.java:53)
+	at com.alibaba.dubbo.remoting.transport.dispatcher.ChannelEventRunnable.run(ChannelEventRunnable.java:86)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+### The error may exist in file [D:\workspace\risk-parent\risk-server\risk-p2p-server\target\classes\sqlmap\p2p\activiti\BP_SqlMap.xml]
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.activiti.BPDAO.selectTodoList-Inline
+### The error occurred while setting parameters
+### SQL: SELECT base.bp_id ,base.bp_no ,base.cust_name ,base.cust_gender ,base.cust_license_num ,base.cust_mobile ,base.cust_type , base.customer_id ,base.product_type , base.create_time , base.apply_amount , base.loan_usage , base.loan_apply_monthlyTerm, base.loan_apply_daylyTerm,base.loanapproval_repaymentTypes, base.loan_repayment_method ,base.loancar_license_plate ,base.loancar_car_brand ,base.create_user_id, base.bp_status , base.current_task_key, base.current_task_name,base.loan_approval_amount,base.loan_approval_daylyTerm,base.loan_approval_monthlyTerm ,base.task_id ,base.task_name,base.bp_def_id,base.bp_def_key , p.id product_id , p.product_name, cu.user_name ,cd.dept_name, cd.dept_head,cd.id dept_id from ( SELECT ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id ) cust_name, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_gender' AND a.bp_id = bp.bp_id ) cust_gender, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_license_num' AND a.bp_id = bp.bp_id ) cust_license_num, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = bp.bp_id ) cust_mobile, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_type' AND a.bp_id = bp.bp_id ) cust_type, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_usage' AND a.bp_id = bp.bp_id ) loan_usage, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_apply_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_daylyTerm' AND a.bp_id = bp.bp_id ) loan_apply_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_repaymentTypes' AND a.bp_id = bp.bp_id ) loan_repayment_method, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = bp.bp_id ) loanapproval_repaymentTypes, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = bp.bp_id ) loan_approval_amount, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_daylyTerm' AND a.bp_id = bp.bp_id ) loan_approval_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_approval_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_license_plate' AND a.bp_id = bp.bp_id ) loancar_license_plate, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_car_bms_brand' AND a.bp_id = bp.bp_id ) loancar_car_brand, bp.task_id ,bp.task_name ,bp.bp_id ,bp.bp_no ,bp.product_type ,bp.bp_def_id , bp.create_time ,bp.create_user_id , bp.current_task_key,bp.current_task_name,bp.bp_status ,bm.bp_def_key from ( SELECT TASK.ID_ task_id, TASK.NAME_ task_name, bp.bp_id, bp.bp_no, bp.product_type, bp.create_time, bp.create_user_id, bp.current_task_key, bp.current_task_name, bp.bp_def_id, bp.bp_status FROM ( SELECT DISTINCT RES.ID_, RES.NAME_ FROM ACT_RU_TASK RES LEFT JOIN ACT_RU_IDENTITYLINK I ON I.TASK_ID_ = RES.ID_ WHERE ( RES.ASSIGNEE_ = ? OR ( RES.ASSIGNEE_ IS NULL AND I.TYPE_ = 'candidate' AND (I.USER_ID_ = ?) ) ) ) TASK, rjs_risk_bps bp WHERE bp.current_task_id LIKE concat('%', TASK.ID_, '%') ) bp, rjs_bp_meta bm WHERE bp.bp_def_id = bm.bp_def_id ) base LEFT JOIN p2p_product p on base.product_type = p.id LEFT JOIN risk_corp_user cu on base.create_user_id = cu.id LEFT JOIN risk_corp_dept cd on cu.dept_id = cd.id where 1 = 1 order by base.create_time desc limit 0, 5
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:231)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:73)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:371)
+	at com.sun.proxy.$Proxy24.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:205)
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:117)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:63)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:52)
+	at com.sun.proxy.$Proxy64.selectTodoList(Unknown Source)
+	at cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl.selectTodoList(BpServiceImpl.java:96)
+	at cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl$$FastClassBySpringCGLIB$$4fe457dc.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:717)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor.invoke(AfterReturningAdviceInterceptor.java:52)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:58)
+	... 43 more
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:400)
+	at com.mysql.jdbc.Util.getInstance(Util.java:383)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:980)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3847)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3783)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2447)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2594)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2545)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1901)
+	at com.mysql.jdbc.PreparedStatement.execute(PreparedStatement.java:1193)
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.execute(NewProxyPreparedStatement.java:404)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:59)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:73)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:62)
+	at com.sun.proxy.$Proxy46.query(Unknown Source)
+	at org.apache.ibatis.executor.ReuseExecutor.doQuery(ReuseExecutor.java:57)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:267)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:137)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:96)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:77)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:108)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:358)
+	... 57 more
+
+
+ERROR [risk-p2p-server] 2017-05-04 09:07:58.561 [DubboServerHandler-172.16.88.108:10020-thread-11] com.alibaba.dubbo.rpc.filter.ExceptionFilter -  [DUBBO] Got unchecked and undeclared exception which called by 172.16.88.108. service: cn.sunfit.risk.buz.api.service.p2p.activiti.BpService, method: selectTodoList, exception: orj.worf.exception.AppRuntimeException: nested exception is org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+### The error may exist in file [D:\workspace\risk-parent\risk-server\risk-p2p-server\target\classes\sqlmap\p2p\activiti\BP_SqlMap.xml]
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.activiti.BPDAO.selectTodoList-Inline
+### The error occurred while setting parameters
+### SQL: SELECT base.bp_id ,base.bp_no ,base.cust_name ,base.cust_gender ,base.cust_license_num ,base.cust_mobile ,base.cust_type , base.customer_id ,base.product_type , base.create_time , base.apply_amount , base.loan_usage , base.loan_apply_monthlyTerm, base.loan_apply_daylyTerm,base.loanapproval_repaymentTypes, base.loan_repayment_method ,base.loancar_license_plate ,base.loancar_car_brand ,base.create_user_id, base.bp_status , base.current_task_key, base.current_task_name,base.loan_approval_amount,base.loan_approval_daylyTerm,base.loan_approval_monthlyTerm ,base.task_id ,base.task_name,base.bp_def_id,base.bp_def_key , p.id product_id , p.product_name, cu.user_name ,cd.dept_name, cd.dept_head,cd.id dept_id from ( SELECT ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id ) cust_name, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_gender' AND a.bp_id = bp.bp_id ) cust_gender, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_license_num' AND a.bp_id = bp.bp_id ) cust_license_num, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = bp.bp_id ) cust_mobile, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_type' AND a.bp_id = bp.bp_id ) cust_type, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_usage' AND a.bp_id = bp.bp_id ) loan_usage, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_apply_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_daylyTerm' AND a.bp_id = bp.bp_id ) loan_apply_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_repaymentTypes' AND a.bp_id = bp.bp_id ) loan_repayment_method, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = bp.bp_id ) loanapproval_repaymentTypes, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = bp.bp_id ) loan_approval_amount, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_daylyTerm' AND a.bp_id = bp.bp_id ) loan_approval_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_approval_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_license_plate' AND a.bp_id = bp.bp_id ) loancar_license_plate, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_car_bms_brand' AND a.bp_id = bp.bp_id ) loancar_car_brand, bp.task_id ,bp.task_name ,bp.bp_id ,bp.bp_no ,bp.product_type ,bp.bp_def_id , bp.create_time ,bp.create_user_id , bp.current_task_key,bp.current_task_name,bp.bp_status ,bm.bp_def_key from ( SELECT TASK.ID_ task_id, TASK.NAME_ task_name, bp.bp_id, bp.bp_no, bp.product_type, bp.create_time, bp.create_user_id, bp.current_task_key, bp.current_task_name, bp.bp_def_id, bp.bp_status FROM ( SELECT DISTINCT RES.ID_, RES.NAME_ FROM ACT_RU_TASK RES LEFT JOIN ACT_RU_IDENTITYLINK I ON I.TASK_ID_ = RES.ID_ WHERE ( RES.ASSIGNEE_ = ? OR ( RES.ASSIGNEE_ IS NULL AND I.TYPE_ = 'candidate' AND (I.USER_ID_ = ?) ) ) ) TASK, rjs_risk_bps bp WHERE bp.current_task_id LIKE concat('%', TASK.ID_, '%') ) bp, rjs_bp_meta bm WHERE bp.bp_def_id = bm.bp_def_id ) base LEFT JOIN p2p_product p on base.product_type = p.id LEFT JOIN risk_corp_user cu on base.create_user_id = cu.id LEFT JOIN risk_corp_dept cd on cu.dept_id = cd.id where 1 = 1 order by base.create_time desc limit 0, 5
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list', dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+orj.worf.exception.AppRuntimeException: nested exception is org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+### The error may exist in file [D:\workspace\risk-parent\risk-server\risk-p2p-server\target\classes\sqlmap\p2p\activiti\BP_SqlMap.xml]
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.activiti.BPDAO.selectTodoList-Inline
+### The error occurred while setting parameters
+### SQL: SELECT base.bp_id ,base.bp_no ,base.cust_name ,base.cust_gender ,base.cust_license_num ,base.cust_mobile ,base.cust_type , base.customer_id ,base.product_type , base.create_time , base.apply_amount , base.loan_usage , base.loan_apply_monthlyTerm, base.loan_apply_daylyTerm,base.loanapproval_repaymentTypes, base.loan_repayment_method ,base.loancar_license_plate ,base.loancar_car_brand ,base.create_user_id, base.bp_status , base.current_task_key, base.current_task_name,base.loan_approval_amount,base.loan_approval_daylyTerm,base.loan_approval_monthlyTerm ,base.task_id ,base.task_name,base.bp_def_id,base.bp_def_key , p.id product_id , p.product_name, cu.user_name ,cd.dept_name, cd.dept_head,cd.id dept_id from ( SELECT ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id ) cust_name, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_gender' AND a.bp_id = bp.bp_id ) cust_gender, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_license_num' AND a.bp_id = bp.bp_id ) cust_license_num, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = bp.bp_id ) cust_mobile, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_type' AND a.bp_id = bp.bp_id ) cust_type, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_usage' AND a.bp_id = bp.bp_id ) loan_usage, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_apply_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_daylyTerm' AND a.bp_id = bp.bp_id ) loan_apply_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_repaymentTypes' AND a.bp_id = bp.bp_id ) loan_repayment_method, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = bp.bp_id ) loanapproval_repaymentTypes, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = bp.bp_id ) loan_approval_amount, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_daylyTerm' AND a.bp_id = bp.bp_id ) loan_approval_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_approval_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_license_plate' AND a.bp_id = bp.bp_id ) loancar_license_plate, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_car_bms_brand' AND a.bp_id = bp.bp_id ) loancar_car_brand, bp.task_id ,bp.task_name ,bp.bp_id ,bp.bp_no ,bp.product_type ,bp.bp_def_id , bp.create_time ,bp.create_user_id , bp.current_task_key,bp.current_task_name,bp.bp_status ,bm.bp_def_key from ( SELECT TASK.ID_ task_id, TASK.NAME_ task_name, bp.bp_id, bp.bp_no, bp.product_type, bp.create_time, bp.create_user_id, bp.current_task_key, bp.current_task_name, bp.bp_def_id, bp.bp_status FROM ( SELECT DISTINCT RES.ID_, RES.NAME_ FROM ACT_RU_TASK RES LEFT JOIN ACT_RU_IDENTITYLINK I ON I.TASK_ID_ = RES.ID_ WHERE ( RES.ASSIGNEE_ = ? OR ( RES.ASSIGNEE_ IS NULL AND I.TYPE_ = 'candidate' AND (I.USER_ID_ = ?) ) ) ) TASK, rjs_risk_bps bp WHERE bp.current_task_id LIKE concat('%', TASK.ID_, '%') ) bp, rjs_bp_meta bm WHERE bp.bp_def_id = bm.bp_def_id ) base LEFT JOIN p2p_product p on base.product_type = p.id LEFT JOIN risk_corp_user cu on base.create_user_id = cu.id LEFT JOIN risk_corp_dept cd on cu.dept_id = cd.id where 1 = 1 order by base.create_time desc limit 0, 5
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+	at orj.worf.exception.util.ExceptionUtils.createAppRuntimeException(ExceptionUtils.java:78) ~[worf-exception-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at orj.worf.exception.interceptor.ExceptionInterceptor.validateException(ExceptionInterceptor.java:55) ~[worf-exception-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at orj.worf.exception.interceptor.ExceptionInterceptor.handleAppException(ExceptionInterceptor.java:44) ~[worf-exception-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:603) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:62) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:85) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at orj.worf.service.aspect.ServiceLogAspect.logInboundOutbound(ServiceLogAspect.java:33) ~[worf-service-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:610) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:68) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:653) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl$$EnhancerBySpringCGLIB$$32dde816.selectTodoList(<generated>) ~[spring-core-4.1.3.RELEASE.jar:na]
+	at com.alibaba.dubbo.common.bytecode.Wrapper28.invokeMethod(Wrapper28.java) ~[na:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.proxy.javassist.JavassistProxyFactory$1.doInvoke(JavassistProxyFactory.java:48) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.proxy.AbstractProxyInvoker.invoke(AbstractProxyInvoker.java:77) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.InvokerWrapper.invoke(InvokerWrapper.java:57) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.ExceptionFilter.invoke(ExceptionFilter.java:58) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.TimeoutFilter.invoke(TimeoutFilter.java:43) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.monitor.support.MonitorFilter.invoke(MonitorFilter.java:75) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.dubbo.filter.TraceFilter.invoke(TraceFilter.java:79) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.ContextFilter.invoke(ContextFilter.java:57) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.GenericFilter.invoke(GenericFilter.java:106) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.ClassLoaderFilter.invoke(ClassLoaderFilter.java:39) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.EchoFilter.invoke(EchoFilter.java:40) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol$1.reply(DubboProtocol.java:114) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.handleRequest(HeaderExchangeHandler.java:88) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.received(HeaderExchangeHandler.java:178) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.transport.DecodeHandler.received(DecodeHandler.java:53) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.transport.dispatcher.ChannelEventRunnable.run(ChannelEventRunnable.java:86) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:na]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:na]
+	at java.lang.Thread.run(Thread.java:745) [na:na]
+Caused by: org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+### The error may exist in file [D:\workspace\risk-parent\risk-server\risk-p2p-server\target\classes\sqlmap\p2p\activiti\BP_SqlMap.xml]
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.activiti.BPDAO.selectTodoList-Inline
+### The error occurred while setting parameters
+### SQL: SELECT base.bp_id ,base.bp_no ,base.cust_name ,base.cust_gender ,base.cust_license_num ,base.cust_mobile ,base.cust_type , base.customer_id ,base.product_type , base.create_time , base.apply_amount , base.loan_usage , base.loan_apply_monthlyTerm, base.loan_apply_daylyTerm,base.loanapproval_repaymentTypes, base.loan_repayment_method ,base.loancar_license_plate ,base.loancar_car_brand ,base.create_user_id, base.bp_status , base.current_task_key, base.current_task_name,base.loan_approval_amount,base.loan_approval_daylyTerm,base.loan_approval_monthlyTerm ,base.task_id ,base.task_name,base.bp_def_id,base.bp_def_key , p.id product_id , p.product_name, cu.user_name ,cd.dept_name, cd.dept_head,cd.id dept_id from ( SELECT ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id ) cust_name, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_gender' AND a.bp_id = bp.bp_id ) cust_gender, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_license_num' AND a.bp_id = bp.bp_id ) cust_license_num, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = bp.bp_id ) cust_mobile, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_type' AND a.bp_id = bp.bp_id ) cust_type, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_usage' AND a.bp_id = bp.bp_id ) loan_usage, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_apply_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_daylyTerm' AND a.bp_id = bp.bp_id ) loan_apply_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_repaymentTypes' AND a.bp_id = bp.bp_id ) loan_repayment_method, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = bp.bp_id ) loanapproval_repaymentTypes, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = bp.bp_id ) loan_approval_amount, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_daylyTerm' AND a.bp_id = bp.bp_id ) loan_approval_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_approval_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_license_plate' AND a.bp_id = bp.bp_id ) loancar_license_plate, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_car_bms_brand' AND a.bp_id = bp.bp_id ) loancar_car_brand, bp.task_id ,bp.task_name ,bp.bp_id ,bp.bp_no ,bp.product_type ,bp.bp_def_id , bp.create_time ,bp.create_user_id , bp.current_task_key,bp.current_task_name,bp.bp_status ,bm.bp_def_key from ( SELECT TASK.ID_ task_id, TASK.NAME_ task_name, bp.bp_id, bp.bp_no, bp.product_type, bp.create_time, bp.create_user_id, bp.current_task_key, bp.current_task_name, bp.bp_def_id, bp.bp_status FROM ( SELECT DISTINCT RES.ID_, RES.NAME_ FROM ACT_RU_TASK RES LEFT JOIN ACT_RU_IDENTITYLINK I ON I.TASK_ID_ = RES.ID_ WHERE ( RES.ASSIGNEE_ = ? OR ( RES.ASSIGNEE_ IS NULL AND I.TYPE_ = 'candidate' AND (I.USER_ID_ = ?) ) ) ) TASK, rjs_risk_bps bp WHERE bp.current_task_id LIKE concat('%', TASK.ID_, '%') ) bp, rjs_bp_meta bm WHERE bp.bp_def_id = bm.bp_def_id ) base LEFT JOIN p2p_product p on base.product_type = p.id LEFT JOIN risk_corp_user cu on base.create_user_id = cu.id LEFT JOIN risk_corp_dept cd on cu.dept_id = cd.id where 1 = 1 order by base.create_time desc limit 0, 5
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:231) ~[spring-jdbc-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73) ~[spring-jdbc-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:73) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:371) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	at com.sun.proxy.$Proxy24.selectList(Unknown Source) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:205) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:117) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:63) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:52) ~[mybatis-3.2.8.jar:3.2.8]
+	at com.sun.proxy.$Proxy64.selectTodoList(Unknown Source) ~[na:na]
+	at cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl.selectTodoList(BpServiceImpl.java:96) ~[classes/:na]
+	at cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl$$FastClassBySpringCGLIB$$4fe457dc.invoke(<generated>) ~[spring-core-4.1.3.RELEASE.jar:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204) ~[spring-core-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:717) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor.invoke(AfterReturningAdviceInterceptor.java:52) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:58) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	... 43 common frames omitted
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.customer_id' in 'field list'
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[na:na]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[na:na]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526) ~[na:na]
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:400) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.Util.getInstance(Util.java:383) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:980) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3847) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3783) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2447) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2594) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2545) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1901) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.PreparedStatement.execute(PreparedStatement.java:1193) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.execute(NewProxyPreparedStatement.java:404) ~[c3p0-0.9.5-pre9.jar:0.9.5-pre9]
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:59) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:73) ~[mybatis-3.2.8.jar:3.2.8]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:62) ~[mybatis-3.2.8.jar:3.2.8]
+	at com.sun.proxy.$Proxy46.query(Unknown Source) ~[na:na]
+	at org.apache.ibatis.executor.ReuseExecutor.doQuery(ReuseExecutor.java:57) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:267) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:137) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:96) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:77) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:108) ~[mybatis-3.2.8.jar:3.2.8]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:358) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	... 57 common frames omitted
+WARN  [risk-p2p-server] 2017-05-04 09:16:39.899 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.108:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-04 09:16:48.722 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+WARN  [risk-p2p-server] 2017-05-04 09:17:16.420 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+ERROR [risk-p2p-server] 2017-05-04 09:19:00.631 [DubboServerHandler-172.16.88.108:10020-thread-12] cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl - ********************** Exception is thrown **********************
+异常编号 : EXCEPTION_CODE_012201836698924
+产生异常的类名 : cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl
+产生异常的方法名 : selectTodoList
+方法参数 : [cn.sunfit.risk.buz.api.beans.p2p.activiti.TodoQueryReq@38ca1529]
+异常提示信息 : 在业务层发生了异常,可能是一个BUG,请将日志文件中异常编号为[EXCEPTION_CODE_012201836698924]的异常明细发送给开发团队
+异常发生的时间 : 2017-05-04 09:19:00
+异常堆栈信息 : orj.worf.exception.AppRuntimeException: nested exception is org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+### The error may exist in file [D:\workspace\risk-parent\risk-server\risk-p2p-server\target\classes\sqlmap\p2p\activiti\BP_SqlMap.xml]
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.activiti.BPDAO.selectTodoList-Inline
+### The error occurred while setting parameters
+### SQL: SELECT base.bp_id ,base.bp_no ,base.cust_name ,base.cust_gender ,base.cust_license_num ,base.cust_mobile ,base.cust_type , base.product_type , base.create_time , base.apply_amount , base.loan_usage , base.loan_apply_monthlyTerm, base.loan_apply_daylyTerm,base.loanapproval_repaymentTypes, base.loan_repayment_method ,base.loancar_license_plate ,base.loancar_car_brand ,base.create_user_id, base.bp_status , base.current_task_key, base.current_task_name,base.loan_approval_amount,base.loan_approval_daylyTerm,base.loan_approval_monthlyTerm ,base.task_id ,base.task_name,base.bp_def_id,base.bp_def_key , p.id product_id , p.product_name, cu.user_name ,cd.dept_name, cd.dept_head,cd.id dept_id from ( SELECT ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id ) cust_name, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_gender' AND a.bp_id = bp.bp_id ) cust_gender, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_license_num' AND a.bp_id = bp.bp_id ) cust_license_num, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = bp.bp_id ) cust_mobile, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_type' AND a.bp_id = bp.bp_id ) cust_type, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_usage' AND a.bp_id = bp.bp_id ) loan_usage, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_apply_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_daylyTerm' AND a.bp_id = bp.bp_id ) loan_apply_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_repaymentTypes' AND a.bp_id = bp.bp_id ) loan_repayment_method, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = bp.bp_id ) loanapproval_repaymentTypes, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = bp.bp_id ) loan_approval_amount, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_daylyTerm' AND a.bp_id = bp.bp_id ) loan_approval_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_approval_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_license_plate' AND a.bp_id = bp.bp_id ) loancar_license_plate, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_car_bms_brand' AND a.bp_id = bp.bp_id ) loancar_car_brand, bp.task_id ,bp.task_name ,bp.bp_id ,bp.bp_no ,bp.product_type ,bp.bp_def_id , bp.create_time ,bp.create_user_id , bp.current_task_key,bp.current_task_name,bp.bp_status ,bm.bp_def_key from ( SELECT TASK.ID_ task_id, TASK.NAME_ task_name, bp.bp_id, bp.bp_no, bp.product_type, bp.create_time, bp.create_user_id, bp.current_task_key, bp.current_task_name, bp.bp_def_id, bp.bp_status FROM ( SELECT DISTINCT RES.ID_, RES.NAME_ FROM ACT_RU_TASK RES LEFT JOIN ACT_RU_IDENTITYLINK I ON I.TASK_ID_ = RES.ID_ WHERE ( RES.ASSIGNEE_ = ? OR ( RES.ASSIGNEE_ IS NULL AND I.TYPE_ = 'candidate' AND (I.USER_ID_ = ?) ) ) ) TASK, rjs_risk_bps bp WHERE bp.current_task_id LIKE concat('%', TASK.ID_, '%') ) bp, rjs_bp_meta bm WHERE bp.bp_def_id = bm.bp_def_id ) base LEFT JOIN p2p_product p on base.product_type = p.id LEFT JOIN risk_corp_user cu on base.create_user_id = cu.id LEFT JOIN risk_corp_dept cd on cu.dept_id = cd.id where 1 = 1 order by base.create_time desc limit 0, 5
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+	at orj.worf.exception.util.ExceptionUtils.createAppRuntimeException(ExceptionUtils.java:78)
+	at orj.worf.exception.interceptor.ExceptionInterceptor.validateException(ExceptionInterceptor.java:55)
+	at orj.worf.exception.interceptor.ExceptionInterceptor.handleAppException(ExceptionInterceptor.java:44)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:603)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:62)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:85)
+	at orj.worf.service.aspect.ServiceLogAspect.logInboundOutbound(ServiceLogAspect.java:33)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:610)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:68)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:653)
+	at cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl$$EnhancerBySpringCGLIB$$5f5024ea.selectTodoList(<generated>)
+	at com.alibaba.dubbo.common.bytecode.Wrapper28.invokeMethod(Wrapper28.java)
+	at com.alibaba.dubbo.rpc.proxy.javassist.JavassistProxyFactory$1.doInvoke(JavassistProxyFactory.java:48)
+	at com.alibaba.dubbo.rpc.proxy.AbstractProxyInvoker.invoke(AbstractProxyInvoker.java:77)
+	at com.alibaba.dubbo.rpc.protocol.InvokerWrapper.invoke(InvokerWrapper.java:57)
+	at com.alibaba.dubbo.rpc.filter.ExceptionFilter.invoke(ExceptionFilter.java:58)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.TimeoutFilter.invoke(TimeoutFilter.java:43)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.monitor.support.MonitorFilter.invoke(MonitorFilter.java:75)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.protocol.dubbo.filter.TraceFilter.invoke(TraceFilter.java:79)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.ContextFilter.invoke(ContextFilter.java:57)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.GenericFilter.invoke(GenericFilter.java:106)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.ClassLoaderFilter.invoke(ClassLoaderFilter.java:39)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.EchoFilter.invoke(EchoFilter.java:40)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol$1.reply(DubboProtocol.java:114)
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.handleRequest(HeaderExchangeHandler.java:88)
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.received(HeaderExchangeHandler.java:178)
+	at com.alibaba.dubbo.remoting.transport.DecodeHandler.received(DecodeHandler.java:53)
+	at com.alibaba.dubbo.remoting.transport.dispatcher.ChannelEventRunnable.run(ChannelEventRunnable.java:86)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+### The error may exist in file [D:\workspace\risk-parent\risk-server\risk-p2p-server\target\classes\sqlmap\p2p\activiti\BP_SqlMap.xml]
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.activiti.BPDAO.selectTodoList-Inline
+### The error occurred while setting parameters
+### SQL: SELECT base.bp_id ,base.bp_no ,base.cust_name ,base.cust_gender ,base.cust_license_num ,base.cust_mobile ,base.cust_type , base.product_type , base.create_time , base.apply_amount , base.loan_usage , base.loan_apply_monthlyTerm, base.loan_apply_daylyTerm,base.loanapproval_repaymentTypes, base.loan_repayment_method ,base.loancar_license_plate ,base.loancar_car_brand ,base.create_user_id, base.bp_status , base.current_task_key, base.current_task_name,base.loan_approval_amount,base.loan_approval_daylyTerm,base.loan_approval_monthlyTerm ,base.task_id ,base.task_name,base.bp_def_id,base.bp_def_key , p.id product_id , p.product_name, cu.user_name ,cd.dept_name, cd.dept_head,cd.id dept_id from ( SELECT ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id ) cust_name, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_gender' AND a.bp_id = bp.bp_id ) cust_gender, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_license_num' AND a.bp_id = bp.bp_id ) cust_license_num, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = bp.bp_id ) cust_mobile, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_type' AND a.bp_id = bp.bp_id ) cust_type, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_usage' AND a.bp_id = bp.bp_id ) loan_usage, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_apply_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_daylyTerm' AND a.bp_id = bp.bp_id ) loan_apply_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_repaymentTypes' AND a.bp_id = bp.bp_id ) loan_repayment_method, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = bp.bp_id ) loanapproval_repaymentTypes, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = bp.bp_id ) loan_approval_amount, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_daylyTerm' AND a.bp_id = bp.bp_id ) loan_approval_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_approval_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_license_plate' AND a.bp_id = bp.bp_id ) loancar_license_plate, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_car_bms_brand' AND a.bp_id = bp.bp_id ) loancar_car_brand, bp.task_id ,bp.task_name ,bp.bp_id ,bp.bp_no ,bp.product_type ,bp.bp_def_id , bp.create_time ,bp.create_user_id , bp.current_task_key,bp.current_task_name,bp.bp_status ,bm.bp_def_key from ( SELECT TASK.ID_ task_id, TASK.NAME_ task_name, bp.bp_id, bp.bp_no, bp.product_type, bp.create_time, bp.create_user_id, bp.current_task_key, bp.current_task_name, bp.bp_def_id, bp.bp_status FROM ( SELECT DISTINCT RES.ID_, RES.NAME_ FROM ACT_RU_TASK RES LEFT JOIN ACT_RU_IDENTITYLINK I ON I.TASK_ID_ = RES.ID_ WHERE ( RES.ASSIGNEE_ = ? OR ( RES.ASSIGNEE_ IS NULL AND I.TYPE_ = 'candidate' AND (I.USER_ID_ = ?) ) ) ) TASK, rjs_risk_bps bp WHERE bp.current_task_id LIKE concat('%', TASK.ID_, '%') ) bp, rjs_bp_meta bm WHERE bp.bp_def_id = bm.bp_def_id ) base LEFT JOIN p2p_product p on base.product_type = p.id LEFT JOIN risk_corp_user cu on base.create_user_id = cu.id LEFT JOIN risk_corp_dept cd on cu.dept_id = cd.id where 1 = 1 order by base.create_time desc limit 0, 5
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:231)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:73)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:371)
+	at com.sun.proxy.$Proxy24.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:205)
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:117)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:63)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:52)
+	at com.sun.proxy.$Proxy64.selectTodoList(Unknown Source)
+	at cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl.selectTodoList(BpServiceImpl.java:96)
+	at cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl$$FastClassBySpringCGLIB$$4fe457dc.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:717)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor.invoke(AfterReturningAdviceInterceptor.java:52)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:58)
+	... 43 more
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:400)
+	at com.mysql.jdbc.Util.getInstance(Util.java:383)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:980)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3847)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3783)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2447)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2594)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2545)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1901)
+	at com.mysql.jdbc.PreparedStatement.execute(PreparedStatement.java:1193)
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.execute(NewProxyPreparedStatement.java:404)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:59)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:73)
+	at sun.reflect.GeneratedMethodAccessor193.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:62)
+	at com.sun.proxy.$Proxy46.query(Unknown Source)
+	at org.apache.ibatis.executor.ReuseExecutor.doQuery(ReuseExecutor.java:57)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:267)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:137)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:96)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:77)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:108)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:358)
+	... 57 more
+
+
+ERROR [risk-p2p-server] 2017-05-04 09:19:00.642 [DubboServerHandler-172.16.88.108:10020-thread-12] com.alibaba.dubbo.rpc.filter.ExceptionFilter -  [DUBBO] Got unchecked and undeclared exception which called by 172.16.88.108. service: cn.sunfit.risk.buz.api.service.p2p.activiti.BpService, method: selectTodoList, exception: orj.worf.exception.AppRuntimeException: nested exception is org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+### The error may exist in file [D:\workspace\risk-parent\risk-server\risk-p2p-server\target\classes\sqlmap\p2p\activiti\BP_SqlMap.xml]
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.activiti.BPDAO.selectTodoList-Inline
+### The error occurred while setting parameters
+### SQL: SELECT base.bp_id ,base.bp_no ,base.cust_name ,base.cust_gender ,base.cust_license_num ,base.cust_mobile ,base.cust_type , base.product_type , base.create_time , base.apply_amount , base.loan_usage , base.loan_apply_monthlyTerm, base.loan_apply_daylyTerm,base.loanapproval_repaymentTypes, base.loan_repayment_method ,base.loancar_license_plate ,base.loancar_car_brand ,base.create_user_id, base.bp_status , base.current_task_key, base.current_task_name,base.loan_approval_amount,base.loan_approval_daylyTerm,base.loan_approval_monthlyTerm ,base.task_id ,base.task_name,base.bp_def_id,base.bp_def_key , p.id product_id , p.product_name, cu.user_name ,cd.dept_name, cd.dept_head,cd.id dept_id from ( SELECT ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id ) cust_name, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_gender' AND a.bp_id = bp.bp_id ) cust_gender, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_license_num' AND a.bp_id = bp.bp_id ) cust_license_num, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = bp.bp_id ) cust_mobile, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_type' AND a.bp_id = bp.bp_id ) cust_type, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_usage' AND a.bp_id = bp.bp_id ) loan_usage, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_apply_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_daylyTerm' AND a.bp_id = bp.bp_id ) loan_apply_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_repaymentTypes' AND a.bp_id = bp.bp_id ) loan_repayment_method, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = bp.bp_id ) loanapproval_repaymentTypes, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = bp.bp_id ) loan_approval_amount, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_daylyTerm' AND a.bp_id = bp.bp_id ) loan_approval_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_approval_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_license_plate' AND a.bp_id = bp.bp_id ) loancar_license_plate, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_car_bms_brand' AND a.bp_id = bp.bp_id ) loancar_car_brand, bp.task_id ,bp.task_name ,bp.bp_id ,bp.bp_no ,bp.product_type ,bp.bp_def_id , bp.create_time ,bp.create_user_id , bp.current_task_key,bp.current_task_name,bp.bp_status ,bm.bp_def_key from ( SELECT TASK.ID_ task_id, TASK.NAME_ task_name, bp.bp_id, bp.bp_no, bp.product_type, bp.create_time, bp.create_user_id, bp.current_task_key, bp.current_task_name, bp.bp_def_id, bp.bp_status FROM ( SELECT DISTINCT RES.ID_, RES.NAME_ FROM ACT_RU_TASK RES LEFT JOIN ACT_RU_IDENTITYLINK I ON I.TASK_ID_ = RES.ID_ WHERE ( RES.ASSIGNEE_ = ? OR ( RES.ASSIGNEE_ IS NULL AND I.TYPE_ = 'candidate' AND (I.USER_ID_ = ?) ) ) ) TASK, rjs_risk_bps bp WHERE bp.current_task_id LIKE concat('%', TASK.ID_, '%') ) bp, rjs_bp_meta bm WHERE bp.bp_def_id = bm.bp_def_id ) base LEFT JOIN p2p_product p on base.product_type = p.id LEFT JOIN risk_corp_user cu on base.create_user_id = cu.id LEFT JOIN risk_corp_dept cd on cu.dept_id = cd.id where 1 = 1 order by base.create_time desc limit 0, 5
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list', dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+orj.worf.exception.AppRuntimeException: nested exception is org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+### The error may exist in file [D:\workspace\risk-parent\risk-server\risk-p2p-server\target\classes\sqlmap\p2p\activiti\BP_SqlMap.xml]
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.activiti.BPDAO.selectTodoList-Inline
+### The error occurred while setting parameters
+### SQL: SELECT base.bp_id ,base.bp_no ,base.cust_name ,base.cust_gender ,base.cust_license_num ,base.cust_mobile ,base.cust_type , base.product_type , base.create_time , base.apply_amount , base.loan_usage , base.loan_apply_monthlyTerm, base.loan_apply_daylyTerm,base.loanapproval_repaymentTypes, base.loan_repayment_method ,base.loancar_license_plate ,base.loancar_car_brand ,base.create_user_id, base.bp_status , base.current_task_key, base.current_task_name,base.loan_approval_amount,base.loan_approval_daylyTerm,base.loan_approval_monthlyTerm ,base.task_id ,base.task_name,base.bp_def_id,base.bp_def_key , p.id product_id , p.product_name, cu.user_name ,cd.dept_name, cd.dept_head,cd.id dept_id from ( SELECT ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id ) cust_name, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_gender' AND a.bp_id = bp.bp_id ) cust_gender, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_license_num' AND a.bp_id = bp.bp_id ) cust_license_num, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = bp.bp_id ) cust_mobile, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_type' AND a.bp_id = bp.bp_id ) cust_type, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_usage' AND a.bp_id = bp.bp_id ) loan_usage, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_apply_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_daylyTerm' AND a.bp_id = bp.bp_id ) loan_apply_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_repaymentTypes' AND a.bp_id = bp.bp_id ) loan_repayment_method, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = bp.bp_id ) loanapproval_repaymentTypes, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = bp.bp_id ) loan_approval_amount, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_daylyTerm' AND a.bp_id = bp.bp_id ) loan_approval_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_approval_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_license_plate' AND a.bp_id = bp.bp_id ) loancar_license_plate, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_car_bms_brand' AND a.bp_id = bp.bp_id ) loancar_car_brand, bp.task_id ,bp.task_name ,bp.bp_id ,bp.bp_no ,bp.product_type ,bp.bp_def_id , bp.create_time ,bp.create_user_id , bp.current_task_key,bp.current_task_name,bp.bp_status ,bm.bp_def_key from ( SELECT TASK.ID_ task_id, TASK.NAME_ task_name, bp.bp_id, bp.bp_no, bp.product_type, bp.create_time, bp.create_user_id, bp.current_task_key, bp.current_task_name, bp.bp_def_id, bp.bp_status FROM ( SELECT DISTINCT RES.ID_, RES.NAME_ FROM ACT_RU_TASK RES LEFT JOIN ACT_RU_IDENTITYLINK I ON I.TASK_ID_ = RES.ID_ WHERE ( RES.ASSIGNEE_ = ? OR ( RES.ASSIGNEE_ IS NULL AND I.TYPE_ = 'candidate' AND (I.USER_ID_ = ?) ) ) ) TASK, rjs_risk_bps bp WHERE bp.current_task_id LIKE concat('%', TASK.ID_, '%') ) bp, rjs_bp_meta bm WHERE bp.bp_def_id = bm.bp_def_id ) base LEFT JOIN p2p_product p on base.product_type = p.id LEFT JOIN risk_corp_user cu on base.create_user_id = cu.id LEFT JOIN risk_corp_dept cd on cu.dept_id = cd.id where 1 = 1 order by base.create_time desc limit 0, 5
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+	at orj.worf.exception.util.ExceptionUtils.createAppRuntimeException(ExceptionUtils.java:78) ~[worf-exception-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at orj.worf.exception.interceptor.ExceptionInterceptor.validateException(ExceptionInterceptor.java:55) ~[worf-exception-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at orj.worf.exception.interceptor.ExceptionInterceptor.handleAppException(ExceptionInterceptor.java:44) ~[worf-exception-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:603) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:62) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:85) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at orj.worf.service.aspect.ServiceLogAspect.logInboundOutbound(ServiceLogAspect.java:33) ~[worf-service-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:610) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:68) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:653) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl$$EnhancerBySpringCGLIB$$5f5024ea.selectTodoList(<generated>) ~[spring-core-4.1.3.RELEASE.jar:na]
+	at com.alibaba.dubbo.common.bytecode.Wrapper28.invokeMethod(Wrapper28.java) ~[na:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.proxy.javassist.JavassistProxyFactory$1.doInvoke(JavassistProxyFactory.java:48) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.proxy.AbstractProxyInvoker.invoke(AbstractProxyInvoker.java:77) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.InvokerWrapper.invoke(InvokerWrapper.java:57) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.ExceptionFilter.invoke(ExceptionFilter.java:58) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.TimeoutFilter.invoke(TimeoutFilter.java:43) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.monitor.support.MonitorFilter.invoke(MonitorFilter.java:75) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.dubbo.filter.TraceFilter.invoke(TraceFilter.java:79) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.ContextFilter.invoke(ContextFilter.java:57) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.GenericFilter.invoke(GenericFilter.java:106) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.ClassLoaderFilter.invoke(ClassLoaderFilter.java:39) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.EchoFilter.invoke(EchoFilter.java:40) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol$1.reply(DubboProtocol.java:114) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.handleRequest(HeaderExchangeHandler.java:88) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.received(HeaderExchangeHandler.java:178) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.transport.DecodeHandler.received(DecodeHandler.java:53) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.transport.dispatcher.ChannelEventRunnable.run(ChannelEventRunnable.java:86) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:na]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:na]
+	at java.lang.Thread.run(Thread.java:745) [na:na]
+Caused by: org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+### The error may exist in file [D:\workspace\risk-parent\risk-server\risk-p2p-server\target\classes\sqlmap\p2p\activiti\BP_SqlMap.xml]
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.activiti.BPDAO.selectTodoList-Inline
+### The error occurred while setting parameters
+### SQL: SELECT base.bp_id ,base.bp_no ,base.cust_name ,base.cust_gender ,base.cust_license_num ,base.cust_mobile ,base.cust_type , base.product_type , base.create_time , base.apply_amount , base.loan_usage , base.loan_apply_monthlyTerm, base.loan_apply_daylyTerm,base.loanapproval_repaymentTypes, base.loan_repayment_method ,base.loancar_license_plate ,base.loancar_car_brand ,base.create_user_id, base.bp_status , base.current_task_key, base.current_task_name,base.loan_approval_amount,base.loan_approval_daylyTerm,base.loan_approval_monthlyTerm ,base.task_id ,base.task_name,base.bp_def_id,base.bp_def_key , p.id product_id , p.product_name, cu.user_name ,cd.dept_name, cd.dept_head,cd.id dept_id from ( SELECT ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id ) cust_name, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_gender' AND a.bp_id = bp.bp_id ) cust_gender, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_license_num' AND a.bp_id = bp.bp_id ) cust_license_num, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = bp.bp_id ) cust_mobile, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'cust_type' AND a.bp_id = bp.bp_id ) cust_type, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_usage' AND a.bp_id = bp.bp_id ) loan_usage, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_apply_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_daylyTerm' AND a.bp_id = bp.bp_id ) loan_apply_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loan_apply_repaymentTypes' AND a.bp_id = bp.bp_id ) loan_repayment_method, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = bp.bp_id ) loanapproval_repaymentTypes, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = bp.bp_id ) loan_approval_amount, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_daylyTerm' AND a.bp_id = bp.bp_id ) loan_approval_daylyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loanapproval_monthlyTerm' AND a.bp_id = bp.bp_id ) loan_approval_monthlyTerm, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_license_plate' AND a.bp_id = bp.bp_id ) loancar_license_plate, ( SELECT a.attr_value FROM rjs_bp_attrs a WHERE a.attr_name = 'loancar_car_bms_brand' AND a.bp_id = bp.bp_id ) loancar_car_brand, bp.task_id ,bp.task_name ,bp.bp_id ,bp.bp_no ,bp.product_type ,bp.bp_def_id , bp.create_time ,bp.create_user_id , bp.current_task_key,bp.current_task_name,bp.bp_status ,bm.bp_def_key from ( SELECT TASK.ID_ task_id, TASK.NAME_ task_name, bp.bp_id, bp.bp_no, bp.product_type, bp.create_time, bp.create_user_id, bp.current_task_key, bp.current_task_name, bp.bp_def_id, bp.bp_status FROM ( SELECT DISTINCT RES.ID_, RES.NAME_ FROM ACT_RU_TASK RES LEFT JOIN ACT_RU_IDENTITYLINK I ON I.TASK_ID_ = RES.ID_ WHERE ( RES.ASSIGNEE_ = ? OR ( RES.ASSIGNEE_ IS NULL AND I.TYPE_ = 'candidate' AND (I.USER_ID_ = ?) ) ) ) TASK, rjs_risk_bps bp WHERE bp.current_task_id LIKE concat('%', TASK.ID_, '%') ) bp, rjs_bp_meta bm WHERE bp.bp_def_id = bm.bp_def_id ) base LEFT JOIN p2p_product p on base.product_type = p.id LEFT JOIN risk_corp_user cu on base.create_user_id = cu.id LEFT JOIN risk_corp_dept cd on cu.dept_id = cd.id where 1 = 1 order by base.create_time desc limit 0, 5
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:231) ~[spring-jdbc-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73) ~[spring-jdbc-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:73) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:371) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	at com.sun.proxy.$Proxy24.selectList(Unknown Source) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:205) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:117) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:63) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:52) ~[mybatis-3.2.8.jar:3.2.8]
+	at com.sun.proxy.$Proxy64.selectTodoList(Unknown Source) ~[na:na]
+	at cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl.selectTodoList(BpServiceImpl.java:96) ~[classes/:na]
+	at cn.sunfit.risk.buz.server.service.p2p.activiti.BpServiceImpl$$FastClassBySpringCGLIB$$4fe457dc.invoke(<generated>) ~[spring-core-4.1.3.RELEASE.jar:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204) ~[spring-core-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:717) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor.invoke(AfterReturningAdviceInterceptor.java:52) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:58) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	... 43 common frames omitted
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'base.apply_amount' in 'field list'
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[na:na]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[na:na]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526) ~[na:na]
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:400) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.Util.getInstance(Util.java:383) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:980) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3847) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3783) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2447) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2594) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2545) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1901) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.PreparedStatement.execute(PreparedStatement.java:1193) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.execute(NewProxyPreparedStatement.java:404) ~[c3p0-0.9.5-pre9.jar:0.9.5-pre9]
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:59) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:73) ~[mybatis-3.2.8.jar:3.2.8]
+	at sun.reflect.GeneratedMethodAccessor193.invoke(Unknown Source) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:62) ~[mybatis-3.2.8.jar:3.2.8]
+	at com.sun.proxy.$Proxy46.query(Unknown Source) ~[na:na]
+	at org.apache.ibatis.executor.ReuseExecutor.doQuery(ReuseExecutor.java:57) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:267) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:137) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:96) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:77) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:108) ~[mybatis-3.2.8.jar:3.2.8]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:358) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	... 57 common frames omitted
+WARN  [risk-p2p-server] 2017-05-04 10:14:50.310 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.108:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-04 10:34:24.613 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+WARN  [risk-p2p-server] 2017-05-04 11:21:18.873 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.108:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-04 14:38:58.163 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+WARN  [risk-p2p-server] 2017-05-04 16:02:23.873 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+WARN  [risk-p2p-server] 2017-05-04 16:18:29.287 [DubboServerHandler-172.16.88.108:10020-thread-13] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select m.bp_def_id, m.corp_id, m.product_key,m.bp_def_key, m.engine_def_id, m.bp_name, m.bp_desc, m.bp_no_rule, m.version, m.create_user_id, m.create_time, m.update_time, m.bind_clazz, m.loan_type, m.loan_ext_table,m.latest ,p.product_type,c.corp_name,p.product_name from rjs_bp_meta m left join p2p_product p on m.product_key=p.product_code left join risk_corp c on m.corp_id = c.id where 1=1]没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 16:20:25.914 [DubboServerHandler-172.16.88.108:10020-thread-15] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select m.bp_def_id, m.corp_id, m.product_key,m.bp_def_key, m.engine_def_id, m.bp_name, m.bp_desc, m.bp_no_rule, m.version, m.create_user_id, m.create_time, m.update_time, m.bind_clazz, m.loan_type, m.loan_ext_table,m.latest ,p.product_type,c.corp_name,p.product_name from rjs_bp_meta m left join p2p_product p on m.product_key=p.product_code left join risk_corp c on m.corp_id = c.id where 1=1]没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 16:27:31.890 [DubboServerHandler-172.16.88.108:10020-thread-21] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select m.bp_def_id, m.corp_id, m.product_key,m.bp_def_key, m.engine_def_id, m.bp_name, m.bp_desc, m.bp_no_rule, m.version, m.create_user_id, m.create_time, m.update_time, m.bind_clazz, m.loan_type, m.loan_ext_table,m.latest ,p.product_type,c.corp_name,p.product_name from rjs_bp_meta m left join p2p_product p on m.product_key=p.product_code left join risk_corp c on m.corp_id = c.id where 1=1]没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 16:35:50.467 [DubboServerHandler-172.16.88.108:10020-thread-23] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select n.node_id, n.corp_id, n.bp_def_id, n.node_key, n.node_name, n.node_desc, n.form_key, n.gateway, n.query_form_key,n.node_type,n.audit ,m.bp_name from rjs_bp_meta_nodes n left join rjs_bp_meta m on n.bp_def_id = m.bp_def_id where 1=1 and n.bp_def_id=? and n.node_type='usertask']没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 16:45:48.164 [DubboServerHandler-172.16.88.108:10020-thread-25] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select n.node_id, n.corp_id, n.bp_def_id, n.node_key, n.node_name, n.node_desc, n.form_key, n.gateway, n.query_form_key,n.node_type,n.audit ,m.bp_name from rjs_bp_meta_nodes n left join rjs_bp_meta m on n.bp_def_id = m.bp_def_id where 1=1 and n.bp_def_id=? and n.node_type='usertask']没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 17:02:07.747 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.108:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-04 17:03:11.559 [DubboServerHandler-172.16.88.108:10020-thread-35] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select m.bp_def_id, m.corp_id, m.product_key,m.bp_def_key, m.engine_def_id, m.bp_name, m.bp_desc, m.bp_no_rule, m.version, m.create_user_id, m.create_time, m.update_time, m.bind_clazz, m.loan_type, m.loan_ext_table,m.latest ,p.product_type,c.corp_name,p.product_name from rjs_bp_meta m left join p2p_product p on m.product_key=p.product_code left join risk_corp c on m.corp_id = c.id where 1=1]没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 17:04:37.160 [DubboServerHandler-172.16.88.108:10020-thread-36] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select n.node_id, n.corp_id, n.bp_def_id, n.node_key, n.node_name, n.node_desc, n.form_key, n.gateway, n.query_form_key,n.node_type,n.audit ,m.bp_name from cxph_bp_meta_nodes n left join cxph_bp_meta m on n.bp_def_id = m.bp_def_id where 1=1 and n.bp_def_id=? and n.node_type='usertask']没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 17:05:13.070 [New I/O worker #2] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.108:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-04 17:06:53.360 [DubboServerHandler-172.16.88.108:10020-thread-42] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select n.node_id, n.corp_id, n.bp_def_id, n.node_key, n.node_name, n.node_desc, n.form_key, n.gateway, n.query_form_key,n.node_type,n.audit ,m.bp_name from cxph_bp_meta_nodes n left join cxph_bp_meta m on n.bp_def_id = m.bp_def_id where 1=1 and n.bp_def_id=? and n.node_type='usertask']没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 17:07:34.297 [DubboServerHandler-172.16.88.108:10020-thread-43] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select m.bp_def_id, m.corp_id, m.product_key,m.bp_def_key, m.engine_def_id, m.bp_name, m.bp_desc, m.bp_no_rule, m.version, m.create_user_id, m.create_time, m.update_time, m.bind_clazz, m.loan_type, m.loan_ext_table,m.latest ,p.product_type,c.corp_name,p.product_name from rjs_bp_meta m left join p2p_product p on m.product_key=p.product_code left join risk_corp c on m.corp_id = c.id where 1=1]没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 17:07:40.378 [DubboServerHandler-172.16.88.108:10020-thread-44] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select m.bp_def_id, m.corp_id, m.product_key,m.bp_def_key, m.engine_def_id, m.bp_name, m.bp_desc, m.bp_no_rule, m.version, m.create_user_id, m.create_time, m.update_time, m.bind_clazz, m.loan_type, m.loan_ext_table,m.latest ,p.product_type,c.corp_name,p.product_name from rjs_bp_meta m left join p2p_product p on m.product_key=p.product_code left join risk_corp c on m.corp_id = c.id where 1=1]没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 17:12:58.893 [New I/O worker #3] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.108:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-04 17:21:23.731 [DubboServerHandler-172.16.88.108:10020-thread-52] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select m.bp_def_id, m.corp_id, m.product_key,m.bp_def_key, m.engine_def_id, m.bp_name, m.bp_desc, m.bp_no_rule, m.version, m.create_user_id, m.create_time, m.update_time, m.bind_clazz, m.loan_type, m.loan_ext_table,m.latest ,p.product_type,c.corp_name,p.product_name from rjs_bp_meta m left join p2p_product p on m.product_key=p.product_code left join risk_corp c on m.corp_id = c.id where 1=1]没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 17:21:32.261 [DubboServerHandler-172.16.88.108:10020-thread-55] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select n.node_id, n.corp_id, n.bp_def_id, n.node_key, n.node_name, n.node_desc, n.form_key, n.gateway, n.query_form_key,n.node_type,n.audit ,m.bp_name from cxph_bp_meta_nodes n left join cxph_bp_meta m on n.bp_def_id = m.bp_def_id where 1=1 and n.bp_def_id=? and n.node_type='usertask']没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 17:43:44.101 [DubboServerHandler-172.16.88.108:10020-thread-61] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select m.bp_def_id, m.corp_id, m.product_key,m.bp_def_key, m.engine_def_id, m.bp_name, m.bp_desc, m.bp_no_rule, m.version, m.create_user_id, m.create_time, m.update_time, m.bind_clazz, m.loan_type, m.loan_ext_table,m.latest ,p.product_type,c.corp_name,p.product_name from rjs_bp_meta m left join p2p_product p on m.product_key=p.product_code left join risk_corp c on m.corp_id = c.id where 1=1]没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 17:43:46.434 [DubboServerHandler-172.16.88.108:10020-thread-62] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select n.node_id, n.corp_id, n.bp_def_id, n.node_key, n.node_name, n.node_desc, n.form_key, n.gateway, n.query_form_key,n.node_type,n.audit ,m.bp_name from cxph_bp_meta_nodes n left join cxph_bp_meta m on n.bp_def_id = m.bp_def_id where 1=1 and n.bp_def_id=? and n.node_type='usertask']没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 17:46:52.900 [DubboServerHandler-172.16.88.108:10020-thread-68] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select m.bp_def_id, m.corp_id, m.product_key,m.bp_def_key, m.engine_def_id, m.bp_name, m.bp_desc, m.bp_no_rule, m.version, m.create_user_id, m.create_time, m.update_time, m.bind_clazz, m.loan_type, m.loan_ext_table,m.latest ,p.product_type,c.corp_name,p.product_name from rjs_bp_meta m left join p2p_product p on m.product_key=p.product_code left join risk_corp c on m.corp_id = c.id where 1=1]没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 17:46:56.243 [DubboServerHandler-172.16.88.108:10020-thread-69] orj.worf.mybatis.dialect.MySql5PageHepler - 分页查询[select n.node_id, n.corp_id, n.bp_def_id, n.node_key, n.node_name, n.node_desc, n.form_key, n.gateway, n.query_form_key,n.node_type,n.audit ,m.bp_name from cxph_bp_meta_nodes n left join cxph_bp_meta m on n.bp_def_id = m.bp_def_id where 1=1 and n.bp_def_id=? and n.node_type='usertask']没有进行排序!
+WARN  [risk-p2p-server] 2017-05-04 18:10:14.682 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server 127.0.0.1/127.0.0.1:2181, unexpected error, closing socket connection and attempting reconnect
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method) ~[na:na]
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43) ~[na:na]
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223) ~[na:na]
+	at sun.nio.ch.IOUtil.read(IOUtil.java:192) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:379) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doIO(ClientCnxnSocketNIO.java:68) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:366) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:17.586 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:20.584 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:22.808 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:24.947 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:27.947 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:30.929 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:33.990 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:37.013 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:39.894 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:42.411 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:44.733 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:47.700 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:50.533 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:53.216 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:56.014 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:10:58.679 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:11:01.186 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:11:04.222 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:11:06.634 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:11:09.198 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:11:11.943 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:11:14.863 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:11:17.666 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:11:20.704 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15bd0ebf8470008 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-p2p-server] 2017-05-04 18:11:22.256 [New I/O worker #4] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.108:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1

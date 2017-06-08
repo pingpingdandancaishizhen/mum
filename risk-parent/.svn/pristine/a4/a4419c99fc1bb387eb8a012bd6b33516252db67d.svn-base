@@ -1,0 +1,13 @@
+$("#selectProductModal #selectProductBtn").off().on('click',function () {
+	$('#selectCustomerModal').showModal();
+	var userCorpId = $("select[name='userCorpId']").val();
+	$("#uid").val(userCorpId);
+	$customer_table.bootstrapTable('refresh');
+})
+$("#deptId").change(function(){
+	var deptId = $(this).children('option:selected').val();
+	$(".userCorpIdSelect").hide();
+	$(".userCorpIdSelect").attr("name","");
+	$("#"+deptId).attr("name","userCorpId");
+	$("#"+deptId).show();
+});

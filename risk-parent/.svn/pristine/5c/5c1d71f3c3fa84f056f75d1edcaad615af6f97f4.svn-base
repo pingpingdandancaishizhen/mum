@@ -1,0 +1,27 @@
+package cn.sunfit.risk.buz.server.dao.p2p.productTypeName;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import cn.sunfit.risk.buz.api.beans.p2p.ProductTypeName;
+
+@Repository
+public interface ProductTypeNameDAO {
+    int deleteByPrimaryKey(String id);
+
+    List<ProductTypeName> findAll();
+
+    List<ProductTypeName> findByTypeId(String typeId);
+
+    int insert(ProductTypeName record);
+
+    int insertSelective(ProductTypeName record);
+
+    ProductTypeName selectByPrimaryKey(String id);
+
+    int updateByPrimaryKey(ProductTypeName record);
+
+    int updateByPrimaryKeySelective(ProductTypeName record);
+
+}

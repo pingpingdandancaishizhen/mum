@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.contract.ContractTemplateDAO" >
+	<resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.contract.ContractTemplate" >
+		<result column="id" property="id"/>
+		<result column="product" property="product"/>
+		<result column="template_name" property="templateName"/>
+		<result column="template_desc" property="templateDesc"/>
+		<result column="status" property="status"/>
+		<result column="file_resource" property="fileResource"/>
+		<result column="file_name" property="fileName"/>
+		<result column="main_flag" property="mainFlag"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="invalid_time" property="invalidTime"/>
+		<result column="partner_names" property="partnerNames"/>
+	</resultMap>
+  
+	<resultMap id="ProductMap" type="cn.sunfit.risk.buz.api.beans.contract.ProductVO" >
+	  <result column="id" property="id"/>
+	  <result column="product_name" property="productName"/>
+	</resultMap>
+	
+	<resultMap id="ContractFieldRelMap" type="cn.sunfit.risk.buz.api.beans.contract.ContractFieldRel" >
+	  <result column="temp_id" property="tempId"/>
+	  <result column="temp_field" property="tempField"/>
+	  <result column="data_field" property="dataField"/>
+	  <result column="partner_role" property="partnerRole"/>
+	  <result column="data_source" property="dataSource"/>
+	  <result column="create_time" property="createTime"/>
+	</resultMap>
+	
+	<resultMap id="CategoryMap" type="cn.sunfit.risk.buz.api.beans.contract.CategoryVO" >
+	  <result column="key" property="key"/>
+	  <result column="name" property="name"/>
+	</resultMap>
+	
+	<resultMap id="FieldMap" type="cn.sunfit.risk.buz.api.beans.contract.FieldVO" >
+	  <result column="field_key" property="key"/>
+	  <result column="field_name" property="name"/>
+	</resultMap>
+	
+	<resultMap id="PartnerRoleMap" type="cn.sunfit.risk.buz.api.beans.system.partner.PartnerRole" >
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List" >
+	  id, product, template_name, template_desc, status, file_resource, file_name,main_flag, create_time, update_time, invalid_time
+	</sql>
+	
+	<select id="selectById" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.beans.contract.TempIdDTO" >
+	  select 
+	  <include refid="Base_Column_List" />
+	  from ${domain}_contract_template where id = #{tempId}
+	</select>
+	<insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.contract.ContractTemplateAddDTO" >
+	  insert into ${domain}_contract_template (id, corp_id, product, template_name,template_desc, status, file_resource,file_name, 
+	  	create_time, update_time, invalid_time,main_flag)
+	  values (#{id}, #{corpId}, #{product}, #{templateName},#{templateDesc}, 1, #{fileResource}, #{fileName}, 
+	  	now(), now(),#{invalidTime},#{mainFlag});
+	</insert>
+	<update id="update" parameterType="cn.sunfit.risk.buz.api.beans.contract.ContractTemplateAddDTO" >
+	  update ${domain}_contract_template
+	  set product = #{product},
+	    template_name = #{templateName},
+	    template_desc = #{templateDesc},
+	    file_resource = #{fileResource},
+	    file_name = #{fileName},
+	    main_flag = #{mainFlag},
+	    update_time = now()
+	  where id = #{id};
+	</update>
+	 
+	<select id="queryList" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.vo.contract.ConTempQueryReq">
+		select 
+			a.id as id, 
+			d.product_name as product, 
+			a.template_name as template_name, 
+			a.template_desc as template_desc, 
+			a.status as status, 
+			a.file_resource as file_resource, 
+			a.file_name as file_name, 
+			a.create_time as create_time, 
+			a.update_time as update_time, 
+			a.invalid_time as invalid_time,
+			group_concat(c.name) as partner_names
+		from ${domain}_contract_template as a 
+			left join ${domain}_contract_temp_partner_rel as b on a.id = b.temp_id
+			left join ${domain}_contract_partner as c on b.partner_id = c.id
+			left join risk_product as d on a.product = d.id
+		where 1=1
+	<if test="product != null and product != ''">
+		and a.product = #{product}
+	</if>
+	<if test="templateName != null and templateName != ''">
+		and a.template_name like concat('%',#{templateName},'%') 
+	</if>
+	<if test="status != null">
+		and a.status = #{status}
+	</if>
+	<if test="startTime != null">
+		and a.create_time &gt;= #{startTime}
+	</if>
+	<if test="endTime != null">
+		and a.create_time &lt;= #{endTime}
+	</if>
+	group by a.id
+	order by a.status desc, a.create_time desc
+	 </select>
+	 
+	<update id="disableTempById" parameterType="cn.sunfit.risk.buz.api.beans.contract.TempIdDTO">
+		update ${domain}_contract_template set status = 0,invalid_time = now() where id=#{tempId};
+	</update>
+	
+	<select id="queryProductList" parameterType="string" resultMap="ProductMap">
+		select a.id as id, a.product_name as product_name 
+		from risk_product as a left join risk_corp_product_ref as b on a.id = b.product_id
+		where b.corp_id=#{corpId};
+	</select>
+	
+	<insert id="addTempPartnerRel" parameterType="cn.sunfit.risk.buz.api.vo.contract.TempPartnerRelDTO">
+		insert into ${domain}_contract_temp_partner_rel(partner_id,temp_id,role_id)values
+		<foreach collection="tempRels" item="rel" separator=",">
+			(#{rel.partnerId},#{rel.tempId},#{rel.roleId})
+		</foreach>
+	</insert>
+	
+	<delete id="removeRel" parameterType="cn.sunfit.risk.buz.api.vo.contract.TempPartnerRelDTO">
+		delete from ${domain}_contract_temp_partner_rel where temp_id = #{tempId};
+	</delete>
+	
+	<insert id="addContractFieldRel">
+		insert into ${tempIdDTO.domain}_contract_field_rel(temp_id,temp_field,data_field,create_time) values
+		<foreach collection="relList" item="frel" separator=",">
+			(#{tempIdDTO.tempId},#{frel.tempField},#{frel.dataField},now())
+		</foreach>
+	</insert>
+	
+	<delete id="removeContractFieldRel" parameterType="cn.sunfit.risk.buz.api.beans.contract.TempIdDTO">
+		delete from ${domain}_contract_field_rel where temp_id = #{tempId}
+	</delete>
+	
+	<select id="querySelectFieldRel" parameterType="cn.sunfit.risk.buz.api.beans.contract.TempIdDTO" resultMap="ContractFieldRelMap">
+		select temp_id,temp_field,data_field,partner_role,data_source,create_time from ${domain}_contract_field_rel where temp_id = #{tempId};
+	</select>
+	
+	<select id="queryCategorys" parameterType="string" resultMap="CategoryMap">
+		select category_key as `key`,`name` from ${domain}_bp_meta_category 
+	</select>
+	
+	<select id="queryFields" parameterType="cn.sunfit.risk.buz.api.beans.contract.QueryKeyDTO" resultMap="FieldMap">
+		select field_key,field_name from ${domain}_bp_meta_fields where category = #{key};
+	</select>
+	
+	<select id="querySelectRoles" parameterType="cn.sunfit.risk.buz.api.beans.contract.TempIdDTO" resultMap="PartnerRoleMap">
+		select a.id as id,
+			a.`name` as `name`
+		from ${domain}_contract_partner_role as a 
+			left join ${domain}_contract_temp_partner_rel as b 
+				ON a.id = b.role_id
+		where b.temp_id=#{tempId}
+	</select>
+	<select id="queryListByProduct" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.ProductIdDTO" resultMap="BaseResultMap">
+		select 
+		  <include refid="Base_Column_List" />
+		from ${domain}_contract_template 
+		where product = #{productId}
+			and status = 1
+	</select>
+	
+	<select id="getCountByName" parameterType="cn.sunfit.risk.buz.api.beans.contract.CheckTempNameExisitReq" resultType="int">
+		select count(*)
+	  	from ${domain}_contract_template where template_name = #{tempName}
+	  	<if test="product != null and product != ''">
+	  		and product = #{product} 
+	  	</if>
+	  	<if test="id != null and id != ''">
+	  		and id &lt;&gt; #{id}
+	  	</if>
+	</select>
+	
+	<select id="updateOtherToCommon" parameterType="cn.sunfit.risk.buz.api.beans.contract.ContractTemplateAddDTO">
+		update ${domain}_contract_template
+		  set main_flag = 0
+		  where product = #{product} and id &lt;&gt; #{id};
+	</select>
+	
+	<select id="queryMainCount" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.ProductIdDTO" resultType="int">
+		select count(*) from ${domain}_contract_template where product = #{productId} and main_flag = 1;
+	</select>
+</mapper>

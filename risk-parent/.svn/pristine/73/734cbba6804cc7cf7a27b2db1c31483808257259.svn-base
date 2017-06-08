@@ -1,0 +1,14 @@
+package cn.sunfit.risk.buz.api.service.p2p.order;
+
+import java.util.List;
+
+import cn.sunfit.risk.buz.api.vo.RespPage;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.LoanInfoQueryReq;
+import cn.sunfit.risk.buz.api.vo.p2p.order.OrderListBean;
+
+public interface OrderService {
+
+    public List<OrderListBean> queryCustAllLoanInfo(LoanInfoQueryReq req);
+
+    public RespPage<List<OrderListBean>> queryLoanInfoList(LoanInfoQueryReq req);
+}

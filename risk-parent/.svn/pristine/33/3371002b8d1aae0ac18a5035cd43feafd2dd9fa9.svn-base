@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:p="http://www.springframework.org/schema/p" xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://www.springframework.org/schema/aop  
+            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <import resource="classpath:sunfit-risk_context_dependence.xml" />
+    <bean class="orj.worf.core.config.ScannerConfigurer">
+        <property name="basePackages">
+            <array>
+                <value>cn.sunfit.risk.credit.server</value>
+            </array>
+        </property>
+    </bean>
+    <context:property-placeholder location="classpath:conf/application.properties" ignore-unresolvable="true" />
+    
+    <context:component-scan annotation-config="true" base-package="cn.sunfit.risk.credit.server">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+	<bean id="serverConfig" class="cn.sunfit.risk.credit.server.util.ServerConfig">
+		<!-- 车鉴定接口配置 -->
+		<property name="CJD_SERVICE_PRIVATE_KEY" value="${cjd.service.privateKey}" />
+		<property name="CJD_SERVICE_USER_NAME" value="${cjd.service.username}" />
+		<property name="CJD_SERVICE_PASSWORD" value="${cjd.service.password}" />
+		<property name="CJD_SERVICE_URL" value="${cjd.service.url}" />
+		
+		<!-- 同盾接口配置 -->
+		<property name="RISK_FRAUDMETRIX_PARTNERCODE" value="${risk.fraudmetrix.partnercode}" />
+		<property name="RISK_FRAUDMETRIX_SECRETKEY" value="${risk.fraudmetrix.secretkey}" />
+		<property name="RISK_FRAUDMETRIX_EVENTID" value="${risk.fraudmetrix.eventid}" />
+		
+		<property name="PY_SERVICE_URL" value="${risk.fraudmetrix.eventid}" />
+	</bean>
+</beans>

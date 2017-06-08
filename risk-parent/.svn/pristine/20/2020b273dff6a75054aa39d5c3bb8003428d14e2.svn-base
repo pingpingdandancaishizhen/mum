@@ -1,0 +1,28 @@
+package cn.sunfit.risk.credit.server.service;
+
+import javax.ws.rs.Path;
+
+import org.springframework.stereotype.Service;
+
+import cn.sunfit.risk.credit.api.service.TDService;
+
+/**
+ * 同盾接口
+ * @Title: TDServiceImpl.java
+ * @Package cn.sunfit.risk.credit.server.service
+ * @Description: TODO
+ * @author XJ
+ * @date 2017年4月24日 下午2:32:12
+ * @version V1.0
+ */
+@Path("td")
+@Service("credit.TDService")
+public class TDServiceImpl implements TDService {
+
+    @Override
+    public void query() {
+        // TODO Auto-generated method stub
+
+    }
+
+}

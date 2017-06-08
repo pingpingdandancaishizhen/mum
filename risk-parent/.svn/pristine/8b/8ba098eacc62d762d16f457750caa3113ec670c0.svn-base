@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.corp.CorpRoleDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.corp.CorpRole" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="is_can_modify" property="isCanModify" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_admin" property="isAdmin" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap type="cn.sunfit.risk.buz.api.vo.corp.CorpRoleDTO" id="BaseResultMap_ex" extends="BaseResultMap">
+  	<result column="menus" property="menus" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, corp_id, role_name, `desc`, status, is_can_modify, create_time, is_admin
+  </sql>
+   <sql id="Base_Column_List_CR">
+    cr.id, cr.corp_id, cr.role_name, cr.desc, cr.is_can_modify, cr.create_time,cr.is_admin,cr.status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from risk_corp_role
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.corp.CorpRole" >
+    insert into risk_corp_role (id, corp_id, role_name, 
+      `desc`, status, is_can_modify, 
+      create_time, is_admin)
+    values (#{id,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, 
+      #{desc,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{isCanModify,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{isAdmin,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.corp.CorpRole" >
+    update risk_corp_role
+    set corp_id = #{corpId,jdbcType=VARCHAR},
+      role_name = #{roleName,jdbcType=VARCHAR},
+      `desc` = #{desc,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      is_can_modify = #{isCanModify,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_admin = #{isAdmin,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectAllCorpRole" resultMap="BaseResultMap" parameterType="java.lang.String">
+	    select  <include refid="Base_Column_List_CR" />
+	    	from risk_corp_role cr
+	    where cr.corp_id = #{corpId,jdbcType=VARCHAR} and cr.status = '0'
+	    order by cr.create_time desc
+  </select>
+  
+  <select id="selectCorpRole" resultMap="BaseResultMap_ex" parameterType="cn.sunfit.risk.buz.api.vo.corp.RoleQueryReq">
+	    select  <include refid="Base_Column_List_CR" />
+	    ,(select group_concat(sm.menu_name) from risk_corp_role_menu_rel crfm 
+	    left join risk_system_menu sm on sm.id=crfm.menu_id  where crfm.role_id=cr.id) menus
+	    	from risk_corp_role cr
+	    where cr.corp_id = #{corpId,jdbcType=VARCHAR} and cr.status <![CDATA[<>]]>  2  
+	     <if test="roleName !=null and roleName !=''">
+	    and cr.role_name like  concat('%',#{roleName},'%')
+	    </if>
+	    order by cr.create_time desc
+  </select>
+  <delete id="deleteRoleFunc" parameterType="java.lang.String" >
+  delete from risk_corp_role_func_rel where role_id=#{roleId}
+  </delete>
+  <delete id="deleteRoleMenu" parameterType="java.lang.String" >
+  delete from risk_corp_role_menu_rel where role_id=#{roleId}
+  </delete>
+  <insert id="insertRoleFunc"  parameterType="java.util.Map" >
+  	    insert into
+		risk_corp_role_func_rel(role_id,func_id,create_time) values
+		<foreach collection="funcs" item="item" index="index"
+			separator=",">
+			(#{roleId},
+			#{item},
+			now()
+			)
+		</foreach>
+  </insert>
+   <insert id="insertRoleMenu"  parameterType="java.util.Map" >
+     	insert into
+		risk_corp_role_menu_rel(role_id,menu_id,create_time) values
+		<foreach collection="menus" item="item" index="index"
+			separator=",">
+			(#{roleId},
+			#{item},
+			now()
+			)
+		</foreach>
+  </insert>
+  
+  <select id="countRoleUse" resultType="java.lang.Long" parameterType="java.lang.String">
+	    select count(1)  
+	    	from risk_corp_user_role_rel crr left join risk_corp_user cu on crr.user_id=cu.id
+	    where  crr.role_id=#{roleId} and cu.status<![CDATA[<>]]>'2'
+  </select>
+  
+   <select id="selectHasRole" resultType="java.lang.String" parameterType="java.lang.String">
+	    select distinct cu.id
+	    	from risk_corp_user_role_rel crr right join risk_corp_user cu on crr.user_id=cu.id
+	    where  crr.role_id=#{roleId} and cu.status<![CDATA[<>]]>'2' and cu.status = '0' 
+  </select>
+</mapper>

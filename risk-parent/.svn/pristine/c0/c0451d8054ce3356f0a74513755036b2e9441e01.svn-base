@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.corp.CorpDeptDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.corp.CorpDept" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="dept_code" property="deptCode" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    <result column="dept_short_name" property="deptShortName" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="dept_type" property="deptType" jdbcType="VARCHAR" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="dept_head" property="deptHead" jdbcType="VARCHAR" />
+    <result column="dept_phone" property="deptPhone" jdbcType="VARCHAR" />
+    <result column="dept_addr" property="deptAddr" jdbcType="VARCHAR" />
+    <result column="dept_addr_detail" property="deptAddrDetail" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="CorpDeptNodeDTOMap" type="cn.sunfit.risk.buz.api.vo.corp.CorpDeptNodeDTO">
+  <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="dept_code" property="deptCode" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    <result column="dept_name" property="text" jdbcType="VARCHAR" />
+    <result column="dept_short_name" property="deptShortName" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="dept_type" property="deptType" jdbcType="INTEGER" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="dept_head" property="deptHead" jdbcType="VARCHAR" />
+    <result column="dept_phone" property="deptPhone" jdbcType="VARCHAR" />
+    <result column="dept_addr" property="deptAddr" jdbcType="VARCHAR" />
+    <result column="dept_addr_detail" property="deptAddrDetail" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="CorpDeptListMap" type="cn.sunfit.risk.buz.api.beans.corp.CorpDeptListVO">
+  	<result column="id" property="id" />
+  	<result column="name" property="name" />
+  </resultMap>
+  
+  <resultMap id="CorpDeptContractMap" type="cn.sunfit.risk.buz.api.beans.corp.CorpDeptContractVO">
+  	<result column="dept_id" property="deptId" />
+  	<result column="dept_name" property="deptName" />
+  	<result column="dept_addr" property="deptAddr" />
+    <result column="dept_addr_detail" property="deptAddrDetail" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, corp_id, dept_code, dept_name, dept_short_name, level, dept_type, parent_code, dept_head, dept_phone, 
+    dept_addr, dept_addr_detail, status, create_time, `DESC`
+  </sql>
+  <sql id="Base_Column_List_C" >
+    c.id, c.corp_id, c.dept_code, c.dept_name, c.dept_short_name, c.level, c.dept_type, c.parent_code, c.dept_head, c.dept_phone, 
+    c.dept_addr, c.dept_addr_detail, c.status, c.create_time, c.`DESC`
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from risk_corp_dept
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectCorpDept" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.beans.corp.CorpDept">
+  	select 
+    <include refid="Base_Column_List" />
+    from risk_corp_dept
+    where 1 = 1
+    <if test="corpDept.deptCode != null and corpDept.deptCode !=''">
+	    and dept_code = #{corpDept.deptCode,jdbcType=VARCHAR}
+    </if>
+    <if test="corpDept.deptName != null and corpDept.deptName !=''">
+	    and dept_name = #{corpDept.deptName,jdbcType=VARCHAR}
+    </if>
+    <if test="corpDept.corpId != null and corpDept.corpId !=''">
+	    and corp_id = #{corpDept.corpId,jdbcType=VARCHAR}
+    </if>
+    <if test="corpDept.parentCode != null and corpDept.parentCode !=''">
+    	and parent_code = #{corpDept.parentCode,jdbcType=VARCHAR}
+    </if>
+    <if test="statusList != null">
+    	and status in
+    	<foreach item="status" collection="statusList" open="(" separator="," close=")">
+	    	#{status,jdbcType=VARCHAR}
+	    </foreach>
+    </if>
+  </select>
+  
+  <select id="selectAddableCorpDept" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.beans.corp.CorpDept">
+  	select 
+    <include refid="Base_Column_List" />
+    from risk_corp_dept
+    where 1 = 1
+    <if test="corpDept.corpId != null and corpDept.corpId !=''">
+	    and corp_id = #{corpDept.corpId,jdbcType=VARCHAR}
+    </if>
+    <if test="corpDept.level != null and corpDept.level != 1">
+    	and level between 1 and #{corpDept.level,jdbcType=INTEGER} - 1
+    </if>
+    <if test="corpDept.level != null and corpDept.level == 1">
+    	and level = 1
+    </if>
+    <if test="statusList != null">
+    	and status in
+    	<foreach item="status" collection="statusList" open="(" separator="," close=")">
+	    	#{status,jdbcType=VARCHAR}
+	    </foreach>
+    </if>
+  </select>
+  
+  <select id="selectCorpDeptRoot" resultMap="CorpDeptNodeDTOMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from risk_corp_dept
+    where 
+	    corp_id = #{corpId,jdbcType=VARCHAR}
+    	and dept_code = #{deptCode,jdbcType=VARCHAR}
+    	and status <![CDATA[ <> ]]> 2
+  </select>
+  
+  <select id="selectCorpDeptSub" resultMap="CorpDeptNodeDTOMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from risk_corp_dept
+    where 
+    	corp_id = #{corpId,jdbcType=VARCHAR}
+    	and parent_code = #{deptCode,jdbcType=VARCHAR}
+    	and status <![CDATA[ <> ]]> 2
+  </select>
+  
+  <select id="selectAvailableCorpDeptRoot" resultMap="CorpDeptNodeDTOMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from risk_corp_dept
+    where 
+	    corp_id = #{corpId,jdbcType=VARCHAR}
+    	and dept_code = #{deptCode,jdbcType=VARCHAR}
+    	and status = 0
+    order by create_time asc
+  </select>
+  
+  <select id="selectAvailableCorpDeptSub" resultMap="CorpDeptNodeDTOMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from risk_corp_dept
+    where 
+    	corp_id = #{corpId,jdbcType=VARCHAR}
+    	and parent_code = #{deptCode,jdbcType=VARCHAR}
+    	and status = 0
+    order by create_time asc
+  </select>
+  
+  <select id="selectAvailableCorpDept" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from risk_corp_dept
+    where 
+    	corp_id = #{corpId,jdbcType=VARCHAR}
+    	and status = 0
+  </select>
+  
+  
+  <select id="selectAllCorpDept" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select 
+    <include refid="Base_Column_List" />
+    from risk_corp_dept
+    where corp_id = #{corpId,jdbcType=VARCHAR}
+    and status <![CDATA[ <> ]]> 2
+  </select>
+  <select id="selectDeptCountByCorpId" resultType="int">
+  	select 
+    count(1)
+    from risk_corp_dept
+    where corp_id = #{corpId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.corp.CorpDept" >
+    insert into risk_corp_dept (id, corp_id, dept_code, 
+      dept_name, dept_short_name, level, parent_code, dept_type, 
+      dept_head, dept_phone, dept_addr, dept_addr_detail,
+      status, create_time, `DESC`
+      )
+    values (#{id,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, #{deptCode,jdbcType=VARCHAR}, 
+      #{deptName,jdbcType=VARCHAR}, #{deptShortName,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{parentCode,jdbcType=VARCHAR}, #{deptType,jdbcType=INTEGER}, #{deptHead,jdbcType=VARCHAR}, 
+      #{deptPhone,jdbcType=VARCHAR}, #{deptAddr,jdbcType=VARCHAR}, #{deptAddrDetail,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{desc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.corp.CorpDept" >
+    update risk_corp_dept
+    set 
+      dept_name = #{deptName,jdbcType=VARCHAR},
+      dept_short_name = #{deptShortName,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      parent_code = #{parentCode,jdbcType=VARCHAR},
+      dept_type = #{deptType,jdbcType=INTEGER},
+      dept_head = #{deptHead,jdbcType=VARCHAR},
+      dept_phone = #{deptPhone,jdbcType=VARCHAR}, 
+      dept_addr = #{deptAddr,jdbcType=VARCHAR},
+      dept_addr_detail = #{deptAddrDetail,jdbcType=VARCHAR},
+      `DESC` = #{desc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateStatusById">
+  	update risk_corp_dept
+    set 
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="queryDeptByDataRole"  resultMap="BaseResultMap" >
+  	SELECT <include refid="Base_Column_List_C" /> 
+  	from risk_corp_datarole cd ,  risk_corp_datarole_dept_rel cdr , risk_corp_dept c
+	where 
+	cd.id = #{roleId,jdbcType=VARCHAR}
+	and cd.corp_id = #{corpId,jdbcType=VARCHAR}
+	and c.corp_id = #{corpId,jdbcType=VARCHAR}
+	and cd.id = cdr.role_id 
+	and cdr.dept_id = c.id
+  </select>
+  <select id="selectDeptByUserId"  resultMap="BaseResultMap" resultType="java.lang.String">
+  	SELECT c.id,c.dept_name
+  	from risk_corp_dept c , risk_corp_user u
+	where 
+	u.id =#{userId}
+	and c.id = u.dept_id
+  </select>
+  
+  <select id="selectByDeptType" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from risk_corp_dept
+    where 
+    	corp_id = #{corpId,jdbcType=VARCHAR}
+    	and dept_type = #{deptType,jdbcType=VARCHAR}
+    	and status = 0
+  </select>
+  
+  <select id="queryCoopDetps" parameterType="string" resultMap="CorpDeptListMap">
+  	select id, dept_name as name from risk_corp_dept where dept_type = 1 and corp_id = #{corpId} and status = '0'
+  </select>
+  
+  <select id="getCoopDetpById" parameterType="string" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" /> 
+  	from risk_corp_dept where id = #{deptId} limit 1;
+  </select>
+  
+  <select id="getDeptNameByBp" parameterType="java.util.Map" resultMap="CorpDeptContractMap">
+  	select a.id as dept_id,a.dept_name,a.dept_addr,a.dept_addr_detail
+	from risk_corp_dept as a
+		left join risk_corp_user as b on a.id = b.dept_id and a.corp_id = b.corp_id
+		left join ${domain}_risk_bps as c on b.id = c.create_user_id
+	where c.bp_id = #{bpId};
+  </select>
+  
+  <select id="getDeptsByParent" parameterType="string" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" /> 
+  	from risk_corp_dept where parent_code = #{deptCode};
+  </select>
+  
+  <select id="queryCorpDeptList"  parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from risk_corp_dept
+    where corp_id = #{corpId}
+    and status <![CDATA[ <> ]]> 2
+    order by level asc,create_time asc
+  </select>
+</mapper>

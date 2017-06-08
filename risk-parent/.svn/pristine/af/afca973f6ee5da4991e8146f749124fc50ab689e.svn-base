@@ -1,0 +1,210 @@
+package cn.sunfit.risk.buz.api.vo.p2p.product.config;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class XydFeeConfig implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    // 还款类型
+    private List<RepaymentType> repaymentTypes;
+    // 还款周期
+    private List<Term> terms;
+    // 第一期本息扣除方式,参照枚举类FirstIssueType
+    private int firstIssueType;
+    // 借款人实收金额，参照枚举类LoanType
+    private int loanType;
+    // 支持的自动流程
+    private String autoTypeCheck;
+    // 月利率/月管理费率
+    private List<MonthlyFee> monthlyFee;
+    // 日利率/日管理费率
+    private List<DaylyFee> daylyFee;
+    // 违约费率
+    private List<WyFee> wyFee;
+    // 滞纳金率的配置方式,参照枚举类ZnjCalType
+    private int znjCalType;
+    // 滞纳金率
+    private List<ZnFee> znFee;
+    // 是否有保证金,参照枚举类 BzjType
+    private String bzjType;
+    // 保证金费率
+    private List<BzjFee> bzjFee;
+    // 是否有其他费用，参照枚举类OtherType
+    private String otherType;
+    // 其他费用
+    private List<OtherFee> otherFee;
+    // 是否有gps费用，参照枚举类GpsType
+    private String gpsType;
+    // gps初次安装情况收取的费用
+    private Double gpsFirstFee;
+    // gps已经安装情况收取的费用
+    private Double gpsFee;
+    // gps服务费（按月收取）
+    private Double gpsServiceFee;
+    // 是否支持一次性还款(1:支持 2：不支持)
+    private int lumpSumRepayment;
+    // 一次性还款的还款周期
+    private List<LumpSumTerm> lumpSumTerms;
+
+    public String getAutoTypeCheck() {
+        return autoTypeCheck;
+    }
+
+    public List<BzjFee> getBzjFee() {
+        return bzjFee;
+    }
+
+    public String getBzjType() {
+        return bzjType;
+    }
+
+    public List<DaylyFee> getDaylyFee() {
+        return daylyFee;
+    }
+
+    public int getFirstIssueType() {
+        return firstIssueType;
+    }
+
+    public Double getGpsFee() {
+        return gpsFee;
+    }
+
+    public Double getGpsFirstFee() {
+        return gpsFirstFee;
+    }
+
+    public Double getGpsServiceFee() {
+        return gpsServiceFee;
+    }
+
+    public String getGpsType() {
+        return gpsType;
+    }
+
+    public int getLoanType() {
+        return loanType;
+    }
+
+    public int getLumpSumRepayment() {
+        return lumpSumRepayment;
+    }
+
+    public List<LumpSumTerm> getLumpSumTerms() {
+        return lumpSumTerms;
+    }
+
+    public List<MonthlyFee> getMonthlyFee() {
+        return monthlyFee;
+    }
+
+    public List<OtherFee> getOtherFee() {
+        return otherFee;
+    }
+
+    public String getOtherType() {
+        return otherType;
+    }
+
+    public List<RepaymentType> getRepaymentTypes() {
+        return repaymentTypes;
+    }
+
+    public List<Term> getTerms() {
+        return terms;
+    }
+
+    public List<WyFee> getWyFee() {
+        return wyFee;
+    }
+
+    public List<ZnFee> getZnFee() {
+        return znFee;
+    }
+
+    public int getZnjCalType() {
+        return znjCalType;
+    }
+
+    public void setAutoTypeCheck(String autoTypeCheck) {
+        this.autoTypeCheck = autoTypeCheck;
+    }
+
+    public void setBzjFee(List<BzjFee> bzjFee) {
+        this.bzjFee = bzjFee;
+    }
+
+    public void setBzjType(String bzjType) {
+        this.bzjType = bzjType;
+    }
+
+    public void setDaylyFee(List<DaylyFee> daylyFee) {
+        this.daylyFee = daylyFee;
+    }
+
+    public void setFirstIssueType(int firstIssueType) {
+        this.firstIssueType = firstIssueType;
+    }
+
+    public void setGpsFee(Double gpsFee) {
+        this.gpsFee = gpsFee;
+    }
+
+    public void setGpsFirstFee(Double gpsFirstFee) {
+        this.gpsFirstFee = gpsFirstFee;
+    }
+
+    public void setGpsServiceFee(Double gpsServiceFee) {
+        this.gpsServiceFee = gpsServiceFee;
+    }
+
+    public void setGpsType(String gpsType) {
+        this.gpsType = gpsType;
+    }
+
+    public void setLoanType(int loanType) {
+        this.loanType = loanType;
+    }
+
+    public void setLumpSumRepayment(int lumpSumRepayment) {
+        this.lumpSumRepayment = lumpSumRepayment;
+    }
+
+    public void setLumpSumTerms(List<LumpSumTerm> lumpSumTerms) {
+        this.lumpSumTerms = lumpSumTerms;
+    }
+
+    public void setMonthlyFee(List<MonthlyFee> monthlyFee) {
+        this.monthlyFee = monthlyFee;
+    }
+
+    public void setOtherFee(List<OtherFee> otherFee) {
+        this.otherFee = otherFee;
+    }
+
+    public void setOtherType(String otherType) {
+        this.otherType = otherType;
+    }
+
+    public void setRepaymentTypes(List<RepaymentType> repaymentTypes) {
+        this.repaymentTypes = repaymentTypes;
+    }
+
+    public void setTerms(List<Term> terms) {
+        this.terms = terms;
+    }
+
+    public void setWyFee(List<WyFee> wyFee) {
+        this.wyFee = wyFee;
+    }
+
+    public void setZnFee(List<ZnFee> znFee) {
+        this.znFee = znFee;
+    }
+
+    public void setZnjCalType(int znjCalType) {
+        this.znjCalType = znjCalType;
+    }
+
+}

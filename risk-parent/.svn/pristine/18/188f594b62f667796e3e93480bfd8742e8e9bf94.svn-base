@@ -1,0 +1,21 @@
+/**
+ * Created by RJS on 2017/1/3.
+ */
+export default {
+  optionData: state=>state.receiveData.optionData || {},
+  attrsData: state=>state.receiveData.attrsData || {},
+  defaultHiddenData: state=>state.receiveData.defaultHiddenData || {},
+  operationsData: state=>state.receiveData.operationsData || {},
+  rulesData:state=>state.receiveData.rulesData||{},
+  formData: state=> {
+    var layoutInfo = state.receiveData.layoutInfo || {};
+    if (layoutInfo) {
+      return layoutInfo.groups
+    }
+  },
+  addressData: state=>state.addressData,
+  car300Data: state=>state.car300Data,
+  examineData: state=>state.examineData,
+  view:state=>state.receiveData.view
+}
+

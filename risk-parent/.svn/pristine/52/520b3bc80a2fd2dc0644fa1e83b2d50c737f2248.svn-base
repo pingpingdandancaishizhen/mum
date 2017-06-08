@@ -1,0 +1,17 @@
+package cn.sunfit.risk.buz.server.dao.p2p.order;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import cn.sunfit.risk.buz.api.beans.p2p.order.LoanInfoBean;
+
+@Repository
+public interface LoanInfoDAO {
+
+    public int insertLoanInfo(@Param("domain") String domain, @Param("list") List<LoanInfoBean> list);
+
+    public List<Long> queryExistLoanIds(Map<String, Object> paraMap);
+}

@@ -1,0 +1,4 @@
+dubbo.transport.version=${dubbo.version}
+dubbo.transport.registry=${dubbo.registry}
+dubbo.transport.port=${dubbo.port}
+dubbo.rest.port=${dubbo.rest.port}

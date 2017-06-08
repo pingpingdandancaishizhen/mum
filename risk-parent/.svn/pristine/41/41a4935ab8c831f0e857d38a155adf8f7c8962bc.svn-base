@@ -1,0 +1,50 @@
+<template>
+  <div>
+    <div :class="data.cols?'form-group col-md-'+data.cols*3:'form-group col-md-3'" :id="data.key">
+      <label :class="data.required?'require':''">{{data.label}}</label>
+      <app-checkbox-input v-for="item in oData[data.dataSource]" v-if="item" :type="'checkbox'" :oData="item" :attrData="attrsData[data.key]" :data="data" :checked="attrsData[data.key]|checkedFilter(item)"></app-checkbox-input>
+    </div>
+  </div>
+</template>
+<style>
+</style>
+<script>
+  import Input from './checkbox-input.vue'
+  export default{
+        data(){
+            return{
+              checkBox:[],
+              checked:''
+            }
+        },
+      props:['data','oData','attrsData'],
+    created:function () {
+      this.$store.dispatch('setInputData', {key: this.data.key, value: ''})
+    },
+      watch:{
+        checkBox:function (value) {
+            this.$store.dispatch('setInputData',{key:this.data.key,value:value.join(',')})
+          }
+      },
+    filters: {
+      checkedFilter:function (v,item) {
+        //默认选中后操作
+        if(v){
+          var dicKey=item.dicKey;
+          var attrValue=v;
+          var attrData=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+          var attrArr=attrData.split(',');
+          var reV=attrArr.filter(item => {
+            if(item==dicKey){
+              return item
+            }
+          })
+         return reV
+        }
+      }
+    },
+    components:{
+        'app-checkbox-input':Input,
+    },
+    }
+</script>

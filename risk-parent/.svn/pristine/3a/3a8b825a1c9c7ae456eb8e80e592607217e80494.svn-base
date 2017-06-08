@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.system.DataDicDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.system.DataDic" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="dic_status" property="dicStatus" jdbcType="BIT" />
+    <result column="dic_type" property="dicType" jdbcType="VARCHAR" />
+    <result column="display_name" property="displayName" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="dic_value" property="dicValue" jdbcType="VARCHAR" />
+    <result column="dic_key" property="dicKey" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dic_status, dic_type, display_name, dic_value, dic_key,description,deleted,product_id,corp_id,bp_def_id
+  </sql>
+  <select id="getDicByType" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from risk_data_dic
+    where dic_type in
+    <foreach collection="dicTypes" item="dicType" separator="," open="(" close=")">
+    		#{dicType}
+    </foreach>
+    <if test="dicStatus != null">
+    	and dic_status = #{dicStatus,jdbcType=BIT}
+    </if>
+    <if test="corpId != null and corpId != ''">
+    	and corp_id = #{corpId,jdbcType=VARCHAR}
+    </if>
+    <if test="productId != null and productId != ''">
+    	and product_id = #{productId,jdbcType=VARCHAR}
+    </if>
+    <if test="bpDefId != null and bpDefId != ''">
+    	and bp_def_id = #{bpDefId,jdbcType=VARCHAR}
+    </if>
+     and deleted=0
+  </select>    
+  
+  <select id="getFieldProvider" resultType="string">
+  	SELECT field.data_provider
+  	FROM ${domain}_bp_meta_fields field
+  		LEFT JOIN ${domain}_bp_meta meta ON field.bp_def_id = meta.bp_def_id
+  	WHERE field.field_key = #{fieldKey}
+		AND meta.product_key = #{product}
+	LIMIT 1;
+  </select>
+  
+  <select id="getDataDicKey" resultType="string">
+	SELECT dic_key	
+	FROM risk_data_dic
+	WHERE field.dic_value = #{dicValue}
+		AND dic_type = #{dicType}
+		AND product_id = #{product};
+  </select>
+  
+</mapper>

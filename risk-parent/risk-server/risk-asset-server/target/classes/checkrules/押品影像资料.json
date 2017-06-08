@@ -1,0 +1,1 @@
+{"loansecurityimg_form":[{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"loansecurityimg_form","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}]}

@@ -1,0 +1,53 @@
+<template>
+  <div class="row-right" :class="!checkedAdd?'col-sm-6':'col-sm-6 checkedAdd'">
+    <div class="form-group input-group " :id="data.key">
+      <label class="label-head label-head-lg label-head-top  text-right"  v-if="!checkedAdd"><span :class="data.required?'require':''">{{data.label}}:</span></label>
+      <div class="label-box label-box-sm">
+        <input type="text" class="form-control" :name="data.key"  v-model="formatValue" @input="handleInput" @blur="handleBlur" @focus="handleFocus"  :disabled="data.readonly?true:false">
+        <div class="form-error-tip">{{errorMsg[data.key]}}</div>
+      </div>
+      <div class="label-unit" v-if="data.unit">
+       {{data.unit}}
+      </div>
+    </div>
+  </div>
+
+</template>
+<script>
+  import checkRule from '../mixins/checkRule'
+  export default{
+    mixins:[checkRule],
+    data(){
+      return {
+        value:'',
+        formatValue:''
+      }
+    },
+    props: ['data','oData','attrsData','checkedAdd'],
+    created:function () {
+      var attrValue=this.attrsData[this.data.key];
+      var value=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+      this.value=value;
+      this.formatValue=tools.formatAccount(value);
+      this.$store.dispatch('setInputData', {key: this.data.key, value: value});
+      this.$watch('value',this.handleWatch)
+    },
+    methods:{
+      handleFocus(){
+        this.formatValue=this.value;
+      },
+      handleInput(e){
+        var value=e.target.value;
+        this.value=value;
+      },
+      handleBlur() {
+        this.formatValue=tools.formatAccount(this.value)
+      },
+      handleWatch(val){
+        var valData={}
+        this.checkRuleValue=Object.assign({},this.checkRuleValue,val)
+        this.$store.dispatch('setInputData', {key: this.data.key, value: val});
+      }
+    },
+  }
+</script>

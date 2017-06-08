@@ -1,0 +1,89 @@
+package cn.sunfit.risk.credit.server.util;
+
+/**
+ * 
+ * @Title: ServerConfig.java
+ * @date 2016年7月28日 下午1:26:13
+ * @version V1.0
+ */
+public class ServerConfig {
+
+    // 车鉴定服务接口配置
+    public static String CJD_SERVICE_PRIVATE_KEY;
+    public static String CJD_SERVICE_USER_NAME;
+    public static String CJD_SERVICE_PASSWORD;
+    public static String CJD_SERVICE_URL;
+
+    // 同盾服务接口配置
+    public static String RISK_FRAUDMETRIX_PARTNERCODE;
+    public static String RISK_FRAUDMETRIX_SECRETKEY;
+    public static String RISK_FRAUDMETRIX_EVENTID;
+
+    // 鹏元征信接口配置
+    public static String PY_SERVICE_URL;
+
+    public static String getCJD_SERVICE_PASSWORD() {
+        return CJD_SERVICE_PASSWORD;
+    }
+
+    public static String getCJD_SERVICE_PRIVATE_KEY() {
+        return CJD_SERVICE_PRIVATE_KEY;
+    }
+
+    public static String getCJD_SERVICE_URL() {
+        return CJD_SERVICE_URL;
+    }
+
+    public static String getCJD_SERVICE_USER_NAME() {
+        return CJD_SERVICE_USER_NAME;
+    }
+
+    public static String getPY_SERVICE_URL() {
+        return PY_SERVICE_URL;
+    }
+
+    public static String getRISK_FRAUDMETRIX_EVENTID() {
+        return RISK_FRAUDMETRIX_EVENTID;
+    }
+
+    public static String getRISK_FRAUDMETRIX_PARTNERCODE() {
+        return RISK_FRAUDMETRIX_PARTNERCODE;
+    }
+
+    public static String getRISK_FRAUDMETRIX_SECRETKEY() {
+        return RISK_FRAUDMETRIX_SECRETKEY;
+    }
+
+    public static void setCJD_SERVICE_PASSWORD(String cJD_SERVICE_PASSWORD) {
+        CJD_SERVICE_PASSWORD = cJD_SERVICE_PASSWORD;
+    }
+
+    public static void setCJD_SERVICE_PRIVATE_KEY(String cJD_SERVICE_PRIVATE_KEY) {
+        CJD_SERVICE_PRIVATE_KEY = cJD_SERVICE_PRIVATE_KEY;
+    }
+
+    public static void setCJD_SERVICE_URL(String cJD_SERVICE_URL) {
+        CJD_SERVICE_URL = cJD_SERVICE_URL;
+    }
+
+    public static void setCJD_SERVICE_USER_NAME(String cJD_SERVICE_USER_NAME) {
+        CJD_SERVICE_USER_NAME = cJD_SERVICE_USER_NAME;
+    }
+
+    public static void setPY_SERVICE_URL(String pY_SERVICE_URL) {
+        PY_SERVICE_URL = pY_SERVICE_URL;
+    }
+
+    public static void setRISK_FRAUDMETRIX_EVENTID(String rISK_FRAUDMETRIX_EVENTID) {
+        RISK_FRAUDMETRIX_EVENTID = rISK_FRAUDMETRIX_EVENTID;
+    }
+
+    public static void setRISK_FRAUDMETRIX_PARTNERCODE(String rISK_FRAUDMETRIX_PARTNERCODE) {
+        RISK_FRAUDMETRIX_PARTNERCODE = rISK_FRAUDMETRIX_PARTNERCODE;
+    }
+
+    public static void setRISK_FRAUDMETRIX_SECRETKEY(String rISK_FRAUDMETRIX_SECRETKEY) {
+        RISK_FRAUDMETRIX_SECRETKEY = rISK_FRAUDMETRIX_SECRETKEY;
+    }
+
+}

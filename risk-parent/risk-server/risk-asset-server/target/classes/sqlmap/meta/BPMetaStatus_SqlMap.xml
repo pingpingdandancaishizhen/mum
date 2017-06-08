@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.metadata.BPMetaStatusDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.metadata.BPMetaStatus" >
+    <id column="status_id" property="statusId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="status_key" property="statusKey" jdbcType="VARCHAR" />
+    <result column="status_name" property="statusName" jdbcType="VARCHAR" />
+    <result column="status_desc" property="statusDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    status_id, corp_id, bp_def_id, status_key, status_name, status_desc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from wdgs_bp_meta_status
+    where status_id = #{statusId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.metadata.BPMetaStatus" >
+    insert into wdgs_bp_meta_status (status_id, corp_id, bp_def_id, 
+      status_key, status_name, status_desc
+      )
+    values (#{statusId,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, #{bpDefId,jdbcType=VARCHAR}, 
+      #{statusKey,jdbcType=VARCHAR}, #{statusName,jdbcType=VARCHAR}, #{statusDesc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.metadata.BPMetaStatus" >
+    update wdgs_bp_meta_status
+    set corp_id = #{corpId,jdbcType=VARCHAR},
+      bp_def_id = #{bpDefId,jdbcType=VARCHAR},
+      status_key = #{statusKey,jdbcType=VARCHAR},
+      status_name = #{statusName,jdbcType=VARCHAR},
+      status_desc = #{statusDesc,jdbcType=VARCHAR}
+    where status_id = #{statusId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.activiti.BPJumpDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPJump" >
+    <id column="jump_id" property="jumpId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="engine_key" property="engineKey" jdbcType="VARCHAR" />
+    <result column="node_key" property="nodeKey" jdbcType="VARCHAR" />
+    <result column="node_name" property="nodeName" jdbcType="VARCHAR" />
+    <result column="task_id" property="taskId" jdbcType="VARCHAR" />
+    <result column="complete_time" property="completeTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="duration" property="duration" jdbcType="INTEGER" />
+    <result column="duration_val" property="durationVal" jdbcType="INTEGER" />
+    <result column="handle_id" property="handleId" jdbcType="VARCHAR" />
+    <result column="owner_id" property="ownerId" jdbcType="VARCHAR" />
+    <result column="check_status" property="checkStatus" jdbcType="VARCHAR" />
+    <result column="jump_type" property="jumpType" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="bp_id" property="bpId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    jump_id, bp_def_id, engine_key, node_key, node_name, task_id, complete_time, duration, 
+    duration_val, handle_id, owner_id, check_status, jump_type, remark,create_time,bp_id
+  </sql>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPJump" >
+    insert into ${domain}_bp_jump (jump_id, bp_def_id, engine_key, 
+      node_key, node_name, task_id, 
+      complete_time, duration, duration_val, 
+      handle_id, owner_id, check_status, 
+      jump_type, remark,create_time,bp_id)
+    values (#{jumpId,jdbcType=VARCHAR}, #{bpDefId,jdbcType=VARCHAR}, #{engineKey,jdbcType=VARCHAR}, 
+      #{nodeKey,jdbcType=VARCHAR}, #{nodeName,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, 
+      #{completeTime,jdbcType=TIMESTAMP}, #{duration,jdbcType=INTEGER}, #{durationVal,jdbcType=INTEGER}, 
+      #{handleId,jdbcType=VARCHAR}, #{ownerId,jdbcType=VARCHAR}, #{checkStatus,jdbcType=VARCHAR}, 
+      #{jumpType,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},#{createTime},#{bpId})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPJump" >
+    update ${domain}_bp_jump
+    set bp_def_id = #{bpDefId,jdbcType=VARCHAR},
+      engine_key = #{engineKey,jdbcType=VARCHAR},
+      node_key = #{nodeKey,jdbcType=VARCHAR},
+      node_name = #{nodeName,jdbcType=VARCHAR},
+      task_id = #{taskId,jdbcType=VARCHAR},
+      complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      duration = #{duration,jdbcType=INTEGER},
+      duration_val = #{durationVal,jdbcType=INTEGER},
+      handle_id = #{handleId,jdbcType=VARCHAR},
+      owner_id = #{ownerId,jdbcType=VARCHAR},
+      check_status = #{checkStatus,jdbcType=VARCHAR},
+      jump_type = #{jumpType,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      bp_id=#{bpId}
+    where jump_id = #{jumpId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByTaskId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	 from ${domain}_bp_jump where task_id=#{taskId,jdbcType=VARCHAR}
+  </select>
+</mapper>

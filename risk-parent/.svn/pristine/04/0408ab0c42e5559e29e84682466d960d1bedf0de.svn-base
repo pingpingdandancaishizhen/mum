@@ -1,0 +1,68 @@
+package cn.sunfit.risk.web.controller;
+
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import cn.sunfit.risk.buz.api.beans.system.DataDic;
+import cn.sunfit.risk.buz.api.service.system.DataService;
+import cn.sunfit.risk.buz.api.utils.IdUtil;
+import cn.sunfit.risk.buz.api.vo.Resp;
+
+@Controller
+@RequestMapping("/data")
+public class DataController extends BaseController {
+    @Autowired
+    private DataService dataService;
+
+    /**
+     * 
+     * @Title: datadic
+     * @Description: 查询字典表
+     * @param @param type 多个type用英文，分割
+     * @param @return   
+     * @return Resp 
+     * @author XFL 2017年1月5日 
+     * @throws
+     */
+    @RequestMapping(value = "/datadic", method = RequestMethod.GET)
+    @ResponseBody
+    public Resp datadic(@RequestParam("type") String type, @RequestParam(required = false) String productId,
+            @RequestParam(required = false) String bpDefId) {
+        List<DataDic> list = dataService.getDataDic(type, getCurrentUser().getCorpId(), productId, bpDefId);
+        return new Resp(list);
+    }
+
+    /**
+     * 
+     * @Title: genNo
+     * @Description: 获取单号
+     * @param @param productId
+     * @param @param type
+     * @param @return   
+     * @return Resp 
+     * @author XFL 2017年1月17日 
+     * @throws
+     */
+    @RequestMapping(value = "/genNo", method = RequestMethod.GET)
+    @ResponseBody
+    public Resp genNo(String productId, String type) {
+        if (StringUtils.equals(type, "c")) {
+            String cid = IdUtil.generateBPContratNo(productId);
+            return new Resp(cid);
+        } else if (StringUtils.equals(type, "y")) {
+            String cid = IdUtil.generateBPYapinNo(productId);
+            return new Resp(cid);
+        } else if (StringUtils.equals(type, "f")) {
+            String cid = IdUtil.generateBPFangkuanNo(productId);
+            return new Resp(cid);
+        }
+        return new Resp(-1, "");
+    }
+}

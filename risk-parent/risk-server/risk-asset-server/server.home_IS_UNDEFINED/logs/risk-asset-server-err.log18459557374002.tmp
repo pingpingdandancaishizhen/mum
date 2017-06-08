@@ -1,0 +1,25 @@
+WARN  [risk-asset-server] 2017-04-26 18:11:25.277 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+WARN  [risk-asset-server] 2017-04-26 18:12:16.668 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.106:10010. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-asset-server] 2017-04-26 18:13:25.181 [New I/O worker #2] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.106:10010. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-asset-server] 2017-04-26 18:13:34.840 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15ba7f9e67e001a for server 127.0.0.1/127.0.0.1:2181, unexpected error, closing socket connection and attempting reconnect
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method) ~[na:na]
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43) ~[na:na]
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223) ~[na:na]
+	at sun.nio.ch.IOUtil.read(IOUtil.java:192) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:379) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doIO(ClientCnxnSocketNIO.java:68) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:366) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-asset-server] 2017-04-26 18:13:37.831 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15ba7f9e67e001a for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+WARN  [risk-asset-server] 2017-04-26 18:13:40.922 [main-SendThread(127.0.0.1:2181)] org.apache.zookeeper.ClientCnxn - Session 0x15ba7f9e67e001a for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[na:na]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:739) ~[na:na]
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361) ~[zookeeper-3.4.6.jar:3.4.6-1569965]
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1081) ~[zookeeper-3.4.6.jar:3.4.6-1569965]

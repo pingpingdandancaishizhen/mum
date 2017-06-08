@@ -1,0 +1,419 @@
+[
+	{
+		"fieldName": "客户类型",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "cust_type",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "客户姓名",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "cust_name",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "身份证号",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "cust_license_num",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "手机号1",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "cust_mobile",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "关系",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "custfriend_relation_0",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "姓名",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "custfriend_name_0",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "移动电话",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "custfriend_phone_0",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "借款用途",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loan_usage",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "借款形式",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loan_type",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "借款人还款方式",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loan_fee_repaymentTypes",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "是否天标",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loan_fee_tb",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "借款期限",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loan_fee_monthlyTerm",
+		"condition": [
+			{
+				"fieldKey": "loan_fee_tb",
+				"operator": "==",
+				"value": "0"
+			}
+		],
+		"detail": null
+	},
+	{
+		"fieldName": "借款期限",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loan_fee_daylyTerm",
+		"condition": [
+			{
+				"fieldKey": "loan_fee_tb",
+				"operator": "==",
+				"value": "1"
+			}
+		],
+		"detail": null
+	},
+	{
+		"fieldName": "借款金额",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loan_fee_amount",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "综合月利率",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loan_fee_monthlyZHFee",
+		"condition": [
+			{
+				"fieldKey": "loan_fee_tb",
+				"operator": "==",
+				"value": "0"
+			}
+		],
+		"detail": null
+	},
+	{
+		"fieldName": "综合日利率",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loan_fee_daylyZHFee",
+		"condition": [
+			{
+				"fieldKey": "loan_fee_tb",
+				"operator": "==",
+				"value": "1"
+			}
+		],
+		"detail": null
+	},
+	{
+		"fieldName": "滞纳金率",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loan_fee_znj",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "违约金率",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loan_fee_wyj",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "收款账户户名",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanbank_account_name",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "收款银行账号",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanbank_account_no",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "确认银行账号",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanbank_account_no_re",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "收款银行开户行",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanbank_bank",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "收款银行支行",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanbank_branch",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "收款银行开户地市",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanbank_addr_city",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "收款银行开户地省",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanbank_addr_province",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "还款账户户名",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanrebank_account_name",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "还款银行账号",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanrebank_account_no",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "确认银行账号",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanrebank_account_no_re",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "还款银行开户行",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanrebank_bank",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "还款银行支行",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanrebank_branch",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "还款银行开户地市",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanrebank_addr_city",
+		"condition": null,
+		"detail": null
+	},
+	{
+		"fieldName": "还款银行开户地省",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loanrebank_addr_province",
+		"condition": null,
+		"detail": null
+	},
+		{
+		"fieldName": "车牌号码",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loancar_license_plate",
+		"condition": null,
+		"detail": null
+	},{
+		"fieldName": "发动机号",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loancar_engine_number",
+		"condition": null,
+		"detail": null
+	},{
+		"fieldName": "车架号",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loancar_frame_number",
+		"condition": null,
+		"detail": null
+	},{
+		"fieldName": "车品牌",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loancar_car_bms_brand",
+		"condition": null,
+		"detail": null
+	},{
+		"fieldName": "车辆类型",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loancar_car_type",
+		"condition": null,
+		"detail": null
+	},{
+		"fieldName": "车身颜色",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loancar_car_color",
+		"condition": null,
+		"detail": null
+	},{
+		"fieldName": "燃料种类",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loancar_car_fuel",
+		"condition": null,
+		"detail": null
+	},{
+		"fieldName": "购买价格",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loancar_purchase_price",
+		"condition": null,
+		"detail": null
+	},{
+		"fieldName": "车辆出厂日期",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loancar_factory_date",
+		"condition": null,
+		"detail": null
+	},{
+		"fieldName": "初次登记日期",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loancar_registration_date",
+		"condition": null,
+		"detail": null
+	},{
+		"fieldName": "核定载客",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loancar_approved_passenger",
+		"condition": null,
+		"detail": null
+	},{
+		"fieldName": "车辆数量",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loancar_num",
+		"condition": null,
+		"detail": null
+	},{
+		"fieldName": "登记证车型号",
+		"ruleType": "notEmpty",
+		"ruleLevel": "field",
+		"message": "必填",
+		"fieldKey": "loancar_registration_model",
+		"condition": null,
+		"detail": null
+	}
+]

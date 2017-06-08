@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.api.jfjd.JFBPDAO" >
+	<resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.vo.api.jfjd.JFBpStatusDTO" >
+	    <result column="bp_status" property="bpStatus"/>
+	    <result column="loan_status" property="loanStatus"/>
+	    <result column="create_time" property="createTime"/>
+	    <result column="current_task_name" property="currentTaskName"/>
+	</resultMap>
+
+	<select id="getStatusById" parameterType="cn.sunfit.risk.buz.api.vo.api.jfjd.JFBpStatusGetReq" resultMap="BaseResultMap">
+		SELECT a.bp_status ,a.create_time,b.loan_status,a.current_task_name FROM ${domain}_risk_bps AS a
+		LEFT JOIN ${domain}_bp_loans AS b ON a.bp_id = b.bp_id
+		WHERE a.bp_id = #{bpId} LIMIT 1;
+	</select>
+	
+
+	<select id="getLoanStatus" parameterType="cn.sunfit.risk.buz.api.vo.api.jfjd.JFBpStatusGetReq" resultType="int">
+		SELECT loan_status FROM ${domain}_bp_loans WHERE bp_id = #{bpId} LIMIT 1;
+	</select>
+
+	<select id="countBpById" parameterType="java.util.Map" resultType="java.lang.Long">
+		select count(1) from ${domain}_risk_bps where bp_id =#{bpId}
+	</select>
+
+	<select id="getProductByBp" parameterType="cn.sunfit.risk.buz.api.vo.api.jfjd.JFBpStatusGetReq" resultType="string">
+		select product_type from ${domain}_risk_bps where bp_id = #{bpId} limit 1;
+	</select>
+</mapper>

@@ -1,0 +1,339 @@
+package cn.sunfit.risk.buz.api.vo.p2p.order;
+
+import java.math.BigDecimal;
+
+import orj.worf.core.model.BaseObject;
+
+/**
+ * 
+ * @Title: OrderListBean.java
+ * @Package cn.sunfit.risk.buz.api.vo.p2p.order
+ * @Description: 导入现金贷模板的VO,提供查询和编辑
+ * @author RJS
+ * @date 2017年5月10日 上午10:31:26
+ * @version V1.0
+ */
+public class OrderListBean extends BaseObject {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 506215415880615490L;
+
+    private Long id;
+    private String plusIdIcon;
+
+    private String bpDefId;
+    private String bpDefKey;
+    private String deptId;
+    private String productType;
+
+    /**
+     * 系统订单ID
+     */
+    private String bpId;
+
+    /**
+     * 客户姓名
+     */
+    private String customerName;
+
+    /**
+     * 性别
+     */
+    private String gender;
+
+    /**
+     * 身份证号
+     */
+    private String idCard;
+
+    /**
+     * 手机号
+     */
+    private String mobilePhone;
+
+    /**
+     * 客户类型
+     */
+    private String customerType;
+
+    /**
+     * 产品编号
+     */
+    private String productCode;
+
+    /**
+     * 产品名称
+     */
+    private String productName;
+
+    /**
+     * 创建时间
+     */
+    private String createTime;
+
+    /**
+     * 借款金额
+     */
+    private BigDecimal loanMoney;
+
+    /**
+     * 借款期限
+     */
+    private Integer loanPeriod;
+
+    /**
+     * 还款方式
+     */
+    private String repayType;
+
+    /**
+     * 借款用途
+     */
+    private String loanPurpose;
+
+    /**
+     * 借款性质
+     */
+    private String loanHandleType;
+
+    /**
+     * 单据状态Key
+     */
+    private String currTaskKey;
+
+    /**
+     * 单据状态名称
+     */
+    private String currTaskName;
+
+    /**
+     * 订单来源
+     */
+    private String corporation;
+
+    /**
+     * 订单新增方式
+     */
+    private String importWay;
+
+    /**
+     * 录单人
+     */
+    private String createUser;
+
+    /**
+     * 单据状态？
+     */
+    private String aproveStatus;
+
+    public String getAproveStatus() {
+        return aproveStatus;
+    }
+
+    public String getBpDefId() {
+        return bpDefId;
+    }
+
+    public String getBpDefKey() {
+        return bpDefKey;
+    }
+
+    public String getBpId() {
+        return bpId;
+    }
+
+    public String getCorporation() {
+        return corporation;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public String getCurrTaskKey() {
+        return currTaskKey;
+    }
+
+    public String getCurrTaskName() {
+        return currTaskName;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public String getCustomerType() {
+        return customerType;
+    }
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public String getImportWay() {
+        return importWay;
+    }
+
+    public String getLoanHandleType() {
+        return loanHandleType;
+    }
+
+    public BigDecimal getLoanMoney() {
+        return loanMoney;
+    }
+
+    public Integer getLoanPeriod() {
+        return loanPeriod;
+    }
+
+    public String getLoanPurpose() {
+        return loanPurpose;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public String getPlusIdIcon() {
+        return plusIdIcon;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public String getRepayType() {
+        return repayType;
+    }
+
+    public void setAproveStatus(String aproveStatus) {
+        this.aproveStatus = aproveStatus;
+    }
+
+    public void setBpDefId(String bpDefId) {
+        this.bpDefId = bpDefId;
+    }
+
+    public void setBpDefKey(String bpDefKey) {
+        this.bpDefKey = bpDefKey;
+    }
+
+    public void setBpId(String bpId) {
+        this.bpId = bpId;
+    }
+
+    public void setCorporation(String corporation) {
+        this.corporation = corporation;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public void setCurrTaskKey(String currTaskKey) {
+        this.currTaskKey = currTaskKey;
+    }
+
+    public void setCurrTaskName(String currTaskName) {
+        this.currTaskName = currTaskName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public void setCustomerType(String customerType) {
+        this.customerType = customerType;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public void setImportWay(String importWay) {
+        this.importWay = importWay;
+    }
+
+    public void setLoanHandleType(String loanHandleType) {
+        this.loanHandleType = loanHandleType;
+    }
+
+    public void setLoanMoney(BigDecimal loanMoney) {
+        this.loanMoney = loanMoney;
+    }
+
+    public void setLoanPeriod(Integer loanPeriod) {
+        this.loanPeriod = loanPeriod;
+    }
+
+    public void setLoanPurpose(String loanPurpose) {
+        this.loanPurpose = loanPurpose;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+    public void setPlusIdIcon(String plusIdIcon) {
+        this.plusIdIcon = plusIdIcon;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
+
+    public void setRepayType(String repayType) {
+        this.repayType = repayType;
+    }
+
+}

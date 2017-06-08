@@ -1,0 +1,12 @@
+package cn.sunfit.risk.buz.api.service.p2p.excel;
+
+import java.util.List;
+import java.util.Map;
+
+import cn.sunfit.risk.buz.api.beans.p2p.P2PBank;
+
+public interface P2PBankService {
+    public List<P2PBank> findBank();
+    
+    public List<Map<String, String>> getBankList();
+}

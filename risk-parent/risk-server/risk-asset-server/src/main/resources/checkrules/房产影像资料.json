@@ -1,0 +1,5 @@
+{
+    "loanassethimg_owner_certificate": [{"ruleType":"file","ruleLevel":"field","message":"请上传jpg png格式的文件","fieldKey":"loanassethimg_owner_certificate","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}],
+    "loanassethimg_purchase_contract": [{"ruleType":"file","ruleLevel":"field","message":"请上传jpg png格式的文件","fieldKey":"loanassethimg_purchase_contract","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}],
+    "loanassethimg_month_certificate": [{"ruleType":"file","ruleLevel":"field","message":"请上传jpg png格式的文件","fieldKey":"loanassethimg_month_certificate","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}]
+}

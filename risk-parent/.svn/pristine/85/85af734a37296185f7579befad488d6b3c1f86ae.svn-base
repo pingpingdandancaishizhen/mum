@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.product.P2PProductDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.p2p.P2PProduct" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="lastmod_time" property="lastmodTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="product_type" property="productType" jdbcType="VARCHAR" />
+    <result column="medium" property="medium" jdbcType="VARCHAR" />
+     <result column="fee_config" property="feeConfig" jdbcType="LONGVARCHAR" />
+     <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+     <result column="asset_id" property="assetId" jdbcType="VARCHAR" />
+     <result column="product_code" property="productCode" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, product_name, create_time, lastmod_time, `status`, `desc`,product_type,medium,corp_id,asset_id,product_Code,fee_config
+  </sql>
+  <sql id="Base_Column_List_simple" >
+    id, product_name  ,product_type ,asset_id,product_Code 
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap"  >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ${domain}_p2p_product
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByAssetId" resultMap="BaseResultMap"  >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ${domain}_p2p_product
+    where asset_id = #{assetId,jdbcType=VARCHAR} and `status` = 1
+  </select>
+  
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.p2p.P2PProduct" >
+    insert into ${domain}_p2p_product (id, product_name, create_time, 
+      lastmod_time, `status`, `desc`, 
+      medium, product_type, corp_id, 
+      asset_id, fee_config,product_Code)    values (#{id,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastmodTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, 
+      #{medium,jdbcType=VARCHAR}, #{productType,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, 
+      #{assetId,jdbcType=VARCHAR}, #{feeConfig,jdbcType=LONGVARCHAR}, #{productCode,jdbcType=VARCHAR}    )
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.p2p.P2PProduct" >
+    update ${domain}_p2p_product
+    set product_name = #{productName,jdbcType=VARCHAR},
+      lastmod_time = #{lastmodTime,jdbcType=TIMESTAMP},
+      `status` = #{status,jdbcType=VARCHAR},
+      `desc` = #{desc,jdbcType=VARCHAR},
+      medium = #{medium,jdbcType=VARCHAR},
+      product_type = #{productType,jdbcType=VARCHAR},
+      corp_id = #{corpId,jdbcType=VARCHAR},
+      asset_id = #{assetId,jdbcType=VARCHAR},
+      fee_config = #{feeConfig,jdbcType=LONGVARCHAR},
+      product_Code = #{productCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <update id="updateFeeConfig" parameterType="java.util.Map" >
+    update ${domain}_p2p_product
+    set fee_config = #{feeConfig}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+    <select id="selectFeeConfig" resultType="java.lang.String" >
+    select fee_config from ${domain}_p2p_product
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectByCorpId" resultMap="BaseResultMap" >
+    select   <include refid="Base_Column_List" /> from ${domain}_p2p_product
+    where corp_id = #{corpId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findRiskProductList" resultType="java.util.Map">
+  	SELECT rp.id,rp.product_type productType,rp.product_name productName,rp.fee_config feeConfig,rp.product_code productCode 
+  	FROM ${domain}_p2p_product rp 
+  	WHERE rp.`status` = '1';
+  </select>
+  
+   <select id="checkByProductCode" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.beans.p2p.P2PProduct" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_p2p_product
+    where product_code = #{productCode,jdbcType=VARCHAR}
+     <if test=" id != null">
+    	and id <![CDATA[ != ]]>#{id,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="selectProductByAssetIdCode" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.beans.p2p.P2PProduct" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_p2p_product
+    where product_type = #{productType,jdbcType=VARCHAR}
+    	and asset_id = #{assetId,jdbcType=VARCHAR}
+  </select>
+  
+
+ 
+  
+  <select id="selectAllRiskProduct" resultMap="BaseResultMap">
+  	SELECT  <include refid="Base_Column_List_simple" />
+  	FROM ${domain}_p2p_product rp 
+  	WHERE rp.`status` = '1' order by rp.product_name desc
+  </select>
+  
+   <select id="findByProductCode" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_p2p_product
+    where product_code = #{productCode,jdbcType=VARCHAR}    
+  </select>
+  
+  
+  <select id="selectProductByCorpId" resultMap="BaseResultMap" >
+    select   DISTINCT(product_type) ,t.name   product_name  from ${domain}_p2p_product p JOIN p2p_product_type t on p.product_type=t.id
+    where corp_id = #{corpId,jdbcType=VARCHAR}
+  </select>
+
+   
+</mapper>

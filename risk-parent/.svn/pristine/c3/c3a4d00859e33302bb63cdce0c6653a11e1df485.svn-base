@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.corp.CustomerDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.corp.Customer" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="idCard_vaild" property="idCardVaild" jdbcType="DATE" />
+    <result column="license_num" property="licenseNum" jdbcType="VARCHAR" />
+    <result column="marital_status" property="maritalStatus" jdbcType="VARCHAR" />
+    <result column="child_count" property="childCount" jdbcType="INTEGER" />
+    <result column="support_num" property="supportNum" jdbcType="INTEGER" />
+    <result column="house_spending" property="houseSpending" jdbcType="DECIMAL" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="mobile2" property="mobile2" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="qq" property="qq" jdbcType="VARCHAR" />
+    <result column="wechat" property="wechat" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="house_time" property="houseTime" jdbcType="DATE" />
+    <result column="house_type" property="houseType" jdbcType="VARCHAR" />
+    <result column="come_time" property="comeTime" jdbcType="DATE" />
+    <result column="regist_addr" property="registAddr" jdbcType="VARCHAR" />
+    <result column="live_addr" property="liveAddr" jdbcType="VARCHAR" />
+    <result column="industry" property="industry" jdbcType="VARCHAR" />
+    <result column="company_type" property="companyType" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    <result column="job" property="job" jdbcType="VARCHAR" />
+    <result column="job_title" property="jobTitle" jdbcType="VARCHAR" />
+    <result column="job_type" property="jobType" jdbcType="VARCHAR" />
+    <result column="entry_time" property="entryTime" jdbcType="DATE" />
+    <result column="salary" property="salary" jdbcType="DECIMAL" />
+    <result column="salary_date" property="salaryDate" jdbcType="INTEGER" />
+    <result column="salary_type" property="salaryType" jdbcType="VARCHAR" />
+    <result column="company_phone" property="companyPhone" jdbcType="VARCHAR" />
+    <result column="company_addr" property="companyAddr" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="id_card_front" property="idCardFront" jdbcType="VARCHAR" />
+    <result column="id_card_back" property="idCardBack" jdbcType="VARCHAR" />
+    <result column="credit_report" property="creditReport" jdbcType="VARCHAR" />
+    <result column="resource_id" property="resourceId" jdbcType="VARCHAR" />
+    <result column="live_addr_detail" property="liveAddrDetail" jdbcType="VARCHAR" />
+    <result column="regist_addr_detail" property="registAddrDetail" jdbcType="VARCHAR" />
+    <result column="company_addr_detail" property="companyAddrDetail" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="cn.sunfit.risk.buz.api.vo.corp.CustomerDTO" id="CustomerDTOMap" extends="BaseResultMap">
+  	<result column="creater_name" property="createrName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, uid, corp_id, type, 
+      name, gender, age, birthday, idCard_vaild,
+      license_num, marital_status, child_count, 
+      support_num, house_spending, education, 
+      mobile, mobile2, email, 
+      qq, wechat, phone, 
+      house_time, house_type, come_time, 
+      regist_addr, live_addr, job_type, industry, 
+      company_type, company_name, dept_name, 
+      job, job_title, entry_time, salary, 
+      salary_date, salary_type, company_phone, 
+      company_addr, status, create_time, update_time ,
+      live_addr_detail, regist_addr_detail, company_addr_detail,
+      id_card_front, id_card_back, credit_report, resource_id
+  </sql>
+  
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.vo.corp.CustomerAddDTO" >
+    insert into ${domain}_customers (id, uid, corp_id, type, 
+      name, gender, age, birthday, idCard_vaild,
+      license_num, marital_status, child_count, 
+      support_num, house_spending, education, 
+      mobile, mobile2, email, 
+      qq, wechat, phone, 
+      house_time, house_type, come_time, 
+      regist_addr, live_addr, job_type, industry, 
+      company_type, company_name, dept_name, 
+      job, job_title, entry_time, salary, 
+      salary_date, salary_type, company_phone, 
+      company_addr, status ,create_time, update_time ,
+      live_addr_detail, regist_addr_detail, company_addr_detail, id_card_front, id_card_back, 
+      credit_report, resource_id)
+    values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{birthday,jdbcType=DATE}, #{idCardVaild,jdbcType=DATE},
+      #{licenseNum,jdbcType=VARCHAR}, #{maritalStatus,jdbcType=VARCHAR}, #{childCount,jdbcType=INTEGER}, 
+      #{supportNum,jdbcType=INTEGER}, #{houseSpending,jdbcType=DECIMAL}, #{education,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{mobile2,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{qq,jdbcType=VARCHAR}, #{wechat,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{houseTime,jdbcType=DATE}, #{houseType,jdbcType=VARCHAR}, #{comeTime,jdbcType=DATE}, 
+      #{registAddr,jdbcType=VARCHAR}, #{liveAddr,jdbcType=VARCHAR}, #{jobType,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, 
+      #{companyType,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
+      #{job,jdbcType=VARCHAR}, #{jobTitle,jdbcType=VARCHAR}, #{entryTime,jdbcType=DATE}, #{salary,jdbcType=DECIMAL}, 
+      #{salaryDate,jdbcType=INTEGER}, #{salaryType,jdbcType=VARCHAR}, #{companyPhone,jdbcType=VARCHAR}, 
+      #{companyAddr,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR} , #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+      #{liveAddrDetail,jdbcType=VARCHAR}, #{registAddrDetail,jdbcType=VARCHAR}, #{companyAddrDetail,jdbcType=VARCHAR}, 
+      #{idCardFront,jdbcType=VARCHAR}, #{idCardBack,jdbcType=VARCHAR}, #{creditReport,jdbcType=VARCHAR}, #{resourceId,jdbcType=VARCHAR})
+  </insert>
+  
+  <select id="selectByPrimaryKey"  resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from ${domain}_customers
+  	where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="queryCustomerList" resultMap="CustomerDTOMap">
+  	select 
+  	c.id, c.uid, c.corp_id, c.type, 
+      c.name, c.gender, c.age, c.birthday, c.idCard_vaild,
+      c.license_num, c.marital_status, c.child_count, 
+      c.support_num, c.house_spending, c.education, 
+      c.mobile, c.mobile2, c.email, 
+      c.qq, c.wechat, c.phone, 
+      c.house_time, c.house_type, c.come_time, 
+      c.regist_addr, c.live_addr, c.job_type, c.industry, 
+      c.company_type, c.company_name, c.dept_name, 
+      c.job, c.job_title, c.entry_time, c.salary, 
+      c.salary_date, c.salary_type, c.company_phone, 
+      c.company_addr, c.status, c.create_time, c.update_time,
+      c.live_addr_detail, c.regist_addr_detail, c.company_addr_detail,
+      c.id_card_front, c.id_card_back, c.credit_report, c.resource_id
+  	from ${customer.domain}_customers c
+  	where
+  		c.uid =  #{customer.uid,jdbcType=VARCHAR}
+  		and NOT EXISTS (
+			SELECT 1 from ${customer.domain}_blacklist b where b.license_num = c.license_num
+		)
+  	<if test="customer.type != null and customer.type != ''">
+  		and c.type = #{customer.type,jdbcType=VARCHAR}
+  	</if>
+  	<if test="customer.status != null and customer.status != ''">
+  		and c.status = #{customer.status,jdbcType=VARCHAR}
+  	</if>
+  	<if test="customer.name != null and customer.name != ''">
+  		and c.name like concat('%',#{customer.name,jdbcType=VARCHAR},'%')
+  	</if>
+  	<if test="customer.gender != null and customer.gender != ''">
+  		and c.gender = #{customer.gender,jdbcType=VARCHAR}
+  	</if>
+  	<if test="customer.mobile != null and customer.mobile != ''">
+  		and c.mobile like concat('%',#{customer.mobile,jdbcType=VARCHAR},'%')
+  	</if>
+  	<if test="customer.licenseNum != null and customer.licenseNum != ''">
+  		and c.license_num like concat('%',#{customer.licenseNum,jdbcType=VARCHAR},'%')
+  	</if>
+  	and c.status = '0'
+  	order by c.create_time desc
+  </select>
+  
+  <select id="queryCustomerByLicenseNum" resultMap="CustomerDTOMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from ${domain}_customers
+  	where license_num = #{licenseNum,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="queryAllCustomer" resultMap="CustomerDTOMap">
+  	select 
+  		c.id, c.uid, c.corp_id, c.type, 
+      c.name, c.gender, c.age, c.birthday, c.idCard_vaild,
+      c.license_num, c.marital_status, c.child_count, 
+      c.support_num, c.house_spending, c.education, 
+      c.mobile, c.mobile2, c.email, 
+      c.qq, c.wechat, c.phone, 
+      c.house_time, c.house_type, c.come_time, 
+      c.regist_addr, c.live_addr, c.job_type, c.industry, 
+      c.company_type, c.company_name, c.dept_name, 
+      c.job, c.job_title, c.entry_time, c.salary, 
+      c.salary_date, c.salary_type, c.company_phone, 
+      c.company_addr, c.status, c.create_time, c.update_time,
+      c.live_addr_detail, c.regist_addr_detail, c.company_addr_detail ,
+      c.id_card_front, c.id_card_back, c.credit_report, c.resource_id,
+      u.user_name creater_name
+  	from ${customer.domain}_customers c , risk_corp_user u
+  	where
+  		NOT EXISTS (
+			SELECT 1 from ${customer.domain}_blacklist b where b.license_num = c.license_num
+		)
+		and c.update_time = (
+			select max(update_time) from ${customer.domain}_customers sc
+			where sc.license_num = c.license_num
+		)
+		and c.uid = u.id
+		and c.uid in 
+	<foreach collection="customer.uids" item="userId" open="(" close=")" separator=",">
+		'${userId}'
+	</foreach>
+  	<if test="customer.type != null and customer.type != ''">
+  		and c.type = #{customer.type,jdbcType=VARCHAR}
+  	</if>
+  	<if test="customer.status != null and customer.status != ''">
+  		and c.status = #{customer.status,jdbcType=VARCHAR}
+  	</if>
+  	<if test="customer.name != null and customer.name != ''">
+  		and c.name like concat('%',#{customer.name,jdbcType=VARCHAR},'%')
+  	</if>
+  	<if test="customer.gender != null and customer.gender != ''">
+  		and c.gender = #{customer.gender,jdbcType=VARCHAR}
+  	</if>
+  	<if test="customer.mobile != null and customer.mobile != ''">
+  		and c.mobile like concat('%',#{customer.mobile,jdbcType=VARCHAR},'%')
+  	</if>
+  	<if test="customer.licenseNum != null and customer.licenseNum != ''">
+  		and c.license_num like concat('%',#{customer.licenseNum,jdbcType=VARCHAR},'%')
+  	</if>
+  	order by create_time desc
+  </select>
+  
+  <select id="selectByPrimaryLicenseNum" resultMap="BaseResultMap">
+  select 
+  		c.id, c.uid, c.corp_id, c.type, 
+      c.name, c.gender, 
+      c.license_num, c.marital_status, c.child_count, 
+      c.support_num, c.house_spending, c.education, 
+      c.mobile, c.mobile2, c.email, 
+      c.qq, c.wechat, c.phone, 
+      c.house_time, c.house_type, c.come_time, 
+      c.regist_addr, c.live_addr, c.job_type, c.industry, 
+      c.company_type, c.company_name, c.dept_name, 
+      c.job, c.job_title, c.entry_time, c.salary, 
+      c.salary_date, c.salary_type, c.company_phone, 
+      c.company_addr, c.status, c.create_time, max(c.update_time) update_time,
+      c.live_addr_detail, c.regist_addr_detail, c.company_addr_detail,
+      c.id_card_front, c.id_card_back, c.credit_report, c.resource_id
+  	from ${domain}_customers c
+  	where
+  		license_num = #{licenseNum,jdbcType=VARCHAR}
+  	and status = '0'
+  	GROUP BY 
+	license_num 
+  </select>
+  
+  <select id="queryBlackList" resultMap="CustomerDTOMap">
+  	select 
+  		c.id, c.uid, c.corp_id, c.type, 
+      c.name, c.gender, c.age, c.birthday, c.idCard_vaild,
+      c.license_num, c.marital_status, c.child_count, 
+      c.support_num, c.house_spending, c.education, 
+      c.mobile, c.mobile2, c.email, 
+      c.qq, c.wechat, c.phone, 
+      c.house_time, c.house_type, c.come_time, 
+      c.regist_addr, c.live_addr, c.job_type, c.industry, 
+      c.company_type, c.company_name, c.dept_name, 
+      c.job, c.job_title, c.entry_time, c.salary, 
+      c.salary_date, c.salary_type, c.company_phone, 
+      c.company_addr, c.status, c.create_time, max(c.update_time) update_time,
+      c.live_addr_detail, c.regist_addr_detail, c.company_addr_detail,
+      c.id_card_front, c.id_card_back, c.credit_report, c.resource_id
+  	from ${customer.domain}_customers c
+  	where
+  		EXISTS (
+			SELECT 1 from ${customer.domain}_blacklist b where b.license_num = c.license_num
+		)
+  	<if test="customer.type != null and customer.type != ''">
+  		and c.type = #{customer.type,jdbcType=VARCHAR}
+  	</if>
+  	<if test="customer.status != null and customer.status != ''">
+  		and c.status = #{customer.status,jdbcType=VARCHAR}
+  	</if>
+  	<if test="customer.name != null and customer.name != ''">
+  		and c.name like concat('%',#{customer.name,jdbcType=VARCHAR},'%')
+  	</if>
+  	<if test="customer.gender != null and customer.gender != ''">
+  		and c.gender = #{customer.gender,jdbcType=VARCHAR}
+  	</if>
+  	<if test="customer.mobile != null and customer.mobile != ''">
+  		and c.mobile like concat('%',#{customer.mobile,jdbcType=VARCHAR},'%')
+  	</if>
+  	<if test="customer.licenseNum != null and customer.licenseNum != ''">
+  		and c.license_num like concat('%',#{customer.licenseNum,jdbcType=VARCHAR},'%')
+  	</if>
+  	GROUP BY 
+	license_num 
+  	order by c.create_time desc
+  </select>
+  
+  <select id="selectByLicenseNum"  resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from ${domain}_customers
+  	where uid = #{uid,jdbcType=VARCHAR}
+  	and license_num = #{licenseNum,jdbcType=VARCHAR}
+  	<if test="id != null and id != ''">
+		and id <![CDATA[<>]]> #{id,jdbcType=VARCHAR}
+	</if>
+  	and status = '0'
+  </select>
+  
+  <update id="update"  parameterType="cn.sunfit.risk.buz.api.vo.corp.CustomerModifyDTO" >
+  update ${domain}_customers 
+  set
+  type = #{type,jdbcType=VARCHAR}, 
+  name = #{name,jdbcType=VARCHAR},
+  gender = #{gender,jdbcType=VARCHAR},
+  age = #{age,jdbcType=INTEGER},
+  birthday = #{birthday,jdbcType=DATE},
+  idCard_vaild = #{idCardVaild,jdbcType=DATE},
+  license_num = #{licenseNum,jdbcType=VARCHAR},
+  marital_status = #{maritalStatus,jdbcType=VARCHAR},
+  child_count = #{childCount,jdbcType=INTEGER}, 
+  support_num = #{supportNum,jdbcType=INTEGER},
+  house_spending = #{houseSpending,jdbcType=DECIMAL},
+  education = #{education,jdbcType=VARCHAR},
+  mobile = #{mobile,jdbcType=VARCHAR}, 
+  mobile2 = #{mobile2,jdbcType=VARCHAR},
+  email = #{email,jdbcType=VARCHAR}, 
+  qq = #{qq,jdbcType=VARCHAR}, 
+  wechat = #{wechat,jdbcType=VARCHAR}, 
+  phone = #{phone,jdbcType=VARCHAR}, 
+  house_time = #{houseTime,jdbcType=DATE}, 
+  house_type = #{houseType,jdbcType=VARCHAR}, 
+  come_time = #{comeTime,jdbcType=DATE}, 
+  regist_addr = #{registAddr,jdbcType=VARCHAR},
+  live_addr = #{liveAddr,jdbcType=VARCHAR}, 
+  job_type = #{jobType,jdbcType=VARCHAR},
+  industry = #{industry,jdbcType=VARCHAR}, 
+  company_type = #{companyType,jdbcType=VARCHAR}, 
+  company_name = #{companyName,jdbcType=VARCHAR}, 
+  dept_name = #{deptName,jdbcType=VARCHAR}, 
+  job = #{job,jdbcType=VARCHAR},
+  job_title = #{jobTitle,jdbcType=VARCHAR},
+  entry_time = #{entryTime,jdbcType=DATE}, 
+  salary = #{salary,jdbcType=DECIMAL}, 
+  salary_date = #{salaryDate,jdbcType=INTEGER}, 
+  salary_type = #{salaryType,jdbcType=VARCHAR}, 
+  company_phone = #{companyPhone,jdbcType=VARCHAR}, 
+  company_addr = #{companyAddr,jdbcType=VARCHAR},
+  live_addr_detail = #{liveAddrDetail,jdbcType=VARCHAR}, 
+  regist_addr_detail = #{registAddrDetail,jdbcType=VARCHAR}, 
+  company_addr_detail = #{companyAddrDetail,jdbcType=VARCHAR},
+  id_card_front = #{idCardFront,jdbcType=VARCHAR},
+  id_card_back = #{idCardBack,jdbcType=VARCHAR},
+  credit_report = #{creditReport,jdbcType=VARCHAR},
+  resource_id = #{resourceId,jdbcType=VARCHAR},
+  update_time = #{updateTime,jdbcType=TIMESTAMP}
+  where id = #{id,jdbcType=VARCHAR}
+  and uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="deleteCustomer" >
+  update ${domain}_customers 
+  set status = '1'
+  where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

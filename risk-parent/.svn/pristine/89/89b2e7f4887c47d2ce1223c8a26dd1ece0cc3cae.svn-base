@@ -1,0 +1,70 @@
+<template>
+  <div class="col-md-12">
+    <div class="panel panel-default" >
+      <div class="panel-heading">审核意见</div>
+      <div class="panel-body">
+        <div class="form-group" >
+          <label class="col-sm-2 control-label require" >审核意见:</label>
+          <label class="radio-inline" v-for="(item,key) in data">
+            <input type="radio" name="operation" :value="item.operation"  @change="handleChange" :checked="item.checked">{{item.operationName}}
+          </label>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label ">意见原因：</label>
+          <div class="col-sm-6 row">
+            <textarea onpropertychange="if(value.length>100) value=value.substr(0,100)" name="reason" class="form-control" rows="3" @change="handleTextChange"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>
+<style>
+
+</style>
+<script>
+  import { mapGetters } from 'vuex';
+    export default{
+        data(){
+            return{
+            }
+        },
+      props:['data'],
+      created:function () {
+          for(var key in this.operationData){
+            var v=this.operationData[key];
+            if(v.operationType==1){
+              this.$store.dispatch('setInputData', {key: 'operation', value: key});
+              this.$store.dispatch('setInputData', {key: 'operationType', value: 1});
+              break;
+            }
+          }
+
+      },
+      computed:{
+        operationData(){
+          var temp={};
+          for(var key in this.data){
+            var v=this.data[key];
+            temp[v.operation]=v;
+          }
+          return temp
+        }
+      },
+      methods:{
+        handleChange:function (e) {
+          var value=e.target.value;
+          this.$store.dispatch('setInputData', {key: 'operation', value: value});
+          this.operationData[value]&&this.$store.dispatch('setInputData', {key: 'operationType', value: this.operationData[value].operationType});
+        },
+        handleTextChange:function (e) {
+          var $el=$(e.target);
+          var value=$el.val();
+          if(value.length>100) value=value.substr(0,100);
+          $el.val(value);
+          this.$store.dispatch('setInputData', {key: 'reason', value: value})
+        }
+      },
+    }
+</script>

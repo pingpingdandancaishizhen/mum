@@ -1,0 +1,17 @@
+{
+    "custjob_industry": [],
+    "custjob_company_type": [],
+    "custjob_job_lvl": [],
+    "custjob_company_name": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"custjob_company_name","condition":null,"detail":{"max":"40","min":"1"}}],
+    "custjob_dept_name": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过15","fieldKey":"custjob_dept_name","condition":null,"detail":{"max":"15","min":"1"}}],
+    "custjob_entry_time": [],
+    "custjob_salary": [{"ruleType":"decimal","ruleLevel":"field","message":"仅支持0-1000000的数字","fieldKey":"custjob_salary","condition":null,"detail":{"min":"0","max":"1000000","digits":"2"}}],
+    "custjob_salary_date": [],
+    "custjob_salary_type": [],
+    "custjob_company_phone": [{"ruleType":"telephone","ruleLevel":"field","message":"请输入正确的电话","fieldKey":"custjob_company_phone","condition":null,"detail":null}],
+    "custjob_company_addr_province": [],
+    "custjob_company_addr_city": [],
+    "custjob_company_addr": [],
+    "custjob_company_addr_detail": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过30","fieldKey":"custjob_company_addr_detail","condition":null,"detail":{"max":"30","min":"1"}}],
+    "custjob_company_addr_counties": []
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation=" 
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+http://code.alibabatech.com/schema/dubbo 
+http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<context:property-placeholder location="classpath:application.properties"
+		ignore-unresolvable="true" />
+	<dubbo:application name="sunfit-risk-web" />
+	<!-- <dubbo:registry address="N/A" /> -->
+	<dubbo:registry address="${dubbo.transport.registry}"
+		protocol="zookeeper" />
+	<dubbo:consumer version="${dubbo.transport.version}"
+		loadbalance="leastactive" timeout="1000000" proxy="javassist" check="false"
+		init="false" />
+	
+		<dubbo:reference id="risk.corpService" interface="cn.sunfit.risk.buz.api.service.corp.CorpService"/>
+</beans> 

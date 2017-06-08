@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://code.alibabatech.com/schema/dubbo
+        	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<context:property-placeholder location="classpath:conf/remote.properties"
+		ignore-unresolvable="true" />
+
+	<dubbo:application name="sunfit-risk-server" />
+	<!-- <dubbo:registry address="N/A" /> -->
+ 
+    <dubbo:registry address="${dubbo.transport.registry}"  protocol="zookeeper" file=".dubbo/dubbo-reg.cache"/>
+    <dubbo:protocol id="dubbo" port="${dubbo.transport.port}" accepts="100" />
+    <dubbo:provider version="${dubbo.transport.version}" loadbalance="leastactive" delay="-1" timeout="10000" cluster="failfast" retries="0" />
+
+
+	<!-- <dubbo:annotation package="com.rjs.gps.api.rest" />  -->
+	<dubbo:protocol id="rest" name="rest" port="${dubbo.rest.port}" threads="500" contextpath="service/credit" server="tomcat" accepts="500"/> 
+	<dubbo:service interface="cn.sunfit.risk.credit.api.service.JXLService" ref="credit.JXLService" protocol="rest,dubbo" validation="true"/> 
+	<dubbo:service interface="cn.sunfit.risk.credit.api.service.CJDService" ref="credit.CJDService" protocol="rest,dubbo" validation="true"/> 
+	<dubbo:service interface="cn.sunfit.risk.credit.api.service.PYService" ref="credit.PYService" protocol="rest,dubbo" validation="true"/>
+	
+
+	<!-- 
+	<dubbo:protocol id="rest1" name="rest" port="${dubbo.standard.port}" threads="100" contextpath="standard/interface" server="tomcat" accepts="100"/> 
+	<dubbo:service interface="com.rjs.gps.api.service.carcontrol.CarControlService" ref="gps.carControlService" protocol="rest1" validation="true"/> 
+	 -->
+
+</beans>

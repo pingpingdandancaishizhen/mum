@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.system.ContractPartnerDAO" >
+	<resultMap id="PartnerMap" type="cn.sunfit.risk.buz.api.beans.system.partner.ContractPartner" >
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="code" property="code"/>
+		<result column="coop_dept" property="coopDept"/>
+		<result column="phone" property="phone"/>
+		<result column="address" property="address"/>
+		<result column="addr_detail" property="addrDetail"/>
+		<result column="email" property="email"/>
+		<result column="fax" property="fax"/>
+		<result column="type" property="type"/>
+		<result column="seal_name" property="sealName"/>
+		<result column="seal_resource" property="sealResource"/>
+		<result column="sign_name" property="signName"/>
+		<result column="sign_resource" property="signResource"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap> 
+   
+	<resultMap id="PartnerListMap" type="cn.sunfit.risk.buz.api.beans.system.partner.PartnerListVO" >
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="code" property="code"/>
+		<result column="phone" property="phone"/>
+		<result column="address" property="address"/>
+		<result column="addr_detail" property="addrDetail"/>
+		<result column="type" property="type"/>
+		<result column="roles" property="roles"/>
+		<result column="seal_name" property="sealName"/>
+		<result column="seal_resource" property="sealResource"/>
+		<result column="sign_name" property="signName"/>
+		<result column="sign_resource" property="signResource"/>
+		<result column="create_time" property="createTime"/>
+		<result column="email" property="email"/>
+		<result column="fax" property="fax"/>
+		<result column="creator" property="creator"/>
+	</resultMap>
+  
+  	<resultMap id="PartnerSignMap" type="cn.sunfit.risk.buz.api.beans.system.partner.PartnerSigner" >
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="code" property="code"/>
+		<result column="coop_dept" property="coopDept"/>
+		<result column="phone" property="phone"/>
+		<result column="address" property="address"/>
+		<result column="addr_detail" property="addrDetail"/>
+		<result column="email" property="email"/>
+		<result column="fax" property="fax"/>
+		<result column="type" property="type"/>
+		<result column="seal_name" property="sealName"/>
+		<result column="seal_resource" property="sealResource"/>
+		<result column="sign_name" property="signName"/>
+		<result column="sign_resource" property="signResource"/>
+		<result column="role_id" property="roleId"/>
+		<result column="role_name" property="roleName"/>
+	</resultMap> 
+  
+	<resultMap id="PartnerRoleMap" type="cn.sunfit.risk.buz.api.beans.system.partner.PartnerRole" >
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+	</resultMap>
+	 
+	<resultMap id="PartnerVOMap" type="cn.sunfit.risk.buz.api.vo.system.partner.PartnerSelectVO" >
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="role" property="role"/>
+	</resultMap>
+	
+	<resultMap id="RoleConfigShowMap" type="cn.sunfit.risk.buz.api.vo.system.partner.RoleConfigShowVO" >
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+	</resultMap>
+	
+	<resultMap id="PartnerConfigShowMap" type="cn.sunfit.risk.buz.api.vo.system.partner.PartnerConfigShowVO" >
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="roleName" property="role_name"/>
+		<result column="roleId" property="role_id"/>
+	</resultMap>
+	
+	<resultMap id="ConfigMap" type="cn.sunfit.risk.buz.api.beans.system.partner.PartnerProductRel">
+		<result column="partner_id" property="partnerId"/>
+		<result column="product_id" property="productId"/>
+		<result column="role_id" property="roleId"/>
+	</resultMap>
+	
+	<resultMap id="ExisitPartnerMap" type="cn.sunfit.risk.buz.api.beans.system.partner.ExisitPartnerVO" >
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="role" property="role"/>
+		<result column="role_name" property="roleName"/>
+	</resultMap>
+	
+	<resultMap id="PartnerProductMap" type="cn.sunfit.risk.buz.api.beans.system.partner.PartnerProductVO" >
+		<result column="product_id" property="productId"/>
+		<result column="product_name" property="productName"/>
+		<result column="role_id" property="roleId"/>
+		<result column="role_name" property="roleName"/>
+	</resultMap>
+	
+	<sql id="Partner_Rows" >
+		id, `name`, `code`,coop_dept, phone, address, addr_detail, email, fax, type,
+		seal_name,seal_resource,sign_name,sign_resource, create_time, update_time
+	</sql>
+
+	<select id="selectPartner" resultMap="PartnerMap" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.PartnerIdDTO" >
+		select 
+		<include refid="Partner_Rows" />
+		from ${domain}_contract_partner
+		where id = #{partnerId}
+	</select>
+	
+	<insert id="addPartner" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.ContractPartnerAddDTO" >
+		insert into ${domain}_contract_partner (id, corp_id, `name`, `code`,coop_dept, phone, address, addr_detail, email, 
+			fax, del_flag, type, seal_name,seal_resource,sign_name,sign_resource, create_time, update_time, creator
+		)
+		values (#{id}, #{corpId}, #{name}, #{code},#{coopDept}, #{phone}, #{address}, #{addrDetail}, #{email}, 
+			#{fax},0, #{type}, #{sealName}, #{sealResource}, #{signName}, #{signResource}, now(), now(), #{creator}
+		)
+	</insert>
+  
+	<update id="updatePartner" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.ContractPartner" >
+		update ${domain}_contract_partner set
+			`name` = #{name}, 
+			`code` = #{code}, 
+			coop_dept = #{coopDept},
+			phone = #{phone}, 
+			address = #{address}, 
+			addr_detail = #{addrDetail}, 
+			email = #{email}, 
+			fax = #{fax}, 
+			type = #{type},
+			seal_name = #{sealName},
+			seal_resource = #{sealResource},
+			sign_name = #{signName},
+			sign_resource = #{signResource},
+			update_time = now()
+		where id = #{id}
+	</update>
+  <select id="queryList" resultMap="PartnerListMap" parameterType="cn.sunfit.risk.buz.api.vo.system.partner.ContractPartnerQueryReq">
+  	select 
+    	a.id as id, 
+    	a.`name` as `name`, 
+    	a.`code` as `code`,
+    	a.phone as phone, 
+    	a.address as address,
+    	a.addr_detail as addr_detail,
+    	a.email as email,
+    	a.fax as fax,
+    	a.type as type,
+    	group_concat(e.name) as  roles,
+    	a.seal_name as seal_name,
+    	a.seal_resource as seal_resource,
+    	a.sign_name as sign_name,
+    	a.sign_resource as sign_resource,
+    	a.create_time as create_time, 
+    	f.user_name as creator
+    from ${domain}_contract_partner as a
+	left join ${domain}_contract_partner_role_rel as d on a.id = d.partner_id
+	left join ${domain}_contract_partner_role as e on d.role_id = e.id
+	left join risk_corp_user as f on a.creator = f.id
+    where del_flag = 0
+    <if test="name != null and name != ''">
+		and a.`name` like concat('%',#{name},'%') 
+	</if>
+	<if test="code != null and code != ''">
+		and a.`code` like concat('%',#{code},'%') 
+	</if>
+	<if test="type != null">
+		and a.type = #{type}
+	</if>
+	group by a.id
+	order by a.create_time desc
+  </select>
+  
+  <select id="queryPartnerRoleList" parameterType="string" resultMap="PartnerRoleMap">
+  	select id,`name` from ${domain}_contract_partner_role;
+  </select>
+  
+  <select id="queryExisitCount" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.PartnerIdDTO" resultType="int">
+  	select count(*) from ${domain}_partner_product_rel where partner_id = #{partnerId};
+  </select>
+  
+  <update id="deletePartner"  parameterType="cn.sunfit.risk.buz.api.beans.system.partner.PartnerIdDTO">
+  	delete from ${domain}_contract_partner where id=#{partnerId}
+  </update>
+  
+  <select id="queryAllPartnerList" parameterType="string" resultMap="PartnerVOMap">
+  	select id,name from ${domain}_contract_partner where del_flag = 0 order by create_time asc;
+  </select>
+  
+  <insert id="addPartnerRoleRel" parameterType="cn.sunfit.risk.buz.api.vo.system.partner.ContractPartnerRoleRelSaveReq">
+  	insert into ${domain}_contract_partner_role_rel(partner_id,role_id)values
+  	<foreach collection="roleIds" item="roleId" separator=",">
+  		(#{partnerId},#{roleId})
+  	</foreach>
+  </insert>
+  <delete id="removePartnerRoleRel" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.PartnerIdDTO">
+	delete from ${domain}_contract_partner_role_rel where partner_id=#{partnerId};
+  </delete>
+  
+  <select id="querySelectRoles" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.PartnerIdDTO" resultMap="PartnerRoleMap">
+  	select 
+  		a.id as id,
+  		a.`name` as `name` 
+  	from ${domain}_contract_partner_role as a 
+  		left join ${domain}_contract_partner_role_rel as b
+  			on a.id = b.role_id 
+  	where b.partner_id = #{partnerId};
+  </select>
+  
+  <insert id="addPartnerProductRel" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.PartnerProductRelSaveDTO">
+  	insert into ${domain}_partner_product_rel (partner_id,product_id,role_id,create_time) values
+  	<foreach collection="relList" item="rel" separator=",">
+  		(#{rel.partnerId},#{rel.productId},#{rel.roleId},now())
+  	</foreach>
+  </insert>
+  
+  <select id="queryConfigByProduct" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.ProductIdDTO" resultMap="ConfigMap">
+  	select partner_id,product_id,role_id from ${domain}_partner_product_rel where product_id = #{productId}
+  </select>
+  
+  <delete id="removePartnerProductRel" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.PartnerProductRelSaveDTO">
+  	delete from ${domain}_partner_product_rel where product_id=#{productId};
+  </delete>
+  
+  <select id="queryAllRoles" parameterType="string" resultMap="RoleConfigShowMap">
+  	select id , `name` from ${domain}_contract_partner_role;
+  </select>
+  
+  <select id="queryRolesByProduct" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.ProductIdDTO" resultMap="RoleConfigShowMap">
+  	select distinct a.id as id, a.`name` as `name` 
+  	from ${domain}_contract_partner_role as a
+  		left join ${domain}_partner_product_rel as b
+  			on a.id = b.role_id
+  	where b.product_id = #{productId};
+  </select>
+  
+  <select id="queryPartnerByRole" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.RoleIdDTO" resultMap="PartnerConfigShowMap">
+  	select a.id as id,a.`name` as `name`
+	from ${domain}_contract_partner as a 
+		left join ${domain}_contract_partner_role_rel as b 
+			on a.id = b.partner_id
+	where b.role_id = #{roleId}
+		and a.del_flag = 0;
+  </select>
+  
+  <select id="queryPartnerByRoleAndProduct" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.RoleProductIdDTO" resultMap="PartnerConfigShowMap">
+  	select a.id as id,a.`name` as `name`,r.name as role_name,r.id as role_id
+	from ${domain}_contract_partner as a 
+		left join ${domain}_partner_product_rel as b 
+			on a.id = b.partner_id left join ${domain}_contract_partner_role r on b.role_id=r.id
+	where b.product_id = #{productId}
+		and a.del_flag = 0
+		<if test="roleId!=null and roleId!=''">
+		 and b.role_id = #{roleId}
+		</if>;
+  </select>
+  
+  <select id="querySelectedPartners" parameterType="cn.sunfit.risk.buz.api.beans.contract.TempIdDTO" resultMap="PartnerVOMap">
+	select  a.id as id,a.name as name ,b.role_id as role
+	from ${domain}_contract_partner as a left join ${domain}_contract_temp_partner_rel as b on a.id = b.partner_id
+	where b.temp_id = #{tempId};
+  </select>
+  
+  <select id="querySignerByProduct" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.ProductIdDTO" resultMap="PartnerSignMap">
+  	select a.id as id,a.`name` as `name`, a.`code` as `code`,a.coop_dept as coop_dept, a.phone as phone, 
+  		a.address as address, a.addr_detail as addr_detail, a.email as email, a.fax as fax, a.type as type,
+		a.seal_name as seal_name,a.seal_resource as seal_resource,a.sign_name as sign_name,
+		a.sign_resource as sign_resource,r.name as role_name,r.id as role_id
+	from ${domain}_contract_partner as a 
+		left join ${domain}_partner_product_rel as b 
+			on a.id = b.partner_id 
+		left join ${domain}_contract_partner_role r on b.role_id=r.id
+	where b.product_id = #{productId}
+  </select>
+  
+  <select id="getExisitNameCount" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.CheckExisitNameCountReq" resultType="int">
+  	select count(*) 
+  	from ${domain}_contract_partner
+  	where name = #{name}
+  	and del_flag = 0
+  	<if test="id != null and id!=''">
+  		and id &lt;&gt; #{id}
+  	</if>
+  </select>
+  
+  <select id="queryPartnerByProduct" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.ProductIdDTO" resultMap="ExisitPartnerMap">
+  	select DISTINCT a.partner_id id,a.role_id role,c.`name` `name` ,d.`name` roleName
+	  	from ${domain}_contract_temp_partner_rel as a 
+	  		left join ${domain}_contract_template as b on a.temp_id = b.id
+	  		left join ${domain}_contract_partner as c on a.partner_id = c.id
+			left join ${domain}_contract_partner_role as d on a.role_id = d.id
+	where b.product = #{productId} 
+		and b.`status` = 1;
+  </select>
+  
+  <select id="queryPartnersByBp" parameterType="java.util.Map" resultMap="PartnerVOMap">
+  	select distinct a.id id,a.`name` `name` from ${domain}_contract_partner as a
+		left join ${domain}_contract_partner_role_rel as b on a.id = b.partner_id  and b.role_id in (2,6)
+		left join ${domain}_partner_product_rel as c on a.id = c.partner_id  and c.role_id in (2,6)
+		left join ${domain}_risk_bps as d on c.product_id = d.product_type
+	where  b.role_id in (2,6)
+	and d.bp_id = #{bpId}
+  </select>
+  
+  <select id="queryLenderPartnerByProduct" resultMap="PartnerVOMap">
+  	select distinct partner.id id,partner.`name` `name`
+  	from ${domain}_contract_partner partner
+  		left join ${domain}_partner_product_rel product on partner.id = product.partner_id  and product.role_id in (2,6)
+  	where product.role_id in (2,6)
+  		and product.product_id = #{productId};
+  </select>
+  
+  <select id="queryExisitProductRel" parameterType="cn.sunfit.risk.buz.api.beans.system.partner.PartnerIdDTO" resultMap="PartnerProductMap">
+  	select a.product_id product_id,a.role_id role_id,b.product_name product_name,c.`name` role_name
+  	from ${domain}_partner_product_rel as a
+	left join risk_product as b on a.product_id = b.id
+	left join ${domain}_contract_partner_role as c on a.role_id = c.id
+	where a.partner_id = #{partnerId} 
+  </select>
+</mapper>

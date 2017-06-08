@@ -1,0 +1,98 @@
+<template>
+  <div>
+    <div :class="!checkedAdd?(data.cols?'form-group col-md-'+data.cols*3:'form-group col-md-3'):''" :id="data.key">
+      <label :class="data.required?'require':''" v-if="!checkedAdd">{{data.label}}</label>
+      <select :name="data.key" class="form-control" @change="handleChange" v-model="checkValue" :disabled="data.readonly?true:false">
+        <option value="">请选择{{data.label}}</option>
+        <option v-for="item in oData" :value="item.dicKey"  >{{item.dicValue}}</option>
+      </select>
+    </div>
+    <div v-if='checkValue!=""&&checkValue!="请选择"&&data.extEditors'  >
+      <component  :is="currentView[checkValue]" :data="data.extEditors[checkValue]" keep-alive> </component>
+    </div>
+  </div>
+
+</template>
+<style>
+</style>
+<script>
+  import {mapGetters} from 'vuex';
+  import * as api from '../api'
+  export default{
+    data(){
+      return {
+        checkValue:'',
+        oData:[]
+//        currentView:[],
+//        selected:'请选择'
+      }
+    },
+    props: ['data','attrsData','checkedAdd'],
+    computed:{
+      ...mapGetters({
+        'hiddenData': 'defaultHiddenData',
+      }),
+      currentView(){
+        var currentView=[];
+        currentView[this.checkValue]='app-layout'
+        return currentView;
+      }
+    },
+    methods: {
+      handleChange: function (e) {
+        var value = e.target.value;
+        if(value=='请选择'){
+          value=''
+        }
+        this.checkValue=value;
+        this.currentView=[];
+        for(var key in this.data.extEditors){
+          if(value==key){
+            this.currentView[value]='app-layout'
+          }
+        }
+        /*if(value=='请选择'){
+          value='';
+        }*/
+        this.$store.dispatch('setInputData', {key: this.data.key, value: value})
+      },
+      getOptions:function () {
+        var _this=this;
+        let param=_this.data.param;
+        var option={
+          url:param,
+          data:_this.hiddenData,
+          method:'get',
+        };
+        if(param){
+          api.getOptions2(option,function (data) {
+            _this.$nextTick(function () {
+              _this.oData=data;
+            })
+
+          })
+        }
+
+      }
+    },
+    created:function () {
+      var attrValue=this.attrsData[this.data.key];
+      var selectData=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+      this.checkValue=selectData;
+      this.$store.dispatch('setInputData', {key: this.data.key, value: selectData});
+    },
+    beforeCreate: function () {
+      this.$options.components['app-layout'] = require('./layout.vue');
+    },
+    beforeMount:function () {
+      this.getOptions();
+    }
+   /* mounted:function () {
+      var attrValue=this.attrsData[this.data.key];
+      var slectData=attrValue?(attrValue.draftValue||attrValue.attrValue||''):'';
+      this.checkValue=slectData;
+      this.selected=slectData||'请选择';
+      slectData!=''&&this.$store.dispatch('setInputData', {key: this.data.key, value: slectData});
+    }*/
+  }
+</script>

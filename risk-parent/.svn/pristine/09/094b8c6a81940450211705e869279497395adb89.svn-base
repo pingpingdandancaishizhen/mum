@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation=" 
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+http://code.alibabatech.com/schema/dubbo 
+http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<context:property-placeholder location="classpath:application.properties"
+		ignore-unresolvable="true" />
+	<dubbo:application name="sunfit-risk-web" />
+	<!-- <dubbo:registry address="N/A" /> -->
+	<dubbo:registry address="${dubbo.transport.registry}"
+		protocol="zookeeper" />
+	<dubbo:consumer version="${dubbo.transport.version}"
+		loadbalance="leastactive" timeout="1000000" proxy="javassist" check="false"
+		init="false" cluster="failfast" retries="0"/>
+	
+		<dubbo:reference id="risk.dataService" interface="cn.sunfit.risk.buz.api.service.system.DataService"/>
+		<dubbo:reference id="risk.corpUserService" interface="cn.sunfit.risk.buz.api.service.corp.CorpUserService"/>
+		<dubbo:reference id="risk.corpService" interface="cn.sunfit.risk.buz.api.service.corp.CorpService"/>
+		<dubbo:reference id="risk.permissionService" interface="cn.sunfit.risk.buz.api.service.system.PermissionService"/>
+		<dubbo:reference id="risk.corpRoleService" interface="cn.sunfit.risk.buz.api.service.corp.CorpRoleService"/>
+		<dubbo:reference id="risk.corpDataRoleService" interface="cn.sunfit.risk.buz.api.service.corp.CorpDataRoleService"/>
+		<dubbo:reference id="risk.systemMenuService" interface="cn.sunfit.risk.buz.api.service.system.SystemMenuService"/>
+		<dubbo:reference id="risk.corpGroupService" interface="cn.sunfit.risk.buz.api.service.corp.CorpGroupService"/>
+		<dubbo:reference id="risk.corpDeptService" interface="cn.sunfit.risk.buz.api.service.corp.CorpDeptService"/>
+		<dubbo:reference id="risk.districtService" interface="cn.sunfit.risk.buz.api.service.system.DistrictService"/>
+		<dubbo:reference id="risk.carInfoService" interface="cn.sunfit.risk.buz.api.service.system.CarInfoService"/>
+		<dubbo:reference id="risk.articleService" interface="cn.sunfit.risk.buz.api.service.corp.ArticleService"/>
+		<dubbo:reference id="risk.calendarEventService" interface="cn.sunfit.risk.buz.api.service.corp.CalendarEventService"/>
+		<dubbo:reference id="risk.resourcesService" interface="cn.sunfit.risk.buz.api.service.corp.ResourcesService"/>
+		<dubbo:reference id="risk.ossService" interface="cn.sunfit.risk.buz.api.service.OSSService"/>
+		
+		<!-- p2p资产审核接口 start-->
+		<dubbo:reference id="risk.importExcelTemplateService" interface="cn.sunfit.risk.buz.api.service.p2p.excel.ImportExcelTemplateService"/>
+		<dubbo:reference id="risk.p2PProductService" interface="cn.sunfit.risk.buz.api.service.p2p.product.P2PProductService"/>
+		<dubbo:reference id="risk.p2PParamsService" interface="cn.sunfit.risk.buz.api.service.p2p.param.P2PParamsService"/>
+		<dubbo:reference id="risk.operationLogService" interface="cn.sunfit.risk.buz.api.service.p2p.excel.OperationLogService"/>
+		<dubbo:reference id="risk.p2PBankService" interface="cn.sunfit.risk.buz.api.service.p2p.excel.P2PBankService"/>
+		<dubbo:reference id="risk.p2p.superFormService" interface="cn.sunfit.risk.buz.api.service.p2p.activiti.SuperFormService"/>
+		<dubbo:reference id="risk.p2PAssetService" interface="cn.sunfit.risk.buz.api.service.p2p.partnerCorp.P2PAssetService"/>
+		<dubbo:reference id="risk.bankService" interface="cn.sunfit.risk.buz.api.service.bank.BankService"/>
+		<dubbo:reference id="risk.p2pProductTypeService" interface="cn.sunfit.risk.buz.api.service.p2p.productType.ProductTypeService"/>
+		<dubbo:reference id="risk.p2pProductTypeNameService" interface="cn.sunfit.risk.buz.api.service.p2p.productTypeName.ProductTypeNameService"/>
+		<dubbo:reference id="risk.p2p.solutionService" interface="cn.sunfit.risk.buz.api.service.p2p.activiti.SolutionService"/>
+		<dubbo:reference id="risk.p2p.operLogService" interface="cn.sunfit.risk.buz.api.service.p2p.activiti.OperLogService"/>
+		<dubbo:reference id="risk.p2p.bpService" interface="cn.sunfit.risk.buz.api.service.p2p.activiti.BpService"/>
+		<dubbo:reference id="risk.p2p.assignService" interface="cn.sunfit.risk.buz.api.service.p2p.activiti.AssignService"/>
+		<dubbo:reference id="risk.p2p.importOrderService" interface="cn.sunfit.risk.buz.api.service.p2p.imp.ImportOrderService"/>
+		<!-- p2p资产审核接口 end-->
+		
+		
+</beans> 

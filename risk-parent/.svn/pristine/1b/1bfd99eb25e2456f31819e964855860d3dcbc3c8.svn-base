@@ -1,0 +1,24 @@
+package cn.sunfit.risk.buz.api.service.corp;
+
+import java.util.List;
+
+import cn.sunfit.risk.buz.api.beans.corp.Article;
+import cn.sunfit.risk.buz.api.vo.RespPage;
+import cn.sunfit.risk.buz.api.vo.corp.ArticleQueryDTO;
+import cn.sunfit.risk.buz.api.vo.corp.ArticleQueryReq;
+
+public interface ArticleService {
+
+    void insertCorpNotice(Article article);
+
+    void updateCorpNotice(Article article);
+
+    void changeCorpNoticeStatus(String id, String status);
+
+    void reviewCorpNoticeStatus(Article article);
+
+    void deleteCorpNotice(String id);
+
+    RespPage<List<ArticleQueryDTO>> queryNoticeList(ArticleQueryReq req, String[] typeIdList);
+
+}

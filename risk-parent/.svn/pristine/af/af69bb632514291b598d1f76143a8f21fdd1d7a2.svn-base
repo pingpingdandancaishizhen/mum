@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.activiti.BPMetaFieldDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPMetaField" >
+    <id column="field_id" property="fieldId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="field_key" property="fieldKey" jdbcType="VARCHAR" />
+    <result column="field_name" property="fieldName" jdbcType="VARCHAR" />
+    <result column="field_desc" property="fieldDesc" jdbcType="VARCHAR" />
+    <result column="datatype" property="datatype" jdbcType="VARCHAR" />
+    <result column="field_table" property="fieldTable" jdbcType="VARCHAR" />
+    <result column="is_attr" property="isAttr" jdbcType="TINYINT" />
+    <result column="check_rule" property="checkRule" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="default_order" property="defaultOrder" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    field_id, corp_id, bp_def_id, field_key, field_name, field_desc, datatype, field_table, 
+    is_attr, check_rule, category, default_order, update_time
+  </sql>
+  
+    <select id="findFieldKey" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_bp_meta_fields
+    where bp_def_id=#{bpDefId}
+  </select>
+</mapper>

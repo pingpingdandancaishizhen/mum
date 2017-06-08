@@ -1,0 +1,8 @@
+package cn.sunfit.risk.buz.api.constants;
+
+import java.util.List;
+
+public interface BaseEnum {
+    public String getEnumName();
+    public String getEnumType();
+}

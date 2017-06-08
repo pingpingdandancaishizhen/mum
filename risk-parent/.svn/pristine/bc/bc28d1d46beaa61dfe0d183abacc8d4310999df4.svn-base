@@ -1,0 +1,11 @@
+package cn.sunfit.risk.buz.api.service.p2p.imp;
+
+import java.util.Map;
+
+import cn.sunfit.risk.buz.api.exception.ServiceException;
+import cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO;
+
+public interface ImportOrderService {
+    public Map<String, Object> importExcel(CorpUserDTO user, byte[] bytes, String productCode, String importCode)
+            throws ServiceException;
+}

@@ -1,0 +1,38 @@
+<template>
+<div class="float_menu" :style="{width:arrow=='left'?'150px':'26px'}" v-if="data.length>3">
+  <div class="menu_arrow" @click="handleClick"><i :class="arrow=='left'?'fa fa-angle-double-right':'fa fa-angle-double-left'"></i></div>
+  <div class="menu_content" :style="{display:arrow=='left'?'inline-block':'none'}">
+    <div class="menu_li">
+      <ul>
+        <li v-if="arrow=='left'" v-for="item in data" ><a :href="'#a-'+item.key" :title="item.label">{{item.label}}</a></li>
+      </ul>
+    </div>
+  </div>
+  </ul>
+
+</div>
+</template>
+<style>
+
+</style>
+<script>
+
+    export default{
+        data(){
+            return{
+              arrow:'left'
+            }
+        },
+      props:['data'],
+      methods:{
+          handleClick:function () {
+            if(this.arrow=='left'){
+              this.arrow='right'
+            }else{
+              this.arrow='left'
+            }
+
+          }
+      }
+    }
+</script>

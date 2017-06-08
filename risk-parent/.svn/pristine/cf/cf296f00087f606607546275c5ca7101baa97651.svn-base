@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.api.jfjd.JFBPAttrDAO" >
+
+	<resultMap id="ValueSelectMap" type="cn.sunfit.risk.buz.api.vo.api.jfjd.JFValueSelectDTO">
+	  	<result column="field_key" property="fieldKey" jdbcType="VARCHAR" />
+	    <result column="field_name" property="fieldName" jdbcType="VARCHAR" />
+	    <result column="field_value" property="fieldValue" jdbcType="VARCHAR" />
+	    <result column="provider" property="provider" jdbcType="VARCHAR" />
+  	</resultMap>
+
+	<select id="getValueByBpAndKey" parameterType="cn.sunfit.risk.buz.api.beans.buz.ValueSelectReq" resultMap="ValueSelectMap">
+	  	SELECT a.attr_name field_key,a.attr_value field_value,c.field_name field_name,c.data_provider provider
+		FROM ${domain}_bp_attrs AS a
+			INNER JOIN ${domain}_risk_bps AS b ON a.bp_id = b.bp_id
+			INNER JOIN ${domain}_bp_meta_fields AS c ON b.bp_def_id = c.bp_def_id AND a.attr_name = c.field_key
+		WHERE a.bp_id = #{bpId}
+		AND a.attr_name=#{fieldKey}
+		LIMIT 1;
+	</select>
+	
+	<select id="getValueFromDic" parameterType="cn.sunfit.risk.buz.api.beans.buz.ValueSelectReq" resultType="string">
+	  	SELECT a.dic_value 
+	  	FROM risk_data_dic AS a
+			INNER JOIN ${domain}_risk_bps AS b ON a.bp_def_id = b.bp_def_id
+		WHERE b.bp_id = #{bpId}
+		AND a.dic_type = #{dicType}
+		AND a.dic_key=#{dicKey}
+		LIMIT 1;
+	</select>
+</mapper>

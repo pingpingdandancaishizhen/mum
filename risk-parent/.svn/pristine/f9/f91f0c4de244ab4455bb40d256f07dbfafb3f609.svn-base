@@ -1,0 +1,58 @@
+package cn.sunfit.risk.web.controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import cn.sunfit.risk.buz.api.vo.Resp;
+import cn.sunfit.risk.web.bean.CreditInfo;
+
+@Controller
+@RequestMapping(value = "/credit")
+public class CreditController extends BaseController {
+
+    // @Autowired
+    // private CJDService cjdService;
+    //
+    // @Autowired
+    // private JXLService jxlService;
+
+    // /**
+    // *
+    // * @Title: info
+    // * @Description: 查询车辆信息
+    // * @param @return
+    // * @return Resp
+    // * @author XJ 2017年1月11日
+    // * @throws
+    // */
+    // @ResponseBody
+    // @RequestMapping(value = "/info", method = RequestMethod.GET)
+    // public Resp datadic(HttpServletRequest request) {
+    // String info = cjdService.accountInfo();
+    // return new Resp(info);
+    // }
+
+    // @ResponseBody
+    // @RequestMapping(value = "/info", method = RequestMethod.GET)
+    // public Resp datadic(HttpServletRequest request) {
+    // String info = cjdService.accountInfo();
+    // return new Resp(info);
+    // }
+
+    @ResponseBody
+    @RequestMapping(value = "/attrInfo", method = RequestMethod.GET)
+    public Resp attrInfo() throws IOException {
+        List<CreditInfo> creditInfoList = new ArrayList<CreditInfo>();
+        creditInfoList.add(new CreditInfo("人法网", "全国法院被执行人信息查询", "http://zhixing.court.gov.cn/search/"));
+        creditInfoList.add(new CreditInfo("企业网", "国家企业信用信息查询", "http://gsxt.gdgs.gov.cn/"));
+        creditInfoList.add(new CreditInfo("好搜网", "网络身份证号码查询", "https://www.so.com/?src=360sou_newhome&ls=0"));
+        return new Resp(creditInfoList);
+    }
+
+}

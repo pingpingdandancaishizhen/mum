@@ -1,0 +1,428 @@
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track {
+  border-radius: 999px;
+  border: 5px solid transparent;
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  min-height: 20px;
+  background-clip: content-box;
+  box-shadow: inset 0 0 0 5px rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+.login-box-body .login_error {
+  margin-top: 10px;
+  display: inline-block;
+}
+.login-box-body .form-group {
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+.login-box-body #smsCodeBtn {
+  margin-left: 7px;
+}
+.user-menu a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.user-menu a span {
+  display: inline-block;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.main-sidebar .user-panel > .info p {
+  width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dropdown-menu li a {
+  padding: 8px 20px;
+}
+.dropdown-menu li + li {
+  border-top: 1px solid #eee;
+}
+.box-body .fixed-table-container .fixed-table-body {
+  overflow: auto;
+}
+.box-body .fixed-table-container .fixed-table-body table {
+  min-width: 1200px;
+}
+.box-body .col-sm-12 + .col-sm-12 {
+  margin-top: 10px;
+}
+.box-body .col-sm-12 .btn + .btn {
+  margin-left: 10px;
+}
+#toolbar {
+  overflow: hidden;
+}
+#toolbar .form-group {
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+#toolbar .form-group label {
+  margin-bottom: 0;
+}
+#toolbar .form-group label + input {
+  margin-left: 5px;
+}
+#toolbar .form-group label + select {
+  margin-left: 5px;
+}
+.jconfirm-box-container .content {
+  min-height: 50px;
+}
+#menus table td {
+  vertical-align: middle;
+}
+#menus table td label {
+  margin: 5px;
+}
+#menus table .btn span {
+  margin-left: 5px;
+}
+#menus .table-bordered {
+  border: 1px solid #d2d6de;
+}
+#menus .table-bordered > thead > tr > th,
+#menus .table-bordered > tbody > tr > th,
+#menus .table-bordered > tfoot > tr > th,
+#menus .table-bordered > thead > tr > td,
+#menus .table-bordered > tbody > tr > td,
+#menus .table-bordered > tfoot > tr > td {
+  border: 1px solid #d2d6de;
+}
+#roles label {
+  margin-top: 5px;
+  margin-right: 5px;
+}
+.modal-dialog {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  max-height: 720px;
+}
+.modal-dialog .modal-body {
+  max-height: 600px;
+  overflow: auto;
+}
+@media (max-width: 1366px) {
+  .modal-dialog {
+    max-height: 500px;
+  }
+  .modal-dialog .modal-body {
+    max-height: 400px;
+  }
+  .table.table-hover {
+    min-width: 1500px;
+  }
+}
+.btn-white {
+  border: 1px solid #ddd;
+  color: #444 !important;
+}
+.btn-white:hover {
+  background-color: #3c8dbc;
+  border: 1px solid #3c8dbc;
+  color: #fff !important;
+}
+.btn-white.active {
+  background-color: #3c8dbc;
+  border: 1px solid #3c8dbc;
+  color: #fff !important;
+}
+.btn-center {
+  vertical-align: middle;
+  text-align: center;
+}
+.btn-submit {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  vertical-align: middle;
+}
+.navbar-nav > li > a {
+  padding-bottom: 0;
+}
+.form-inline .form-group {
+  margin-right: 10px;
+}
+@media (min-width: 768px) {
+  .form-inline .form-group {
+    display: inline-block;
+    margin-bottom: 15px;
+    vertical-align: middle;
+  }
+}
+.custom-form {
+  /* .form-control:focus {
+         border: 1px solid red !important;
+     }*/
+  /*menu*/
+}
+.custom-form .inline-block {
+  display: inline-block;
+  vertical-align: middle;
+}
+.custom-form .input-group-addon .require:after {
+  font-size: 18px !important;
+  height: 12px;
+}
+.custom-form .input-group-addon-small {
+  width: 120px !important;
+}
+.custom-form .input-group-addon {
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.custom-form .city-picker-span {
+  width: 100% !important;
+  border: 1px solid #ccc;
+  padding-left: 10px;
+}
+.custom-form .content-wrapper {
+  height: auto;
+}
+.custom-form .input-group-btn {
+  width: 1% !important;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.custom-form .file-caption-name {
+  vertical-align: middle;
+  display: inline-block;
+  overflow: hidden;
+  word-break: break-all;
+  height: 20px;
+}
+.custom-form .file-caption-name i {
+  top: 2px;
+}
+.custom-form .webuploader-container {
+  display: inline-block;
+}
+.custom-form .webuploader-pick {
+  background: none;
+  padding: 0;
+  color: inherit;
+  border-radius: 0;
+  display: block;
+}
+.custom-form .webuploader-pick span {
+  display: inline-block;
+  margin-left: 5px;
+}
+.custom-form .uploadError {
+  margin-left: 15px;
+}
+.custom-form .filelist {
+  margin-top: 10px;
+}
+.custom-form .filelist li {
+  list-style: none;
+  margin-bottom: 5px;
+}
+.custom-form .fileNote {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.custom-form .fileSuccess {
+  color: #5cb85c;
+}
+.custom-form .fileError {
+  color: #d9534f;
+}
+.custom-form .checkbox-inline + .checkbox-inline,
+.custom-form .radio-inline + .radio-inline {
+  margin-left: 0;
+}
+.custom-form .checkbox-inline,
+.custom-form .radio-inline {
+  margin-right: 10px;
+}
+.custom-form .relative {
+  position: relative;
+}
+.custom-form .input-unit {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  height: 100%;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: #555;
+  background: #fff;
+  text-align: center;
+  border: 1px solid #ccc;
+  z-index: 10;
+}
+.custom-form .input-unit i {
+  vertical-align: middle;
+}
+.custom-form .input-unit:after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 100%;
+  vertical-align: middle;
+}
+.custom-form .input-group {
+  width: 100%;
+}
+.custom-form .city-picker-dropdown {
+  max-height: 400px;
+  overflow-y: auto;
+}
+.custom-form .relative.city-picker-input {
+  top: 0;
+  left: 0;
+}
+.custom-form .float_menu {
+  position: fixed;
+  top: 2px;
+  right: 10px;
+  z-index: 9999;
+  height: 100%;
+  font-size: 0;
+  width: 150px;
+}
+.custom-form .float_menu li {
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  list-style: none;
+  cursor: pointer;
+  padding: 0 10px;
+  vertical-align: middle;
+}
+.custom-form .float_menu li a,
+.custom-form .float_menu li a:hover,
+.custom-form .float_menu li a:active {
+  color: #555;
+}
+.custom-form .float_menu li:hover,
+.custom-form .float_menu li:hover a,
+.custom-form .menu_arrow:hover {
+  background: #367fa9 !important;
+  color: #fff;
+}
+.custom-form .float_menu ul {
+  padding: 0;
+  margin: 0;
+}
+.custom-form .float_menu .menu_content {
+  max-height: 80%;
+  overflow: auto;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #d4d4d4;
+  background: #FFFFFF;
+  font-size: 12px;
+  width: 120px;
+  white-space: nowrap;
+}
+.custom-form .float_menu .menu_content .menu_li {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.custom-form .float_menu .menu_arrow {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 25px 6px;
+  border: 1px solid #d4d4d4;
+  cursor: pointer;
+  background: #FFFFFF;
+  font-size: 12px;
+}
+.custom-form .float_menu:after {
+  content: '';
+  height: 100%;
+  width: 1px;
+  vertical-align: middle;
+  display: inline-block;
+}
+.custom-form .uploadFileDiv {
+  overflow: hidden;
+  position: relative;
+}
+.require {
+  position: relative;
+}
+.require:after {
+  content: '*';
+  color: red;
+  font-size: 18px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  left: -14px;
+  vertical-align: middle;
+}
+.datetimepicker table tr td span {
+  white-space: nowrap;
+  overflow: hidden;
+}
+.fc-color-picker li {
+  cursor: pointer;
+}
+.user-menu {
+  height: 50px;
+}
+.user-menu a {
+  height: 100%;
+}
+.uploadFileDiv i.form-control-feedback {
+  opacity: 0;
+}
+.btn label {
+  margin-bottom: 0;
+}
+.buttonGroupForm .btn-group .form-control-feedback {
+  top: 0;
+  right: -40px;
+}

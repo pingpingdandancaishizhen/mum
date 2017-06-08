@@ -1,0 +1,57 @@
+<template>
+  <div :class="!checkedAdd?(data.cols?'form-group col-md-'+data.cols*3:'form-group col-md-3'):''" :id="data.key">
+    <label :class="data.required?'require':''" v-if="!checkedAdd">{{data.label}}</label>
+    <div class="input-group">
+      <input type="text" class="form-control" :name="data.key"  placeholder=""  :value="number"  readonly>
+      <span class="input-group-btn" v-if="number==''">
+        <button v-if="!data.readonly"  class="btn btn-primary" data-loading-text="获取中..." type="button" @click="handleClick"> 获取{{data.label}}</button>
+      </span>
+    </div>
+  </div>
+</template>
+<script>
+  import {mapGetters} from 'vuex';
+  import * as api from '../api';
+  export default{
+    data(){
+      return {
+        getNo:''
+      }
+    },
+    props: ['data','oData','attrsData','checkedAdd'],
+    methods:{
+      handleClick:function (e) {
+        var _t=this;
+        var $el=$(e.target);
+        var data={
+          productId:this.hiddenData.productId,
+        };
+        var param=this.data.param;
+        var option={
+          url:'/data/genNo'+'?'+param,
+          method:'get',
+          data:data,
+          complete:function () {
+            $el.button('reset');
+          }
+        };
+        $el.button('loading');
+        api.getGenNO(option,function (data) {
+          _t.getNo=data;
+        })
+      }
+    },
+    computed: {
+      ...mapGetters({
+        'hiddenData': 'defaultHiddenData',
+      }),
+      number(){
+        var attrValue=this.attrsData[this.data.key];
+        var value=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+        var number=this.getNo||value;
+        this.$store.dispatch('setInputData', {key: this.data.key, value: number});
+        return number
+      }
+    }
+  }
+</script>

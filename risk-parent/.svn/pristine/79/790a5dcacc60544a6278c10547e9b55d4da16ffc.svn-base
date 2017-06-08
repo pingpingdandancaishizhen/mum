@@ -1,0 +1,38 @@
+package cn.sunfit.risk.buz.api.vo.p2p.product.config;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class WyjResFee implements Serializable {
+
+    private String name = "违约金率";
+
+    private List<Double> fee;
+
+    private String unit = "%";
+
+    public List<Double> getFee() {
+        return fee;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setFee(List<Double> fee) {
+        this.fee = fee;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+}

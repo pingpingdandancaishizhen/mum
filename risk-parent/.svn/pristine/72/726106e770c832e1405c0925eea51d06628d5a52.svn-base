@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.corp.CorpDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.corp.Corp" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="simple_name" property="simpleName" jdbcType="VARCHAR" />
+    <result column="corp_name" property="corpName" jdbcType="VARCHAR" />
+    <result column="link_man" property="linkMan" jdbcType="VARCHAR" />
+    <result column="link_phone" property="linkPhone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="domain" property="domain" jdbcType="VARCHAR" />
+    <result column="descc" property="descc" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+     <result column="systems" property="systems" jdbcType="VARCHAR" />
+     <result column="address_detail" property="addressDetail" jdbcType="VARCHAR" />
+    
+  </resultMap>
+   <resultMap id="BaseResultMap_ex" type="cn.sunfit.risk.buz.api.vo.corp.CorpVO" >
+    <result column="simple_name" property="simpleName" jdbcType="VARCHAR" />
+    <result column="corp_name" property="corpName" jdbcType="VARCHAR" />
+    <result column="link_phone" property="linkPhone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="descc" property="descc" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="admin" property="admin" jdbcType="VARCHAR" />
+     <result column="address_detail" property="addressDetail" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, simple_name, corp_name, link_man, link_phone, address, status, url, create_time, 
+    domain,descc,logo,address_detail,systems 
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from risk_corp
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.corp.Corp" >
+    insert into risk_corp (id, simple_name, corp_name, 
+      link_man, link_phone, address, 
+      status, url, create_time, 
+      domain,descc,logo,address_detail,systems)
+    values (#{id,jdbcType=VARCHAR}, #{simpleName,jdbcType=VARCHAR}, #{corpName,jdbcType=VARCHAR}, 
+      #{linkMan,jdbcType=VARCHAR}, #{linkPhone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{domain,jdbcType=VARCHAR},#{descc,jdbcType=VARCHAR},#{logo,jdbcType=VARCHAR},#{addressDetail},#{systems})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.corp.Corp" >
+    update risk_corp
+    set simple_name = #{simpleName,jdbcType=VARCHAR},
+      corp_name = #{corpName,jdbcType=VARCHAR},
+      link_man = #{linkMan,jdbcType=VARCHAR},
+      link_phone = #{linkPhone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      domain = #{domain,jdbcType=VARCHAR},
+      descc =#{descc,jdbcType=VARCHAR},
+      logo=#{logo,jdbcType=VARCHAR},
+      address_detail=#{addressDetail,jdbcType=VARCHAR},
+      systems=#{systems}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="selectCorpInfo" resultMap="BaseResultMap_ex" parameterType="java.lang.String" >
+      select 'false' as QUERYID,
+      c.simple_name, c.corp_name,  c.link_phone, c.address, c.descc,c.logo,c.address_detail,(
+      	select GROUP_CONCAT(cu.user_name) from risk_corp_user cu
+      	left join risk_corp_user_role_rel cur on cu.id=cur.user_id  and cur.corp_id = cu.corp_id
+		left join risk_corp_role cr on cur.corp_id = cr.corp_id and cur.role_id =cr.id
+		where   cr.is_admin=1 and cu.corp_id=c.id and cu.channel='0'
+      ) as admin
+    from risk_corp c
+    where c.id = #{corpId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectCorpDomain" resultType="java.lang.String">
+  	SELECT domain from risk_corp
+  </select>
+</mapper>

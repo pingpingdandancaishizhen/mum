@@ -1,0 +1,767 @@
+package cn.sunfit.risk.buz.api.vo.p2p.excel;
+
+import orj.worf.core.model.BaseObject;
+
+public class P2PImportExcelTemplateCYD extends BaseObject {
+    private static final long serialVersionUID = 13453453L;
+
+    private String id;
+
+    private String thirdloanid;
+
+    private String productcode;
+
+    private String productname;
+
+    private String loanwaytype;
+
+    private String loanpurpose;
+
+    private String repaytype;
+
+    private String loanperiod;
+
+    private Long loanmoney;
+
+    private String pledgee;
+
+    private Long consultingfee;
+
+    private Long gpsinstallationfee;
+
+    private String customertype;
+
+    private String customername;
+
+    private String gender;
+
+    private Integer age;
+
+    private String idcard;
+
+    private String residencehouseholdprovince;
+
+    private String residencehouseholdcity;
+
+    private String residencehouseholdregion;
+
+    private String residencehouseholdaddress;
+
+    private String marriage;
+
+    private Integer haschild;
+
+    private String hightdegree;
+
+    private String mobilephoneone;
+
+    private String mobilephonetwo;
+
+    private String homephone;
+
+    private String qq;
+
+    private String mail;
+
+    private String wechat;
+
+    private String arrivedcitytime;
+
+    private String curhouseholdprovince;
+
+    private String curhouseholdcity;
+
+    private String curhouseholdregion;
+
+    private String curhouseholdaddress;
+
+    private String checkintime;
+
+    private String houseproperty;
+
+    private Integer zmcreditscore;
+
+    private String householdprovince;
+
+    private String householdcity;
+
+    private String householdregion;
+
+    private String householdaddress;
+
+    private String buyingoption;
+
+    private String buyorbuilddate;
+
+    private String ownershipofproperty;
+
+    private String platenumber;
+
+    private String recorddate;
+
+    private String carbrands;
+
+    private String jobtype;
+
+    private String companyname;
+
+    private String companytel;
+
+    private String jobtitle;
+
+    private String graduateinstitutions;
+
+    private String schoolprovince;
+
+    private String schoolcity;
+
+    private String schoolregion;
+
+    private String schooladdress;
+
+    private String urgencontactone;
+
+    private String relationone;
+
+    private String urgenphoneone;
+
+    private String urgencontacttwo;
+
+    private String relationtwo;
+
+    private String urgenphonetwo;
+
+    private Long realfkmoney;
+
+    private String receiversname;
+
+    private String receiversbankaccount;
+
+    private String receiversbankname;
+
+    private String receiversbankprovince;
+
+    private String receiversbankcity;
+
+    private String receiversbankbranch;
+
+    private String repaymentname;
+
+    private String repaymentbankaccount;
+
+    private String repaymentbankname;
+
+    private String repaymentbankprovince;
+
+    private String repaymentbankcity;
+
+    private String repaymentbankbranch;
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public String getArrivedcitytime() {
+        return arrivedcitytime;
+    }
+
+    public String getBuyingoption() {
+        return buyingoption;
+    }
+
+    public String getBuyorbuilddate() {
+        return buyorbuilddate;
+    }
+
+    public String getCarbrands() {
+        return carbrands;
+    }
+
+    public String getCheckintime() {
+        return checkintime;
+    }
+
+    public String getCompanyname() {
+        return companyname;
+    }
+
+    public String getCompanytel() {
+        return companytel;
+    }
+
+    public Long getConsultingfee() {
+        return consultingfee;
+    }
+
+    public String getCurhouseholdaddress() {
+        return curhouseholdaddress;
+    }
+
+    public String getCurhouseholdcity() {
+        return curhouseholdcity;
+    }
+
+    public String getCurhouseholdprovince() {
+        return curhouseholdprovince;
+    }
+
+    public String getCurhouseholdregion() {
+        return curhouseholdregion;
+    }
+
+    public String getCustomername() {
+        return customername;
+    }
+
+    public String getCustomertype() {
+        return customertype;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public Long getGpsinstallationfee() {
+        return gpsinstallationfee;
+    }
+
+    public String getGraduateinstitutions() {
+        return graduateinstitutions;
+    }
+
+    public Integer getHaschild() {
+        return haschild;
+    }
+
+    public String getHightdegree() {
+        return hightdegree;
+    }
+
+    public String getHomephone() {
+        return homephone;
+    }
+
+    public String getHouseholdaddress() {
+        return householdaddress;
+    }
+
+    public String getHouseholdcity() {
+        return householdcity;
+    }
+
+    public String getHouseholdprovince() {
+        return householdprovince;
+    }
+
+    public String getHouseholdregion() {
+        return householdregion;
+    }
+
+    public String getHouseproperty() {
+        return houseproperty;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getIdcard() {
+        return idcard;
+    }
+
+    public String getJobtitle() {
+        return jobtitle;
+    }
+
+    public String getJobtype() {
+        return jobtype;
+    }
+
+    public Long getLoanmoney() {
+        return loanmoney;
+    }
+
+    public String getLoanperiod() {
+        return loanperiod;
+    }
+
+    public String getLoanpurpose() {
+        return loanpurpose;
+    }
+
+    public String getLoanwaytype() {
+        return loanwaytype;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public String getMarriage() {
+        return marriage;
+    }
+
+    public String getMobilephoneone() {
+        return mobilephoneone;
+    }
+
+    public String getMobilephonetwo() {
+        return mobilephonetwo;
+    }
+
+    public String getOwnershipofproperty() {
+        return ownershipofproperty;
+    }
+
+    public String getPlatenumber() {
+        return platenumber;
+    }
+
+    public String getPledgee() {
+        return pledgee;
+    }
+
+    public String getProductcode() {
+        return productcode;
+    }
+
+    public String getProductname() {
+        return productname;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public Long getRealfkmoney() {
+        return realfkmoney;
+    }
+
+    public String getReceiversbankaccount() {
+        return receiversbankaccount;
+    }
+
+    public String getReceiversbankbranch() {
+        return receiversbankbranch;
+    }
+
+    public String getReceiversbankcity() {
+        return receiversbankcity;
+    }
+
+    public String getReceiversbankname() {
+        return receiversbankname;
+    }
+
+    public String getReceiversbankprovince() {
+        return receiversbankprovince;
+    }
+
+    public String getReceiversname() {
+        return receiversname;
+    }
+
+    public String getRecorddate() {
+        return recorddate;
+    }
+
+    public String getRelationone() {
+        return relationone;
+    }
+
+    public String getRelationtwo() {
+        return relationtwo;
+    }
+
+    public String getRepaymentbankaccount() {
+        return repaymentbankaccount;
+    }
+
+    public String getRepaymentbankbranch() {
+        return repaymentbankbranch;
+    }
+
+    public String getRepaymentbankcity() {
+        return repaymentbankcity;
+    }
+
+    public String getRepaymentbankname() {
+        return repaymentbankname;
+    }
+
+    public String getRepaymentbankprovince() {
+        return repaymentbankprovince;
+    }
+
+    public String getRepaymentname() {
+        return repaymentname;
+    }
+
+    public String getRepaytype() {
+        return repaytype;
+    }
+
+    public String getResidencehouseholdaddress() {
+        return residencehouseholdaddress;
+    }
+
+    public String getResidencehouseholdcity() {
+        return residencehouseholdcity;
+    }
+
+    public String getResidencehouseholdprovince() {
+        return residencehouseholdprovince;
+    }
+
+    public String getResidencehouseholdregion() {
+        return residencehouseholdregion;
+    }
+
+    public String getSchooladdress() {
+        return schooladdress;
+    }
+
+    public String getSchoolcity() {
+        return schoolcity;
+    }
+
+    public String getSchoolprovince() {
+        return schoolprovince;
+    }
+
+    public String getSchoolregion() {
+        return schoolregion;
+    }
+
+    public String getThirdloanid() {
+        return thirdloanid;
+    }
+
+    public String getUrgencontactone() {
+        return urgencontactone;
+    }
+
+    public String getUrgencontacttwo() {
+        return urgencontacttwo;
+    }
+
+    public String getUrgenphoneone() {
+        return urgenphoneone;
+    }
+
+    public String getUrgenphonetwo() {
+        return urgenphonetwo;
+    }
+
+    public String getWechat() {
+        return wechat;
+    }
+
+    public Integer getZmcreditscore() {
+        return zmcreditscore;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setArrivedcitytime(String arrivedcitytime) {
+        this.arrivedcitytime = arrivedcitytime == null ? null : arrivedcitytime.trim();
+    }
+
+    public void setBuyingoption(String buyingoption) {
+        this.buyingoption = buyingoption == null ? null : buyingoption.trim();
+    }
+
+    public void setBuyorbuilddate(String buyorbuilddate) {
+        this.buyorbuilddate = buyorbuilddate == null ? null : buyorbuilddate.trim();
+    }
+
+    public void setCarbrands(String carbrands) {
+        this.carbrands = carbrands == null ? null : carbrands.trim();
+    }
+
+    public void setCheckintime(String checkintime) {
+        this.checkintime = checkintime == null ? null : checkintime.trim();
+    }
+
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname == null ? null : companyname.trim();
+    }
+
+    public void setCompanytel(String companytel) {
+        this.companytel = companytel == null ? null : companytel.trim();
+    }
+
+    public void setConsultingfee(Long consultingfee) {
+        this.consultingfee = consultingfee;
+    }
+
+    public void setCurhouseholdaddress(String curhouseholdaddress) {
+        this.curhouseholdaddress = curhouseholdaddress == null ? null : curhouseholdaddress.trim();
+    }
+
+    public void setCurhouseholdcity(String curhouseholdcity) {
+        this.curhouseholdcity = curhouseholdcity == null ? null : curhouseholdcity.trim();
+    }
+
+    public void setCurhouseholdprovince(String curhouseholdprovince) {
+        this.curhouseholdprovince = curhouseholdprovince == null ? null : curhouseholdprovince.trim();
+    }
+
+    public void setCurhouseholdregion(String curhouseholdregion) {
+        this.curhouseholdregion = curhouseholdregion == null ? null : curhouseholdregion.trim();
+    }
+
+    public void setCustomername(String customername) {
+        this.customername = customername == null ? null : customername.trim();
+    }
+
+    public void setCustomertype(String customertype) {
+        this.customertype = customertype == null ? null : customertype.trim();
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender == null ? null : gender.trim();
+    }
+
+    public void setGpsinstallationfee(Long gpsinstallationfee) {
+        this.gpsinstallationfee = gpsinstallationfee;
+    }
+
+    public void setGraduateinstitutions(String graduateinstitutions) {
+        this.graduateinstitutions = graduateinstitutions == null ? null : graduateinstitutions.trim();
+    }
+
+    public void setHaschild(Integer haschild) {
+        this.haschild = haschild;
+    }
+
+    public void setHightdegree(String hightdegree) {
+        this.hightdegree = hightdegree == null ? null : hightdegree.trim();
+    }
+
+    public void setHomephone(String homephone) {
+        this.homephone = homephone == null ? null : homephone.trim();
+    }
+
+    public void setHouseholdaddress(String householdaddress) {
+        this.householdaddress = householdaddress == null ? null : householdaddress.trim();
+    }
+
+    public void setHouseholdcity(String householdcity) {
+        this.householdcity = householdcity == null ? null : householdcity.trim();
+    }
+
+    public void setHouseholdprovince(String householdprovince) {
+        this.householdprovince = householdprovince == null ? null : householdprovince.trim();
+    }
+
+    public void setHouseholdregion(String householdregion) {
+        this.householdregion = householdregion == null ? null : householdregion.trim();
+    }
+
+    public void setHouseproperty(String houseproperty) {
+        this.houseproperty = houseproperty == null ? null : houseproperty.trim();
+    }
+
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
+
+    public void setIdcard(String idcard) {
+        this.idcard = idcard == null ? null : idcard.trim();
+    }
+
+    public void setJobtitle(String jobtitle) {
+        this.jobtitle = jobtitle == null ? null : jobtitle.trim();
+    }
+
+    public void setJobtype(String jobtype) {
+        this.jobtype = jobtype == null ? null : jobtype.trim();
+    }
+
+    public void setLoanmoney(Long loanmoney) {
+        this.loanmoney = loanmoney;
+    }
+
+    public void setLoanperiod(String loanperiod) {
+        this.loanperiod = loanperiod == null ? null : loanperiod.trim();
+    }
+
+    public void setLoanpurpose(String loanpurpose) {
+        this.loanpurpose = loanpurpose == null ? null : loanpurpose.trim();
+    }
+
+    public void setLoanwaytype(String loanwaytype) {
+        this.loanwaytype = loanwaytype == null ? null : loanwaytype.trim();
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail == null ? null : mail.trim();
+    }
+
+    public void setMarriage(String marriage) {
+        this.marriage = marriage == null ? null : marriage.trim();
+    }
+
+    public void setMobilephoneone(String mobilephoneone) {
+        this.mobilephoneone = mobilephoneone == null ? null : mobilephoneone.trim();
+    }
+
+    public void setMobilephonetwo(String mobilephonetwo) {
+        this.mobilephonetwo = mobilephonetwo == null ? null : mobilephonetwo.trim();
+    }
+
+    public void setOwnershipofproperty(String ownershipofproperty) {
+        this.ownershipofproperty = ownershipofproperty == null ? null : ownershipofproperty.trim();
+    }
+
+    public void setPlatenumber(String platenumber) {
+        this.platenumber = platenumber == null ? null : platenumber.trim();
+    }
+
+    public void setPledgee(String pledgee) {
+        this.pledgee = pledgee == null ? null : pledgee.trim();
+    }
+
+    public void setProductcode(String productcode) {
+        this.productcode = productcode == null ? null : productcode.trim();
+    }
+
+    public void setProductname(String productname) {
+        this.productname = productname == null ? null : productname.trim();
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq == null ? null : qq.trim();
+    }
+
+    public void setRealfkmoney(Long realfkmoney) {
+        this.realfkmoney = realfkmoney;
+    }
+
+    public void setReceiversbankaccount(String receiversbankaccount) {
+        this.receiversbankaccount = receiversbankaccount == null ? null : receiversbankaccount.trim();
+    }
+
+    public void setReceiversbankbranch(String receiversbankbranch) {
+        this.receiversbankbranch = receiversbankbranch == null ? null : receiversbankbranch.trim();
+    }
+
+    public void setReceiversbankcity(String receiversbankcity) {
+        this.receiversbankcity = receiversbankcity == null ? null : receiversbankcity.trim();
+    }
+
+    public void setReceiversbankname(String receiversbankname) {
+        this.receiversbankname = receiversbankname == null ? null : receiversbankname.trim();
+    }
+
+    public void setReceiversbankprovince(String receiversbankprovince) {
+        this.receiversbankprovince = receiversbankprovince == null ? null : receiversbankprovince.trim();
+    }
+
+    public void setReceiversname(String receiversname) {
+        this.receiversname = receiversname == null ? null : receiversname.trim();
+    }
+
+    public void setRecorddate(String recorddate) {
+        this.recorddate = recorddate == null ? null : recorddate.trim();
+    }
+
+    public void setRelationone(String relationone) {
+        this.relationone = relationone == null ? null : relationone.trim();
+    }
+
+    public void setRelationtwo(String relationtwo) {
+        this.relationtwo = relationtwo == null ? null : relationtwo.trim();
+    }
+
+    public void setRepaymentbankaccount(String repaymentbankaccount) {
+        this.repaymentbankaccount = repaymentbankaccount == null ? null : repaymentbankaccount.trim();
+    }
+
+    public void setRepaymentbankbranch(String repaymentbankbranch) {
+        this.repaymentbankbranch = repaymentbankbranch == null ? null : repaymentbankbranch.trim();
+    }
+
+    public void setRepaymentbankcity(String repaymentbankcity) {
+        this.repaymentbankcity = repaymentbankcity == null ? null : repaymentbankcity.trim();
+    }
+
+    public void setRepaymentbankname(String repaymentbankname) {
+        this.repaymentbankname = repaymentbankname == null ? null : repaymentbankname.trim();
+    }
+
+    public void setRepaymentbankprovince(String repaymentbankprovince) {
+        this.repaymentbankprovince = repaymentbankprovince == null ? null : repaymentbankprovince.trim();
+    }
+
+    public void setRepaymentname(String repaymentname) {
+        this.repaymentname = repaymentname == null ? null : repaymentname.trim();
+    }
+
+    public void setRepaytype(String repaytype) {
+        this.repaytype = repaytype == null ? null : repaytype.trim();
+    }
+
+    public void setResidencehouseholdaddress(String residencehouseholdaddress) {
+        this.residencehouseholdaddress = residencehouseholdaddress == null ? null : residencehouseholdaddress.trim();
+    }
+
+    public void setResidencehouseholdcity(String residencehouseholdcity) {
+        this.residencehouseholdcity = residencehouseholdcity == null ? null : residencehouseholdcity.trim();
+    }
+
+    public void setResidencehouseholdprovince(String residencehouseholdprovince) {
+        this.residencehouseholdprovince = residencehouseholdprovince == null ? null : residencehouseholdprovince.trim();
+    }
+
+    public void setResidencehouseholdregion(String residencehouseholdregion) {
+        this.residencehouseholdregion = residencehouseholdregion == null ? null : residencehouseholdregion.trim();
+    }
+
+    public void setSchooladdress(String schooladdress) {
+        this.schooladdress = schooladdress == null ? null : schooladdress.trim();
+    }
+
+    public void setSchoolcity(String schoolcity) {
+        this.schoolcity = schoolcity == null ? null : schoolcity.trim();
+    }
+
+    public void setSchoolprovince(String schoolprovince) {
+        this.schoolprovince = schoolprovince == null ? null : schoolprovince.trim();
+    }
+
+    public void setSchoolregion(String schoolregion) {
+        this.schoolregion = schoolregion == null ? null : schoolregion.trim();
+    }
+
+    public void setThirdloanid(String thirdloanid) {
+        this.thirdloanid = thirdloanid == null ? null : thirdloanid.trim();
+    }
+
+    public void setUrgencontactone(String urgencontactone) {
+        this.urgencontactone = urgencontactone == null ? null : urgencontactone.trim();
+    }
+
+    public void setUrgencontacttwo(String urgencontacttwo) {
+        this.urgencontacttwo = urgencontacttwo == null ? null : urgencontacttwo.trim();
+    }
+
+    public void setUrgenphoneone(String urgenphoneone) {
+        this.urgenphoneone = urgenphoneone == null ? null : urgenphoneone.trim();
+    }
+
+    public void setUrgenphonetwo(String urgenphonetwo) {
+        this.urgenphonetwo = urgenphonetwo == null ? null : urgenphonetwo.trim();
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat == null ? null : wechat.trim();
+    }
+
+    public void setZmcreditscore(Integer zmcreditscore) {
+        this.zmcreditscore = zmcreditscore;
+    }
+}

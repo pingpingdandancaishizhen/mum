@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.solution.ProductDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.solution.Product" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="lastmod_time" property="lastmodTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="product_type" property="productType" jdbcType="VARCHAR" />
+    <result column="medium" property="medium" jdbcType="VARCHAR" />
+     <result column="fee_config" property="feeConfig" jdbcType="VARCHAR" />
+     <result column="requirements" property="requirements" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="cn.sunfit.risk.buz.api.vo.solution.ProductCorpVO" id="BaseResultMap_corp" extends="BaseResultMap">
+  <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+  <result column="corp_name" property="corpName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, product_name, create_time, lastmod_time, status, `desc`,product_type,medium,requirements
+  </sql>
+   <sql id="Base_Column_List_P" >
+    p.id, p.product_name, p.create_time, p.lastmod_time, p.status, p.`desc`,p.product_type,p.medium,p.requirements
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from risk_product
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.solution.Product" >
+    insert into risk_product (id, product_name, create_time, 
+      lastmod_time, status, `desc`,product_type,medium,requirements
+      )
+    values (#{id,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastmodTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR},#{productType},#{medium},#{requirements}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.solution.Product" >
+    update risk_product
+    set product_name = #{productName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      lastmod_time = #{lastmodTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      `desc` = #{desc,jdbcType=VARCHAR},product_type=#{productType},medium=#{medium},requirements=#{requirements}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectProductByCorp" resultMap="BaseResultMap_corp" parameterType="cn.sunfit.risk.buz.api.vo.solution.ProductQueryReq">
+  	select   <include refid="Base_Column_List_P" />,c.id as corp_id,c.corp_name from risk_product p left join risk_corp_product_ref pc on pc.product_id=p.id
+  	 left join risk_corp c on pc.corp_id = c.id where c.id=#{corpId} <if test="productName!=null and productName!=''"> and product_name like concat('%',#{productName},'%')</if>
+  </select>
+  
+   <select id="selectProductByCorpId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select   <include refid="Base_Column_List_P" /> from risk_product p left join risk_corp_product_ref pc on pc.product_id=p.id
+  	 left join risk_corp c on pc.corp_id = c.id where c.id=#{corpId} 
+  </select>
+  <select id="countByCorpIdProductId" resultType="java.lang.Long" parameterType="java.util.Map">
+  	select  count(1) from risk_product p inner join risk_corp_product_ref pc on pc.product_id=p.id
+  	 left join risk_corp c on pc.corp_id = c.id where pc.corp_id=#{corpId}  and p.id=#{productId}
+  </select>
+  
+  <update id="updateFeeConfig" parameterType="java.util.Map" >
+    update risk_product
+    set fee_config = #{feeConfig}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+    <select id="selectFeeConfig" resultType="java.lang.String" parameterType="java.lang.String">
+    select fee_config from risk_product
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

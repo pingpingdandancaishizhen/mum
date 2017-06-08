@@ -1,0 +1,21 @@
+package cn.sunfit.risk.credit.server.service;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+
+import org.springframework.stereotype.Service;
+
+import cn.sunfit.risk.credit.api.service.JXLService;
+
+@Path("jxl")
+@Service("credit.JXLService")
+public class JXLServiceImpl implements JXLService {
+
+    @Override
+    @GET
+    @Path("query")
+    public String query() {
+        return "test info";
+    }
+
+}

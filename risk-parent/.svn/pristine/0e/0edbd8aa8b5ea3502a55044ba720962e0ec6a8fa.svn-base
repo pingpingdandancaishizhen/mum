@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.activiti.BPMetaFormDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPMetaForm" >
+    <id column="form_id" property="formId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="form_key" property="formKey" jdbcType="VARCHAR" />
+    <result column="form_name" property="formName" jdbcType="VARCHAR" />
+    <result column="form_desc" property="formDesc" jdbcType="VARCHAR" />
+    <result column="operations" property="operations" jdbcType="VARCHAR" />
+    <result column="layout" property="layout" jdbcType="VARCHAR" />
+    <result column="check_rules" property="checkRules" jdbcType="VARCHAR" />
+    <result column="is_outside" property="isOutside" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPMetaForm" extends="BaseResultMap" >
+    <result column="form_html" property="formHtml" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <resultMap type="cn.sunfit.risk.buz.api.vo.p2p.activiti.BpMetaFormDefVO" id="SimpleResultMap">
+      <result column="form_key" property="formKey" jdbcType="VARCHAR" />
+	    <result column="form_name" property="formName" jdbcType="VARCHAR" />
+	    <result column="form_desc" property="formDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    form_id, corp_id, bp_def_id, form_key, form_name, form_desc, operations, 
+    is_outside
+  </sql>
+  <sql id="Blob_Column_List" >
+  	layout, check_rules,
+    form_html
+  </sql>
+  <sql id="Base_Column_List_F" >
+    f.form_id, f.corp_id, f.bp_def_id, f.form_key, f.form_name, f.form_desc, f.operations, 
+    f.is_outside,f.layout, f.check_rules, f.form_html
+  </sql>
+  
+  
+  
+  
+   <select id="selectBPMetaFormByDefId" resultMap="SimpleResultMap" parameterType="cn.sunfit.risk.buz.api.vo.p2p.activiti.BpMetaFormDefQuery" >
+    select form_key,form_name,form_desc
+    from ${domain}_bp_meta_forms
+    where bp_def_id=#{bpDefId} and corp_id=#{corpId}
+  </select>
+     <select id="selectStartFormByBpDefId" resultMap="ResultMapWithBLOBs" parameterType="cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery" >
+    select <include refid="Base_Column_List_F"/>
+    from ${domain}_bp_meta_forms f,${domain}_bp_meta_nodes n
+    where n.form_key=f.form_key and f.bp_def_id=#{bpDefId} and n.bp_def_id=#{bpDefId} and f.corp_id=#{corpId}
+       and n.node_type ='startevent' and n.form_key is not null
+  </select>
+      <select id="selectTaskFormByBpDefIdTaskKey" resultMap="ResultMapWithBLOBs" >
+    select <include refid="Base_Column_List_F"/>
+    from ${req.domain}_bp_meta_forms f,${req.domain}_bp_meta_nodes n
+    where n.form_key=f.form_key and f.bp_def_id=#{req.bpDefId} and n.bp_def_id=#{req.bpDefId} and f.corp_id=#{req.corpId}
+       and n.node_key =#{taskKey}
+  </select>
+  
+  <select id="selectEditFormByBpDefId" resultMap="ResultMapWithBLOBs" parameterType="cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery" >
+    select <include refid="Base_Column_List_F"/>
+    from ${domain}_bp_meta_forms f,${domain}_bp_meta_nodes n
+    where n.form_key=f.form_key and f.bp_def_id=#{bpDefId} and n.bp_def_id=#{bpDefId} and f.corp_id=#{corpId}
+       and n.node_type ='edit' and n.form_key is null
+  </select>
+   <select id="selectViewFormByBpDefId" resultMap="ResultMapWithBLOBs" parameterType="cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery" >
+    select <include refid="Base_Column_List_F"/>
+    from ${domain}_bp_meta_forms f,${domain}_bp_meta_nodes n
+    where n.form_key=f.form_key and f.bp_def_id=#{bpDefId} and n.bp_def_id=#{bpDefId} and f.corp_id=#{corpId}
+       and n.node_type ='view' and n.form_key is null
+  </select>
+  
+</mapper>

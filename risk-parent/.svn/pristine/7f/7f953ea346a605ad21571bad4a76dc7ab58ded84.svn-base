@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.activiti.BPRunPathDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPRunPath" >
+    <id column="path_id" property="pathId" jdbcType="VARCHAR" />
+    <result column="bp_id" property="bpId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="bp_engine_key" property="bpEngineKey" jdbcType="VARCHAR" />
+    <result column="node_key" property="nodeKey" jdbcType="VARCHAR" />
+    <result column="node_name" property="nodeName" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="node_type" property="nodeType" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="duration" property="duration" jdbcType="INTEGER" />
+    <result column="assignee" property="assignee" jdbcType="VARCHAR" />
+    <result column="to_user_id" property="toUserId" jdbcType="VARCHAR" />
+    <result column="is_mutiple" property="isMutiple" jdbcType="VARCHAR" />
+    <result column="excution_id" property="excutionId" jdbcType="VARCHAR" />
+    <result column="users_ids" property="usersIds" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="out_tran_id" property="outTranId" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="jump_type" property="jumpType" jdbcType="VARCHAR" />
+    <result column="next_jump_type" property="nextJumpType" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="ref_path_id" property="refPathId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    path_id, bp_id, bp_def_id, bp_engine_key, node_key, node_name, start_time, node_type, 
+    end_time, duration, assignee, to_user_id, is_mutiple, excution_id, users_ids, parent_id, 
+    level, out_tran_id, token, jump_type, next_jump_type, reason, ref_path_id, corp_id, 
+    create_user_id, create_time, update_user_id, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from wdgs_bp_run_path
+    where path_id = #{pathId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPRunPath" >
+    insert into ${domain}_bp_run_path (path_id, bp_id, bp_def_id, 
+      bp_engine_key, node_key, node_name, 
+      start_time, node_type, end_time, 
+      duration, assignee, to_user_id, 
+      is_mutiple, excution_id, users_ids, 
+      parent_id, level, out_tran_id, 
+      token, jump_type, next_jump_type, 
+      reason, ref_path_id, corp_id, 
+      create_user_id, create_time, update_user_id, 
+      update_time)
+    values (#{pathId,jdbcType=VARCHAR}, #{bpId,jdbcType=VARCHAR}, #{bpDefId,jdbcType=VARCHAR}, 
+      #{bpEngineKey,jdbcType=VARCHAR}, #{nodeKey,jdbcType=VARCHAR}, #{nodeName,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{nodeType,jdbcType=VARCHAR}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{duration,jdbcType=INTEGER}, #{assignee,jdbcType=VARCHAR}, #{toUserId,jdbcType=VARCHAR}, 
+      #{isMutiple,jdbcType=VARCHAR}, #{excutionId,jdbcType=VARCHAR}, #{usersIds,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{outTranId,jdbcType=VARCHAR}, 
+      #{token,jdbcType=VARCHAR}, #{jumpType,jdbcType=VARCHAR}, #{nextJumpType,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{refPathId,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPRunPath" >
+    update ${domain}_bp_run_path
+    set bp_id = #{bpId,jdbcType=VARCHAR},
+      bp_def_id = #{bpDefId,jdbcType=VARCHAR},
+      bp_engine_key = #{bpEngineKey,jdbcType=VARCHAR},
+      node_key = #{nodeKey,jdbcType=VARCHAR},
+      node_name = #{nodeName,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      node_type = #{nodeType,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      duration = #{duration,jdbcType=INTEGER},
+      assignee = #{assignee,jdbcType=VARCHAR},
+      to_user_id = #{toUserId,jdbcType=VARCHAR},
+      is_mutiple = #{isMutiple,jdbcType=VARCHAR},
+      excution_id = #{excutionId,jdbcType=VARCHAR},
+      users_ids = #{usersIds,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      out_tran_id = #{outTranId,jdbcType=VARCHAR},
+      token = #{token,jdbcType=VARCHAR},
+      jump_type = #{jumpType,jdbcType=VARCHAR},
+      next_jump_type = #{nextJumpType,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      ref_path_id = #{refPathId,jdbcType=VARCHAR},
+      corp_id = #{corpId,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where path_id = #{pathId,jdbcType=VARCHAR}
+  </update>
+  
+    <select id="selectByParentIdNodeId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ${domain}_bp_run_path
+    where parent_id = #{parentId,jdbcType=VARCHAR} and node_key=#{nodeKey}
+  </select>
+</mapper>

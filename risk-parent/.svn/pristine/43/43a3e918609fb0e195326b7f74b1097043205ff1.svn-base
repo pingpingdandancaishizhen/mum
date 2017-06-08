@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:p="http://www.springframework.org/schema/p" xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://www.springframework.org/schema/aop  
+            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <import resource="classpath:sunfit-risk_context_dependence.xml" />
+    <bean class="orj.worf.core.config.ScannerConfigurer">
+        <property name="basePackages">
+            <array>
+                <value>cn.sunfit.risk.buz.server</value>
+                <value>org.risk.server.report</value>
+                <value>orj.worf.scheduler</value>
+            </array>
+        </property>
+    </bean>
+    <context:property-placeholder location="classpath:conf/application.properties" ignore-unresolvable="true" />
+    
+    <context:component-scan annotation-config="true" base-package="org.risk.server.report">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+    <context:component-scan annotation-config="true" base-package="cn.sunfit.risk.buz.server">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+    
+    <bean id="serverConfig" class="cn.sunfit.risk.buz.server.util.ServerConfig">
+ 		<!-- 短信服务配置 -->
+ 		<property name="messageServerUrl" value="${message.server.url}" />
+		<property name="pathSendSms" value="${path.send.sms}" />
+		<property name="pathSendEmail" value="${path.send.email}" />
+		<property name="smsAppid" value="${carpool.ytx.sms.appid}" />
+		<property name="smsRandomCode" value="${sms.random.code}" />
+		<!-- OSS服务配置 -->
+		<property name="oss_accessKey_id" value="${oss_accessKey_id}" />
+		<property name="oss_accessKey_secret" value="${oss_accessKey_secret}" />
+		<property name="oss_endpoint" value="${oss_endpoint}" />
+		<property name="oss_bucketName" value="${oss_bucketName}" />
+		<property name="oss_url" value="${oss_url}" />
+		
+		<!-- 乐位接口 -->
+		<property name="lw_host" value="${lw_host}"/>
+		<property name="lw_key" value="${lw_key}"/>
+		<property name="lw_secret" value="${lw_secret}"/>
+	</bean>
+    
+
+</beans>

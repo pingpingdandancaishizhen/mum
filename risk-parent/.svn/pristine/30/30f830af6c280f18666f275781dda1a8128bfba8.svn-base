@@ -1,0 +1,81 @@
+package cn.sunfit.risk.buz.api.vo.p2p.partnerCorp;
+
+import java.util.Date;
+import java.util.List;
+
+import cn.sunfit.risk.buz.api.vo.ReqBase;
+
+public class P2PAssetQueryReq extends ReqBase {
+
+    private static final long serialVersionUID = 1L;
+
+    private String corpName;
+
+    private Short status;
+    
+    /**
+	 * 创建时间-起始
+	 */
+	private Date createTimeFrom;
+	/**
+	 * 创建时间-截止
+	 */
+	private Date createTimeTo;
+	
+	private String product;
+	
+	private String assetType;
+
+	public String getCorpName() {
+		return corpName;
+	}
+
+	public void setCorpName(String corpName) {
+		this.corpName = corpName;
+	}
+
+	public Short getStatus() {
+		return status;
+	}
+
+	public void setStatus(Short status) {
+		this.status = status;
+	}
+
+	public Date getCreateTimeFrom() {
+		return createTimeFrom;
+	}
+
+	public void setCreateTimeFrom(Date createTimeFrom) {
+		this.createTimeFrom = createTimeFrom;
+	}
+
+	public Date getCreateTimeTo() {
+		return createTimeTo;
+	}
+
+	public void setCreateTimeTo(Date createTimeTo) {
+		this.createTimeTo = createTimeTo;
+	}
+
+	public String getProduct() {
+		return product;
+	}
+
+	public void setProduct(String product) {
+		this.product = product;
+	}
+
+	public String getAssetType() {
+		return assetType;
+	}
+
+	public void setAssetType(String assetType) {
+		this.assetType = assetType;
+	}
+
+    
+
+    
+
+}

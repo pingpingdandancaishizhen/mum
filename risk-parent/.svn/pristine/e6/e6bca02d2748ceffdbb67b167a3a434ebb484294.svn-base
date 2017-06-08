@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.corp.CorpUserDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.corp.CorpUser" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="dept_id" property="deptId" jdbcType="VARCHAR" />
+    <result column="user_account" property="userAccount" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="job" property="job" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="last_mod_time" property="lastModTime" jdbcType="TIMESTAMP" />
+    <result column="is_first_login" property="isFirstLogin" jdbcType="VARCHAR" />
+    <result column="error_times" property="errorTimes" jdbcType="INTEGER" />
+    <result column="error_day" property="errorDay" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="client_id" property="clientId" jdbcType="VARCHAR" />
+    <result column="channel" property="channel" jdbcType="VARCHAR" />
+  </resultMap>
+   <resultMap id="CorpUserDTOMap" type="cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO" extends="BaseResultMap">
+   <result column="is_admin" property="isAdmin" jdbcType="BIT" />
+   <result column="corp_name" property="corpName" jdbcType="VARCHAR" />
+   <result column="corp_simple_name" property="corpSimpleName" jdbcType="VARCHAR" />
+   <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+   <result column="dept_code" property="deptCode" jdbcType="VARCHAR" />
+   <result column="domain" property="domain" jdbcType="VARCHAR" />
+   <result column="role_names" property="roleNames" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, corp_id, dept_id, user_account, user_name, salt, password, email, `desc`, idcard, 
+    telephone, job, status, last_mod_time, is_first_login, error_times, error_day, create_time, 
+    client_id,channel
+  </sql>
+  <sql id="Base_Column_List_CU" >
+    cu.id, cu.corp_id, cu.dept_id, cu.user_account, cu.user_name, cu.salt, cu.password, cu.email, cu.`desc`, cu.idcard, 
+    cu.telephone, cu.job, cu.status, cu.last_mod_time, cu.is_first_login, cu.error_times, cu.error_day, cu.create_time, 
+    cu.client_id,cu.channel
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from risk_corp_user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO" >
+    insert into risk_corp_user (id, corp_id, dept_id, 
+      user_account, user_name, salt, 
+      password, email, `desc`, 
+      idcard, telephone, job, 
+      status, last_mod_time, is_first_login, 
+      error_times, error_day, create_time, 
+      client_id)
+    values (#{id,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, 
+      #{userAccount,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, 
+      #{idcard,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{lastModTime,jdbcType=TIMESTAMP}, #{isFirstLogin,jdbcType=VARCHAR}, 
+      #{errorTimes,jdbcType=INTEGER}, #{errorDay,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{clientId,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.corp.CorpUser" >
+    update risk_corp_user
+    set corp_id = #{corpId,jdbcType=VARCHAR},
+      dept_id = #{deptId,jdbcType=VARCHAR},
+      user_account = #{userAccount,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      `desc` = #{desc,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      last_mod_time = #{lastModTime,jdbcType=TIMESTAMP},
+      is_first_login = #{isFirstLogin,jdbcType=VARCHAR},
+      error_times = #{errorTimes,jdbcType=INTEGER},
+      error_day = #{errorDay,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      client_id = #{clientId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  	<select id="selectCorpUserByIdOrCode" resultMap="CorpUserDTOMap" parameterType="cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO">
+		select
+		 <include refid="Base_Column_List_CU" />
+		,(select if(count(1)<![CDATA[>]]>0 ,1,0) from risk_corp_user_role_rel cur 
+		left join risk_corp_role cr on cur.corp_id =
+		cr.corp_id and cur.role_id =cr.id
+		where cu.corp_id = cur.corp_id and	cu.id
+		= cur.user_id and cr.is_admin=1
+		) as is_admin,(select GROUP_CONCAT(cr.role_name) from risk_corp_user_role_rel cur 
+		left join risk_corp_role cr on cur.corp_id = cr.corp_id and cur.role_id =cr.id
+		where cu.corp_id = cur.corp_id and
+		cu.id = cur.user_id 
+		) as role_names,co.corp_name,co.simple_name as corp_simple_name,co.`domain`,cd.dept_name,cd.dept_code
+		from risk_corp_user cu
+		left join risk_corp co on cu.corp_id = co.id 
+		left join risk_corp_dept cd on cu.dept_id = cd.id
+		where 1=1 
+		<if test="domain != null and domain != ''">
+		and  co.`domain` = #{domain} 
+		</if>
+		<if test="corpId != null and corpId != ''">
+		and  co.`id` = #{corpId} 
+		</if>
+		<if test="id != null and id != ''">
+			and cu.id = #{id,jdbcType=INTEGER}
+		</if>
+		<if test="userAccount != null and userAccount != ''">
+			and cu.user_account = #{userAccount,jdbcType=VARCHAR}
+		</if>
+		limit 1
+	</select>
+	
+	<select id="selectCorpUserRoleIds" resultType="java.lang.String" parameterType="cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO">
+		select
+		distinct(cr.id)
+		from risk_corp_user cu
+		left join  risk_corp_user_role_rel cur on cu.corp_id = cur.corp_id and	cu.id= cur.user_id 
+		left join risk_corp_role cr on cur.corp_id =cr.corp_id and cur.role_id =cr.id
+		left join risk_corp co on cu.corp_id = co.id 
+		where 1=1
+		<if test="domain != null and domain != ''">
+		and  co.`domain` = #{domain} 
+		</if>
+		<if test="corpId != null and corpId != ''">
+		and  co.`id` = #{corpId} 
+		</if>
+		<if test="id != null and id != ''">
+			and cu.id = #{id,jdbcType=INTEGER}
+		</if>
+		<if test="userAccount != null and userAccount != ''">
+			and cu.user_account = #{userAccount,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<select id="selectCorpUserDataRoleIds" resultType="java.lang.String" parameterType="cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO">
+		select
+		distinct(cr.id)
+		from risk_corp_user cu
+		left join risk_corp_datarole_user_rel cur on cu.corp_id = cur.corp_id and	cu.id= cur.user_id 
+		left join risk_corp_datarole cr on cur.corp_id =cr.corp_id and cur.role_id =cr.id
+		left join risk_corp co on cu.corp_id = co.id 
+		where 1=1
+		<if test="domain != null and domain != ''">
+		and  co.`domain` = #{domain} 
+		</if>
+		<if test="corpId != null and corpId != ''">
+		and  co.`id` = #{corpId} 
+		</if>
+		<if test="id != null and id != ''">
+			and cu.id = #{id,jdbcType=INTEGER}
+		</if>
+		<if test="userAccount != null and userAccount != ''">
+			and cu.user_account = #{userAccount,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<select id="selectUserList" resultMap="CorpUserDTOMap" parameterType="cn.sunfit.risk.buz.api.vo.corp.UserQueryReq">
+		select
+		cu.id,cu.user_account,cu.user_name,cu.email,cu.idcard,cu.telephone,cu.job,cu.status,cu.corp_id,cu.dept_id,
+		(select GROUP_CONCAT(cr.role_name) from risk_corp_user_role_rel cur 
+		left join risk_corp_role cr on cur.corp_id = cr.corp_id and cur.role_id =cr.id
+		where cu.corp_id = cur.corp_id and
+		cu.id = cur.user_id 
+		) as role_names,
+		(select if(count(1)<![CDATA[>]]>0 ,1,0) from   risk_corp_user_role_rel cur 
+		left join risk_corp_role cr on cur.corp_id =cr.corp_id and cur.role_id = cr.id
+		where cu.corp_id = cur.corp_id and
+		cu.id = cur.user_id and cr.is_admin=1
+		) as is_admin,co.corp_name,co.simple_name as corp_simple_name,co.`domain`,cd.dept_name,cd.dept_code
+		from risk_corp_user cu
+		left join risk_corp co on cu.corp_id = co.id 
+		left join risk_corp_dept cd on cu.dept_id = cd.id
+		where cu.corp_id =#{corpId} and cu.status  <![CDATA[<>]]>  2  and cu.channel ='0'
+		<if test="userAccount != null and userAccount != ''">
+		and cu.user_account like concat('%',#{userAccount},'%')
+		</if>
+		<if test="userName != null and userName != ''">
+		and cu.user_name like	concat('%',#{userName},'%')
+		</if>
+		order by cu.create_time desc
+	</select>
+	
+	<insert id="insertCorpUserRole" parameterType="cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO">
+		 	insert into	risk_corp_user_role_rel(id,corp_id,	user_id,role_id,create_time) values
+			 <foreach item="roleId"   collection="roleIds" open="" separator="," close="">
+			((select  replace(uuid(),'-','')   from dual) ,#{corpId,jdbcType=VARCHAR},#{id,jdbcType=VARCHAR},#{roleId,jdbcType=VARCHAR},now())
+			 </foreach>
+			;
+	</insert>
+	<insert id="insertCorpUserDataRole" parameterType="cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO">
+		 	insert into	risk_corp_datarole_user_rel(id,corp_id,	user_id,role_id,create_time) values
+			 <foreach item="roleId"   collection="dataRoleIds" open="" separator="," close="">
+			((select  replace(uuid(),'-','')   from dual) ,#{corpId,jdbcType=VARCHAR},#{id,jdbcType=VARCHAR},#{roleId,jdbcType=VARCHAR},now())
+			 </foreach>
+			;
+	</insert>
+	
+	<delete id="deleteUserRole" parameterType="cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO">
+		delete from risk_corp_user_role_rel where user_id=#{id} and corp_id=#{corpId}
+	</delete>
+	<delete id="deleteUserDataRole" parameterType="cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO">
+		delete from risk_corp_datarole_user_rel where user_id=#{id} and corp_id=#{corpId}
+	</delete>
+	<select id="countUserByAccount" resultType="java.lang.Long" parameterType="cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO">
+	select count(1) from risk_corp_user cu where cu.user_account = #{userAccount} and cu.corp_id=#{corpId}
+	<if test="id != null and id != ''">
+		and id <![CDATA[<>]]> #{id}
+	</if>
+	</select>
+	
+	<select id="countUserByDeptIdAndStatus" resultType="int">
+	    select count(1)
+	    from risk_corp_user
+	    where dept_id = #{deptId,jdbcType=VARCHAR}
+	    and status in
+	    <foreach item="node" collection="status" open="(" separator="," close=")">
+	    	#{node,jdbcType=VARCHAR}
+	    </foreach>
+  	</select>
+  	
+  	<select id="selectUserByDeptId" resultType="java.lang.String">
+  	select id
+	    from risk_corp_user
+	    where 
+	    status = 0  
+	    and dept_id in
+	    <foreach item="node" collection="deptIds" open="(" separator="," close=")">
+	    	#{node,jdbcType=VARCHAR}
+	    </foreach>
+  	</select>
+  	
+  	
+  	  	<select id="selectUserByBpId" resultType="cn.sunfit.risk.buz.api.vo.corp.SameDeptUserResp" parameterType="cn.sunfit.risk.buz.api.vo.corp.SameDeptUserQuery">
+  	 select id,user_name as userName from risk_corp_user u1
+	where u1.corp_id = #{corpId} and u1.dept_id in (
+	select dept.id from  ${domain}_risk_bps bp
+	LEFT JOIN risk_corp_user u on u.id = bp.create_user_id
+	LEFT JOIN risk_corp_dept dept  on u.dept_id=dept.id
+	where bp.bp_id = #{bpId} and u.corp_id = #{corpId})
+  	</select>
+</mapper>

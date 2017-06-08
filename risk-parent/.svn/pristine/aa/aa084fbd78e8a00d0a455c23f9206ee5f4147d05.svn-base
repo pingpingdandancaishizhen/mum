@@ -1,0 +1,18 @@
+{
+	"loancar_license_plate" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入正确车牌号","fieldKey":"loancar_license_plate","condition":null,"detail":{"regexp":"^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$"}}],
+	"loancar_engine_number" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入正确发动机号","fieldKey":"loancar_engine_number","condition":null,"detail":{"regexp":"^[a-zA-Z0-9]{0,10}$"}}],
+	"loancar_frame_number" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入正确车架号","fieldKey":"loancar_frame_number","condition":null,"detail":{"regexp":"^[a-zA-Z0-9]{17}$"}}],
+	"loancar_car_bms" : [],
+	"loancar_car_bms_brand" : [],
+	"loancar_car_bms_model" : [],
+	"loancar_car_bms_series" : [],
+	"loancar_car_type" : [],
+	"loancar_car_color" : [],
+	"loancar_car_fuel" : [],
+	"loancar_purchase_price" : [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在1到99999999之间的数字，小数点后最多可输入两位","fieldKey":"loancar_purchase_price","condition":null,"detail":{"min":"1","max":"99999999","digits":"2"}}],
+	"loancar_purchase_date" : [],
+	"loancar_registration_date" : [],
+	"loancar_approved_passenger" : [{"ruleType":"integer","ruleLevel":"field","message":"请输入在1到60之间的整数","fieldKey":"loancar_approved_passenger","condition":null,"detail":{"min":"1","max":"60"}}],
+	"loancar_driving_position" : [],
+	"loancar_ownership" : []
+}

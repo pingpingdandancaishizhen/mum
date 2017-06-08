@@ -1,0 +1,32 @@
+package cn.sunfit.risk.buz.server.service.p2p.param;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.sunfit.risk.buz.api.beans.p2p.P2PParams;
+import cn.sunfit.risk.buz.api.service.p2p.param.P2PParamsService;
+import cn.sunfit.risk.buz.server.dao.p2p.param.P2PParamsDAO;
+
+@Service("risk.p2PParamsService")
+public class P2PParamsServiceImpl implements P2PParamsService{
+	@Autowired
+	P2PParamsDAO p2PParamsDAO;
+	
+	@Override
+	public List<P2PParams> findAttachments(String paramType) {
+		List<P2PParams> list = new ArrayList<P2PParams>();
+		list=p2PParamsDAO.findAttachments(paramType);
+		
+		return list;
+	}
+
+	@Override
+	public void saveAttParam(Map params) {
+		p2PParamsDAO.saveAttParam(params);
+	}
+
+}

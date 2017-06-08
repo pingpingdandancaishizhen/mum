@@ -1,0 +1,135 @@
+<template>
+  <div class="row-right" :class="!checkedAdd?'col-sm-6':'col-sm-3'">
+    <div class="form-group input-group " :id="data.key">
+      <label class="label-head label-head-lg label-head-top  text-right"  v-if="!checkedAdd"><span :class="data.required?'require':''">{{data.label}}:</span></label>
+      <div class="label-box label-box-sm">
+        <input class="form-control" type="text" :id="data.key+'_input'" >
+        <div class="form-error-tip">{{errorTip | errorString}}</div>
+      </div>
+      <div class="label-box label-box-sm">
+        <input type="text" v-if="data.binding.indexOf(data.key+'_detail')>=0" class="form-control" :id="data.key+'_detail'" placeholder="请填写详细地址" v-model="detailAddress" :disabled="data.readonly?true:false">
+        <div class="form-error-tip">{{detailErrorTip}}</div>
+      </div>
+
+    </div>
+  </div>
+
+
+</template>
+<style>
+</style>
+<script>
+  import {mapGetters} from 'vuex';
+  import * as api from '../api'
+  import checkRule from '../mixins/checkRule_address'
+  export default{
+    mixins:[checkRule],
+    data(){
+      return {
+        position: {},
+        cityPicker: "",
+        addData:'',
+        detailAddress:'',
+      }
+    },
+    props: ['data','attrsData','checkedAdd'],
+    created:function () {
+      var binding=this.data.binding||'';
+      var bindingArr=binding.split(',');
+      for(var i in bindingArr){
+        var item=bindingArr[i];
+        var attrValue=this.attrsData[item]||{};
+        var value=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+        this.$set(this.position,item,value);
+      }
+      var attrDetail=this.attrsData[this.data.key+"_detail"]||{};
+      this.detailAddress=attrDetail ? (attrDetail.draftValue==null?(attrDetail.attrValue||''):attrDetail.draftValue) : '';
+      this.setPosition();
+      this.$watch('position',this.setPosition,{deep:true});
+      this.$watch('detailAddress',this.handleDetailWatch);
+      this.getAddress()
+    },
+    methods: {
+      setPosition:function () {
+        var binding=this.data.binding||'';
+        var bindingArr=binding.split(',');
+        var position=this.position;
+        var addArr={};
+        var positionDetail=[];
+        var key=this.data.key;
+        addArr[key+'_province']=position[key+'_province']||"";
+        addArr[key+'_city']=position[key+'_city']||"";
+        addArr[key+'_counties']=position[key+'_counties']||"";
+        addArr[key+'_detail']=this.detailAddress;
+        for(var index in bindingArr) {
+          var item = bindingArr[index];
+          this.$store.dispatch('setInputData', {key: item, value: addArr[item]});
+          positionDetail.push(addArr[item]);
+        }
+        this.$store.dispatch('setInputData', {key: this.data.key, value: positionDetail.join('/').trim()});
+      },
+      getAddress:function () {
+        var _this=this;
+        var option={
+          url:'/district/info',
+          method:'get',
+          cache:true
+        };
+        api.getAddressData(option,function (data) {
+          var domId = '#' + _this.data.key+'_input';
+          if(_this.cityPicker){
+            $(domId).citypicker('destroy')
+          }
+          var binding=_this.data.binding||'';
+          var bindingArr=binding.split(',');
+          var level=[];
+          $.each(bindingArr,function (index, item) {
+            var value=item.split('_').pop();
+            if(value=='province'||value=='city'){
+              level.push(value);
+            }
+            if(value=='counties'){
+              level.push('district')
+            }
+          });
+          var position=_this.position;
+          var cityPicker = $(domId).citypicker({
+            province:position[_this.data.key+'_province']||'',
+            city:position[_this.data.key+'_city']||'',
+            district:position[_this.data.key+'_counties']||'',
+            level:level,
+            data:data,
+            simple:true,
+          }, function (data) {
+            if (data) {
+              _this.$nextTick(function () {
+                var arr=data.split('/');
+                var _province=arr[0]||'',
+                  _city=arr[1]||'',
+                  _counties=arr[2]||'';
+                var newObj={};
+                newObj[_this.data.key+'_province']=_province;
+                newObj[_this.data.key+'_city']=_city;
+                newObj[_this.data.key+'_counties']=_counties;
+                newObj[_this.data.key+'_detail']=_this.detailAddress;
+                _this.position=newObj
+                _this.checkRuleValue=newObj
+              });
+              /* _this.setPosition();*/
+            }
+          });
+          if(_this.data.readonly){
+            $(domId).citypicker('unbind')
+          }
+          _this.cityPicker = cityPicker;
+          _this.addData=data;
+
+        })
+      },
+      handleDetailWatch(val){
+        this.setPosition();
+        this.checkRuleDetailValue=val
+      }
+    }
+  }
+</script>

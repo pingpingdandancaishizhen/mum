@@ -1,0 +1,69 @@
+package cn.sunfit.risk.web.utils;
+
+public class LoanInfoRes {
+
+    private Double daylyRate;
+    private Double daylyGLRate;
+    private Double monthlyRate;
+    private Double monthlyGLRate;
+    private Double znlFee;
+    private Double wylFee;
+    private Double otherFee;
+
+    public Double getDaylyGLRate() {
+        return daylyGLRate;
+    }
+
+    public Double getDaylyRate() {
+        return daylyRate;
+    }
+
+    public Double getMonthlyGLRate() {
+        return monthlyGLRate;
+    }
+
+    public Double getMonthlyRate() {
+        return monthlyRate;
+    }
+
+    public Double getOtherFee() {
+        return otherFee;
+    }
+
+    public Double getWylFee() {
+        return wylFee;
+    }
+
+    public Double getZnlFee() {
+        return znlFee;
+    }
+
+    public void setDaylyGLRate(Double daylyGLRate) {
+        this.daylyGLRate = daylyGLRate;
+    }
+
+    public void setDaylyRate(Double daylyRate) {
+        this.daylyRate = daylyRate;
+    }
+
+    public void setMonthlyGLRate(Double monthlyGLRate) {
+        this.monthlyGLRate = monthlyGLRate;
+    }
+
+    public void setMonthlyRate(Double monthlyRate) {
+        this.monthlyRate = monthlyRate;
+    }
+
+    public void setOtherFee(Double otherFee) {
+        this.otherFee = otherFee;
+    }
+
+    public void setWylFee(Double wylFee) {
+        this.wylFee = wylFee;
+    }
+
+    public void setZnlFee(Double znlFee) {
+        this.znlFee = znlFee;
+    }
+
+}

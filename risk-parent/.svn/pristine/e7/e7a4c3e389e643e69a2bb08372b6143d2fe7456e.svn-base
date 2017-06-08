@@ -1,0 +1,5 @@
+package cn.sunfit.risk.buz.server.service.p2p.imp;
+
+public interface ImportHandle {
+
+}

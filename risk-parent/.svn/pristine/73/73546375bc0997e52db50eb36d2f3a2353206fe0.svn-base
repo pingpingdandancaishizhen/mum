@@ -1,0 +1,36 @@
+package cn.sunfit.risk.buz.server.dao.p2p.product;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+import cn.sunfit.risk.buz.api.beans.p2p.P2PProduct;
+
+@Repository
+public interface P2PProductDAO {
+
+    List<P2PProduct> checkByProductCode(P2PProduct product);
+
+    List<Map<String, String>> findRiskProductList();
+
+    int insert(P2PProduct record);
+
+    List<P2PProduct> selectAllRiskProduct();
+
+    List<P2PProduct> selectByAssetId(@Param("assetId") String assetId);
+
+    List<P2PProduct> selectByCorpId(@Param("corpId") String corpId, RowBounds rowBounds);
+
+    P2PProduct selectByPrimaryKey(String id);
+
+    String selectFeeConfig(@Param("id") String productId);
+
+    List<P2PProduct> selectProductByAssetIdCode(P2PProduct product);
+
+    void updateByPrimaryKey(P2PProduct record);
+
+    void updateFeeConfig(@Param("id") String productId, @Param("feeConfig") String feeConfig);
+}

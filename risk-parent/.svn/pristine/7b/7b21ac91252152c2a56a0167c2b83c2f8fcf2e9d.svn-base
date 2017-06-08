@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.risk.server.report.dao.RepaymentOverdueDAO" >
+  <resultMap id="BaseResultMap" type="org.risk.report.api.vo.RepaymentOverdue" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="repayment_detail_id" property="repaymentDetailId" jdbcType="VARCHAR" />
+    <result column="principle" property="principle" jdbcType="DECIMAL" />
+    <result column="interest" property="interest" jdbcType="DECIMAL" />
+    <result column="manage_fee" property="manageFee" jdbcType="DECIMAL" />
+    <result column="overdue_fee" property="overdueFee" jdbcType="DECIMAL" />
+    <result column="overdue_count" property="overdueCount" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, repayment_detail_id, principle, interest, manage_fee, overdue_fee, overdue_count, 
+    create_time
+  </sql>
+  
+  
+  <insert id="insertRepaymentOverdue4Report">
+  	insert into ${domain}_repayment_overdue (id, repayment_detail_id,date, principle, 
+      interest, manage_fee, extra_fee , extra_fee_2 , overdue_fee, 
+      overdue_count, create_time)
+	SELECT
+	 	REPLACE(UUID(),'-','') , 
+		detail.id ,CURDATE(), detail.principle - detail.payed_principle , detail.interest - detail.payed_interest ,
+	 	detail.manage_fee - detail.payed_manage_fee , detail.extra_fee - detail.payed_extra_fee , 
+	 	detail.extra_fee_2 - detail.payed_extra_fee_2 , 
+	 	<!-- 应付滞纳金 = 滞纳金 - 已付滞纳金 -->
+	 	(((
+			SELECT CASE loans.znj_fee_cal  
+				WHEN  '2' THEN (
+					<!-- 滞纳金 = 合同金额 * 滞纳金费率 * 逾期天数  此处获得合同金额(审批通过金额 + 保证金)-->
+					SELECT loan.approved_amount + IFNULL(fee.fee_value,0)
+					from ${domain}_bp_loans loan 
+					LEFT JOIN ${domain}_loan_fee fee on fee.bp_no = loan.bp_id and fee.fee_name = 'loan_guarantee_fee'
+					where loan.bp_id = detail.bp_no
+				)
+				WHEN  '1' THEN (
+					<!-- 滞纳金 = 剩余本金 * 滞纳金费率 * 逾期天数  此处获得剩余本金(当期剩余本金  + 当期应还本金 - 已还本金 )-->
+					SELECT
+							(
+								d.left_principle + d.principle - IFNULL(
+										(
+											SELECT
+												SUM(record.repayment_principle)
+											FROM
+												${domain}_repayment_record record
+											WHERE
+												record.repayment_detail_id = d.id
+											<!--  本期逾期前 已还本金限制条件 -->
+											AND record.repayment_time <![CDATA[ <= ]]>  d.issue_date
+										),
+										0
+								)
+							) 
+						FROM
+							${domain}_repayment_detail d
+						WHERE
+							d.id = detail.id
+				)
+				END 
+			from 
+			${domain}_bp_loans loans
+			where loans.bp_id = detail.bp_no
+		) *  
+		<!-- 滞纳金费率 百分比 -->
+		(SELECT  IFNULL(attr.attr_value,0)
+				from ${domain}_bp_attrs attr 
+				where attr.attr_name = 'loanapproval_znjFee' and attr.bp_id = detail.bp_no
+		) * 
+		<!-- 逾期天数 -->
+		TIMESTAMPDIFF(DAY,detail.issue_date,now()) )
+		 / 100 ) - (
+		<!-- 减去已还滞纳金 -->
+			SELECT
+					(
+						IFNULL(
+							(
+								SELECT
+									SUM(record.overdue_fee + record.overdue_derate) 
+								FROM
+									${domain}_repayment_record record
+								WHERE
+									record.repayment_detail_id = d.id
+							),
+							0
+						)
+					)
+				FROM
+					${domain}_repayment_detail d
+				WHERE
+					d.id = detail.id
+		 
+		 ),
+		<!-- 逾期天数 -->
+	 	TIMESTAMPDIFF(DAY,detail.issue_date,now()) ,NOW()
+	FROM
+		${domain}_repayment_detail detail 
+	where 
+		detail.issue_date <![CDATA[ < ]]>CURDATE()
+	and is_finish = 0;
+  </insert>
+  
+  <select id="selectAllOverDay" resultType="java.util.Map">
+  	SELECT
+	 	loans.bp_no borrowOrderId,
+		p.medium , p.product_type productType,
+	 	TIMESTAMPDIFF(DAY,MIN(detail.issue_date),now()) overDay,
+	 	(SELECT attr.attr_value FROM
+			${domain}_bp_attrs attr
+			where attr.bp_id = detail.bp_no 
+			and attr.attr_name = 'loancar_license_plate'
+		) licenseNum,
+		(SELECT attr.attr_value FROM
+			${domain}_bp_attrs attr
+			where attr.bp_id = detail.bp_no 
+			and attr.attr_name = 'cust_name'
+		) master
+	FROM
+		${domain}_repayment_detail detail ,
+		${domain}_risk_bps loans,
+		risk_product p
+	where 
+		detail.bp_no = loans.bp_id 
+	and p.id = loans.product_type
+	and detail.issue_date <![CDATA[ < ]]> CURDATE()
+	and is_finish = 0
+	GROUP BY detail.bp_no;
+  </select>
+</mapper>

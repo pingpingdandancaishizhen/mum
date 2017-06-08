@@ -1,0 +1,189 @@
+<template>
+  <div v-if="examineData">
+    <div class="col-sm-6 row-right " v-if="repaymentTypesLinkSFP.hasRepaymentTypes">
+      <div class="form-group input-group" :id="data.key+'_repaymentTypes'">
+        <label class="label-head label-head-lg label-head-top  text-right"><span
+          :class="data.required?'require':''">还款方式</span></label>
+        <div class="label-box label-box-sm">
+          <select :name="data.key+'_repaymentTypes'" class="form-control"
+                  v-model="examine[data.key+'_repaymentTypes']"
+                  :disabled="data.readonly?true:false">
+            <option value="">请选择还款方式</option>
+            <option v-for="item in examineData.repaymentTypes" :value="item.repaymentType">
+              {{item.repaymentTypeName}}
+            </option>
+          </select>
+          <div class="form-error-tip">{{errorMsg[this.data.key+'_repaymentTypes']}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 row-right" v-if="monthlyTermLinkMonthAndYearRate.hasmonthlyTerm">
+      <div class="form-group input-group">
+        <label class="label-head label-head-lg label-head-top  text-right"><span
+          :class="data.required?'require':''">借款期限</span></label>
+        <div class="label-box label-box-sm"
+             v-if="monthlyTermLinkMonthAndYearRate.hasmonthlyTerm=='select'"
+             :id="data.key+'_monthlyTerm'">
+          <select :name="data.key+'_monthlyTerm'" class="form-control" v-model="examine[data.key+'_monthlyTerm']"
+                  :disabled="data.readonly?true:false">
+            <option value="">请选择借款期限</option>
+            <option v-for="item in examineData.monthlyFee" :value="item.term">{{item.termText}}
+            </option>
+          </select>
+          <div class="form-error-tip">{{errorMsg[this.data.key+'_monthlyTerm']}}</div>
+        </div>
+        <div class="label-box label-box-sm"
+             v-if="monthlyTermLinkMonthAndYearRate.hasmonthlyTerm=='input'"
+             :id="data.key+'_daylyTerm'">
+          <input type="text" :name="data.key+'_daylyTerm'" class="form-control"
+                 v-model="examine[data.key+'_daylyTerm']" :disabled="data.readonly?true:false">
+          <div class="form-error-tip">{{errorMsg[this.data.key+'_daylyTerm']}}</div>
+        </div>
+        <div class="label-unit" v-if="monthlyTermLinkMonthAndYearRate.hasmonthlyTerm=='input'">天
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 row-right" v-if="monthlyTermLinkMonthAndYearRate.hasEachTimes">
+      <div class="form-group input-group" :id="data.key+'_eachTimes'">
+        <label class="label-head label-head-lg label-head-top  text-right"><span
+          :class="data.required?'require':''">每期期长</span></label>
+        <div class="label-box label-box-sm">
+          <select :name="data.key+'_eachTimes'" class="form-control" v-model="examine[data.key+'_eachTimes']"
+                  :disabled="data.readonly?true:false">
+            <option value="">请选择每期期长</option>
+            <option v-for="item in examineData.eachTimes" :value="item.eachTime">
+              {{item.eachTimeName}}
+            </option>
+          </select>
+          <div class="form-error-tip">{{errorMsg[this.data.key+'_eachTimes']}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 row-right" v-if="repaymentTypesLinkSFP.hasSupportFirstPay">
+      <div class="form-group input-group" :id="data.key+'_supportFirstPay'">
+        <label class="label-head label-head-lg label-head-top  text-right"><span
+          :class="data.required?'require':''">首还款支付方式</span></label>
+        <div class="label-box label-box-sm">
+          <select :name="data.key+'_supportFirstPay'" class="form-control"
+                  v-model="examine[data.key+'_supportFirstPay']"
+                  :disabled="data.readonly?true:false">
+            <option value="">请选择首还款支付方式</option>
+            <option v-for="item in repaymentTypesLinkSFP.supportFirstPay" :value="item.payType">
+              {{item.payName}}
+            </option>
+          </select>
+          <div class="form-error-tip">{{errorMsg[this.data.key+'_supportFirstPay']}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<style>
+
+</style>
+<script>
+  import {mapGetters} from 'vuex';
+  import * as api from '../api';
+  var setDefaultData = {
+    repaymentTypes: '',//还款方式
+    monthlyTerm: '',//申请期限
+    eachTimes: '',//每期期长
+    supportFirstPay: '',//首付款支付方式
+    daylyTerm: '',//日审批期限
+  };
+  import checkRule from '../mixins/checkRule'
+  export default{
+    mixins: [checkRule],
+    data(){
+      return {
+        examine: {}
+      }
+    },
+    created: function () {
+      //默认值
+      var attrsData = this.attrsData;
+      for (var key in setDefaultData) {
+        var data_key = [this.data.key, key].join('_');
+        var attrValue = attrsData[data_key];
+        var deAttrDataValue = attrValue ? (attrValue.draftValue == null ? (attrValue.attrValue || '') : attrValue.draftValue) : '';
+        this.$set(this.examine, data_key, deAttrDataValue)
+      }
+      this.getData();
+      this.$store.dispatch('setInputData', this.examine);
+      this.$watch('examine',this.handleExamine,{deep:true})
+    },
+    computed: {
+      ...mapGetters({
+        'examineData': 'examineData',
+        'hiddenData': 'defaultHiddenData',
+      }),
+      //还款方式和首付支付方式关联
+      repaymentTypesLinkSFP(){
+        var linkItem = {};
+        var data = this.examineData || {};
+        if ('repaymentTypes' in data) {
+          linkItem['hasRepaymentTypes'] = true;
+        }
+        var repaymentTypes = data.repaymentTypes || [];
+        var temRepaymentTypes = {};
+        for (let k in repaymentTypes) {
+          var item = repaymentTypes[k];
+          temRepaymentTypes[item.repaymentType] = repaymentTypes[k];
+        }
+        var supportFirstPayItem = temRepaymentTypes[this.examine[this.data.key + '_repaymentTypes']];
+        if (supportFirstPayItem) {
+          var supportFirstPayArr = supportFirstPayItem.supportFirstPay || [];
+          if (supportFirstPayArr.length > 0) {
+            linkItem['hasSupportFirstPay'] = true;
+          }
+          linkItem['supportFirstPay'] = supportFirstPayItem.supportFirstPay || [];
+
+        } else {
+          linkItem['hasSupportFirstPay'] = false;
+        }
+        return linkItem
+      },
+      //审批期限
+      monthlyTermLinkMonthAndYearRate(){
+        var linkItem = {
+          hasmonthlyTerm: false,
+          showRateType: ''
+        };
+        var dataKey = this.data.key;
+        var reTypesValue = this.examine[this.data.key + '_repaymentTypes'];
+        if (reTypesValue != '') {
+          if (reTypesValue == 3) {
+            linkItem.hasmonthlyTerm = 'input'
+            linkItem.showRateType = 'day';
+            linkItem.hasEachTimes = false;
+
+          } else {
+            linkItem.showRateType = 'month';
+            linkItem.hasmonthlyTerm = 'select';
+            linkItem.hasEachTimes = true;
+          }
+        }
+
+        return linkItem;
+      },
+    },
+    methods: {
+      //获取高审数据
+      getData: function () {
+        var options = {
+          url: '/data/getFeeConfig',
+          method: 'get',
+          data: {
+            productId: this.hiddenData.productId
+          }
+        };
+        //获取表单数据
+        this.$store.dispatch('getExamineData', options);
+      },
+      handleExamine(val) {
+        this.$store.dispatch('setInputData', val);
+        this.checkRuleValue=val
+      }
+    },
+  }
+</script>

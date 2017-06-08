@@ -1,0 +1,24 @@
+package cn.sunfit.risk.buz.server.service.p2p.activiti.task;
+
+import org.activiti.engine.delegate.DelegateExecution;
+import org.activiti.engine.delegate.JavaDelegate;
+import org.springframework.stereotype.Service;
+
+/**
+ * @Title: P2pPushTask.java
+ * @Package cn.sunfit.risk.buz.server.service.p2p.activiti.task
+ * @Description: 流程中调用的发标类
+ * @author DELL
+ * @date 2017年5月12日 下午2:20:33
+ * @version V1.0
+ */
+@Service("p2pPushTask")
+public class P2pPushTask implements JavaDelegate {
+
+    @Override
+    public void execute(DelegateExecution execution) throws Exception {
+        System.out.println("我进来了。。。想发标");
+        // throw new BpmnError("P2PPUSHERROR");
+    }
+
+}

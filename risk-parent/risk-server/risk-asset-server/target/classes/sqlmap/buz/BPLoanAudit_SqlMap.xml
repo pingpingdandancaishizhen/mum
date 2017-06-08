@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.buz.BPLoanAuditDAO">
+	<resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.vo.loan.LoanAuditQueryVO">
+		<result column="bp_id" property="bpId" jdbcType="VARCHAR" />
+		<result column="bp_no" property="bpNo" jdbcType="VARCHAR" />
+		<result column="cust_name" property="custName" jdbcType="VARCHAR" />
+		<result column="cust_license_num" property="custLicenseNum" jdbcType="VARCHAR" />
+		<result column="cust_mobile" property="custMobile" jdbcType="VARCHAR" />
+		<result column="cust_type" property="custType" jdbcType="VARCHAR" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="loan_apply_daylyTerm" property="loanApplyDaylyTerm" jdbcType="VARCHAR" />
+    <result column="loan_apply_monthlyTerm" property="loanApplyMonthlyTerm" jdbcType="VARCHAR" />
+		<result column="loan_repayment_method" property="loanRepaymentMethod" jdbcType="VARCHAR" />
+		<result column="loanapproval_repaymentTypes" property="loanApprovalRepaymentMethod" jdbcType="VARCHAR" />
+		<result column="handler_name" property="handlerName" jdbcType="VARCHAR" />
+		<result column="current_task_name" property="currentTaskName" jdbcType="VARCHAR" />
+		<result column="bp_status" property="bpStatus" jdbcType="INTEGER" />
+		<result column="loan_status" property="loanStatus" jdbcType="INTEGER" />
+		<result column="current_task_name" property="currentTaskName" jdbcType="VARCHAR" />
+		<result column="business_man" property="businessMan" jdbcType="VARCHAR" />
+		<result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+		<result column="dept_head" property="deptHead" jdbcType="VARCHAR" />
+		<result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+		<result column="product_id" property="productId" jdbcType="VARCHAR" />
+		<result column="bp_def_key" property="bpDefKey" jdbcType="VARCHAR" />
+		<result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+		<result column="apply_amount" property="applyAmount" jdbcType="DECIMAL" />
+		<result column="handler_task_name" property="handlerTaskName" jdbcType="VARCHAR" />
+		<result column="handler_task_duration" property="handlerTaskDuration" jdbcType="VARCHAR" />
+		<result column="handler_task_operation" property="handlerTaskOperation" jdbcType="VARCHAR" />
+	</resultMap>
+		<resultMap id="DayResultMap" type="cn.sunfit.risk.buz.api.vo.loan.LoanAuditDayResultVO">
+		<result column="days" property="days" jdbcType="VARCHAR" />
+		<result column="node_key" property="nodeKey" jdbcType="VARCHAR" />
+		<result column="node_name" property="nodeName" jdbcType="VARCHAR" />
+		<result column="todo" property="todo" jdbcType="INTEGER" />
+		<result column="done" property="done" jdbcType="INTEGER" />
+		<result column="pass" property="pass" jdbcType="INTEGER" />
+		<result column="reject" property="reject" jdbcType="INTEGER" />
+		<result column="back" property="back" jdbcType="INTEGER" />
+		<result column="duration" property="duration" jdbcType="DOUBLE" />
+		</resultMap>
+
+	<select id="selectAllAuditList" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.vo.loan.LoanAuditQueryReq">
+		SELECT GROUP_CONCAT(base.handlerx) handler_name,base.* FROM (SELECT
+		bp.bp_no as bp_no,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id
+		) cust_name,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_license_num' AND a.bp_id = bp.bp_id
+		) cust_license_num,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = bp.bp_id
+		) cust_mobile,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_type' AND a.bp_id = bp.bp_id
+		) cust_type,
+		p.product_name,
+		bp.create_time,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loan_apply_daylyTerm' AND a.bp_id = bp.bp_id
+		) loan_apply_daylyTerm,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loan_apply_monthlyTerm' AND a.bp_id = bp.bp_id
+		) loan_apply_monthlyTerm,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loan_apply_repaymentTypes' AND a.bp_id = bp.bp_id
+		) loan_repayment_method,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = bp.bp_id
+		) loanapproval_repaymentTypes,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loancar_license_plate' AND a.bp_id = bp.bp_id
+		) loancar_license_plate,
+		bp.current_task_name,
+		cu.user_name as business_man,
+		cd.dept_name,
+		if(usr.user_name is null,usr1.user_name,usr.user_name) handlerx,
+		cd.dept_head,
+		bp.bp_id,bp.bp_def_id,p.id as product_id,bm.bp_def_key,loan.customer_id,bp.current_task_key,loan.apply_amount,bp.bp_status,loan.loan_status 
+		FROM
+		${domain}_risk_bps bp
+		LEFT JOIN ACT_RU_TASK RES on bp.current_task_id LIKE concat('%,', RES.ID_, ',%')
+		LEFT JOIN ACT_RU_IDENTITYLINK I ON I.TASK_ID_ = RES.ID_
+		INNER JOIN ${domain}_bp_meta_nodes n on RES.TASK_DEF_KEY_=n.node_key and n.audit=1 and bp.bp_def_id =n.bp_def_id
+		LEFT JOIN risk_corp_user usr on usr.id = RES.ASSIGNEE_
+		LEFT JOIN risk_corp_user usr1 on usr1.id = I.USER_ID_
+		LEFT JOIN risk_product p on p.id = bp.product_type
+		LEFT JOIN ${domain}_bp_loans loan on loan.bp_id=bp.bp_id
+		LEFT JOIN risk_corp_user cu on bp.create_user_id = cu.id
+		LEFT JOIN risk_corp_dept cd on cu.dept_id = cd.id
+		LEFT JOIN ${domain}_bp_meta bm on bm.bp_def_id=bp.bp_def_id
+		WHERE
+		RES.TENANT_ID_ =${corpId} AND
+		(
+		RES.ASSIGNEE_ in
+		<foreach collection="uids" item="userId" open="(" close=")" separator=",">
+		'${userId}'
+		</foreach>
+		OR (
+		RES.ASSIGNEE_ IS NULL
+		AND I.TYPE_ = 'candidate'
+		AND (I.USER_ID_ in 
+		<foreach collection="uids" item="userId" open="(" close=")" separator=",">
+		'${userId}'
+		</foreach>
+		)
+		))
+		) base
+		where
+		 1=1 
+		<if test="productType != null and productType != ''">
+			and base.product_id = #{productType,jdbcType=VARCHAR}
+		</if>
+		<if test="bpNo != null and bpNo != ''">
+			and base.bp_no like concat('%',#{bpNo,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="custName != null and custName != ''">
+			and base.cust_name like concat('%',#{custName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="custLicenseNum != null and custLicenseNum != ''">
+			and base.cust_license_num like concat('%',#{custLicenseNum,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="custType != null and custType != ''">
+			and base.cust_type = #{custType,jdbcType=VARCHAR}
+		</if>
+		<if test="startDate != null and endDate !=null ">
+			and base.create_time between #{startDate,jdbcType=TIMESTAMP} and #{endDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="currentTaskKey != null and currentTaskKey !='' ">
+			and base.current_task_key like concat('%,',#{currentTaskKey,jdbcType=VARCHAR},',%')
+		</if>
+		<if test="loancarLicensePlate != null and loancarLicensePlate !='' ">
+			and base.loancar_license_plate like  concat('%',#{loancarLicensePlate,jdbcType=VARCHAR},'%')
+		</if>
+		group by base.bp_id
+		order by base.create_time desc
+	</select>
+	
+	
+	<select id="selectAllHistoryAuditList" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.vo.loan.LoanAuditQueryReq">
+		SELECT * FROM (SELECT
+		bp.bp_no as bp_no,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id
+		) cust_name,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_license_num' AND a.bp_id = bp.bp_id
+		) cust_license_num,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = bp.bp_id
+		) cust_mobile,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_type' AND a.bp_id = bp.bp_id
+		) cust_type,
+		p.product_name,
+		bp.create_time,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loan_apply_daylyTerm' AND a.bp_id = bp.bp_id
+		) loan_apply_daylyTerm,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loan_apply_monthlyTerm' AND a.bp_id = bp.bp_id
+		) loan_apply_monthlyTerm,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loan_apply_repaymentTypes' AND a.bp_id = bp.bp_id
+		) loan_repayment_method,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = bp.bp_id
+		) loanapproval_repaymentTypes,
+		(
+		SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loancar_license_plate' AND a.bp_id = bp.bp_id
+		) loancar_license_plate,
+		usr.user_name handler_name,
+		bp.current_task_name,
+		cu.user_name as business_man,
+		cd.dept_name,
+		cd.dept_head,
+		bp.bp_id,bp.bp_def_id,p.id as product_id,bm.bp_def_key,loan.customer_id,jm.node_key,loan.apply_amount,bp.bp_status,loan.loan_status, 
+		jm.node_name as handler_task_name,jm.duration as handler_task_duration,jm.check_status as handler_task_operation,jm.complete_time
+		FROM
+		${domain}_bp_jump jm 
+		INNER JOIN ${domain}_risk_bps bp on bp.bp_id = jm.bp_id
+		INNER JOIN ${domain}_bp_meta_nodes n on jm.node_key=n.node_key and n.audit=1 and bp.bp_def_id =n.bp_def_id
+		LEFT JOIN risk_corp_user usr on usr.id = jm.handle_id
+		LEFT JOIN risk_product p on p.id = bp.product_type
+		LEFT JOIN ${domain}_bp_loans loan on loan.bp_id=bp.bp_id
+		LEFT JOIN risk_corp_user cu on bp.create_user_id = cu.id
+		LEFT JOIN risk_corp_dept cd on cu.dept_id = cd.id
+		LEFT JOIN ${domain}_bp_meta bm on bm.bp_def_id=bp.bp_def_id
+		WHERE
+		jm.handle_id in
+		<foreach collection="uids" item="userId" open="(" close=")" separator=",">
+		'${userId}'
+		</foreach>
+		) base
+		where
+		1 = 1
+		<if test="productType != null and productType != ''">
+			and base.product_id = #{productType,jdbcType=VARCHAR}
+		</if>
+		<if test="bpNo != null and bpNo != ''">
+			and base.bp_no like concat('%',#{bpNo,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="custName != null and custName != ''">
+			and base.cust_name like concat('%',#{custName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="custLicenseNum != null and custLicenseNum != ''">
+			and base.cust_license_num like concat('%',#{custLicenseNum,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="custType != null and custType != ''">
+			and base.cust_type = #{custType,jdbcType=VARCHAR}
+		</if>
+		<if test="startDate != null and endDate !=null ">
+			and base.create_time between #{startDate,jdbcType=TIMESTAMP} and #{endDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="currentTaskKey != null and currentTaskKey !='' ">
+			and base.node_key =#{currentTaskKey,jdbcType=VARCHAR} 
+		</if>
+		<if test="loancarLicensePlate != null and loancarLicensePlate !='' ">
+			and base.loancar_license_plate like  concat('%',#{loancarLicensePlate,jdbcType=VARCHAR},'%')
+		</if>
+		order by base.complete_time desc
+	</select>
+	
+	<select id="selectAuditDayList" resultMap="DayResultMap" parameterType="cn.sunfit.risk.buz.api.vo.loan.LoanAuditDayQueryReq">
+		select e.days,e.node_key,e.node_name,if(c.todo is null,0,c.todo) as todo,if(d.done is null,0,d.done) as done,if(d.pass is null,0,d.pass) as pass,
+		if(d.reject is null,0,d.reject) as reject,if(d.back is null,0,d.back) as back,if(d.duration is null,0,d.duration) as duration from 
+		(
+			SELECT DATE_FORMAT(jm.create_time ,'%Y-%m-%d') days,jm.node_key,jm.node_name 
+			from ${domain}_bp_jump jm inner JOIN ${domain}_bp_meta_nodes n on n.bp_def_id=jm.bp_def_id and n.audit=1 and jm.node_key=n.node_key
+					INNER JOIN ${domain}_risk_bps bp on bp.bp_id=jm.bp_id and bp.bp_def_id=jm.bp_def_id
+					where jm.create_time BETWEEN #{startDate} and #{endDate}
+			UNION
+			SELECT DATE_FORMAT(jm.complete_time,'%Y-%m-%d') days,jm.node_key,jm.node_name 
+			from ${domain}_bp_jump jm inner JOIN ${domain}_bp_meta_nodes n on n.bp_def_id=jm.bp_def_id and n.audit=1 and jm.node_key=n.node_key
+					INNER JOIN ${domain}_risk_bps bp on bp.bp_id=jm.bp_id and bp.bp_def_id=jm.bp_def_id
+					where jm.complete_time BETWEEN #{startDate} and #{endDate} 
+		) e LEFT JOIN  
+		(SELECT  days,node_key,node_name,COUNT(node_key) as todo from(
+		SELECT DISTINCT DATE_FORMAT(jm.create_time,'%Y-%m-%d') days
+		,jm.node_key,jm.node_name,bp.bp_id
+		 from ${domain}_bp_jump jm  
+		INNER JOIN ${domain}_bp_meta_nodes n on n.bp_def_id=jm.bp_def_id and n.audit=1 and jm.node_key=n.node_key
+		INNER JOIN ${domain}_risk_bps bp on bp.bp_id=jm.bp_id and bp.bp_def_id=jm.bp_def_id
+		where jm.create_time BETWEEN #{startDate} and #{endDate}
+		) a
+		group by a.days,a.node_key) c on c.days=e.days and c.node_key = e.node_key
+		 left JOIN  
+		(SELECT  days,node_key,node_name,COUNT(node_key) done,SUM(pass) pass,SUM(reject) reject,SUM(back) back,SUM(duration)/COUNT(node_key) duration from
+		(SELECT DATE_FORMAT(jm.complete_time,'%Y-%m-%d') days
+		 ,jm.node_key,jm.node_name,IF(jm.check_status='1',1,0) as pass,IF(jm.check_status='2',1,0) as reject,IF((jm.check_status='-1' OR jm.check_status='3'),1,0) as back,jm.duration/1000/60  as duration
+		 from ${domain}_bp_jump jm  
+		INNER JOIN ${domain}_bp_meta_nodes n on n.bp_def_id=jm.bp_def_id and n.audit=1 and jm.node_key=n.node_key
+		INNER JOIN ${domain}_risk_bps bp on bp.bp_id=jm.bp_id and bp.bp_def_id=jm.bp_def_id
+		where jm.complete_time BETWEEN #{startDate} and #{endDate}  ) b
+		group by b.days,b.node_key ) d on e.days=d.days and e.node_key=d.node_key
+		ORDER BY e.days desc
+	</select>
+</mapper>

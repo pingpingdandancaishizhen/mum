@@ -1,0 +1,132 @@
+package cn.sunfit.risk.credit.server.service;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+
+import net.sf.json.JSONObject;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import cn.fraudmetrix.riskservice.RuleDetailClient;
+import cn.fraudmetrix.riskservice.RuleDetailResult;
+import cn.fraudmetrix.riskservice.object.Environment;
+import cn.fraudmetrix.riskservice.ruledetail.BlackListDetail;
+import cn.fraudmetrix.riskservice.ruledetail.BlackListHit;
+import cn.sunfit.risk.credit.api.beans.Resp;
+import cn.sunfit.risk.credit.api.constant.ResponseStatus;
+import cn.sunfit.risk.credit.api.service.TDService;
+import cn.sunfit.risk.credit.api.vo.FraudApiResponse;
+import cn.sunfit.risk.credit.server.util.FraudApiInvoker;
+import cn.sunfit.risk.credit.server.util.ServerConfig;
+
+/**
+ * 同盾接口
+ * @Title: TDServiceImpl.java
+ * @Package cn.sunfit.risk.credit.server.service
+ * @Description: TODO
+ * @author XJ
+ * @date 2017年4月24日 下午2:32:12
+ * @version V1.0
+ */
+@Path("td")
+@Service("credit.TDService")
+public class TDServiceImpl implements TDService {
+
+    private static final Logger logger = Logger.getLogger(TDServiceImpl.class);
+
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        // String partnerCode = "rongjinsuo";
+        // String partnerKey = "18543d2174704e6d9003401fe3166f9f";
+        // String sequenceId = "1493365733099414S180F2F6E5188780";
+        //
+        // Environment env = Environment.PRODUCT; // Environment.PRODUCT表示调用生产环境, 测试环境请修改为Environment.SANDBOX
+        //
+        // // 调用接口
+        // RuleDetailClient client = RuleDetailClient.getInstance(partnerCode, env);
+        // RuleDetailResult result = client.execute(partnerKey, sequenceId);
+        // if (result == null)
+        // return;
+        //
+        // // 样例：获取风险名单命中的数据
+        // List<BlackListDetail> find = result.find(BlackListDetail.class);
+        // for (BlackListDetail e : find) {
+        // List<BlackListHit> hits = e.getHits();
+        // for (BlackListHit hit : hits) {
+        // // hit中包含了命中风险名单的具体信息
+        // System.out.println(hit);
+        // }
+        // }
+    }
+
+    @POST
+    @Path("getInfo")
+    @Override
+    public String getInfo(String req) {
+        Resp resp = new Resp();
+        JSONObject ob = null;
+        String partnerCode = ServerConfig.RISK_FRAUDMETRIX_PARTNERCODE;
+        String partnerKey = ServerConfig.RISK_FRAUDMETRIX_SECRETKEY;
+        String sequenceId = "1493365733099414S180F2F6E5188780";
+
+        Environment env = Environment.PRODUCT; // Environment.PRODUCT表示调用生产环境, 测试环境请修改为Environment.SANDBOX
+
+        ob = JSONObject.fromObject(req);
+        // 调用接口
+        RuleDetailClient client = RuleDetailClient.getInstance(partnerCode, env);
+        RuleDetailResult result = client.execute(partnerKey, ob.getString("sequenceId").toString());
+        if (result == null) {
+            return JSONObject.fromObject(resp).toString();
+        }
+
+        // 样例：获取风险名单命中的数据
+        List<BlackListDetail> find = result.find(BlackListDetail.class);
+        for (BlackListDetail e : find) {
+            List<BlackListHit> hits = e.getHits();
+            for (BlackListHit hit : hits) {
+                // hit中包含了命中风险名单的具体信息
+                System.out.println(hit);
+            }
+        }
+        resp.setData(result);
+        return JSONObject.fromObject(resp).toString();
+    }
+
+    @POST
+    @Path("query")
+    @Override
+    public String query(String req) {
+        Resp resp = new Resp();
+        JSONObject ob = null;
+        Map<String, Object> params = new HashMap<String, Object>();
+        try {
+            ob = JSONObject.fromObject(req);
+            params.put("event_id", "loan_off");// 此处填写策略集上的事件标识
+            // params.put("token_id", "your_token_id_to_send_to_api");// 此处填写设备指纹服务的会话标识，和部署设备脚本的token一致
+            // params.put("account_login", "your_login_name");// 以下填写其他要传的参数，比如系统字段，扩展字段
+            // params.put("ip_address", "your_login_ip");
+            params.put("id_number", ob.get("idNumber").toString());// 此处填写策略集上的事件标识
+            params.put("account_name", ob.get("accountName").toString());// 此处填写策略集上的事件标识
+            params.put("account_mobile", ob.get("accountMobile").toString());// 此处填写策略集上的事件标识
+            FraudApiResponse apiResp = new FraudApiInvoker().invoke(params);
+            System.out.println(apiResp.getSuccess());
+            System.out.println(apiResp.getReason_code());
+            System.out.println(apiResp.getSeq_id());
+            resp.setData(apiResp);
+        } catch (IOException e) {
+            logger.error(e);
+            resp = Resp.buildErrorResponse(e.getMessage());
+        } catch (Exception e) {
+            logger.error(e);
+            resp = Resp.buildErrorResponse(ResponseStatus.PARAM_ERROR);
+        }
+        return JSONObject.fromObject(resp).toString();
+    }
+
+}

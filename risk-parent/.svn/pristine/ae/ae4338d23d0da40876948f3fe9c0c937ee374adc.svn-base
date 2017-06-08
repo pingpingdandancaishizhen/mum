@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.order.LoanInfoAttachDAO" >
+	<resultMap id="BaseResult" type="cn.sunfit.risk.buz.api.beans.p2p.order.LoanInfoAttachment" >
+	   	<id column="id" property="id" jdbcType="VARCHAR" />
+	    <result column="loan_info_id" property="loanInfoId" jdbcType="VARCHAR" />
+	    <result column="attach_old_name" property="attachOldName" jdbcType="VARCHAR" />
+	    <result column="attach_new_name" property="attachNewName" jdbcType="VARCHAR" />
+	    <result column="attach_type" property="attachType" jdbcType="VARCHAR" />
+	    <result column="attach_path" property="attachPath" jdbcType="VARCHAR" />
+	    <result column="attach_size" property="attachSize" jdbcType="VARCHAR" />
+	    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+	    <result column="attach_group" property="attachGroup" jdbcType="VARCHAR" />
+    </resultMap>
+
+  <sql id="Base_Column_List" >
+  	  loan_info_id,attach_old_name,attach_new_name,attach_type,attach_path,attach_size,create_time,attach_group
+  </sql>
+  <sql id="Base_Column_List_id" >
+  	id,<include refid="Base_Column_List"></include>
+  </sql>
+ <insert id="insert" useGeneratedKeys="true"  keyColumn="id" keyProperty="attach.id">
+  	 	INSERT INTO ${domain}_loan_attach(loan_info_id,attach_old_name,attach_new_name,attach_type,attach_path,attach_size,attach_group,create_time,create_user) 
+  		VALUES
+			(#{attach.loanInfoId,jdbcType=VARCHAR},#{attach.attachOldName,jdbcType=VARCHAR},
+			#{attach.attachNewName,jdbcType=VARCHAR},#{attach.attachType,jdbcType=VARCHAR},
+			#{attach.attachPath,jdbcType=VARCHAR},#{attach.attachSize,jdbcType=VARCHAR},
+			#{attach.attachGroup,jdbcType=VARCHAR},
+			#{attach.createTime,jdbcType=TIMESTAMP},#{attach.createUser,jdbcType=VARCHAR}
+			)
+  </insert>
+  
+  <delete id="delete">
+  	delete from ${domain}_loan_attach   where id=#{attachId,jdbcType=BIGINT}
+  </delete>
+  
+    <insert id="backup">
+  	insert into ${domain}_loan_attach_collect(loan_info_id,attach_old_name,attach_new_name,attach_type,attach_path,attach_size,create_time,create_user,attach_group)
+  	select loan_info_id,attach_old_name,attach_new_name,attach_type,attach_path,attach_size,create_time,create_user,attach_group from ${domain}_loan_attach
+  	where id=#{attachId,jdbcType=BIGINT}
+  </insert>
+</mapper>

@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.order.LoanInfoDAO" >
+	<resultMap id="BaseResult" type="cn.sunfit.risk.buz.api.beans.p2p.order.LoanInfoBean" >
+  	<id column="id" property="id" jdbcType="BIGINT" />
+  	<result column="bp_id" property="bpId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="import_way" property="importWay" jdbcType="VARCHAR" />
+    <result column="aprove_status" property="aproveStatus" jdbcType="TINYINT" />
+    <result column="corporation" property="corporation" jdbcType="VARCHAR" />
+    <result column="third_loan_id" property="thirdLoanId" jdbcType="VARCHAR" />
+    <result column="third_status" property="thirdStatus" jdbcType="VARCHAR" />
+    <result column="product_code" property="productCode" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="loan_purpose" property="loanPurpose" jdbcType="VARCHAR" />
+    <result column="loan_period" property="loanPeriod" jdbcType="VARCHAR" />
+    <result column="customer_type" property="customerType" jdbcType="VARCHAR" />
+    <result column="loan_money" property="loanMoney" jdbcType="VARCHAR" />
+    <result column="loan_day_rate" property="loanDayRate" jdbcType="VARCHAR" />
+    <result column="manage_day_rate" property="manageDayRate" jdbcType="VARCHAR" />
+    <result column="loan_fee_other" property="otherFee" jdbcType="VARCHAR" />
+    <result column="real_fk_money" property="realFKMoney" jdbcType="VARCHAR" />
+    <result column="repay_type" property="repayType" jdbcType="VARCHAR" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="mobile_phone" property="mobilePhoneOne" jdbcType="VARCHAR" />
+    <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+    <result column="house_hold_province" property="houseHoldProvince" jdbcType="VARCHAR" />
+    <result column="house_hold_city" property="houseHoldCity" jdbcType="VARCHAR" />
+    <result column="house_hold_region" property="houseHoldRegion" jdbcType="VARCHAR" />
+    <result column="house_hold_detail" property="houseHoldDetail" jdbcType="VARCHAR" />
+    <result column="marriage" property="marriage" jdbcType="VARCHAR" />
+    <result column="has_child" property="hasChild" jdbcType="VARCHAR" />
+    <result column="job_type" property="jobType" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="company_province" property="companyProvince" jdbcType="VARCHAR" />
+    <result column="company_city" property="companyCity" jdbcType="VARCHAR" />
+    <result column="company_region" property="companyRegion" jdbcType="VARCHAR" />
+    <result column="company_detail" property="companyDetail" jdbcType="VARCHAR" />
+    <result column="company_tel" property="companyTel" jdbcType="VARCHAR" />
+    <result column="job_title" property="jobTitle" jdbcType="VARCHAR" />
+    <result column="hight_degree" property="hightDegree" jdbcType="VARCHAR" />
+    <result column="graduate_institutions" property="graduateInstitutions" jdbcType="VARCHAR" />
+    <result column="urgen_one_name" property="urgenOneName" jdbcType="VARCHAR" />
+    <result column="urgen_one_relation" property="urgenOneRelation" jdbcType="VARCHAR" />
+    <result column="urgen_one_phone" property="urgenOnePhone" jdbcType="VARCHAR" />
+    <result column="urgen_one_company_name" property="urgenOneCompanyName" jdbcType="VARCHAR" />
+    <result column="urgen_one_known" property="urgenOneKnown" jdbcType="VARCHAR" />
+    <result column="urgen_two_name" property="urgenTwoName" jdbcType="VARCHAR" />
+    <result column="urgen_two_relation" property="urgenTwoRelation" jdbcType="VARCHAR" />
+    <result column="urgen_two_phone" property="urgenTwoPhone" jdbcType="VARCHAR" />
+    <result column="urgen_two_company_name" property="urgenTwoCompanyName" jdbcType="VARCHAR" />
+    <result column="urgen_two_known" property="urgenTwoKnown" jdbcType="VARCHAR" />
+    <result column="receivers_name" property="receiversName" jdbcType="VARCHAR" />
+    <result column="receivers_bank_account" property="receiversBankAccount" jdbcType="VARCHAR" />
+    <result column="receivers_bank_name" property="receiversBankName" jdbcType="VARCHAR" />
+    <result column="receivers_bank_province" property="receiversBankProvince" jdbcType="VARCHAR" />
+    <result column="receivers_bank_city" property="receiversBankCity" jdbcType="VARCHAR" />
+    <result column="receivers_bank_branch" property="receiversBankBranch" jdbcType="VARCHAR" />
+    <result column="repayment_name" property="repaymentName" jdbcType="VARCHAR" />
+    <result column="repayment_bank_account" property="repaymentBankAccount" jdbcType="VARCHAR" />
+    <result column="repayment_bank_name" property="repaymentBankName" jdbcType="VARCHAR" />
+    <result column="repayment_bank_province" property="repaymentBankProvince" jdbcType="VARCHAR" />
+    <result column="repayment_bank_city" property="repaymentBankCity" jdbcType="VARCHAR" />
+    <result column="repayment_bank_branch" property="repaymentBankBranch" jdbcType="VARCHAR" />
+    <result column="loan_handle_type" property="loanHandleType" jdbcType="TINYINT" />
+    <result column="car_no" property="carNo" jdbcType="VARCHAR" />
+    <result column="loan_fee_tb" property="isDaylyTrem" jdbcType="VARCHAR" />
+    <result column="loan_fee_gps_install" property="gpsInstallationFee" jdbcType="VARCHAR" />
+    <result column="loan_fee_gps_service" property="gpsServiceFee" jdbcType="VARCHAR" />
+    <result column="loan_fee_park" property="parkFee" jdbcType="VARCHAR" />
+    <result column="loan_rate_zh_monthly" property="zhMonthlyRate" jdbcType="VARCHAR" />
+    <result column="loan_rate_wy" property="wyRate" jdbcType="VARCHAR" />
+    <result column="loan_rate_zn" property="znRate" jdbcType="VARCHAR" />
+	<result column="loan_rate_bz" property="bzRate" jdbcType="VARCHAR" />
+	<result column="loan_rate_zx" property="consultingRate" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+  	bp_id,import_way,aprove_status,corporation,third_loan_id,third_status,product_code,product_name,
+  	loan_purpose,loan_period,customer_type,loan_money,loan_day_rate,manage_day_rate,loan_fee_other,
+  	real_fk_money,repay_type,customer_name,gender,mobile_phone,id_card,house_hold_province,
+  	house_hold_city,house_hold_region,house_hold_detail,marriage,has_child,job_type,company_name,
+  	company_province,company_city,company_region,company_detail,company_tel,job_title,hight_degree,
+  	graduate_institutions,urgen_one_name,urgen_one_relation,urgen_one_phone,urgen_one_company_name,
+  	urgen_one_known,urgen_two_name,urgen_two_relation,urgen_two_phone,urgen_two_company_name,urgen_two_known,
+  	receivers_name,receivers_bank_account,receivers_bank_name,
+  	receivers_bank_province,receivers_bank_city,receivers_bank_branch,repayment_name,repayment_bank_account,
+  	repayment_bank_name,repayment_bank_province,repayment_bank_city,repayment_bank_branch,loan_handle_type,
+  	create_user,import_code,create_time,car_no,loan_fee_tb,loan_fee_gps_install,loan_fee_gps_service,
+  	loan_fee_park,loan_rate_zh_monthly,loan_rate_wy,loan_rate_zn,loan_rate_bz,loan_rate_zx
+  </sql>
+  <sql id="Base_Column_List_id" >
+  	id,<include refid="Base_Column_List"></include>
+  </sql>
+ 
+  
+ <insert id="insertLoanInfos" parameterType="cn.sunfit.risk.buz.api.beans.p2p.order.LoanInfoBean" >
+  	INSERT INTO ${domain}_loan_info(<include refid="Base_Column_List" />) 
+  	VALUES
+  	<foreach collection="list" item="bean" separator=",">
+	( #{bean.bpId},#{bean.importWay}, #{bean.aproveStatus},#{bean.corporation}, #{bean.thirdLoanId}, 
+	  #{bean.thirdStatus},#{bean.productCode}, #{bean.productName}, #{bean.loanPurpose}, 
+      #{bean.loanPeriod}, #{bean.customerType}, #{bean.loanMoney},#{bean.loanDayRate},
+      #{bean.manageDayRate}, #{bean.otherFee},#{bean.realFKMoney}, #{bean.repayType}, #{bean.customerName}, 
+      #{bean.gender}, #{bean.mobilePhoneOne},#{bean.idCard}, #{bean.houseHoldProvince}, #{bean.houseHoldCity}, 
+      #{bean.houseHoldRegion}, #{bean.houseHoldDetail}, #{bean.marriage},#{bean.hasChild}, 
+      #{bean.jobType}, #{bean.companyName},#{bean.companyProvince}, #{bean.companyCity}, 
+      #{bean.companyRegion},#{bean.companyDetail}, #{bean.companyTel}, #{bean.jobTitle}, 
+      #{bean.hightDegree}, #{bean.graduateInstitutions},#{bean.urgenOneName}, #{bean.urgenOneRelation},
+      #{bean.urgenOnePhone}, #{bean.urgenOneCompanyName},  #{bean.urgenOneKnown}, 
+      #{bean.urgenTwoName},#{bean.urgenTwoRelation}, #{bean.urgenTwoPhone}, #{bean.urgenTwoCompanyName},
+      #{bean.urgenTwoKnown}, #{bean.receiversName}, #{bean.receiversBankAccount},#{bean.receiversBankName}, 
+      #{bean.receiversBankProvince}, #{bean.receiversBankCity},#{bean.receiversBankBranch}, 
+      #{bean.repaymentName}, #{bean.repaymentBankAccount}, #{bean.repaymentBankName}, 
+      #{bean.repaymentBankProvince}, #{bean.repaymentBankCity},#{bean.repaymentBankBranch}, 
+      #{bean.loanHandleType}, #{bean.createUser},#{bean.importCode},#{bean.createTime},#{bean.carNo},
+      #{bean.isDaylyTrem},#{bean.gpsInstallationFee},#{bean.gpsServiceFee},#{bean.parkFee},
+      #{bean.zhMonthlyRate},#{bean.wyRate},#{bean.znRate},#{bean.bzRate},#{bean.consultingRate})
+	</foreach>
+  </insert>
+  
+  <insert id="insertLoanInfo" parameterType="cn.sunfit.risk.buz.api.beans.p2p.order.LoanInfoBean" useGeneratedKeys="true"
+  keyColumn="id" keyProperty="bean.id">
+  	INSERT INTO ${domain}_loan_info(<include refid="Base_Column_List" />) 
+  	VALUES
+	( #{bean.bpId},#{bean.importWay}, #{bean.aproveStatus},#{bean.corporation}, #{bean.thirdLoanId}, 
+	  #{bean.thirdStatus},#{bean.productCode}, #{bean.productName}, #{bean.loanPurpose}, 
+      #{bean.loanPeriod}, #{bean.customerType}, #{bean.loanMoney},#{bean.loanDayRate},
+      #{bean.manageDayRate}, #{bean.otherFee},#{bean.realFKMoney}, #{bean.repayType}, #{bean.customerName}, 
+      #{bean.gender}, #{bean.mobilePhoneOne},#{bean.idCard}, #{bean.houseHoldProvince}, #{bean.houseHoldCity}, 
+      #{bean.houseHoldRegion}, #{bean.houseHoldDetail}, #{bean.marriage},#{bean.hasChild}, 
+      #{bean.jobType}, #{bean.companyName},#{bean.companyProvince}, #{bean.companyCity}, 
+      #{bean.companyRegion},#{bean.companyDetail}, #{bean.companyTel}, #{bean.jobTitle}, 
+      #{bean.hightDegree}, #{bean.graduateInstitutions}, #{bean.urgenOneName}, #{bean.urgenOneRelation},
+      #{bean.urgenOnePhone}, #{bean.urgenOneCompanyName},  #{bean.urgenOneKnown}, 
+      #{bean.urgenTwoName},#{bean.urgenTwoRelation}, #{bean.urgenTwoPhone}, #{bean.urgenTwoCompanyName},
+      #{bean.urgenTwoKnown},#{bean.receiversName}, #{bean.receiversBankAccount},#{bean.receiversBankName}, 
+      #{bean.receiversBankProvince}, #{bean.receiversBankCity},#{bean.receiversBankBranch}, 
+      #{bean.repaymentName}, #{bean.repaymentBankAccount}, #{bean.repaymentBankName}, 
+      #{bean.repaymentBankProvince}, #{bean.repaymentBankCity}, #{bean.repaymentBankBranch}, 
+      #{bean.loanHandleType}, #{bean.createUser},#{bean.importCode},#{bean.createTime},#{bean.carNo},
+      #{bean.isDaylyTrem},#{bean.gpsInstallationFee},#{bean.gpsServiceFee},#{bean.parkFee},
+      #{bean.zhMonthlyRate},#{bean.wyRate},#{bean.znRate},#{bean.bzRate},#{bean.consultingRate})
+  </insert>
+  
+  <select id="queryExistLoanIds" parameterType="java.util.Map" resultType="string">
+  	SELECT third_loan_id 
+  	FROM ${domain}_loan_info 
+  	WHERE third_loan_id in(<foreach collection="thirdLoanIds" item="loanId" separator=",">#{loanId}</foreach>) 
+  		AND product_code = #{productCode};
+  </select>
+  
+  <resultMap id="OrderListBeanResult" type="cn.sunfit.risk.buz.api.vo.p2p.order.OrderListBean" >
+  	<id column="id" property="id" jdbcType="BIGINT" />
+  	<result column="bp_id" property="bpId" jdbcType="VARCHAR" />
+  	<result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+  	<result column="bp_def_key" property="bpDefKey" jdbcType="VARCHAR" />
+  	<result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+  	<result column="gender" property="gender" jdbcType="VARCHAR" />
+  	<result column="id_card" property="idCard" jdbcType="VARCHAR" />
+  	<result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR" />
+  	<result column="customer_type" property="customerType" jdbcType="VARCHAR" />
+  	<result column="product_code" property="productCode" jdbcType="VARCHAR" />
+  	<result column="product_name" property="productName" jdbcType="VARCHAR" />
+  	<result column="product_type" property="productType" jdbcType="VARCHAR" />
+  	<result column="product_type_ame" property="productTypeName" jdbcType="VARCHAR" />
+  	<result column="car_no" property="carNo" jdbcType="VARCHAR" />
+  	<result column="house_certificate" property="houseCertificate" jdbcType="VARCHAR" />
+  	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  	<result column="loan_money" property="loanMoney" jdbcType="VARCHAR" />
+  	<result column="bzj_money" property="bzjMoney" jdbcType="VARCHAR" />
+  	<result column="loan_period" property="loanPeriod" jdbcType="VARCHAR" />
+  	<result column="repay_type" property="repayType" jdbcType="VARCHAR" />
+  	<result column="loan_purpose" property="loanPurpose" jdbcType="VARCHAR" />
+  	<result column="loan_handle_type" property="loanHandleType" jdbcType="VARCHAR" />
+  	<result column="corporation" property="corporation" jdbcType="VARCHAR" />
+  	<result column="import_way" property="importWay" jdbcType="VARCHAR" />
+  	<result column="create_user" property="createUser" jdbcType="VARCHAR" />
+  	<result column="dept_id" property="deptId" jdbcType="VARCHAR" />
+  	<result column="aprove_status" property="aproveStatus" jdbcType="TINYINT" />
+  </resultMap>
+  
+   <sql id="ListColumn_List">
+  	loan.id id,
+  	loan.bp_id bp_id,
+  	meta.bp_def_id bp_def_id,
+  	meta.bp_def_key bp_def_key,
+	loan.customer_name customer_name,
+	loan.gender gender,
+	loan.id_card id_card,
+	loan.mobile_phone mobile_phone,
+	loan.customer_type customer_type,
+	loan.product_code product_code,
+	loan.product_name product_name,
+	product.product_type product_type,
+	type.name product_type_name,
+	loan.create_time create_time,
+	loan.loan_money loan_money,
+	loan.loan_period loan_period,
+	loan.repay_type repay_type,
+	loan.loan_purpose loan_purpose,
+	loan.loan_handle_type loan_handle_type,
+	asset.corp_name corporation,
+	loan.import_way import_way,
+	`user`.user_name create_user,
+	`user`.dept_id dept_id,
+	loan.aprove_status aprove_status,
+	loan.car_no car_no,
+	loan.loan_rate_bz bzj_money
+  </sql>
+  
+  <sql id="QueryBaseCondition">
+  	<if test="id !=null and id !=''">
+  		AND l.id=#{id,jdbcType=BIGINT}
+  	</if>
+  	<if test="productType !=null and productType !=''">
+  		AND p.product_type=#{productType,jdbcType=VARCHAR}
+  	</if>
+  	<if test="idCard !=null and idCard !=''">
+  		AND l.id_Card like concat('%',#{idCard},'%')
+  	</if>
+  	<if test="customerName !=null and customerName !=''">
+  		AND l.customer_name like concat('%',#{customerName},'%')
+  	</if>
+  	<if test="aproveStatus !=null">
+  		AND l.aprove_status=#{aproveStatus,jdbcType=TINYINT}
+  	</if>
+  	<if test="createTimeFrom != null">
+    	AND l.create_time <![CDATA[ >= ]]>#{createTimeFrom,jdbcType=TIMESTAMP}
+    </if>
+    <if test="createTimeTo != null">
+    	AND l.create_time <![CDATA[<= ]]>#{createTimeTo,jdbcType=TIMESTAMP}
+    </if>
+    <if test="loanHandleType !=null and loanHandleType !=''">
+    	AND l.loan_handle_type=#{loanHandleType,jdbcType=TINYINT}
+    </if>
+    <if test="corporation !=null and corporation !=''">
+  		AND l.corporation=#{corporation,jdbcType=VARCHAR}
+  	</if>
+    <if test="customerType !=null and customerType !=''">
+  		AND l.customer_type=#{customerType,jdbcType=VARCHAR}
+  	</if>
+    <if test="loancarLicensePlate != null and loancarLicensePlate != ''">
+		and l.car_no like concat('%',#{loancarLicensePlate,jdbcType=VARCHAR},'%')
+	</if>
+	 <if test="loanSource != null and loanSource !='' ">
+    	and a.corp_name like concat('%',#{loanSource,jdbcType=VARCHAR},'%') 
+    </if>
+    
+  </sql>
+  <select id="queryLoanInfoList" resultMap="OrderListBeanResult" parameterType="cn.sunfit.risk.buz.api.vo.p2p.excel.LoanInfoQueryReq">
+  	SELECT
+		<include refid="ListColumn_List"></include>
+	FROM ${domain}_loan_info loan
+		LEFT JOIN risk_corp_user `user` ON loan.create_user = `user`.id
+		LEFT JOIN ${domain}_p2p_asset asset ON loan.corporation = asset.id
+		LEFT JOIN ${domain}_p2p_product product ON loan.product_code = product.product_code
+		LEFT JOIN ${domain}_risk_bps bps ON loan.bp_id = bps.bp_id
+		LEFT JOIN ${domain}_bp_meta meta ON bps.bp_def_id = meta.bp_def_id
+		LEFT JOIN p2p_product_type type ON product.product_type = type.id AND type.is_active=1
+	WHERE loan.id in (
+		SELECT MAX(l.id) 
+		FROM ${domain}_loan_info l left join ${domain}_p2p_product p ON l.product_code = p.product_code
+		left join ${domain}_p2p_asset a on l.corporation=a.id 
+		WHERE 1=1
+		<include refid="QueryBaseCondition"></include>
+		GROUP BY l.id_card
+	)
+  	ORDER BY id DESC
+  </select>
+  
+  <sql id="QueryExtCondition">
+  	<if test="id !=null and id !=''">
+  		AND loan.id=#{id,jdbcType=BIGINT}
+  	</if>
+  	<if test="productType !=null and productType !=''">
+  		AND product.product_type=#{productType,jdbcType=VARCHAR}
+  	</if>
+  	<if test="idCard !=null and idCard !=''">
+  		AND loan.id_Card like concat('%',#{idCard},'%')
+  	</if>
+  	<if test="customerName !=null and customerName !=''">
+  		AND loan.customer_name like concat('%',#{customerName},'%')
+  	</if>
+  	<if test="aproveStatus !=null">
+  		AND loan.aprove_status=#{aproveStatus,jdbcType=TINYINT}
+  	</if>
+  	<if test="createTimeFrom != null">
+    	AND loan.create_time <![CDATA[ >= ]]>#{createTimeFrom,jdbcType=TIMESTAMP}
+    </if>
+    <if test="createTimeTo != null">
+    	AND loan.create_time <![CDATA[<= ]]>#{createTimeTo,jdbcType=TIMESTAMP}
+    </if>
+    <if test="loanHandleType !=null and loanHandleType !=''">
+    	AND loan.loan_handle_type=#{loanHandleType,jdbcType=TINYINT}
+    </if>
+    <if test="corporation !=null and corporation !=''">
+  		AND loan.corporation=#{corporation,jdbcType=VARCHAR}
+  	</if>
+    <if test="customerType !=null and customerType !=''">
+  		AND loan.customer_type=#{customerType,jdbcType=VARCHAR}
+  	</if>
+    <if test="loancarLicensePlate != null and loancarLicensePlate != ''">
+		and loan.car_no like concat('%',#{loancarLicensePlate,jdbcType=VARCHAR},'%')
+	</if>
+	 <if test="loanSource != null and loanSource !='' ">
+    	and asset.corp_name like concat('%',#{loanSource,jdbcType=VARCHAR},'%') 
+    </if>
+  </sql>
+  <select id="queryCustAllLoanInfo" resultMap="OrderListBeanResult" parameterType="cn.sunfit.risk.buz.api.vo.p2p.excel.LoanInfoQueryReq">
+  	SELECT
+  		<include refid="ListColumn_List"></include>
+  	FROM ${domain}_loan_info loan
+  		LEFT JOIN risk_corp_user `user` ON loan.create_user = `user`.id
+  		LEFT JOIN ${domain}_p2p_product product ON loan.product_code = product.product_code
+  		LEFT JOIN ${domain}_risk_bps bps ON loan.bp_id = bps.bp_id
+		LEFT JOIN ${domain}_bp_meta meta ON bps.bp_def_id = meta.bp_def_id
+		LEFT JOIN ${domain}_p2p_asset asset ON loan.corporation = asset.id
+		LEFT JOIN p2p_product_type type ON product.product_type = type.id AND type.is_active=1
+  	WHERE loan.id<![CDATA[ <> ]]>#{excludeId}
+  		AND id_Card = #{eIdCard}
+  		<include refid="QueryExtCondition"></include>
+  	ORDER BY id DESC;
+  </select>
+  
+  <update id="updateStatus">
+  	update ${domain}_loan_info a,${domain}_risk_bps b set a.aprove_status=#{status}
+  	where a.bp_id =#{bpId}
+  </update>
+  <select id="selectLoanInfo" resultMap="BaseResult">
+  	select <include refid="Base_Column_List_id"></include> FROM ${domain}_loan_info loan
+  	where loan.id=#{id}
+  </select>
+   <update id="update">
+  	UPDATE ${domain}_loan_info pli 
+	  SET pli.customer_name = #{bean.customerName,jdbcType=VARCHAR},
+	  	  pli.customer_type = #{bean.customerType,jdbcType=VARCHAR},
+	  	  pli.gender = #{bean.gender,jdbcType=VARCHAR},
+	  	  pli.id_card = #{bean.idCard,jdbcType=VARCHAR},
+	  	  pli.marriage = #{bean.marriage,jdbcType=VARCHAR},
+	  	  pli.has_child = #{bean.hasChild,jdbcType=VARCHAR},
+	  	  pli.hight_degree = #{bean.hightDegree,jdbcType=VARCHAR},
+	  	  pli.graduate_institutions = #{bean.graduateInstitutions,jdbcType=VARCHAR},
+		  pli.mobile_phone = #{bean.mobilePhoneOne,jdbcType=VARCHAR},
+		  pli.house_hold_province = #{bean.houseHoldProvince,jdbcType=VARCHAR},
+		  pli.house_hold_city = #{bean.houseHoldCity,jdbcType=VARCHAR},
+		  pli.house_hold_region = #{bean.houseHoldRegion,jdbcType=VARCHAR},
+		  pli.house_hold_detail = #{bean.houseHoldDetail,jdbcType=VARCHAR},
+		  pli.job_type = #{bean.jobType,jdbcType=VARCHAR},
+		  pli.job_title = #{bean.jobTitle,jdbcType=VARCHAR},
+		  pli.company_name = #{bean.companyName,jdbcType=VARCHAR},
+		  pli.company_tel = #{bean.companyTel,jdbcType=VARCHAR},
+		  pli.company_province = #{bean.companyProvince,jdbcType=VARCHAR},
+		  pli.company_city = #{bean.companyCity,jdbcType=VARCHAR},
+		  pli.company_region = #{bean.companyRegion,jdbcType=VARCHAR},
+		  pli.company_detail = #{bean.companyDetail,jdbcType=VARCHAR},
+		  pli.urgen_one_name = #{bean.urgenOneName,jdbcType=VARCHAR},
+		  pli.urgen_one_relation = #{bean.urgenOneRelation,jdbcType=VARCHAR},
+		  pli.urgen_one_phone = #{bean.urgenOnePhone,jdbcType=VARCHAR},
+		  pli.urgen_one_company_name = #{bean.urgenOneCompanyName,jdbcType=VARCHAR},
+		  pli.urgen_one_known = #{bean.urgenOneKnown,jdbcType=VARCHAR},
+		  pli.urgen_two_name = #{bean.urgenTwoName,jdbcType=VARCHAR},
+		  pli.urgen_two_relation = #{bean.urgenTwoRelation,jdbcType=VARCHAR},
+		  pli.urgen_two_phone = #{bean.urgenTwoPhone,jdbcType=VARCHAR},
+		  pli.urgen_two_company_name = #{bean.urgenTwoCompanyName,jdbcType=VARCHAR},
+		  pli.urgen_two_known = #{bean.urgenTwoKnown,jdbcType=VARCHAR},
+		  pli.product_code = #{bean.productCode,jdbcType=VARCHAR},
+		  pli.loan_purpose = #{bean.loanPurpose,jdbcType=VARCHAR},
+		  pli.loan_money = #{bean.loanMoney,jdbcType=VARCHAR},
+		  pli.loan_period = #{bean.loanPeriod,jdbcType=VARCHAR},
+		  pli.repay_type = #{bean.repayType,jdbcType=VARCHAR},
+		  pli.loan_day_rate = #{bean.loanDayRate,jdbcType=VARCHAR},
+		  pli.manage_day_rate = #{bean.manageDayRate,jdbcType=VARCHAR},
+		  pli.loan_fee_other = #{bean.otherFee,jdbcType=VARCHAR},
+		  pli.receivers_name = #{bean.receiversName,jdbcType=VARCHAR},
+		  pli.receivers_bank_account = #{bean.receiversBankAccount,jdbcType=VARCHAR},
+		  pli.receivers_bank_name = #{bean.receiversBankName,jdbcType=VARCHAR},
+		  pli.receivers_bank_province = #{bean.receiversBankProvince,jdbcType=VARCHAR},
+		  pli.receivers_bank_city = #{bean.receiversBankCity,jdbcType=VARCHAR},
+		  pli.receivers_bank_branch = #{bean.receiversBankBranch,jdbcType=VARCHAR},
+		  pli.repayment_name = #{bean.repaymentName,jdbcType=VARCHAR},
+		  pli.repayment_bank_account = #{bean.repaymentBankAccount,jdbcType=VARCHAR},
+		  pli.repayment_bank_name = #{bean.repaymentBankName,jdbcType=VARCHAR},
+		  pli.repayment_bank_province = #{bean.repaymentBankProvince,jdbcType=VARCHAR},
+		  pli.repayment_bank_city = #{bean.repaymentBankCity,jdbcType=VARCHAR},
+		  pli.repayment_bank_branch = #{bean.repaymentBankBranch,jdbcType=VARCHAR},
+		  pli.car_no = #{bean.carNo,jdbcType=VARCHAR},
+		  pli.loan_fee_tb = #{bean.isDaylyTrem,jdbcType=VARCHAR},
+		  pli.loan_fee_gps_install = #{bean.gpsInstallationFee,jdbcType=VARCHAR},
+		  pli.loan_fee_gps_service = #{bean.gpsServiceFee,jdbcType=VARCHAR},
+		  pli.loan_fee_park = #{bean.parkFee,jdbcType=VARCHAR},
+		  pli.loan_rate_zh_monthly = #{bean.zhMonthlyRate,jdbcType=VARCHAR},
+		  pli.loan_rate_wy = #{bean.wyRate,jdbcType=VARCHAR},
+		  pli.loan_rate_zn = #{bean.znRate,jdbcType=VARCHAR},
+		  pli.loan_rate_bz = #{bean.bzRate,jdbcType=VARCHAR},
+		  pli.loan_rate_zx = #{bean.consultingRate,jdbcType=VARCHAR}
+	  WHERE pli.id = #{bean.id};
+  </update>
+  
+  <select id="selectFormQuery" resultType="cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery" >
+  		select p.product_code as productId,meta.bp_def_id as bpDefId,meta.bp_def_key as bpDefKey,
+		bp.bp_id bpId,dept.id as deptId,REPLACE(bp.current_task_id,',','') as taskId,'handle' as model,
+		p.product_type as productType,loan.id as loanInfoId  from ${domain}_risk_bps bp
+		INNER JOIN ${domain}_loan_info loan on bp.bp_id = loan.bp_id
+		LEFT JOIN   ${domain}_p2p_product p on loan.product_code=p.product_code
+		LEFT JOIN ${domain}_bp_meta meta on bp.bp_def_id = meta.bp_def_id
+		LEFT JOIN risk_corp_user usr on bp.create_user_id = usr.id
+		LEFT JOIN risk_corp_dept dept on dept.id = usr.dept_id
+		where 1=1  and loan.id in 
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+		#{id}
+		</foreach>
+  </select>
+  <select id="countLoanInfoStatus" resultType="java.lang.Long">
+  	select count(*) from ${domain}_loan_info loan where 1=1
+  	and loan.id in 
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+		#{id}
+		</foreach>
+	and loan.aprove_status in
+	 <foreach collection="status" item="st" open="(" close=")" separator=",">
+		#{st}
+		</foreach>
+  </select>
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.api.jfjd.JFCustomerDAO" >
+  
+  
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.api.jfjd.JFCustomerAddDTO" >
+    insert into ${domain}_customers (id, uid, corp_id, type, 
+      name, gender, 
+      license_num, marital_status, child_count, 
+      support_num, house_spending, education, 
+      mobile, mobile2, email, 
+      qq, wechat, phone, 
+      house_time, house_type, come_time, 
+      regist_addr, live_addr, industry, 
+      company_type, company_name, dept_name, 
+      job, entry_time, salary, 
+      salary_date, salary_type, company_phone, 
+      company_addr, status ,create_time, update_time ,
+      live_addr_detail, regist_addr_detail, company_addr_detail, id_card_front, id_card_back)
+    values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR},
+      #{licenseNum,jdbcType=VARCHAR}, #{maritalStatus,jdbcType=VARCHAR}, #{childCount,jdbcType=INTEGER}, 
+      #{supportNum,jdbcType=INTEGER}, #{houseSpending,jdbcType=DECIMAL}, #{education,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{mobile2,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{qq,jdbcType=VARCHAR}, #{wechat,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{houseTime,jdbcType=DATE}, #{houseType,jdbcType=VARCHAR}, #{comeTime,jdbcType=DATE}, 
+      #{registAddr,jdbcType=VARCHAR}, #{liveAddr,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, 
+      #{companyType,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
+      #{job,jdbcType=VARCHAR}, #{entryTime,jdbcType=DATE}, #{salary,jdbcType=DECIMAL}, 
+      #{salaryDate,jdbcType=INTEGER}, #{salaryType,jdbcType=VARCHAR}, #{companyPhone,jdbcType=VARCHAR}, 
+      #{companyAddr,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR} , #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+      #{liveAddrDetail,jdbcType=VARCHAR}, #{registAddrDetail,jdbcType=VARCHAR}, #{companyAddrDetail,jdbcType=VARCHAR}, 
+      #{idCardFront,jdbcType=VARCHAR}, #{idCardBack,jdbcType=VARCHAR})
+  </insert>
+  
+  <select id="checkCustomerBlackList" resultType="java.lang.Long" parameterType="java.util.Map">
+   	select count(1)	from ${domain}_blacklist 
+	where license_num = #{licenseNum,jdbcType=VARCHAR}
+  </select>
+  <select id="checkCustomerExist" resultType="java.lang.String" parameterType="java.util.Map">
+    select 	id  	from ${domain}_customers
+  	where uid = #{uid,jdbcType=VARCHAR}
+  	and license_num = #{licenseNum,jdbcType=VARCHAR}
+  	and status = '0' limit 1
+  </select>
+</mapper>

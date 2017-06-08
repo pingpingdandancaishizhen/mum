@@ -1,0 +1,76 @@
+<template>
+  <div>
+    <div class="row-right" :class="!checkedAdd?'col-sm-6':'col-sm-6 checkedAdd'">
+      <div class="form-group input-group " :id="data.key">
+        <label class="label-head label-head-lg label-head-top  text-right"  v-if="!checkedAdd"><span :class="data.required?'require':''">{{data.label}}:</span></label>
+        <div class="label-box label-box-sm">
+          <select :name="data.key" class="form-control" @change="handleChange" v-model="checkValue" :disabled="data.readonly?true:false">
+            <option value="">请选择{{data.label}}</option>
+            <option v-for="item in oData[data.dataSource]" :value="item.dicKey"  >{{item.dicValue}}</option>
+          </select>
+          <div class="form-error-tip">{{errorMsg[data.key]}}</div>
+        </div>
+        <component v-if='itemLength<=1&&checkValue!=""&&checkValue!="请选择"&&data.extEditors' :is="currentView[checkValue]" :data="data.extEditors[checkValue]" :checkedAdd="true" :class="'component'+'-'+itemLength" keep-alive> </component>
+      </div>
+
+    </div>
+    <component v-if='itemLength>1&&checkValue!=""&&checkValue!="请选择"&&data.extEditors' :is="currentView[checkValue]" :data="data.extEditors[checkValue]"   keep-alive> </component>
+  </div>
+
+
+</template>
+<style>
+</style>
+<script>
+  import checkRule from '../mixins/checkRule'
+  export default{
+    mixins:[checkRule],
+    data(){
+      return {
+        checkValue:'',
+        itemLength:'',
+//        currentView:[],
+      }
+    },
+    props: ['data', 'oData','attrsData','ruleData','checkedAdd'],
+    created:function () {
+      var attrValue=this.attrsData[this.data.key];
+      var selectData=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+      this.checkValue=selectData;
+      this.$store.dispatch('setInputData', {key: this.data.key, value: selectData});
+      this.$watch('checkValue',this.handleWatch)
+    },
+    computed:{
+      currentView(){
+        var currentView=[];
+        currentView[this.checkValue]='app-layout';
+        this.itemLength=(this.data.extEditors[this.checkValue]||[]).length;
+        return currentView;
+      }
+    },
+    methods: {
+      handleChange: function (e) {
+        var value = e.target.value;
+        if(value=='请选择'){
+          value=''
+        }
+        this.checkValue=value;
+        this.currentView=[];
+        for(var key in this.data.extEditors){
+          if(value==key){
+            this.currentView[value]='app-layout'
+          }
+        }
+      },
+      handleWatch:function (val) {
+        var valData={};
+        valData[this.data.key]=val;
+        this.checkRuleValue=Object.assign({},this.checkRuleValue,valData);
+        this.$store.dispatch('setInputData', {key: this.data.key, value: val});
+      }
+    },
+    beforeCreate: function () {
+      this.$options.components['app-layout'] = require('./layout.vue');
+    },
+  }
+</script>

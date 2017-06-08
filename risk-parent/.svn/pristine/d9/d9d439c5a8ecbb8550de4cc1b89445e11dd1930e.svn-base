@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation=" 
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+http://code.alibabatech.com/schema/dubbo 
+http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<context:property-placeholder location="classpath:application.properties"
+		ignore-unresolvable="true" />
+	<dubbo:application name="sunfit-risk-web" />
+	<!-- <dubbo:registry address="N/A" /> -->
+	<dubbo:registry address="${dubbo.transport.registry}"
+		protocol="zookeeper" />
+	<dubbo:consumer version="${dubbo.transport.version}"
+		loadbalance="leastactive" timeout="1000000" proxy="javassist" check="false"
+		init="false" cluster="failfast" retries="0"/>
+	
+		<dubbo:reference id="risk.templatesService" interface="cn.sunfit.risk.buz.api.service.activiti.TemplatesService"/>
+		<dubbo:reference id="risk.assignService" interface="cn.sunfit.risk.buz.api.service.activiti.AssignService"/>
+		<dubbo:reference id="risk.loanService" interface="cn.sunfit.risk.buz.api.service.loan.LoanService"/>
+		<dubbo:reference id="risk.productContractService" interface="cn.sunfit.risk.buz.api.service.product.contract.ProductContractService"/>
+		<dubbo:reference id="risk.operLogService" interface="cn.sunfit.risk.buz.api.service.buz.OperLogService"/>
+		<dubbo:reference id="risk.dataService" interface="cn.sunfit.risk.buz.api.service.system.DataService"/>
+		<dubbo:reference id="risk.corpUserService" interface="cn.sunfit.risk.buz.api.service.corp.CorpUserService"/>
+		<dubbo:reference id="risk.corpService" interface="cn.sunfit.risk.buz.api.service.corp.CorpService"/>
+		<dubbo:reference id="risk.permissionService" interface="cn.sunfit.risk.buz.api.service.system.PermissionService"/>
+		<dubbo:reference id="risk.corpRoleService" interface="cn.sunfit.risk.buz.api.service.corp.CorpRoleService"/>
+		<dubbo:reference id="risk.corpDataRoleService" interface="cn.sunfit.risk.buz.api.service.corp.CorpDataRoleService"/>
+		<dubbo:reference id="risk.systemMenuService" interface="cn.sunfit.risk.buz.api.service.system.SystemMenuService"/>
+		<dubbo:reference id="risk.corpGroupService" interface="cn.sunfit.risk.buz.api.service.corp.CorpGroupService"/>
+		<dubbo:reference id="risk.corpDeptService" interface="cn.sunfit.risk.buz.api.service.corp.CorpDeptService"/>
+		<dubbo:reference id="risk.districtService" interface="cn.sunfit.risk.buz.api.service.system.DistrictService"/>
+		<dubbo:reference id="risk.carInfoService" interface="cn.sunfit.risk.buz.api.service.system.CarInfoService"/>
+		<dubbo:reference id="risk.bpService" interface="cn.sunfit.risk.buz.api.service.corp.BpService"/>
+		<dubbo:reference id="risk.repaymentDetailService" interface="cn.sunfit.risk.buz.api.service.repayment.RepaymentDetailService"/>
+		<dubbo:reference id="risk.articleService" interface="cn.sunfit.risk.buz.api.service.corp.ArticleService"/>
+		<dubbo:reference id="risk.calendarEventService" interface="cn.sunfit.risk.buz.api.service.corp.CalendarEventService"/>
+		<dubbo:reference id="risk.customerService" interface="cn.sunfit.risk.buz.api.service.corp.CustomerService"/>
+		<dubbo:reference id="risk.auditService" interface="cn.sunfit.risk.buz.api.service.solution.AuditService"/>
+		<dubbo:reference id="risk.superFormService" interface="cn.sunfit.risk.buz.api.service.solution.SuperFormService"/>
+		<dubbo:reference id="risk.productService" interface="cn.sunfit.risk.buz.api.service.solution.ProductService"/>
+		<dubbo:reference id="risk.solutionService" interface="cn.sunfit.risk.buz.api.service.solution.SolutionService"/>
+		<dubbo:reference id="risk.custOperLogService" interface="cn.sunfit.risk.buz.api.service.corp.CustOperLogService"/>
+		<dubbo:reference id="risk.blackListService" interface="cn.sunfit.risk.buz.api.service.corp.BlackListService"/>
+		<dubbo:reference id="risk.resourcesService" interface="cn.sunfit.risk.buz.api.service.corp.ResourcesService"/>
+		<dubbo:reference id="risk.contractPartnerService" interface="cn.sunfit.risk.buz.api.service.system.ContractPartnerService"/>
+		<dubbo:reference id="risk.contractTemplateService" interface="cn.sunfit.risk.buz.api.service.contract.ContractTemplateService"/>
+		<dubbo:reference id="risk.contractResourceService" interface="cn.sunfit.risk.buz.api.service.contract.ContractResourceService"/>
+		<dubbo:reference id="risk.ossService" interface="cn.sunfit.risk.buz.api.service.OSSService"/>
+		
+		<!-- 疾风交单接口Start -->
+		<dubbo:reference id="jfjd.regionService" interface="cn.sunfit.risk.buz.api.service.api.jfjd.JFRegionService"/>
+		<dubbo:reference id="jfjd.carBmsService" interface="cn.sunfit.risk.buz.api.service.api.jfjd.JFCarBmsService"/>
+		<dubbo:reference id="jfjd.corpService" interface="cn.sunfit.risk.buz.api.service.api.jfjd.JFCorpService"/>
+		<dubbo:reference id="jfjd.productService" interface="cn.sunfit.risk.buz.api.service.api.jfjd.JFProductService"/>
+		<dubbo:reference id="jfjd.resourcesService" interface="cn.sunfit.risk.buz.api.service.api.jfjd.JFResourcesService"/>
+		<dubbo:reference id="jfjd.customerService" interface="cn.sunfit.risk.buz.api.service.api.jfjd.JFCustomerService"/>
+		<dubbo:reference id="jfjd.corpUserService" interface="cn.sunfit.risk.buz.api.service.api.jfjd.JFCorpUserService"/>
+		<dubbo:reference id="jfjd.bPAttrService" interface="cn.sunfit.risk.buz.api.service.api.jfjd.JFBPAttrService"/>
+		<dubbo:reference id="jfjd.bpService" interface="cn.sunfit.risk.buz.api.service.api.jfjd.JFBpService"/>
+		<!-- 疾风交单接口End -->
+		
+		<dubbo:reference id="lewei.bpService" interface="cn.sunfit.risk.buz.api.service.api.lewei.LWBpService"/>
+		
+</beans> 

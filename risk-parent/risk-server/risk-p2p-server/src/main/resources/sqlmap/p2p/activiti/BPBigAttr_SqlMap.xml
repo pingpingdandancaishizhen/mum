@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.activiti.BPBigAttrDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPBigAttr" >
+    <id column="attr_id" property="attrId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="bp_id" property="bpId" jdbcType="VARCHAR" />
+    <result column="attr_name" property="attrName" jdbcType="VARCHAR" />
+    <result column="draft_value" property="draftValue" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPBigAttr" extends="BaseResultMap" >
+    <result column="attr_value" property="attrValue" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    attr_id, corp_id, bp_id, attr_name, update_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    attr_value,  draft_value
+  </sql>
+  <select id="findByBP" resultMap="ResultMapWithBLOBs" parameterType="cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ${domain}_bp_big_attrs
+    where bp_id = #{bpId,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="insertBigAttr" parameterType="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPBigAttr">
+    insert into ${domain}_bp_big_attrs (attr_id, corp_id, bp_id, 
+      attr_name, update_time, attr_value, draft_value
+      )
+    values (#{attrId,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, #{bpId,jdbcType=VARCHAR}, 
+      #{attrName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{attrValue,jdbcType=LONGVARCHAR}, 
+      #{draftValue,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <update id="updateDraftByNameBpId"  parameterType="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPBigAttr">
+    update ${domain}_bp_big_attrs
+    set
+      draft_value = #{draftValue,jdbcType=LONGVARCHAR}
+    where attr_name = #{attrName,jdbcType=VARCHAR} and bp_id=#{bpId}
+  </update>
+    <update id="updateValueByNameBpId"  parameterType="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPBigAttr">
+    update ${domain}_bp_big_attrs
+    set
+      attr_value = #{attrValue,jdbcType=LONGVARCHAR},
+      draft_value = null 
+    where attr_name = #{attrName,jdbcType=VARCHAR} and bp_id=#{bpId}
+  </update>
+   <update id="clearDraftValueByBpId"  parameterType="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPBigAttr">
+    update ${domain}_bp_big_attrs
+    set 
+      draft_value=null
+    where bp_id=#{bpId}
+  </update>
+    <select id="selectValueByNameBpId"  parameterType="cn.sunfit.risk.buz.api.beans.p2p.activiti.BPBigAttr" resultType="java.lang.String">
+    select attr_value from ${domain}_bp_big_attrs
+    where attr_name = #{attrName,jdbcType=VARCHAR} and bp_id=#{bpId}
+  </select>
+  
+  <select id="selectBatch" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_bp_big_attrs
+    where bp_id = #{bpId,jdbcType=VARCHAR} and attr_name in 
+    <foreach collection="bigattrs" separator="," open="(" close=")" item="a">#{a.attrName}</foreach>
+  </select>
+</mapper>

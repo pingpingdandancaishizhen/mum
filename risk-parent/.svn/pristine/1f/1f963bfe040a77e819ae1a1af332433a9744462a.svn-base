@@ -1,0 +1,225 @@
+package cn.sunfit.risk.buz.api.beans.p2p;
+
+import java.util.Date;
+
+import orj.worf.core.model.BaseObject;
+import cn.sunfit.risk.buz.api.constants.ProductMedium;
+import cn.sunfit.risk.buz.api.constants.ProductType;
+import cn.sunfit.risk.buz.api.utils.IdUtil;
+import cn.sunfit.risk.buz.api.vo.corp.AssetAddReq;
+
+public class P2PAsset extends BaseObject {
+    private static final long serialVersionUID = 1L;
+
+    private String id;
+
+    private String assetType;
+
+    private Date createTime;
+
+    private Date lastmodTime;
+
+    private String corpName;
+
+    private String corpAbbreviation;
+
+    private String institutionCode;
+
+    private String corpContact;
+
+    private String corpContactTel;
+
+    private String email;
+
+    private String fax;
+    
+    private String corpAddress;
+    
+    private String addressDetail;
+    
+    private String acceptAccountName;
+    
+    private String acceptAccountNum;
+    
+    private String acceptAccountBank;
+    
+    private String branchBank;
+    
+    private String createMan;
+    
+    private Short status;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getAssetType() {
+		return assetType;
+	}
+
+	public void setAssetType(String assetType) {
+		this.assetType = assetType;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getLastmodTime() {
+		return lastmodTime;
+	}
+
+	public void setLastmodTime(Date lastmodTime) {
+		this.lastmodTime = lastmodTime;
+	}
+
+	public String getCorpName() {
+		return corpName;
+	}
+
+	public void setCorpName(String corpName) {
+		this.corpName = corpName;
+	}
+
+	public String getCorpAbbreviation() {
+		return corpAbbreviation;
+	}
+
+	public void setCorpAbbreviation(String corpAbbreviation) {
+		this.corpAbbreviation = corpAbbreviation;
+	}
+
+	public String getInstitutionCode() {
+		return institutionCode;
+	}
+
+	public void setInstitutionCode(String institutionCode) {
+		this.institutionCode = institutionCode;
+	}
+
+	public String getCorpContact() {
+		return corpContact;
+	}
+
+	public void setCorpContact(String corpContact) {
+		this.corpContact = corpContact;
+	}
+
+	public String getCorpContactTel() {
+		return corpContactTel;
+	}
+
+	public void setCorpContactTel(String corpContactTel) {
+		this.corpContactTel = corpContactTel;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getFax() {
+		return fax;
+	}
+
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
+
+	public String getCorpAddress() {
+		return corpAddress;
+	}
+
+	public void setCorpAddress(String corpAddress) {
+		this.corpAddress = corpAddress;
+	}
+
+	public String getAddressDetail() {
+		return addressDetail;
+	}
+
+	public void setAddressDetail(String addressDetail) {
+		this.addressDetail = addressDetail;
+	}
+
+	public String getAcceptAccountName() {
+		return acceptAccountName;
+	}
+
+	public void setAcceptAccountName(String acceptAccountName) {
+		this.acceptAccountName = acceptAccountName;
+	}
+
+	public String getAcceptAccountNum() {
+		return acceptAccountNum;
+	}
+
+	public void setAcceptAccountNum(String acceptAccountNum) {
+		this.acceptAccountNum = acceptAccountNum;
+	}
+
+	public String getAcceptAccountBank() {
+		return acceptAccountBank;
+	}
+
+	public void setAcceptAccountBank(String acceptAccountBank) {
+		this.acceptAccountBank = acceptAccountBank;
+	}
+
+	public String getBranchBank() {
+		return branchBank;
+	}
+
+	public void setBranchBank(String branchBank) {
+		this.branchBank = branchBank;
+	}
+	
+	public String getCreateMan() {
+		return createMan;
+	}
+
+	public void setCreateMan(String createMan) {
+		this.createMan = createMan;
+	}
+	
+	public Short getStatus() {
+		return status;
+	}
+
+	public void setStatus(Short status) {
+		this.status = status;
+	}
+
+	public void convert(AssetAddReq req){
+		this.setId(IdUtil.geneId());
+		this.setAcceptAccountBank(req.getAcceptAccountBank());
+		this.setAcceptAccountName(req.getAcceptAccountName());
+		this.setAcceptAccountNum(req.getAcceptAccountNum());
+		this.setAddressDetail(req.getRegistAddrDetail());
+		this.setAssetType(req.getAssetType());
+		this.setBranchBank(req.getBranchBank());
+		this.setCorpAbbreviation(req.getCorpAbbreviation());
+		this.setCorpAddress(req.getRegistAddr());
+		this.setCorpContact(req.getCorpContact());
+		this.setCorpContactTel(req.getCorpContactTel());
+		this.setCorpName(req.getCorpName());
+		this.setCreateTime(new Date());
+		this.setEmail(req.getEmail());
+		this.setFax(req.getFax());
+		this.setInstitutionCode(req.getInstitutionCode());
+		this.setLastmodTime(new Date());
+		this.setStatus((short)0);
+	}
+
+   }

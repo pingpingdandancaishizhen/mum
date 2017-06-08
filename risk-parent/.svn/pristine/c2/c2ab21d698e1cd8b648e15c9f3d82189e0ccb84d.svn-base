@@ -1,0 +1,1 @@
+{"loandebitimg_voucher":[{"ruleType":"file","ruleLevel":"field","message":"请上传jpg png格式的文件","fieldKey":"loandebitimg_voucher","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}]}

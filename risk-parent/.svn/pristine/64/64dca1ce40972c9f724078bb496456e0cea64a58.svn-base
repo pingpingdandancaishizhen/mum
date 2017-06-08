@@ -1,0 +1,33 @@
+$("#selectProductModal #selectProductBtn").off().on('click',function () {
+	var customerId = $('#selectProductModal #customerId').val();
+	if(customerId != '-1'){
+		worf.ajax({
+			url : web_root+'/loan/getStartParam',
+			type : 'post',
+			data : {
+				'productId':$('#selectProductModal #productId').val(),
+				'customerId':$('#selectProductModal #customerId').val()
+			},
+			success : function(data) {
+				if(data.status==1){
+					var url=web_root+"/pages/form.html?"+$.param(data.data);
+					var name='申请借款';
+					$('#selectProductModal').hideModal();
+					tools.addParentTab(url,name);
+				}
+			}
+		});
+	}else{
+		$('#selectCustomerModal').showModal();
+		var userCorpId = $("select[name='userCorpId']").val();
+		$("#uid").val(userCorpId);
+		$customer_table.bootstrapTable('refresh');
+	}
+})
+$("#deptId").change(function(){
+	var deptId = $(this).children('option:selected').val();
+	$(".userCorpIdSelect").hide();
+	$(".userCorpIdSelect").attr("name","");
+	$("#"+deptId).attr("name","userCorpId");
+	$("#"+deptId).show();
+});

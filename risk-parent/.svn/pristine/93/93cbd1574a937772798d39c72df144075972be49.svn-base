@@ -1,0 +1,17 @@
+{
+	"custfriend_relation1" : [],
+	"custfriend_name1" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入2-20个字，只支持中文或英文","fieldKey":"custfriend_name1","condition":null,"detail":{"regexp":"^[\\u4e00-\\u9fa5_a-zA-Z]{2,20}$"}}],
+	"custfriend_know1" : [],
+	"custfriend_mobile1" : [{"ruleType":"phone","ruleLevel":"field","message":"请输入正确的手机号","fieldKey":"custfriend_mobile1","condition":null,"detail":null}],
+	"custfriend_company_name1" : [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"custfriend_company_name1","condition":null,"detail":{"min":"1","max":"40"}}],
+	"custfriend_relation2" : [],
+	"custfriend_name2" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入2-20个字，只支持中文或英文","fieldKey":"custfriend_name2","condition":null,"detail":{"regexp":"^[\\u4e00-\\u9fa5_a-zA-Z]{2,20}$"}}],
+	"custfriend_know2" : [],
+	"custfriend_mobile2" : [{"ruleType":"phone","ruleLevel":"field","message":"请输入正确的手机号","fieldKey":"custfriend_mobile2","condition":null,"detail":null}],
+	"custfriend_company_name2" : [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"custfriend_company_name2","condition":null,"detail":{"min":"1","max":"40"}}],
+	"custfriend_relation3" : [],
+	"custfriend_name3" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入2-20个字，只支持中文或英文","fieldKey":"custfriend_name3","condition":null,"detail":{"regexp":"^[\\u4e00-\\u9fa5_a-zA-Z]{2,20}$"}}],
+	"custfriend_know3" : [],
+	"custfriend_mobile3" : [{"ruleType":"phone","ruleLevel":"field","message":"请输入正确的手机号","fieldKey":"custfriend_mobile3","condition":null,"detail":null}],
+	"custfriend_company_name3" : [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"custfriend_company_name3","condition":null,"detail":{"min":"1","max":"40"}}]
+}

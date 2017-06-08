@@ -1,0 +1,110 @@
+<template>
+  <div class="row-right col-md-12" :id="data.key">
+    <div class="form-group" >
+      <div class="input-group" >
+        <label class="label-head label-head-lg label-head-top  text-right" ><span :class="data.required?'require':''">{{data.label}}</span></label>
+        <a v-if="contractData" v-for="item in contractData" :href="item.url" target="_blank">
+          <div class="btn btn-white" style="margin-right:5px;margin-bottom: 5px;">查看{{item.name}}</div>
+        </a>
+        <div class="input-group-btn">
+          <div v-if="loading=='loading'" class="btn btn-primary"  > 获取合同中...</div>
+          <div v-else  class="btn btn-primary"  @click="handleGetContract"> 获取合同</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>
+<style>
+
+</style>
+<script>
+  import {mapGetters} from 'vuex';
+  import * as api from '../api';
+  import checkRule from '../mixins/checkRule'
+  export default{
+    mixins:[checkRule],
+        data(){
+            return{
+              loading:'',
+              contractData:''
+            }
+        },
+      props: ['data'],
+      created:function () {
+          var _this=this;
+        var href=tools.www_root()+'/getResourceById?resourceId='
+        _this.getCractList(function (data) {
+          var tempData=[]
+          for(var k in data){
+            var item=data[k];
+            item.url=href+item.resourceId;
+            tempData.push(item);
+          }
+          _this.contractData=tempData;
+        })
+      },
+      computed:{
+        ...mapGetters({
+          'hiddenData': 'defaultHiddenData',
+        }),
+      },
+      methods:{
+        //获取合同列表
+        getCractList:function (cb) {
+          var _this=this;
+          var options={
+            url:'/contract/resource/queryContractByBpId',
+            method:'get',
+            data:{
+              bpId:_this.hiddenData.bpId
+            },
+            beforeSend:function () {
+              _this.loading='loading';
+            },
+            complete:function () {
+              _this.loading=true;
+            }
+          };
+          //获取表单数据
+          api.getContract(options,function (data) {
+            cb(data)
+          })
+        },
+        //获取合同数据
+        getData:function (cb) {
+          var _this=this;
+          var options={
+            url:'/contract/resource/generate',
+            data:{
+              bpId:_this.hiddenData.bpId
+            },
+            beforeSend:function () {
+              _this.loading='loading';
+            },
+            complete:function () {
+              _this.loading=true;
+            }
+          };
+          //获取表单数据
+          api.getContract(options,function (data) {
+            cb(data)
+          })
+        },
+        //生成合同
+        handleGetContract:function () {
+          var _this=this;
+          var href=tools.www_root()+'/getResourceById?resourceId='
+          _this.getData(function (data) {
+            var tempData=[]
+            for(var k in data){
+              var item=data[k];
+              item.url=href+item.resourceId;
+              tempData.push(item);
+            }
+            _this.contractData=tempData;
+          });
+        },
+      }
+    }
+</script>

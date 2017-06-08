@@ -1,0 +1,48 @@
+version: '2'
+services:
+  riskasset:
+    image: registry-internal.cn-hangzhou.aliyuncs.com/mlrc1/ledai_asset_server:1.5
+    network_mode: "host"
+    environment:
+       - ZOOKEEPER_ADDR=10.139.49.248:2181,10.139.50.200:2181,10.253.43.107:2181
+    ports:
+     - "10210:10210"
+    volumes:
+     - /tmp/risk-docker-prd/riskasset/logs:/home/deploy/risk_server/risk_asset_server/logs
+     - /tmp/risk-docker-prd/riskasset/gc:/home/deploy/risk_server/logs/risk_asset_server
+  riskp2p:
+     image: registry-internal.cn-hangzhou.aliyuncs.com/mlrc1/ledai_p2p_server:1.5
+     network_mode: "host"
+     environment:
+       - ZOOKEEPER_ADDR=10.253.40.234:2181
+     ports:
+     - "10220:10220"
+     volumes:
+     - /tmp/risk-docker-prd/riskp2p/logs:/home/deploy/risk_server/risk_p2p_server/logs
+     - /tmp/risk-docker-prd/riskp2p/gc:/home/deploy/risk_server/logs/risk_p2p_server
+  riskreport:
+     image: registry-internal.cn-hangzhou.aliyuncs.com/mlrc1/ledai_report_server:1.5
+     network_mode: "host"
+     environment:
+		- ZOOKEEPER_ADDR=10.139.49.248:2181,10.139.50.200:2181,10.253.43.107:2181
+     ports:
+     - "10230:10230"
+     volumes:
+     - /tmp/risk-docker-prd/riskreport/logs:/home/deploy/risk_report/risk_report_server/logs
+     - /tmp/risk-docker-prd/riskreport/gc:/home/deploy/risk_report/logs/risk_report_server
+  riskassetweb:
+    image: registry-internal.cn-hangzhou.aliyuncs.com/mlrc1/ledai_web:1.5
+    environment:
+      - ZOOKEEPER_ADDR=10.139.49.248:2181,10.139.50.200:2181,10.253.43.107:2181
+    ports:
+     - "8080:8080"
+    volumes:
+     - /tmp/risk-docker-prd/riskweb/logs:/home/deploy/apache-tomcat/logs
+  riskp2pweb:
+    image: registry-internal.cn-hangzhou.aliyuncs.com/mlrc1/ledai_web:1.5
+    environment:
+       - ZOOKEEPER_ADDR=10.253.40.234:2181
+    ports:
+     - "8082:8080"
+    volumes:
+     - /tmp/risk-docker-prd/riskweb/logs2:/home/deploy/apache-tomcat/logs

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.corp.DistrictDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.corp.District" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="dist_code" property="distCode" jdbcType="VARCHAR" />
+    <result column="dist_name" property="distName" jdbcType="VARCHAR" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="effect_tag" property="effectTag" jdbcType="BIT" />
+    <result column="py" property="py" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dist_code, dist_name, parent_code, effect_tag, py
+  </sql>
+  
+  <select id="selectProvinces" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  	SELECT * from risk_district where parent_code = 1 order BY py
+  </select>
+  
+  <select id="selectNodes" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	SELECT * from risk_district 
+  </select>
+  
+</mapper>

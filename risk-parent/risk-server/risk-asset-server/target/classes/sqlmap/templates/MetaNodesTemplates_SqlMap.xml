@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.templates.MetaNodesTemplatesDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.templates.MetaNodesTemplates" >
+    <id column="node_id" property="nodeId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="node_key" property="nodeKey" jdbcType="VARCHAR" />
+    <result column="node_name" property="nodeName" jdbcType="VARCHAR" />
+    <result column="node_desc" property="nodeDesc" jdbcType="VARCHAR" />
+    <result column="form_key" property="formKey" jdbcType="VARCHAR" />
+    <result column="gateway" property="gateway" jdbcType="VARCHAR" />
+    <result column="node_type" property="nodeType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    node_id, bp_def_id, node_key, node_name, node_desc, form_key, gateway,node_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bp_meta_nodes_templates
+    where node_id = #{nodeId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaNodesTemplates" >
+    insert into bp_meta_nodes_templates (node_id, bp_def_id, node_key, 
+      node_name, node_desc, form_key, 
+      gateway,node_type)
+    values (#{nodeId,jdbcType=VARCHAR}, #{bpDefId,jdbcType=VARCHAR}, #{nodeKey,jdbcType=VARCHAR}, 
+      #{nodeName,jdbcType=VARCHAR}, #{nodeDesc,jdbcType=VARCHAR}, #{formKey,jdbcType=VARCHAR}, 
+      #{gateway,jdbcType=VARCHAR},#{nodeType,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaNodesTemplates" >
+    update bp_meta_nodes_templates
+    set bp_def_id = #{bpDefId,jdbcType=VARCHAR},
+      node_key = #{nodeKey,jdbcType=VARCHAR},
+      node_name = #{nodeName,jdbcType=VARCHAR},
+      node_desc = #{nodeDesc,jdbcType=VARCHAR},
+      form_key = #{formKey,jdbcType=VARCHAR},
+      gateway = #{gateway,jdbcType=VARCHAR},
+      node_type=#{nodeType,jdbcType=VARCHAR}
+    where node_id = #{nodeId,jdbcType=VARCHAR}
+  </update>
+  
+    <insert id="insertBatch" parameterType="java.util.List" >
+    insert into bp_meta_nodes_templates (node_id, bp_def_id, node_key, 
+      node_name, node_desc, form_key, 
+      gateway,node_type)
+    values 
+    <foreach collection="list" item="item" index="index" separator="," >  
+    (#{item.nodeId,jdbcType=VARCHAR}, #{item.bpDefId,jdbcType=VARCHAR}, #{item.nodeKey,jdbcType=VARCHAR}, 
+      #{item.nodeName,jdbcType=VARCHAR}, #{item.nodeDesc,jdbcType=VARCHAR}, #{item.formKey,jdbcType=VARCHAR}, 
+      #{item.gateway,jdbcType=VARCHAR},#{item.nodeType,jdbcType=VARCHAR})
+    </foreach>  
+  </insert>
+  
+   <select id="selectMetaNodesTemplates" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bp_meta_nodes_templates
+    where bp_def_id = #{bpDefId,jdbcType=VARCHAR}
+  </select>
+</mapper>

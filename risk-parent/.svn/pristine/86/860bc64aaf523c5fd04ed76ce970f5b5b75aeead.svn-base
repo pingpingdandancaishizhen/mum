@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.api.jfjd.JFResourcesDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.api.jfjd.JFResources" >
+    <id column="resource_id" property="resourceId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="bp_id" property="bpId" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+    <result column="file_type" property="fileType" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="upload_user_id" property="uploadUserId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    resource_id, corp_id, bp_id, url, file_name, file_type, category, update_time, upload_user_id
+  </sql>
+  <insert id="insert">
+    insert into ${domain}_bp_resources (resource_id, corp_id, bp_id, 
+      url, file_name, file_type, 
+      category, update_time, upload_user_id
+      )
+    values (#{resource.resourceId,jdbcType=VARCHAR}, #{resource.corpId,jdbcType=VARCHAR}, #{resource.bpId,jdbcType=VARCHAR}, 
+      #{resource.url,jdbcType=VARCHAR}, #{resource.fileName,jdbcType=VARCHAR}, #{resource.fileType,jdbcType=VARCHAR}, 
+      #{resource.category,jdbcType=VARCHAR}, #{resource.updateTime,jdbcType=TIMESTAMP}, #{resource.uploadUserId,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <select id="selectByIds" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select 
+    	<include refid="Base_Column_List" />
+    from ${domain}_bp_resources
+    where resource_id in 
+  	<foreach collection="resourceIds" item="item" index="index" separator="," open="(" close=")">
+  	 	#{item}
+	</foreach>
+	and status = '1'
+  </select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select 
+    	<include refid="Base_Column_List" />
+    from ${domain}_bp_resources
+    where resource_id =  #{resourceId}
+	and status = '1'
+  </select>
+  
+  <update id="delete">
+  	update ${domain}_bp_resources set status = '0' where resource_id = #{resourceId}
+  </update>
+</mapper>

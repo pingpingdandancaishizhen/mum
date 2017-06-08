@@ -1,0 +1,27 @@
+package cn.sunfit.risk.buz.api.service.p2p.order;
+
+import java.util.List;
+
+import cn.sunfit.risk.buz.api.exception.ServiceException;
+import cn.sunfit.risk.buz.api.vo.RespPage;
+import cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.LoanInfoQueryReq;
+import cn.sunfit.risk.buz.api.vo.p2p.order.OrderListBean;
+
+public interface OrderService {
+
+    /**
+     * @Title: batchSubmit
+     * @Description: 批量提交订单
+     * @param @param currentUser
+     * @param @param ids   
+     * @return void 
+     * @author DELL 2017年5月12日 
+     * @throws
+     */
+    public void batchSubmit(CorpUserDTO currentUser, Long[] ids) throws ServiceException;
+
+    public List<OrderListBean> queryCustAllLoanInfo(LoanInfoQueryReq req);
+
+    public RespPage<List<OrderListBean>> queryLoanInfoList(LoanInfoQueryReq req);
+}

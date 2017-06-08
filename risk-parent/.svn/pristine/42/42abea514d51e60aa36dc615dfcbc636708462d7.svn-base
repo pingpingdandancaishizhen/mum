@@ -1,0 +1,56 @@
+<template>
+  <div class="bootstrap-table" >
+    <div class="fixed-table-container">
+      <div class="fixed-table-body">
+        <table v-if="data.cols" class="table table-striped table-inner-inline">
+          <thead>
+          <tr >
+            <th v-for="(item,index) in data.cols" width="20" :class="index==0?'text-center':''">
+              {{item.label}}
+            </th>
+          </tr>
+
+          </thead>
+          <tbody>
+          <tr v-for="(item,index) in data.editors">
+            <td class="text-center">{{index+1}}</td>
+            <td>
+              <app-file-upload v-if="item.editor=='fileupload'" :index="index" :data="item" :attrsData="attrsData" :hiddenData="hiddenData" :ruleData="rulesData"></app-file-upload>
+              <app-multi-file-upload v-if="item.editor=='multi_fileupload'" :index="index" :data="item" :attrsData="attrsData" :hiddenData="hiddenData" :ruleData="rulesData"></app-multi-file-upload>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</template>
+<style>
+
+</style>
+<script>
+    import {mapGetters} from 'vuex';
+    import FileUpload from './fileUpload.vue';//单文件上传组件
+    import MultiFileUpload from './multiFileUpload.vue';//多文件上传组件
+    export default{
+        data(){
+            return{
+
+            }
+        },
+      props:['data'],
+      computed: {
+        ...mapGetters({
+          'hiddenData':'defaultHiddenData',
+          'oData': 'optionData',
+          'attrsData':'attrsData',
+          'rulesData':'rulesData'
+        })
+      },
+      components: {
+        'app-file-upload':FileUpload,
+        'app-multi-file-upload':MultiFileUpload,
+      }
+    }
+</script>

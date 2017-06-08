@@ -1,0 +1,9 @@
+{
+	"loanbank_account_name" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入2-20个字，只支持中文或英文","fieldKey":"loanbank_account_name","condition":null,"detail":{"regexp":"^[\\u4e00-\\u9fa5_a-zA-Z]{2,20}$"}}],
+	"loanbank_account_no" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入正确银行卡号","fieldKey":"loanbank_account_no","condition":null,"detail":{"regexp":"^\\d{16}|\\d{19}$"}}],
+	"loanbank_bank" : [],
+	"loanbank_addr" : [],
+	"loanbank_addr_province" : [],
+	"loanbank_addr_city" : [],
+	"loanbank_branch" : [],
+}

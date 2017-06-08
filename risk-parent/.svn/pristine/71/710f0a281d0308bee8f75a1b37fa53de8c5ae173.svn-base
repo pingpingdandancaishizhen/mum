@@ -1,0 +1,21 @@
+{
+	"custjob_industry" : [],
+	"custjob_company_type" : [],
+	"custjob_job_lvl" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入2-20个字，只支持中文或英文","fieldKey":"custjob_job_lvl","condition":null,"detail":{"regexp":"^[\\u4e00-\\u9fa5_a-zA-Z]{2,20}$"}}],
+	"custjob_company_name" : [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"custjob_company_name","condition":null,"detail":{"max":"40","min":"1"}}],
+	"custjob_company_web" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入正确的网址","fieldKey":"custjob_company_web","condition":null,"detail":{"regexp":"^(((ht|f)tp(s?))\://)?(www.|[a-zA-Z].)[a-zA-Z0-9\-\.]+\.(com|edu|gov|mil|net|org|biz|info|name|museum|us|ca|uk)(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\;\?\\\+&amp;%\$#\=~_\-]+))*$"}}],
+	"custjob_entry_time" : [],
+	"custjob_salary_base" : [{"ruleType":"decimal","ruleLevel":"field","message":"仅支持0-1000000的数字，小数点后最多可输入两位","fieldKey":"custjob_salary_base","condition":null,"detail":{"min":"0","max":"1000000","digits":"2"}}],
+	"custjob_salary_other" : [{"ruleType":"decimal","ruleLevel":"field","message":"仅支持0-1000000的数字，小数点后最多可输入两位","fieldKey":"custjob_salary_other","condition":null,"detail":{"min":"0","max":"1000000","digits":"2"}}],
+	"custjob_salary_total" : [{"ruleType":"decimal","ruleLevel":"field","message":"仅支持0-1000000的数字，小数点后最多可输入两位","fieldKey":"custjob_salary_total","condition":null,"detail":{"min":"0","max":"1000000","digits":"2"}}],
+	"custjob_company_phone" : [{"ruleType":"telephone","ruleLevel":"field","message":"请输入正确的电话","fieldKey":"custjob_company_phone","condition":null,"detail":null}],
+	"custjob_company_fax" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入正确的传真号","fieldKey":"custjob_company_fax","condition":null,"detail":{"regexp":"^(\d{3,4}-)?\d{7,8}$"}}],
+	"custjob_company_addr" : []
+	"custjob_company_addr_province" : [],
+	"custjob_company_addr_city" : [],
+	"custjob_company_addr_counties" : [],
+	"custjob_company_addr_detail" : [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过30","fieldKey":"custjob_company_addr_detail","condition":null,"detail":{"max":"30","min":"1"}}],
+	"custjob_company_private" : [],
+	"custjob_company_type" : [],
+	"custjob_company_found_time" : []
+}

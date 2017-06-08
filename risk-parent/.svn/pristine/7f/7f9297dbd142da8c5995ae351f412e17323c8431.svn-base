@@ -1,0 +1,69 @@
+package cn.sunfit.risk.web.utils;
+
+public class LoanInfoRes {
+
+    private Double loan_daylyRate;
+    private Double loan_daylyGLFee;
+    private Double loan_monthlyRate;
+    private Double loan_monthlyGLFee;
+    private Double loan_znjFee;
+    private Double loan_wyFee;
+    private Double loan_otherFee;
+
+    public Double getLoan_daylyGLFee() {
+        return loan_daylyGLFee;
+    }
+
+    public Double getLoan_daylyRate() {
+        return loan_daylyRate;
+    }
+
+    public Double getLoan_monthlyGLFee() {
+        return loan_monthlyGLFee;
+    }
+
+    public Double getLoan_monthlyRate() {
+        return loan_monthlyRate;
+    }
+
+    public Double getLoan_otherFee() {
+        return loan_otherFee;
+    }
+
+    public Double getLoan_wyFee() {
+        return loan_wyFee;
+    }
+
+    public Double getLoan_znjFee() {
+        return loan_znjFee;
+    }
+
+    public void setLoan_daylyGLFee(Double loan_daylyGLFee) {
+        this.loan_daylyGLFee = loan_daylyGLFee;
+    }
+
+    public void setLoan_daylyRate(Double loan_daylyRate) {
+        this.loan_daylyRate = loan_daylyRate;
+    }
+
+    public void setLoan_monthlyGLFee(Double loan_monthlyGLFee) {
+        this.loan_monthlyGLFee = loan_monthlyGLFee;
+    }
+
+    public void setLoan_monthlyRate(Double loan_monthlyRate) {
+        this.loan_monthlyRate = loan_monthlyRate;
+    }
+
+    public void setLoan_otherFee(Double loan_otherFee) {
+        this.loan_otherFee = loan_otherFee;
+    }
+
+    public void setLoan_wyFee(Double loan_wyFee) {
+        this.loan_wyFee = loan_wyFee;
+    }
+
+    public void setLoan_znjFee(Double loan_znjFee) {
+        this.loan_znjFee = loan_znjFee;
+    }
+
+}

@@ -1,0 +1,12 @@
+dubbo.transport.version=${dubbo.version}
+#dubbo.transport.registry=172.16.88.65:2181,172.16.88.66:2181,172.16.88.68:2181
+dubbo.transport.registry=${dubbo.registry}
+
+
+oss_accessKey_id=${oss.oss_accessKey_id}
+oss_accessKey_secret=${oss.oss_accessKey_secret}
+oss_endpoint=${oss.oss_endpoint}
+oss_bucketName=${oss.oss_bucketName}
+oss_url=${oss.oss_url}
+
+fengkong.api.service=${api.fengkong.api.service}

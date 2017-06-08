@@ -1,0 +1,33 @@
+package cn.sunfit.risk.buz.api.service.corp;
+
+import java.util.List;
+
+import cn.sunfit.risk.buz.api.vo.corp.CorpUpdateReq;
+import cn.sunfit.risk.buz.api.vo.corp.CorpVO;
+
+public interface CorpService {
+    /**
+     * 
+     * @Title: queryCorpInfo
+     * @Description: 查询公司信息
+     * @param @param corpId
+     * @param @return   
+     * @return CorpVO 
+     * @author XFL 2017年2月15日 
+     * @throws
+     */
+    CorpVO queryCorpInfo(String corpId);
+
+    List<String> selectCorpDomain();
+
+    /**
+     * 
+     * @Title: updateCorpInfo
+     * @Description: 修改公司信息
+     * @param @param corp   
+     * @return void 
+     * @author XFL 2017年2月15日 
+     * @throws
+     */
+    void updateCorpInfo(CorpUpdateReq corp);
+}

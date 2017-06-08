@@ -1,0 +1,4 @@
+{
+    "loancarassessimg_pic": [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"loancarassessimg_pic","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}],
+    "loancarassessimg_group_photo": [{"ruleType":"file","ruleLevel":"field","message":"只能上传后缀为jpg png的文件","fieldKey":"loancarassessimg_group_photo","condition":null,"detail":{"extension":"jpg,jpeg,png","type":"image/*"}}]
+}

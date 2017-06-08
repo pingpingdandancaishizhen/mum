@@ -1,0 +1,37 @@
+<template>
+  <div :class="!checkedAdd?(data.cols?'form-group col-md-'+data.cols*3:'form-group col-md-3'):''" :id="data.key">
+    <label :class="data.required?'require':''" v-if="!checkedAdd">{{data.label}}</label>
+    <div :class="data.unit?'input-group':''">
+      <input type="number" v-if="data.editor=='amount'" class="form-control" :name="data.key"  placeholder="" :value="defaultValue" @input="handleInput" min="0" max="999999999" :disabled="data.readonly?true:false">
+      <input type="text" v-else class="form-control" :name="data.key"  placeholder="" :value="defaultValue" @input="handleInput" :disabled="data.readonly?true:false">
+      <span v-if="data.unit" class="input-unit">{{data.unit}}</span>
+    </div>
+  </div>
+</template>
+<script>
+  export default{
+    data(){
+      return {
+      }
+    },
+    props: ['data','oData','attrsData','checkedAdd'],
+    created:function () {
+      this.$store.dispatch('setInputData', {key: this.data.key, value: ''})
+    },
+    methods:{
+      handleInput:function (e) {
+        var value=e.target.value;
+        var index=this.index;
+        this.$store.dispatch('setInputData',{key:this.data.key,value:value})
+      }
+    },
+    computed:{
+      defaultValue(){
+        var attrValue=this.attrsData[this.data.key];
+        var value=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+        value!=''&&this.$store.dispatch('setInputData', {key: this.data.key, value: value});
+        return value
+      }
+    }
+  }
+</script>

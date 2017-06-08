@@ -1,0 +1,13 @@
+delete from myd_bp_attrs;
+delete from myd_bp_big_attrs;
+delete from myd_bp_jump;
+delete from myd_bp_loans;
+delete from myd_bp_oper_logs;
+delete from myd_customers;
+delete from myd_loan_fee;
+delete from myd_repayment_base;
+delete from myd_repayment_detail;
+delete from myd_repayment_overdue;
+delete from myd_repayment_record;
+delete from myd_repayment_settlement;
+delete from myd_risk_bps;

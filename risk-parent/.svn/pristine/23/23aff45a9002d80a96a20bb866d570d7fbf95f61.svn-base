@@ -1,0 +1,52 @@
+<template>
+  <div>
+    <div :class="!checkedAdd?(data.cols?'form-group col-md-'+data.cols*3:'form-group col-md-3'):''" :id="data.key">
+      <label :class="data.required?'require':''" v-if="!checkedAdd">{{data.label}}</label>
+      <div>
+        <label class="radio-inline" v-for="item in oData[data.dataSource]">
+          <input type="radio"  :value="item.dicKey" v-model="checkRadio" :disabled="data.readonly?true:false">{{item.dicValue}}
+        </label>
+      </div>
+    </div>
+    <component :is="currentView" :data="data.extGroups[checkRadio]" keep-alive> </component>
+  </div>
+
+
+</template>
+<style>
+
+</style>
+<script>
+  export default{
+        data(){
+            return{
+              checkRadio:'',
+              currentView:'app-form'
+            }
+        },
+      props:['data','oData','attrsData','checkedAdd'],
+    created:function () {
+      this.$store.dispatch('setInputData', {key: this.data.key, value: ''})
+    },
+      watch:{
+          checkRadio:function (value) {
+            var extGroups=this.data.extGroups;
+            if(extGroups[value]){
+              this.currentView='app-form'
+            }else{
+              this.currentView= ''
+            }
+            this.$store.dispatch('setInputData',{key:this.data.key,value:value})
+          }
+      },
+    mounted:function () {
+      var attrValue=this.attrsData[this.data.key];
+      var slectData=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+      /*slectData!=''&&this.$store.dispatch('setInputData', {key: this.data.key, value: slectData});*/
+      this.checkRadio=slectData
+    },
+    beforeCreate:function () {
+      this.$options.components['app-form']=require('./form.vue');
+    }
+    }
+</script>

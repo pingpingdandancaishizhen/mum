@@ -1,0 +1,169 @@
+package cn.sunfit.risk.web.utils;
+
+import cn.sunfit.risk.buz.api.vo.p2p.product.config.CydMonthlyFee;
+import cn.sunfit.risk.buz.api.vo.p2p.product.config.GpsFirstFee;
+import cn.sunfit.risk.buz.api.vo.p2p.product.config.GpsServiceFee;
+import cn.sunfit.risk.buz.api.vo.p2p.product.config.ParkFee;
+import cn.sunfit.risk.buz.api.vo.p2p.product.config.ZxFee;
+
+public class LoanInfoRes {
+
+    // 是否有gps费用，参照枚举类GpsType
+    private int gpsType;
+
+    // gps初次安装情况收取的费用
+    private GpsFirstFee gpsFirstFee;
+
+    // gps服务费（按月收取）
+    private GpsServiceFee gpsServiceFee;
+
+    // 月利率
+    private CydMonthlyFee loan_monthlyRate;
+
+    // 咨询费
+    private ZxFee zxfee;
+    // 是否有咨询费，1：有 2：无
+    private int zxfType;
+
+    // 停车费
+    private ParkFee parkFee;
+    // 是否有停车费 1：有 2：无
+    private int parkType;
+
+    // 是否有其他费用，参照枚举类OtherType
+    private String otherType;
+    // 其他费用
+    private Double loan_otherFee;
+
+    // 违约费率
+    private Double loan_wyFee;
+    // 滞纳金率的配置方式,参照枚举类ZnjCalType
+    private int znjCalType;
+    // 滞纳金率
+    private Double loan_znjFee;
+    // 是否有保证金,参照枚举类 BzjType
+    private int bzjType;
+    // 保证金费率
+    private Double loan_bzjFee;
+
+    public int getBzjType() {
+        return bzjType;
+    }
+
+    public GpsFirstFee getGpsFirstFee() {
+        return gpsFirstFee;
+    }
+
+    public GpsServiceFee getGpsServiceFee() {
+        return gpsServiceFee;
+    }
+
+    public int getGpsType() {
+        return gpsType;
+    }
+
+    public Double getLoan_bzjFee() {
+        return loan_bzjFee;
+    }
+
+    public CydMonthlyFee getLoan_monthlyRate() {
+        return loan_monthlyRate;
+    }
+
+    public Double getLoan_otherFee() {
+        return loan_otherFee;
+    }
+
+    public Double getLoan_wyFee() {
+        return loan_wyFee;
+    }
+
+    public Double getLoan_znjFee() {
+        return loan_znjFee;
+    }
+
+    public String getOtherType() {
+        return otherType;
+    }
+
+    public ParkFee getParkFee() {
+        return parkFee;
+    }
+
+    public int getParkType() {
+        return parkType;
+    }
+
+    public int getZnjCalType() {
+        return znjCalType;
+    }
+
+    public ZxFee getZxfee() {
+        return zxfee;
+    }
+
+    public int getZxfType() {
+        return zxfType;
+    }
+
+    public void setBzjType(int bzjType) {
+        this.bzjType = bzjType;
+    }
+
+    public void setGpsFirstFee(GpsFirstFee gpsFirstFee) {
+        this.gpsFirstFee = gpsFirstFee;
+    }
+
+    public void setGpsServiceFee(GpsServiceFee gpsServiceFee) {
+        this.gpsServiceFee = gpsServiceFee;
+    }
+
+    public void setGpsType(int gpsType) {
+        this.gpsType = gpsType;
+    }
+
+    public void setLoan_bzjFee(Double loan_bzjFee) {
+        this.loan_bzjFee = loan_bzjFee;
+    }
+
+    public void setLoan_monthlyRate(CydMonthlyFee loan_monthlyRate) {
+        this.loan_monthlyRate = loan_monthlyRate;
+    }
+
+    public void setLoan_otherFee(Double loan_otherFee) {
+        this.loan_otherFee = loan_otherFee;
+    }
+
+    public void setLoan_wyFee(Double loan_wyFee) {
+        this.loan_wyFee = loan_wyFee;
+    }
+
+    public void setLoan_znjFee(Double loan_znjFee) {
+        this.loan_znjFee = loan_znjFee;
+    }
+
+    public void setOtherType(String otherType) {
+        this.otherType = otherType;
+    }
+
+    public void setParkFee(ParkFee parkFee) {
+        this.parkFee = parkFee;
+    }
+
+    public void setParkType(int parkType) {
+        this.parkType = parkType;
+    }
+
+    public void setZnjCalType(int znjCalType) {
+        this.znjCalType = znjCalType;
+    }
+
+    public void setZxfee(ZxFee zxfee) {
+        this.zxfee = zxfee;
+    }
+
+    public void setZxfType(int zxfType) {
+        this.zxfType = zxfType;
+    }
+
+}

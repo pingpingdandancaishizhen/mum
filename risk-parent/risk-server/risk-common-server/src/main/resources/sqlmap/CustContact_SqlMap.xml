@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.corp.CustContactDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.corp.CustContact" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="cust_id" property="custId" jdbcType="VARCHAR" />
+    <result column="index" property="index" jdbcType="INTEGER" />
+    <result column="relation" property="relation" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="is_know" property="isknow" jdbcType="TINYINT" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="company" property="company" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cust_id, `index`, relation, `name`, is_know, mobile, company
+  </sql>
+  <select id="selectCustContactsByCustId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_cust_contact
+    where cust_id = #{custId,jdbcType=VARCHAR}
+    order by `index`
+  </select>
+  
+  <insert id="insert">
+    insert into ${domain}_cust_contact (id, cust_id, `index`, relation, 
+      `name`, is_know, mobile, 
+      company)
+    values 
+    <foreach collection="custContacts" item="custContact" separator=",">
+		(#{custContact.id,jdbcType=VARCHAR}, #{custContact.custId,jdbcType=VARCHAR}, #{custContact.index,jdbcType=INTEGER}, 
+		#{custContact.relation,jdbcType=VARCHAR}, #{custContact.name,jdbcType=VARCHAR}, #{custContact.isknow,jdbcType=TINYINT}, 
+		#{custContact.mobile,jdbcType=VARCHAR}, #{custContact.company,jdbcType=VARCHAR})
+	</foreach>
+  </insert>
+  
+  <delete id="deleteCustContactsByCustId">
+    delete from ${domain}_cust_contact
+    where cust_id = #{custId,jdbcType=VARCHAR}
+  </delete>
+</mapper>

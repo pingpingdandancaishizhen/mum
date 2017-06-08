@@ -1,0 +1,6 @@
+{"loanofee_gps": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100000000之间的2位小数","fieldKey":"loanofee_gps","condition":null,"detail":{"min":"0","max":"100000000","digits":"2"}}],
+"loanofee_gpsservice": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100000000之间的2位小数","fieldKey":"loanofee_gpsservice","condition":null,"detail":{"min":"0","max":"100000000","digits":"2"}}],
+"loanofee_park": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100000000之间的2位小数","fieldKey":"loanofee_park","condition":null,"detail":{"min":"0","max":"100000000","digits":"2"}}],
+"loanofee_consulting": [{"ruleType":"decimal","ruleLevel":"field","message":"请输入在0到100之间的2位小数","fieldKey":"loanofee_consulting","condition":null,"detail":{"min":"0","max":"100","digits":"2"}}],
+"loanofee_repay_day":[{"ruleType":"integer","ruleLevel":"field","message":"请输入在1到28之间的2位小数","fieldKey":"loanofee_park","condition":null,"detail":{"min":"1","max":"28"}}]
+}

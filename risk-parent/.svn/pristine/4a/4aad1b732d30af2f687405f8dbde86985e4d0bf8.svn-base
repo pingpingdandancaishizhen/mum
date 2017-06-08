@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.partnerCorp.P2PAssetDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.p2p.P2PAsset" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="asset_type" property="assetType" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="lastmod_time" property="lastmodTime" jdbcType="TIMESTAMP" />
+    <result column="corp_name" property="corpName" jdbcType="VARCHAR" />
+    <result column="corp_abbreviation" property="corpAbbreviation" jdbcType="VARCHAR" />
+    <result column="institution_code" property="institutionCode" jdbcType="VARCHAR" />
+    <result column="corp_contact" property="corpContact" jdbcType="VARCHAR" />
+     <result column="corp_contact_tel" property="corpContactTel" jdbcType="VARCHAR" />
+     <result column="email" property="email" jdbcType="VARCHAR" />
+     <result column="fax" property="fax" jdbcType="VARCHAR" />
+      <result column="corp_address" property="corpAddress" jdbcType="VARCHAR" />
+    <result column="address_detail" property="addressDetail" jdbcType="VARCHAR" />
+    <result column="accept_account_name" property="acceptAccountName" jdbcType="VARCHAR" />
+    <result column="accept_account_num" property="acceptAccountNum" jdbcType="VARCHAR" />
+     <result column="accept_account_bank" property="acceptAccountBank" jdbcType="VARCHAR" />
+     <result column="branch_bank" property="branchBank" jdbcType="VARCHAR" />     
+     <result column="repayment_name" property="repaymentName" jdbcType="VARCHAR" />
+    <result column="repayment_num" property="repaymentNum" jdbcType="VARCHAR" />
+     <result column="repayment_bank" property="repaymentBank" jdbcType="VARCHAR" />
+     <result column="repayment_branch_bank" property="repaymentBranchBank" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="cn.sunfit.risk.buz.api.vo.p2p.partnerCorp.P2PAssetDTO" id="AssetDTOMap" extends="BaseResultMap">
+  	<result column="user_name" property="createrName" jdbcType="VARCHAR" />
+  	<result column="asset_product" property="assetProduct" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, asset_type, create_time, lastmod_time, corp_name, corp_abbreviation, institution_code, 
+    corp_contact, corp_contact_tel, email, fax, corp_address, address_detail, accept_account_name, 
+    accept_account_num, accept_account_bank, branch_bank, create_man, status,repayment_name,repayment_num
+    ,repayment_bank,repayment_branch_bank
+  </sql>
+  
+  
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.p2p.P2PAsset" >
+    insert into ${domain}_p2p_asset (id ,asset_type ,create_time ,lastmod_time ,
+  corp_name ,corp_abbreviation ,institution_code,corp_contact ,corp_contact_tel,
+  email ,fax ,corp_address ,address_detail,accept_account_name,
+  accept_account_num ,accept_account_bank ,branch_bank ,create_man , `status` , repayment_name,repayment_num
+  ,repayment_bank,repayment_branch_bank)
+    values (#{id,jdbcType=VARCHAR}, #{assetType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastmodTime,jdbcType=TIMESTAMP}, #{corpName,jdbcType=VARCHAR}, #{corpAbbreviation,jdbcType=VARCHAR}, 
+       #{institutionCode,jdbcType=VARCHAR},#{corpContact,jdbcType=VARCHAR}, #{corpContactTel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{fax,jdbcType=VARCHAR}, #{corpAddress,jdbcType=VARCHAR}, #{addressDetail,jdbcType=VARCHAR},
+	#{acceptAccountName,jdbcType=VARCHAR}, #{acceptAccountNum,jdbcType=VARCHAR},
+	#{acceptAccountBank,jdbcType=VARCHAR}, #{branchBank,jdbcType=VARCHAR}, #{createMan,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+	#{repaymentName,jdbcType=VARCHAR}, #{repaymentNum,jdbcType=VARCHAR},
+	#{repaymentBank,jdbcType=VARCHAR}, #{repaymentBranchBank,jdbcType=VARCHAR})
+  </insert>
+  
+    <select id="queryAssetList" resultMap="AssetDTOMap" parameterType="cn.sunfit.risk.buz.api.vo.p2p.partnerCorp.P2PAssetQueryReq">
+  	SELECT a.id,a.create_time,a.asset_type,a.corp_abbreviation,u.user_name,GROUP_CONCAT(t.`name`) asset_product from ${asset.domain}_p2p_asset a 
+  	  left JOIN ${asset.domain}_p2p_product p on a.id=p.asset_id and p.`status`=1  LEFT JOIN p2p_product_type t on p.product_type=t.id LEFT JOIN risk_corp_user u on a.create_man=u.id
+  	where 1=1 	
+  	
+  	<if test="asset.corpName != null and asset.corpName != ''">
+  		and a.corp_name like concat('%',#{asset.corpName,jdbcType=VARCHAR},'%')
+  	</if>
+  	<if test="asset.assetType != null and asset.assetType != ''">
+  		and a.asset_type = #{asset.assetType,jdbcType=VARCHAR}
+  	</if>
+  	<if test="asset.createTimeFrom != null">
+    	and a.create_time <![CDATA[ >= ]]>#{asset.createTimeFrom,jdbcType=TIMESTAMP}
+    </if>
+    <if test="asset.createTimeTo != null">
+    	and a.create_time <![CDATA[<= ]]>#{asset.createTimeTo,jdbcType=TIMESTAMP}
+    </if>
+    <if test="asset.status != null ">
+  	and a.status = #{asset.status,jdbcType=SMALLINT}
+  	</if>
+  	 <if test="asset.product != null and asset.product != ''">
+  	and a.id in (SELECT pr.asset_id from ${asset.domain}_p2p_product pr where pr.`status`=1 and pr.product_type = #{asset.product,jdbcType=VARCHAR})
+  	
+  	</if>
+  	GROUP BY a.id
+  	order by a.create_time desc
+  </select>
+  
+   <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_p2p_asset
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+ <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.p2p.P2PAsset" >
+    update ${domain}_p2p_asset
+    set asset_type = #{assetType,jdbcType=VARCHAR},
+      lastmod_time = #{lastmodTime,jdbcType=TIMESTAMP},
+      corp_name = #{corpName,jdbcType=VARCHAR},
+      corp_abbreviation = #{corpAbbreviation,jdbcType=VARCHAR},
+      institution_code = #{institutionCode,jdbcType=VARCHAR},
+      corp_contact = #{corpContact,jdbcType=VARCHAR},
+      corp_contact_tel = #{corpContactTel,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      fax = #{fax,jdbcType=VARCHAR},
+      corp_address = #{corpAddress,jdbcType=VARCHAR},
+      address_detail = #{addressDetail,jdbcType=VARCHAR},
+      accept_account_name = #{acceptAccountName,jdbcType=VARCHAR},
+      accept_account_num = #{acceptAccountNum,jdbcType=VARCHAR},
+      accept_account_bank = #{acceptAccountBank,jdbcType=VARCHAR},
+      branch_bank = #{branchBank,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      repayment_name = #{repaymentName,jdbcType=VARCHAR},
+      repayment_num = #{repaymentNum,jdbcType=VARCHAR},
+      repayment_bank = #{repaymentBank,jdbcType=VARCHAR},
+      repayment_branch_bank = #{repaymentBranchBank,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="checkCorpName" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.beans.p2p.P2PAsset" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_p2p_asset
+    where corp_name = #{corpName,jdbcType=VARCHAR}
+   
+
+    <if test=" id != null">
+    	and id <![CDATA[ != ]]>#{id,jdbcType=VARCHAR}
+    </if>
+    
+  </select>
+  
+  <select id="checkCorpAbbreviation" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.beans.p2p.P2PAsset" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_p2p_asset
+    where corp_abbreviation = #{corpAbbreviation,jdbcType=VARCHAR}
+     <if test=" id != null">
+    	and id <![CDATA[ != ]]>#{id,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="checkInstitutionCode" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.beans.p2p.P2PAsset" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_p2p_asset
+    where institution_code = #{institutionCode,jdbcType=VARCHAR}
+     <if test=" id != null">
+    	and id <![CDATA[ != ]]>#{id,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  
+  
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.templates.MetaFormsTemplatesDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.templates.MetaFormsTemplates" >
+    <id column="form_id" property="formId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="form_key" property="formKey" jdbcType="VARCHAR" />
+    <result column="form_name" property="formName" jdbcType="VARCHAR" />
+    <result column="form_desc" property="formDesc" jdbcType="VARCHAR" />
+    <result column="operations" property="operations" jdbcType="VARCHAR" />
+    <result column="layout" property="layout" jdbcType="VARCHAR" />
+    <result column="is_outside" property="isOutside" jdbcType="VARCHAR" />
+    <result column="check_rules" property="checkRules" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.sunfit.risk.buz.api.beans.templates.MetaFormsTemplates" extends="BaseResultMap" >
+    <result column="form_html" property="formHtml" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    form_id, bp_def_id, form_key, form_name, form_desc, operations, layout, is_outside,check_rules
+  </sql>
+  <sql id="Blob_Column_List" >
+    form_html
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bp_meta_forms_templates
+    where form_id = #{formId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaFormsTemplates" >
+    insert into bp_meta_forms_templates (form_id, bp_def_id, form_key, 
+      form_name, form_desc, operations, 
+      layout, is_outside, form_html,check_rules
+      )
+    values (#{formId,jdbcType=VARCHAR}, #{bpDefId,jdbcType=VARCHAR}, #{formKey,jdbcType=VARCHAR}, 
+      #{formName,jdbcType=VARCHAR}, #{formDesc,jdbcType=VARCHAR}, #{operations,jdbcType=VARCHAR}, 
+      #{layout,jdbcType=VARCHAR}, #{isOutside,jdbcType=VARCHAR}, #{formHtml,jdbcType=LONGVARCHAR},#{checkRules}
+      )
+  </insert>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaFormsTemplates" >
+    update bp_meta_forms_templates
+    set bp_def_id = #{bpDefId,jdbcType=VARCHAR},
+      form_key = #{formKey,jdbcType=VARCHAR},
+      form_name = #{formName,jdbcType=VARCHAR},
+      form_desc = #{formDesc,jdbcType=VARCHAR},
+      operations = #{operations,jdbcType=VARCHAR},
+      layout = #{layout,jdbcType=VARCHAR},
+      is_outside = #{isOutside,jdbcType=VARCHAR},
+      form_html = #{formHtml,jdbcType=LONGVARCHAR},
+      check_rules=#{checkRules}
+    where form_id = #{formId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.templates.MetaFormsTemplates" >
+    update bp_meta_forms_templates
+    set bp_def_id = #{bpDefId,jdbcType=VARCHAR},
+      form_key = #{formKey,jdbcType=VARCHAR},
+      form_name = #{formName,jdbcType=VARCHAR},
+      form_desc = #{formDesc,jdbcType=VARCHAR},
+      operations = #{operations,jdbcType=VARCHAR},
+      layout = #{layout,jdbcType=VARCHAR},
+      is_outside = #{isOutside,jdbcType=VARCHAR},
+       check_rules=#{checkRules}
+    where form_id = #{formId,jdbcType=VARCHAR}
+  </update>
+   <select id="selectMetaFormsTemplates" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select  
+    <include refid="Base_Column_List" />
+    from bp_meta_forms_templates
+    where bp_def_id = #{bpDefId,jdbcType=VARCHAR}
+  </select>
+</mapper>

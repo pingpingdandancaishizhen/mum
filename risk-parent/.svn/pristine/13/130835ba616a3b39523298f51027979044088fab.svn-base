@@ -1,0 +1,53 @@
+package cn.sunfit.risk.buz.server.service.p2p.product.form.handler;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.sunfit.risk.buz.api.service.p2p.excel.ImportExcelTemplateService;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.Attr;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.P2PImportExcelTemplateXJD;
+import cn.sunfit.risk.buz.server.service.p2p.product.form.ProductFormAbstractHandler;
+
+
+
+/**
+ * 
+ * @Title: DefaultProductFormHandler.java
+ * @Package cn.sunfit.risk.buz.server.service.product.form.handler
+ * @Description: 默认产品表单处理
+ * @author XFL
+ * @date 2017年3月3日 上午11:00:15
+ * @version V1.0
+ */
+@Service("defaultProductFormHandler")
+public class DefaultProductFormHandler extends ProductFormAbstractHandler {
+	@Autowired
+	private ImportExcelTemplateService importExcelTemplateService;
+
+    // @Autowired
+    // private ProductFeeService productFeeService;
+
+
+    @Override	
+    public boolean filter(String productId) {
+        return true;
+    }
+
+	@Override
+	public boolean hasLoan(FormQuery req, P2PImportExcelTemplateXJD loan) {
+		
+		importExcelTemplateService.hasLoanInfo(req);
+		return false;
+	}
+
+	@Override
+	public Map<String, Attr> initStartAttr(FormQuery req) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+}

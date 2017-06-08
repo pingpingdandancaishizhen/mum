@@ -1,0 +1,82 @@
+<template>
+  {{checked}}
+  <div class="inline-block">
+    <label class="checkbox-inline">
+      <input type="checkbox" :name="data.key" :value="oData.dicKey"  :checked="checked==oData.dicKey?'checked':''"  @change="handleChange" :disabled="data.readonly?true:false" /> <span>{{oData.dicValue}}</span>
+    </label>
+    <component v-if='data.extEditors' :is="currentView" :de="deCurrentView" :data="data.extEditors[checkValue]" :checkedAdd="true"  class="inline-block checkbox-input"> </component>
+  </div>
+
+</template>
+<script>
+  let defaultView='app-layout';
+  import checkRule from '../mixins/checkRule'
+  export default{
+    mixins:[checkRule],
+        data(){
+            return{
+              inputValue:'',
+              checkValue:'',
+              currentView:'',
+            }
+        },
+      props:['data','oData','attrData','type','checked'],
+      computed:{
+        deCurrentView:function () {
+          var view=''
+          var checked=this.checked;
+          if(this.oData.dicKey==checked){
+            this.currentView=defaultView;
+            this.checkValue=checked;
+            view=defaultView
+          }
+          return view
+        }
+      },
+      beforeCreate:function () {
+        this.$options.components[defaultView]=require('./layout.vue');
+      },
+      created:function () {
+        var checked=this.checked||[];
+        checked[0]&&this.setParent(checked[0])
+      },
+      methods: {
+        handleChange:function (e) {
+          var $el=$(e.target);
+          var value=$el.val();
+          if($el.is(':checked')){
+            //传值给父组件
+            this.setParent(value);
+            //是否加载子组件
+            this.checkValue=value;
+            var extEditors=this.data.extEditors||{};
+            if(extEditors[value]){
+              this.currentView=defaultView
+            }else{
+              this.currentView= ''
+            }
+          }else{
+            this.currentView= '';
+            this.delParent(value)
+          }
+        },
+        //传值给父组件
+        setParent:function (value) {
+          if($.isArray(this.$parent.checkBox)){
+            value&&this.$parent.checkBox.push(value)
+          }else{
+            this.$parent.checkBox=value;
+          }
+        },
+        delParent:function (value) {
+            if($.isArray(this.$parent.checkBox)){
+              var checkBox=this.$parent.checkBox;
+              checkBox.splice($.inArray(value,checkBox),1);
+            }else{
+              this.$parent.checkBox='';
+            }
+        }
+      },
+    }
+
+</script>

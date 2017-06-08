@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.system.SystemFuncDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.system.SystemFunc" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="func_name" property="funcName" jdbcType="VARCHAR" />
+    <result column="func_code" property="funcCode" jdbcType="VARCHAR" />
+    <result column="menu_id" property="menuId" jdbcType="VARCHAR" />
+    <result column="is_active" property="isActive" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="SystemUrlFuncMap" type="cn.sunfit.risk.buz.api.vo.system.SystemUrlFunc">
+		<result column="func_code" property="funcCode" jdbcType="VARCHAR" />
+		<result column="action_url" property="actionUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, func_name, func_code, menu_id, is_active, create_time
+  </sql>
+  <sql id="Base_Column_List_FN" >
+    fn.id, fn.func_name, fn.func_code, fn.menu_id, fn.is_active, fn.create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from risk_system_func
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.system.SystemFunc" >
+    insert into risk_system_func (id, func_name, func_code, 
+      menu_id, is_active, create_time
+      )
+    values (#{id,jdbcType=VARCHAR}, #{funcName,jdbcType=VARCHAR}, #{funcCode,jdbcType=VARCHAR}, 
+      #{menuId,jdbcType=VARCHAR}, #{isActive,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.system.SystemFunc" >
+    update risk_system_func
+    set func_name = #{funcName,jdbcType=VARCHAR},
+      func_code = #{funcCode,jdbcType=VARCHAR},
+      menu_id = #{menuId,jdbcType=VARCHAR},
+      is_active = #{isActive,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="queryAllUrlFunc" resultMap="SystemUrlFuncMap" >
+		select a.action_url,c.func_code
+		from  risk_system_url a,risk_system_func_url_rel b,risk_system_func c, risk_system_menu d
+		where a.url_id = b.url_id
+       		and b.func_id = c.id
+			and d.id= c.menu_id
+		    and c.is_active = '0'
+	</select>
+	
+	<select id="queryRoleFunction" resultMap="BaseResultMap" parameterType="java.util.Map">
+      select m.func_code
+      from 	risk_system_func m, risk_corp_func_rel n, risk_corp_role_func_rel t   
+	  where m.id = n.func_id and m.is_active=0
+		 and n.func_id = t.func_id
+		 and n.corp_id = #{corpId,jdbcType=VARCHAR}
+		 and t.role_id 
+		 in 
+		 <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+		 #{roleId}
+		 </foreach>
+    </select>
+    
+      
+  <select id="queryFuncByMenuCorp" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select <include refid="Base_Column_List_FN"/>
+			from  risk_corp_func_rel fr,risk_system_func fn
+		where fr.corp_id=#{corpId} and fn.menu_id=#{menuId} and fr.func_id=fn.id
+	</select>
+	  <select id="queryFuncByMenuCorpRole" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select <include refid="Base_Column_List_FN"/>
+		from  risk_corp_role r,risk_corp_role_func_rel t,risk_corp_func_rel fr,risk_system_func fn
+		where r.id =#{roleId} and fr.corp_id=#{corpId} and fn.menu_id=#{menuId} and fr.func_id=fn.id
+		 and r. STATUS = '0' and r.id = t.role_id  and fr.func_id=fn.id
+          and fr.corp_id =r.corp_id 
+          and t.func_id = fr.func_id	  
+	</select>
+</mapper>

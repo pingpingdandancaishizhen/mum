@@ -1,0 +1,66 @@
+<template>
+  <div>
+    <div :class="!checkedAdd?(data.cols?'form-group col-md-'+data.cols*3:'form-group col-md-3'):''" :id="data.key">
+      <label :class="data.required?'require':''" v-if="!checkedAdd">{{data.label}}</label>
+      <div>
+        <input type="text"  class="form-control" :name="data.key"  placeholder="" :value="defaultIndustry" readonly :id="data.key+'_input'">
+      </div>
+    </div>
+    <div v-if='data.extEditors&&data.extEditors[0]&&data.extEditors[0][0]' >
+      <div :class="data.extEditors[0][0].cols?'form-group col-md-'+data.extEditors[0][0].cols*3:'form-group col-md-3'" >
+        <label :class="data.extEditors[0][0].required?'require':''" v-if="!checkedAdd">{{data.extEditors[0][0].label}}</label>
+        <div>
+          <input type="text" class="form-control" :name="data.extEditors[0][0].key"  placeholder="" :value="defaultJob" readonly :id="data.extEditors[0][0].key">
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  export default{
+    data(){
+      return {
+        positionSelect:'',
+        industry:'',
+        job:''
+      }
+    },
+    props: ['data','oData','attrsData','checkedAdd'],
+    computed:{
+      defaultIndustry(){
+        var attrValue=this.attrsData[this.data.key];
+        var value=attrValue?(attrValue.draftValue||attrValue.attrValue||''):'';
+        var comValue=this.industry||value;
+        this.$store.dispatch('setInputData', {key: this.data.key, value: comValue});
+        return comValue;
+      },
+      defaultJob(){
+        var extEditors=this.data.extEditors||{};
+        var jobData=extEditors[0]||[];
+        var jobKey=jobData[0]?jobData[0].key:'';
+        var attrValue=this.attrsData[jobKey];
+        var value=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+        var comValue=this.job||value;
+        this.$store.dispatch('setInputData', {key: jobKey, value: comValue});
+        return comValue;
+      }
+    },
+    mounted:function () {
+      var _this=this;
+      if(!_this.positionSelect&&!this.data.readonly){
+       var positionSelect= $('#'+this.data.key+"_input").positionSelect({
+          maxCount : 1,
+          containerId: "positionDiv",
+          industryId: this.data.key+'_input',
+          className: "big-window",
+          nameId: "job",
+         defaultValue:[this.defaultIndustry,this.defaultJob].join(',')
+        },function (industry,job) {
+         _this.industry=industry
+         _this.job=job;
+        })
+      }
+      this.positionSelect=positionSelect
+    }
+  }
+</script>

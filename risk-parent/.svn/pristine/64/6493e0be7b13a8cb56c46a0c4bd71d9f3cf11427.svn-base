@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.p2p.order.LoanInfoDAO" >
+  <resultMap id="BaseResult" type="cn.sunfit.risk.buz.api.beans.p2p.order.LoanInfoBean" >
+    <result column="id" property="id" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	bp_id,import_way,aprove_status,corporation,third_loan_id,third_status,product_code,product_name,
+  	loan_purpose,loan_period,customer_type,loan_money,loan_day_rate,manage_day_rate,other_fee,
+  	real_fk_money,repay_type,customer_name,gender,mobile_phone,id_card,house_hold_province,
+  	house_hold_city,house_hold_region,house_hold_address,marriage,has_child,job_type,company_name,
+  	company_province,company_city,company_region,company_address,company_tel,job_title,hight_degree,
+  	graduate_institutions,school_province,school_city,school_region,school_address,urgen_contact_1,
+  	relation_1,urgen_phone_1,urgen_contact_2,relation_2,urgen_phone_2,zm_credit_score,receivers_name,
+  	receivers_bank_account,receivers_bank_name,receivers_bank_province,receivers_bank_city,receivers_bank_branch,
+  	repayment_name,repayment_bank_account,repayment_bank_name,repayment_bank_province,repayment_bank_city,
+  	repayment_bank_branch,loan_handle_type,create_user,import_code,create_time
+  </sql>
+  
+ 
+  
+ <insert id="insertLoanInfos" parameterType="cn.sunfit.risk.buz.api.beans.p2p.order.LoanInfoBean" >
+  	INSERT INTO ${domain}_loan_info(<include refid="Base_Column_List" />) 
+  	VALUES
+  	<foreach collection="list" item="bean" separator=",">
+	( #{bean.bpId},#{bean.importWay}, #{bean.aproveStatus},#{bean.corporation}, #{bean.thirdLoanId}, 
+	  #{bean.thirdStatus},#{bean.productCode}, #{bean.productName}, #{bean.loanPurpose}, 
+      #{bean.loanPeriod}, #{bean.customerType}, #{bean.loanMoney},#{bean.loanDayRate},
+      #{bean.manageDayRate}, #{bean.otherFee},#{bean.realFKMoney}, #{bean.repayType}, #{bean.customerName}, 
+      #{bean.gender}, #{bean.mobilePhone},#{bean.idCard}, #{bean.residenceHouseHoldProvince}, #{bean.residenceHouseHoldCity}, 
+      #{bean.residenceHouseHoldRegion}, #{bean.residenceHouseHoldAddress}, #{bean.marriage},#{bean.hasChild}, 
+      #{bean.jobType}, #{bean.companyName},#{bean.companyProvince}, #{bean.companyCity}, 
+      #{bean.companyRegion},#{bean.companyAddress}, #{bean.companyTel}, #{bean.jobTitle}, 
+      #{bean.hightDegree}, #{bean.graduateInstitutions}, #{bean.schoolProvince},#{bean.schoolCity}, 
+      #{bean.schoolRegion}, #{bean.schoolAddress},#{bean.urgenContact1}, #{bean.relation1}, 
+      #{bean.urgenPhone1},#{bean.urgenContact2}, #{bean.relation2}, #{bean.urgenPhone2},#{bean.zMCreditScore}, 
+      #{bean.receiversName}, #{bean.receiversBankAccount},#{bean.receiversBankName}, #{bean.receiversBankProvince}, 
+      #{bean.receiversBankCity},#{bean.receiversBankBranch}, #{bean.repaymentName}, #{bean.repaymentBankAccount}, 
+      #{bean.repaymentBankName}, #{bean.repaymentBankProvince}, #{bean.repaymentBankCity}, 
+      #{bean.repaymentBankBranch}, #{bean.loanHandleType}, #{bean.createUser},#{bean.importCode},
+      #{bean.createTime})
+	</foreach>
+  </insert>
+  
+  <insert id="insertLoanInfo" parameterType="cn.sunfit.risk.buz.api.beans.p2p.order.LoanInfoBean" >
+  	INSERT INTO ${domain}_loan_info(<include refid="Base_Column_List" />) 
+  	VALUES
+	( #{bean.bpId},#{bean.importWay}, #{bean.aproveStatus},#{bean.corporation}, #{bean.thirdLoanId}, 
+	  #{bean.thirdStatus},#{bean.productCode}, #{bean.productName}, #{bean.loanPurpose}, 
+      #{bean.loanPeriod}, #{bean.customerType}, #{bean.loanMoney},#{bean.loanDayRate},
+      #{bean.manageDayRate}, #{bean.otherFee},#{bean.realFKMoney}, #{bean.repayType}, #{bean.customerName}, 
+      #{bean.gender}, #{bean.mobilePhone},#{bean.idCard}, #{bean.residenceHouseHoldProvince}, #{bean.residenceHouseHoldCity}, 
+      #{bean.residenceHouseHoldRegion}, #{bean.residenceHouseHoldAddress}, #{bean.marriage},#{bean.hasChild}, 
+      #{bean.jobType}, #{bean.companyName},#{bean.companyProvince}, #{bean.companyCity}, 
+      #{bean.companyRegion},#{bean.companyAddress}, #{bean.companyTel}, #{bean.jobTitle}, 
+      #{bean.hightDegree}, #{bean.graduateInstitutions}, #{bean.schoolProvince},#{bean.schoolCity}, 
+      #{bean.schoolRegion}, #{bean.schoolAddress},#{bean.urgenContact1}, #{bean.relation1}, 
+      #{bean.urgenPhone1},#{bean.urgenContact2}, #{bean.relation2}, #{bean.urgenPhone2},#{bean.zMCreditScore}, 
+      #{bean.receiversName}, #{bean.receiversBankAccount},#{bean.receiversBankName}, #{bean.receiversBankProvince}, 
+      #{bean.receiversBankCity},#{bean.receiversBankBranch}, #{bean.repaymentName}, #{bean.repaymentBankAccount}, 
+      #{bean.repaymentBankName}, #{bean.repaymentBankProvince}, #{bean.repaymentBankCity}, 
+      #{bean.repaymentBankBranch}, #{bean.loanHandleType}, #{bean.createUser},#{bean.importCode},
+      #{bean.createTime})
+  </insert>
+  
+  <select id="queryExistLoanIds" parameterType="java.util.Map" resultType="java.lang.Long">
+  	SELECT third_loan_id 
+  	FROM ${domain}_loan_info 
+  	WHERE third_loan_id in(<foreach collection="thirdLoanIds" item="loanId" separator=",">#{loanId}</foreach>) 
+  		AND corporation=#{corporation}
+  		AND product_code = #{productCode};
+  </select>
+</mapper>

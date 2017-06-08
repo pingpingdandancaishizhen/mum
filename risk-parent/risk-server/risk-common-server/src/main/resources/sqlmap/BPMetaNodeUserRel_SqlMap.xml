@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.metadata.BPMetaNodeUserRelDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.metadata.BPMetaNodeUserRel" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="node_id" property="nodeId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, user_id, node_id, bp_def_id, create_user_id
+  </sql>
+  
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ${domain}_bp_meta_node_user_rel
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="batchInsert">
+  	insert into ${domain}_bp_meta_node_user_rel (id, user_id, node_id, 
+      bp_def_id, create_user_id)
+    values 
+    <foreach collection="nodes" item="node" separator=",">
+    (#{node.id,jdbcType=VARCHAR}, #{node.userId,jdbcType=VARCHAR}, #{node.nodeId,jdbcType=VARCHAR}, 
+      #{node.bpDefId,jdbcType=VARCHAR}, #{node.createUserId,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  
+  <delete id="deleteByUserId">
+    delete from ${domain}_bp_meta_node_user_rel
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+</mapper>

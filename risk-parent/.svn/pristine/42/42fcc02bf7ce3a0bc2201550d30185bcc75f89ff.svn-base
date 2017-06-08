@@ -1,0 +1,30 @@
+package cn.sunfit.risk.buz.server.service.p2p.imp;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import cn.sunfit.risk.buz.api.beans.corp.CorpUser;
+import cn.sunfit.risk.buz.api.exception.ServiceException;
+import cn.sunfit.risk.buz.api.service.p2p.imp.ImportOrderService;
+import cn.sunfit.risk.buz.api.vo.p2p.imp.ImportResult;
+
+public class ImportOrderServiceImpl implements ImportOrderService {
+
+    @Autowired
+    private ImportOrderFactory factory;
+
+    @Override
+    public ImportResult importExcel(CorpUser user, byte[] in, String productCode) throws ServiceException {
+        // 根据code查prodcut_type TODO
+        String productType = null;
+        // 根据productType 获取处理类
+        ImportHandle h = factory.getHandle(productCode);
+        if (h == null) {
+            throw new ServiceException("暂不支持此种类型P2P产品");
+        }
+        // 转值 验证 插入
+        // h.xxx()
+
+        return null;
+    }
+
+}

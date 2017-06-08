@@ -1,0 +1,103 @@
+package cn.sunfit.risk.buz.server.service.p2p.product;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import orj.worf.mybatis.util.CountHelper;
+import cn.sunfit.risk.buz.api.beans.p2p.P2PProduct;
+import cn.sunfit.risk.buz.api.service.p2p.product.P2PProductService;
+import cn.sunfit.risk.buz.api.vo.RespPage;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.BpMetaCorpProductVO;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.BpMetaQueryReq;
+import cn.sunfit.risk.buz.api.vo.p2p.product.ProductQueryReq;
+import cn.sunfit.risk.buz.server.dao.p2p.activiti.BPMetaDAO;
+import cn.sunfit.risk.buz.server.dao.p2p.product.P2PProductDAO;
+
+@Service("risk.p2PProductService")
+public class P2PProductServiceImpl implements P2PProductService {
+
+    @Autowired
+    private P2PProductDAO p2pProductDAO;
+    @Autowired
+    private BPMetaDAO bpMetaDAO;
+
+    @Override
+    public List<P2PProduct> checkAssetProductType(P2PProduct product) {
+        return p2pProductDAO.selectProductByAssetIdCode(product);
+    }
+
+    @Override
+    public List<P2PProduct> checkByProductCode(P2PProduct product) {
+        return p2pProductDAO.checkByProductCode(product);
+    }
+
+    @Override
+    public List<P2PProduct> findByProductCode(String productCode) {
+        // TODO Auto-generated method stub
+        return p2pProductDAO.findByProductCode(productCode);
+    }
+
+    @Override
+    public List<Map<String, String>> findRiskProductList() {
+        return p2pProductDAO.findRiskProductList();
+    }
+
+    /*
+     * @Override public Object queryFeeConfig(String productId) { P2PProduct p =
+     * p2pProductDAO.selectByPrimaryKey(productId); String feeconfig = p2pProductDAO.selectFeeConfig(productId); if
+     * (StringUtils.isNotBlank(feeconfig)) { if (ProductType.XYDK.getStatus().equals(p.getProductType())) { XJDFeeConfig
+     * c = JsonUtils.parseJSON(feeconfig, XJDFeeConfig.class); return c; } } return null; }
+     */
+
+    @Override
+    public void insert(P2PProduct product) {
+        p2pProductDAO.insert(product);
+    }
+
+    @Override
+    public List<P2PProduct> queryAllRiskProduct() {
+        return p2pProductDAO.selectAllRiskProduct();
+    }
+
+    @Override
+    public BpMetaCorpProductVO queryMetaByProduct(BpMetaQueryReq s) {
+        BpMetaCorpProductVO vo = bpMetaDAO.selectMetaByProduct(s);
+        return vo;
+    }
+
+    @Override
+    public List<P2PProduct> queryProductByAssetId(String assetId) {
+        return p2pProductDAO.selectByAssetId(assetId);
+    }
+
+    @Override
+    public RespPage<List<P2PProduct>> queryProductByCorpId(ProductQueryReq req) {
+        List<P2PProduct> l = p2pProductDAO.selectByCorpId(req.getCorpId(),
+                new RowBounds(req.getOffset(), req.getLimit()));
+        int count = CountHelper.getTotalRow();
+        return new RespPage<List<P2PProduct>>(l, count);
+    }
+
+    @Override
+    public P2PProduct queryProductById(String productId) {
+        P2PProduct p = p2pProductDAO.selectByPrimaryKey(productId);
+        return p;
+    }
+
+    @Override
+    public List<P2PProduct> selectProductByCorpId(String corpId) {
+        // TODO Auto-generated method stub
+        return p2pProductDAO.selectProductByCorpId(corpId);
+
+    }
+
+    @Override
+    public void updateByPrimaryKey(P2PProduct record) {
+        p2pProductDAO.updateByPrimaryKey(record);
+    }
+
+}

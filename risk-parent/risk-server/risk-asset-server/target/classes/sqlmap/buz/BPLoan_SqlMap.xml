@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.buz.BPLoanDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.buz.BPLoan" >
+    <id column="bp_id" property="bpId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="car_no" property="carNo" jdbcType="VARCHAR" />
+    <result column="apply_amount" property="applyAmount" jdbcType="DECIMAL" />
+    <result column="approved_amount" property="approvedAmount" jdbcType="DECIMAL" />
+    <result column="contract_id" property="contractId" jdbcType="VARCHAR" />
+    <result column="repayment_method" property="repaymentMethod" jdbcType="VARCHAR" />
+    <result column="apply_period" property="applyPeriod" jdbcType="VARCHAR" /> 
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bp_id, corp_id, customer_id, car_no, apply_amount, approved_amount, contract_id,repayment_method,apply_period
+  </sql>
+  <insert id="insertLoan" parameterType="cn.sunfit.risk.buz.api.beans.buz.BPLoan" >
+    insert into ${domain}_bp_loans (bp_id, corp_id, customer_id, 
+      car_no, apply_amount, approved_amount, 
+      contract_id,repayment_method,apply_period)
+    values (#{bpId,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, 
+      #{carNo,jdbcType=VARCHAR}, #{applyAmount,jdbcType=DECIMAL}, #{approvedAmount,jdbcType=DECIMAL}, 
+      #{contractId,jdbcType=VARCHAR},#{repaymentMethod},#{applyPeriod})
+  </insert>
+  <update id="update" parameterType="cn.sunfit.risk.buz.api.beans.buz.BPLoan" >
+    update ${domain}_bp_loans
+    set corp_id = #{corpId,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=VARCHAR},
+      car_no = #{carNo,jdbcType=VARCHAR},
+      apply_amount = #{applyAmount,jdbcType=DECIMAL},
+      approved_amount = #{approvedAmount,jdbcType=DECIMAL},
+      contract_id = #{contractId,jdbcType=VARCHAR},repayment_method=#{repaymentMethod},apply_period=#{applyPeriod} 
+    where bp_id = #{bpId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateBPLoanStartLoan" parameterType="cn.sunfit.risk.buz.api.vo.loan.LoanSaveReq">
+  	update ${req.domain}_bp_loans
+    set 
+      loan_status = 1,
+      znj_fee_cal = #{req.znjFeeCal,jdbcType=VARCHAR},
+      loan_plan_time = CURDATE()
+    where bp_id = #{req.bpId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateBPLoanFK" parameterType="cn.sunfit.risk.buz.api.vo.loan.LoanSaveReq">
+  	update ${req.domain}_bp_loans
+    set
+      loan_status = 2,
+	  loan_amount = #{req.loanAmount,jdbcType=DECIMAL},
+	  loan_platform = #{req.loanPlatform,jdbcType=VARCHAR},
+	  loan_time = #{req.loanTime,jdbcType=TIMESTAMP},
+	  loan_lender = #{req.loanLender,jdbcType=VARCHAR}
+    where bp_id = #{req.bpId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="countByCustomerProduct" resultType="java.lang.Long" parameterType="cn.sunfit.risk.buz.api.vo.loan.LoanReq">
+  		select count(1) from ${domain}_risk_bps bps left join ${domain}_bp_loans loan on bps.bp_id=loan.bp_id 
+  		where bps.product_type=#{productId} and loan.customer_id=#{customerId} and bps.bp_status not in(3,4,5)
+  </select>
+  <select id="selectByBp" resultMap="BaseResultMap"  parameterType="cn.sunfit.risk.buz.api.vo.form.FormQuery">
+  		select <include refid="Base_Column_List" /> from ${domain}_bp_loans
+  		where bp_id=#{bpId}
+  </select>
+  
+    <select id="countByCarNum" resultType="java.lang.Long" parameterType="java.util.Map">
+  		select count(1) from ${domain}_risk_bps bps left join ${domain}_bp_loans loan on bps.bp_id=loan.bp_id 
+  		where bps.bp_id <![CDATA[<>]]> #{bpId} and loan.car_no=#{carnum} and bps.bp_status not in(3,4,5)
+  </select>
+  
+  <resultMap id="AllLoanResultMap" type="cn.sunfit.risk.buz.api.vo.loan.LoanQueryResp">
+  	<id column="loan_contract_id" property="loanContractId" jdbcType="VARCHAR" />
+  	<id column="bp_id" property="bpId" jdbcType="VARCHAR" />
+  	
+    <result column="name" property="loanCustName" jdbcType="VARCHAR" />
+    <result column="mobile" property="loanCustMobile" jdbcType="VARCHAR" />
+    
+    <result column="approved_amount" property="approvedAmount" jdbcType="DECIMAL" />
+    <result column="loan_consult_fee" property="loanConsultFee" jdbcType="DECIMAL" />
+    <result column="loan_manage_fee" property="loanManageFee" jdbcType="DECIMAL" />
+    <result column="loan_guarantee_fee" property="loanGuaranteeFee" jdbcType="DECIMAL" />
+    <result column="loan_park_fee" property="loanParkFee" jdbcType="DECIMAL" />
+    <result column="loan_gps_fee" property="loanGPSFee" jdbcType="DECIMAL" />
+    <result column="loan_gpsservice_fee" property="loanGPSServiceFee" jdbcType="DECIMAL" />
+    <result column="supportFirstPay" property="supportFirstPay" jdbcType="VARCHAR" />
+    <result column="loan_approval_repayment" property="loanApprovalRepayment" jdbcType="VARCHAR" />
+    
+    <result column="loan_status" property="loanStatus" jdbcType="INTEGER" />
+    <result column="loan_amount" property="loanAmount" jdbcType="DECIMAL" />
+    <result column="loan_time" property="loanTime" jdbcType="TIMESTAMP" />
+    <result column="loan_lender" property="loanLender" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  
+  <resultMap id="AllLoanExportResultMap" type="cn.sunfit.risk.buz.api.vo.loan.LoanQueryExportVO">
+  	<id column="loan_contract_id" property="loanContractId" jdbcType="VARCHAR" />
+    <result column="name" property="loanCustName" jdbcType="VARCHAR" />
+    <result column="mobile" property="loanCustMobile" jdbcType="VARCHAR" />
+    <result column="approved_amount" property="approvedAmount" jdbcType="DECIMAL" />
+    <result column="loan_consult_fee" property="loanConsultFee" jdbcType="DECIMAL" />
+    <result column="loan_manage_fee" property="loanManageFee" jdbcType="DECIMAL" />
+    <result column="loan_guarantee_fee" property="loanGuaranteeFee" jdbcType="DECIMAL" />
+    <result column="loan_park_fee" property="loanParkFee" jdbcType="DECIMAL" />
+    <result column="loan_gps_fee" property="loanGPSFee" jdbcType="DECIMAL" />
+    <result column="loan_gpsservice_fee" property="loanGPSServiceFee" jdbcType="DECIMAL" />
+    <result column="loan_approval_repayment" property="loanApprovalRepayment" jdbcType="VARCHAR" />
+    <result column="supportFirstPay" property="supportFirstPay" jdbcType="VARCHAR" />
+    <result column="loan_status" property="loanStatus" jdbcType="INTEGER" />
+    <result column="loan_amount" property="loanAmount" jdbcType="DECIMAL" />
+    <result column="loan_time" property="loanTime" jdbcType="TIMESTAMP" />
+    <result column="loan_lender" property="loanLender" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="queryAllLoan_BASE">
+  	select 
+		loan.bp_id,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = loan.bp_id
+		) name,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_mobile' AND a.bp_id = loan.bp_id
+		) mobile,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = loan.bp_id
+		) approved_amount,
+		loan.contract_id loan_contract_id,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_consult_fee' AND a.bp_no = loan.bp_id
+		) loan_consult_fee,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_manage_fee' AND a.bp_no = loan.bp_id
+		) loan_manage_fee,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_park_fee' AND a.bp_no = loan.bp_id
+		) loan_park_fee,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_gps_fee' AND a.bp_no = loan.bp_id
+		) loan_gps_fee,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_gpsservice_fee' AND a.bp_no = loan.bp_id
+		) loan_gpsservice_fee,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_guarantee_fee' AND a.bp_no = loan.bp_id
+		) loan_guarantee_fee,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanapproval_repaymentTypes' AND a.bp_id = loan.bp_id
+		) loan_approval_repayment,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanapproval_supportFirstPay' AND a.bp_id = loan.bp_id
+		) supportFirstPay,
+		loan.loan_status,
+		loan.loan_amount,
+		loan.loan_time,
+		loan.loan_lender
+	 	from ${domain}_bp_loans loan
+	 	where loan.loan_status <![CDATA[ <> ]]> 0
+  </sql>
+  
+  <select id="queryExportLoan" resultMap="AllLoanExportResultMap">
+	select
+		base.name ,base.mobile,(base.approved_amount + base.loan_guarantee_fee) approved_amount,base.loan_park_fee,base.loan_gps_fee,
+		base.bp_id  ,base.loan_contract_id ,base.loan_consult_fee ,base.loan_manage_fee ,
+		base.loan_gpsservice_fee, base.supportFirstPay,
+		base.loan_guarantee_fee ,base.loan_approval_repayment ,base.loan_status,
+		base.loan_amount ,base.loan_time ,base.loan_lender,dept.dept_name, dept.id dept_id
+	from (
+		<include refid="queryAllLoan_BASE"/>
+	) base ,
+	(
+		<include refid="BP_DEPT_SQL"/>
+	) dept
+	where 
+		base.bp_id = dept.bp_id
+	 <if test="req.loanContractId != null and req.loanContractId != ''">
+	 	and base.loan_contract_id like concat('%',#{req.loanContractId,jdbcType=VARCHAR},'%')
+	 </if>
+	 <if test="req.loanCustName != null and req.loanCustName != ''">
+	 	and base.name like concat('%',#{req.loanCustName,jdbcType=VARCHAR},'%')
+	 </if>
+	 <if test="req.loanCustMobile != null and req.loanCustMobile != ''">
+	 	and base.mobile like concat('%',#{req.loanCustMobile,jdbcType=VARCHAR},'%')
+	 </if>
+	 <if test="req.repaymentType != null and req.repaymentType != ''">
+	 	and base.loan_approval_repayment = #{req.repaymentType,jdbcType=VARCHAR}
+	 </if>
+	 <if test="req.startDate != null and req.endDate !=null ">
+    	and base.loan_time between #{req.startDate,jdbcType=TIMESTAMP} and #{req.endDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="req.deptId != null and req.deptId != '' ">
+    	and dept.id = #{req.deptId,jdbcType=VARCHAR}
+     </if>
+	 order by loan_time DESC
+  </select>
+  
+  <sql id="BP_DEPT_SQL">
+  	SELECT bps.bp_id ,depts.dept_name ,depts.id
+  	from ${domain}_risk_bps bps ,risk_corp_user users ,risk_corp_dept depts
+	where bps.create_user_id = users.id and users.dept_id = depts.id
+  </sql>
+  
+  <select id="queryAllLoan" resultMap="AllLoanResultMap">
+	select
+		base.name ,base.mobile,(base.approved_amount + base.loan_guarantee_fee) approved_amount,base.loan_park_fee,base.loan_gps_fee,
+		base.bp_id ,base.loan_contract_id ,base.loan_consult_fee ,base.loan_manage_fee ,
+		base.loan_gpsservice_fee,base.supportFirstPay,
+		base.loan_guarantee_fee ,base.loan_approval_repayment ,base.loan_status,
+		base.loan_amount ,base.loan_time ,base.loan_lender,dept.dept_name, dept.id dept_id
+	from (
+		<include refid="queryAllLoan_BASE"/>
+	) base ,
+	(
+		<include refid="BP_DEPT_SQL"/>
+	) dept
+	where 
+		base.bp_id = dept.bp_id
+	 <if test="req.loanContractId != null and req.loanContractId != ''">
+	 	and base.loan_contract_id like concat('%',#{req.loanContractId,jdbcType=VARCHAR},'%')
+	 </if>
+	 <if test="req.loanCustName != null and req.loanCustName != ''">
+	 	and base.name like concat('%',#{req.loanCustName,jdbcType=VARCHAR},'%')
+	 </if>
+	 <if test="req.loanCustMobile != null and req.loanCustMobile != ''">
+	 	and base.mobile like concat('%',#{req.loanCustMobile,jdbcType=VARCHAR},'%')
+	 </if>
+	 <if test="req.repaymentType != null and req.repaymentType != ''">
+	 	and base.loan_approval_repayment = #{req.repaymentType,jdbcType=VARCHAR}
+	 </if>
+	 <if test="req.startDate != null and req.endDate !=null ">
+    	and base.loan_time between #{req.startDate,jdbcType=TIMESTAMP} and #{req.endDate,jdbcType=TIMESTAMP}
+     </if>
+     <if test="req.deptId != null and req.deptId != '' ">
+    	and dept.id = #{req.deptId,jdbcType=VARCHAR}
+     </if>
+	 order by loan_time DESC
+  </select>
+  
+  <resultMap id="LoanDetailMap" type="cn.sunfit.risk.buz.api.vo.loan.LoanDetailQueryResp">
+  	<id column="bp_id" property="bpId" jdbcType="VARCHAR" />
+  	<id column="cust_name" property="custName" jdbcType="VARCHAR" />
+  	<id column="loan_contract_id" property="loanContractId" jdbcType="VARCHAR" />
+    <result column="approved_amount" property="approvedAmount" jdbcType="DECIMAL" />
+    
+    <result column="loan_consult_fee" property="loanConsultFee" jdbcType="DECIMAL" />
+    <result column="loan_manage_fee" property="loanManageFee" jdbcType="DECIMAL" />
+    <result column="loan_guarantee_fee" property="loanGuaranteeFee" jdbcType="DECIMAL" />
+    <result column="loan_park_fee" property="loanParkFee" jdbcType="DECIMAL" />
+    <result column="loan_gps_fee" property="loanGPSFee" jdbcType="DECIMAL" />
+    <result column="loan_gpsservice_fee" property="loanGPSServiceFee" jdbcType="DECIMAL" />
+    <result column="loan_interest" property="interest" jdbcType="DECIMAL" />
+    <result column="loan_principle" property="principle" jdbcType="DECIMAL" />
+    
+    <result column="loanbank_account_name" property="loanbankAccountName" jdbcType="VARCHAR" />
+    <result column="loanbank_account_no" property="loanbankAccountNo" jdbcType="VARCHAR" />
+    <result column="loanbank_bank" property="loanbankBank" jdbcType="VARCHAR" />
+    <result column="loan_status" property="loanStatus" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <select id="queryLoanDetail" resultMap="LoanDetailMap">
+  	select 
+		loan.bp_id,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'cust_name' AND a.bp_id = bp.bp_id
+		) cust_name,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanapproval_limit' AND a.bp_id = bp.bp_id
+		) approved_amount,
+		loan.contract_id loan_contract_id,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_consult_fee' AND a.bp_no = bp.bp_id
+		) loan_consult_fee,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_manage_fee' AND a.bp_no = bp.bp_id
+		) loan_manage_fee,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_park_fee' AND a.bp_no = bp.bp_id
+		) loan_park_fee,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_gps_fee' AND a.bp_no = bp.bp_id
+		) loan_gps_fee,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_gpsservice_fee' AND a.bp_no = bp.bp_id
+		) loan_gpsservice_fee,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_guarantee_fee' AND a.bp_no = bp.bp_id
+		) loan_guarantee_fee,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_interest' AND a.bp_no = bp.bp_id
+		) loan_interest,
+		(
+			SELECT a.fee_value FROM ${domain}_loan_fee a WHERE a.fee_name = 'loan_principle' AND a.bp_no = bp.bp_id
+		) loan_principle,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanbank_account_name' AND a.bp_id = bp.bp_id
+		) loanbank_account_name,
+		(
+			SELECT a.attr_value FROM ${domain}_bp_attrs a WHERE a.attr_name = 'loanbank_account_no' AND a.bp_id = bp.bp_id
+		) loanbank_account_no,
+		(
+		 		 SELECT DIC.dic_value FROM ${domain}_bp_attrs a 
+			LEFT JOIN ${domain}_bp_meta_fields f on f.field_key=a.attr_name
+			LEFT JOIN risk_data_dic DIC ON DIC.dic_key=a.attr_value   and DIC.dic_type=f.data_provider
+			WHERE a.attr_name = 'loanbank_bank' AND a.bp_id = bp.bp_id and DIC.bp_def_id=bp.bp_def_id
+			and f.bp_def_id = bp.bp_def_id
+			AND DIC.corp_id = bp.corp_id
+		) loanbank_bank,
+		loan.loan_status loan_status
+	 	from ${domain}_risk_bps  bp left join ${domain}_bp_loans loan on loan.bp_id=bp.bp_id
+	 	where loan.loan_status <![CDATA[ <> ]]> 0
+	 	and loan.bp_id = #{bpId} for update
+  </select>
+  
+  <update id="updateContractNoByBp" parameterType="cn.sunfit.risk.buz.api.beans.contract.UpdateBPContractNoReq">
+  	update ${domain}_bp_loans
+  	set contract_id = #{contractNo}
+  	where bp_id = #{bpId};
+  </update>
+  
+  <select id="selectLoanReport" resultType="cn.sunfit.risk.buz.api.vo.loan.LoanReportDTO">
+	SELECT 
+		loanPlanDate , IFNULL(loanAmount , 0) loanAmount ,IFNULL(loanPlanAmount , 0) loanPlanAmount,
+		IF(IFNULL(loanPlanAmount, 0) - IFNULL(loanAmount, 0) <![CDATA[ < ]]> 0, 0 ,IFNULL(loanPlanAmount, 0) - IFNULL(loanAmount, 0)) leftLoanAmount,
+		IFNULL(loanPlanCount , 0) loanPlanCount,IFNULL(loanCount , 0) loanCount from (
+	select DATE(plan.loan_plan_time) loanPlanDate, act.loanAmount ,plan.loanPlanAmount ,plan.loanPlanCount ,act.loanCount FROM
+	(
+	SELECT
+		SUM(loan.approved_amount) 
+		+
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_guarantee_fee'
+			AND FIND_IN_SET( a.bp_no , group_concat(loan.bp_id) ) 
+		),0)
+		<!-- -
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_consult_fee'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0)
+		-
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_manage_fee'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0)
+		-
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_interest'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0)
+		-
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_principle'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0)
+		-
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_park_fee'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0)
+		-
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_gps_fee'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0)
+	  	-
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_gpsservice_fee'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0) --> loanPlanAmount
+		,
+		count(1) loanPlanCount,
+		loan_plan_time 
+	FROM
+		${req.domain}_bp_loans loan
+	WHERE
+		loan.loan_status <![CDATA[ <> ]]> 0
+	GROUP BY
+		loan_plan_time
+	) plan   
+	 left JOIN
+	(
+	SELECT
+		SUM(loan.loan_amount) loanAmount,
+		count(1) loanCount,
+		loan_time
+	FROM
+		${req.domain}_bp_loans loan
+	WHERE
+		loan.loan_status = 2
+	GROUP BY
+		loan_time
+	) act on plan.loan_plan_time = DATE(act.loan_time)  
+	union 
+	select DATE(act.loan_time) loanPlanDate, act.loanAmount ,plan.loanPlanAmount ,plan.loanPlanCount ,act.loanCount    FROM
+	(
+	SELECT
+		SUM(loan.approved_amount) 
+		+
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_guarantee_fee'
+			AND FIND_IN_SET( a.bp_no , group_concat(loan.bp_id) ) 
+		),0)
+		<!-- -
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_consult_fee'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0)
+		-
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_manage_fee'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0)
+		-
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_interest'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0)
+		-
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_principle'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0)
+		-
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_park_fee'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0)
+		-
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_gps_fee'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0)
+	  	-
+		IFNULL((select sum(a.fee_value) 
+			from ${req.domain}_loan_fee a
+			WHERE a.fee_name = 'loan_gpsservice_fee'
+			and a.bp_no in ( group_concat(loan.bp_id) )
+		),0) -->  loanPlanAmount ,
+		count(1) loanPlanCount,
+		loan_plan_time 
+	FROM
+		${req.domain}_bp_loans loan
+	WHERE
+		loan.loan_status <![CDATA[ <> ]]> 0
+	GROUP BY
+		loan_plan_time
+	) plan   
+	 right JOIN
+	(
+	SELECT
+		SUM(loan.loan_amount) loanAmount,
+		count(1) loanCount,
+		loan_time
+	FROM
+		${req.domain}_bp_loans loan
+	WHERE
+		loan.loan_status = 2
+	GROUP BY
+		loan_time
+	) act on plan.loan_plan_time = DATE(act.loan_time)  
+	) report
+	where 
+	1 = 1 
+	<if test="req.startDate != null and req.endDate !=null ">
+		and loanPlanDate between #{req.startDate,jdbcType=TIMESTAMP} and #{req.endDate,jdbcType=TIMESTAMP}
+	</if>
+	
+	<choose>
+		<when test="req.orderName!= null and req.orderName !='' and req.orderType!= null and req.orderType!='' ">
+			ORDER BY ${req.orderName} ${req.orderType}
+		</when>
+		<otherwise>
+			ORDER BY loanPlanDate 
+		</otherwise>
+	</choose>
+  </select>
+</mapper>

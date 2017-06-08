@@ -1,0 +1,16 @@
+package cn.sunfit.risk.buz.server.service.p2p.imp.handle;
+
+import cn.sunfit.risk.buz.server.service.p2p.imp.ImportHandle;
+
+/**
+ * 
+ * @Title: ImportHandleAbstrat.java
+ * @Package cn.sunfit.risk.buz.server.service.p2p.imp.handle
+ * @Description: 各种类型的EXCEL导入公共代码可写在这里面
+ * @author DELL
+ * @date 2017年5月5日 下午1:10:49
+ * @version V1.0
+ */
+public abstract class ImportHandleAbstrat implements ImportHandle {
+
+}

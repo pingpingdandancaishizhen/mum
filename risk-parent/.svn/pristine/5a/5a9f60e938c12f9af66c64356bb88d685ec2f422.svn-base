@@ -1,0 +1,132 @@
+<template>
+  <div class="bootstrap-table" style="width: 80%">
+    <div class="fixed-table-container">
+      <div class="fixed-table-body">
+        <table class="table">
+          <thead>
+            <th>关系</th>
+            <th>姓名</th>
+            <th>是否知晓</th>
+            <th>移动号码</th>
+            <th>单位名称</th>
+          </thead>
+          <tbody>
+            <tr v-if="relations&&relations.length>0" v-for="(item, index) in relations">
+              <td>
+                <select  :name="data.key+'_relation_'+index" v-model="item.relation" class="form-control" :disabled="data.readonly?true:false">
+                  <option value="">请选择</option>
+                  <option v-for="rItem in relationOptions" :value="rItem.dicKey">{{rItem.dicValue}}</option>
+                </select>
+                <div class="form-error-tip">{{errorMsg[data.key+'_relation_'+index]}}</div>
+              </td>
+              <td>
+                <input type="text" :name="data.key+'_name_'+index" class="form-control" v-model="item.name" :disabled="data.readonly?true:false">
+                <div class="form-error-tip">{{errorMsg[data.key+'_name_'+index]}}</div>
+              </td>
+              <td>
+                <label >
+                  <input type="radio" name="data.key+'_know_'+index" value="1" v-model="item.know" :disabled="data.readonly?true:false">
+                  <span>是</span>
+                </label>
+                <label >
+                  <input type="radio" name="data.key+'_know_'+index" value="0" v-model="item.know" :disabled="data.readonly?true:false">
+                  <span>否</span>
+                </label>
+                <div class="form-error-tip">{{errorMsg[data.key+'_know_'+index]}}</div>
+              </td>
+              <td>
+                <input type="text" name="data.key+'_phone_'+index" class="form-control" v-model="item.phone" :disabled="data.readonly?true:false">
+                <div class="form-error-tip">{{errorMsg[data.key+'_phone_'+index]}}</div>
+              </td>
+              <td>
+                <input type="text" name="data.key+'_company_address_'+index" class="form-control" v-model="item.company_address" :disabled="data.readonly?true:false">
+                <div class="form-error-tip">{{errorMsg[data.key+'_company_address_'+index]}}</div>
+              </td>
+            </tr>
+          <tr v-else>
+            <td colspan="5">
+              没有记录
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>
+<style>
+
+</style>
+<script>
+  import {mapGetters} from 'vuex';
+  import * as api from '../api'
+  import checkRule from '../mixins/checkRule'
+    export default{
+        data(){
+            return{
+              relations:[],
+              relationOptions:[],
+            }
+        },
+      created(){
+        var attrValue=this.attrsData[this.data.key];
+        var defaultAttr=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||[]):attrValue.draftValue) : [];
+        for(var i=0;i++;i<5){
+          if(defaultAttr[i]){
+            this.relations.splice(i,1,defaultAttr[i])
+          }else{
+            var opts={
+              relation:'',
+              name:'',
+              know:'',
+              phone:'',
+              company_address:''
+            };
+            this.relations.splice(i,1,opts)
+          }
+        }
+      },
+      beforeMount:function () {
+        this.getOptions();
+      },
+      computed:{
+        ...mapGetters({
+          'hiddenData': 'defaultHiddenData',
+        }),
+      },
+      methods:{
+        getOptions:function () {
+          var _this=this;
+          let param=_this.data.param;
+          var option={
+            url:param,
+            data:_this.hiddenData,
+            method:'get',
+          };
+          if(param){
+            api.getOptions2(option,function (data) {
+              _this.$nextTick(function () {
+                _this.relationOptions=data;
+              })
+
+            })
+          }
+
+        }
+      },
+      watch:{
+        relations(args){
+          var tempData={};
+          for(let index in args){
+            var arg=args[index];
+            for(let key in arg){
+              var inputKey=[this.data.key,key,index].join('_');
+              tempData[inputKey]=arg[key]
+            }
+          }
+          this.$store.dispatch('setInputData',tempData);
+          this.checkRuleValue=Object.assign({},this.checkRuleValue,tempData)
+        }
+      }
+    }
+</script>

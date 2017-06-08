@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.repayment.RepaymentRecordDAO" >
+ 
+ <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.repayment.RepaymentRecord" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="repayment_detail_id" property="repaymentDetailId" jdbcType="VARCHAR" />
+    <result column="repayment_time" property="repaymentTime" jdbcType="TIMESTAMP" />
+    <result column="repayment_principle" property="repaymentPrinciple" jdbcType="DECIMAL" />
+    <result column="repayment_interest" property="repaymentInterest" jdbcType="DECIMAL" />
+    <result column="repayment_manage_fee" property="repaymentManageFee" jdbcType="DECIMAL" />
+    <result column="repayment_extra_fee" property="repaymentExtraFee" jdbcType="DECIMAL" />
+    <result column="repayment_extra_fee_2" property="repaymentExtraFee2" jdbcType="DECIMAL" />
+    <result column="overdue_fee" property="overdueFee" jdbcType="DECIMAL" />
+    <result column="overdue_derate" property="overdueDerate" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.vo.repayment.RepaymentRecordSaveReq" >
+    insert into ${domain}_repayment_record (id, repayment_detail_id, repayment_time, 
+      repayment_principle, repayment_interest, 
+      repayment_manage_fee, repayment_extra_fee,repayment_extra_fee_2, 
+      overdue_fee, overdue_derate,
+      create_time)
+    values (#{id,jdbcType=VARCHAR}, #{repaymentDetailId,jdbcType=VARCHAR}, #{repaymentTime,jdbcType=TIMESTAMP}, 
+      #{repaymentPrinciple,jdbcType=DECIMAL}, #{repaymentInterest,jdbcType=DECIMAL}, 
+      #{repaymentManageFee,jdbcType=DECIMAL}, #{repaymentExtraFee,jdbcType=DECIMAL}, #{repaymentExtraFee2,jdbcType=DECIMAL}, 
+      #{overdueFee,jdbcType=DECIMAL}, #{overdueDerate,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <select id="selectRepaymentRecords4Detail" resultMap="BaseResultMap">
+  	select 
+  		rr.id ,rr.repayment_detail_id , rr.repayment_time ,rr.repayment_principle,
+  		rr.repayment_interest , rr.repayment_manage_fee ,rr.repayment_extra_fee,
+  		rr.repayment_extra_fee_2,
+  		rr.overdue_fee ,rr.overdue_derate,
+  		rr.create_time
+  	from ${domain}_repayment_record rr 
+  	where rr.repayment_detail_id = #{repaymentDetailId}  
+  	order by rr.create_time
+  </select>
+  
+</mapper>

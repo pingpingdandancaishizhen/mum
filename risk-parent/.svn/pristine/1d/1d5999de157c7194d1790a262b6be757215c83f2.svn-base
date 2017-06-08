@@ -1,0 +1,273 @@
+<template>
+  <div class="form-inline">
+    <form>
+      <div class="form-group col-sm-12">
+        <div class="input-group"  v-if="!fileInputData.readonly">
+          <span class="input-group-addon "><span :class="fileInputData.required?'require':''">{{fileInputData.label}}</span></span>
+          <!--<div class="form-control">
+            <div class="file-caption-name" v-if="showFileName" :title="fileName">
+              <i class="glyphicon glyphicon-file"></i>
+              {{fileName}}
+            </div>
+          </div>-->
+          <div class="input-group-btn">
+            <!--<div class="btn btn-upload" v-if="state!='uploading'" @click="handleUpload">
+              <i class="glyphicon glyphicon-upload"></i>
+              <span>上传</span>
+            </div>-->
+            <div :id="'pick-'+fileInputData.key" class="btn btn-upload" :class="fileInputData.key">
+            </div>
+          </div>
+        </div>
+        <div class="input-group" v-if="fileInputData.readonly">
+          <div class="multi-file-border"><span :class="fileInputData.required?'require':''">{{fileInputData.label}}</span></div>
+        </div>
+        <div class="filelist">
+          <div class="no-files" v-if="files.length==0">暂无文件</div>
+          <li v-if="files.length>0" v-for="(file,index) in files" class="col-sm-6">
+            <div class="input-group" v-if="file">
+              <div class="form-control">
+                <div class="file-caption-name" :title="file.name||file.fileName">
+                  <i class="glyphicon glyphicon-file"></i>
+                  <span v-if="file.resourceId">
+                    <a href="javascript:void(0)" @click="handleLook(file)">{{file.fileName}}</a></span>
+                  <span v-else>{{file.name}}</span>
+
+                </div>
+                <div class="fileNote">
+                  <!--loading-->
+                  <i v-if="file.state=='loading'" class="fa fa-spinner fa-spin"></i>
+                  <!--success-->
+                  <i v-else-if="file.state=='success'"
+                     class="fa fa-check fileSuccess"></i>
+                  <!--error-->
+                  <i v-else-if="file.state=='error'" class="fa fa-close fileError"></i>
+                </div>
+              </div>
+              <div class="input-group-btn" v-if="!fileInputData.readonly">
+                <div class="btn btn-upload" @click="handleRemove(file,index)">
+                  <i class="glyphicon glyphicon-trash">
+                  </i>
+                  <span>删除</span>
+                </div>
+              </div>
+            </div>
+
+          </li>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</template>
+<style>
+
+</style>
+<script>
+  import * as api from '../api';
+  import checkRule from '../mixins/checkRule'
+  export default{
+    mixins:[checkRule],
+    data(){
+      return {
+//        state: '',//上传状态
+        files: [],//上传的文件列表
+        uploader: '',//当前加载的上传组件
+//        uploadState: {},//上传后状态
+        resourceId: []
+      }
+    },
+    props: ['index', 'fileInputData', 'attrsData', 'hiddenData', 'rulesData'],
+    created: function () {
+      this.$store.dispatch('setInputData', {key: this.fileInputData.key, value: ''})
+    },
+    computed: {
+      rules(){
+        var accept = {};//上传后缀验证
+        var other = {};
+        var rulesData = this.rulesData;
+        for (var key in rulesData) {
+          var item = rulesData[key];
+          if (item.ruleType == 'file') {
+            var detail = item.detail;
+            accept.extensions = detail.extension;
+            accept.mimeTypes = detail.type;
+            other = detail;
+            other.message = item.message
+          }
+        }
+        return {
+          accept: accept,
+          other: other
+        };
+      }
+    },
+    mounted: function () {
+      var _this = this;
+      var BASE_URL = '/static/assets/plugins/webuploader';
+      var pick = '#pick-' + this.fileInputData.key;
+      //加载webuploader插件
+      if (!this.uploader && !this.fileInputData.readonly) {
+        var uploader = WebUploader.create({
+          auto:true,
+          swf: BASE_URL + '/Uploader.swf',
+          pick: {
+            id: pick,
+            label: '<i class="glyphicon glyphicon-folder-open"></i><span>选择文件</span>'
+          },
+          server: tools.www_root() + '/fileUpload',
+          accept: _this.rules.accept,
+          fileNumLimit: _this.rules.other.number,
+          fileSingleSizeLimit: _this.rules.other.maxSize,
+        });
+        uploader.option('displayNone',{
+          width:'100%',
+          height:'100%'
+        })
+        _this.uploader = uploader;
+        uploader.option('formData',{
+          bpId:_this.hiddenData.bpId
+        });
+        uploader.on('uploadBeforeSend', function (obj, data, headers) {
+          $.extend(headers, {
+            Accept: "*/*"
+          });
+        });
+        //监控文件的加入
+        uploader.on('fileQueued', function (file) {
+          _this.addFile(file)
+        });
+        //监听上传状态
+        uploader.on('uploadStart',function (file) {
+          _this.changeFileState(file.id,'loading')
+        });
+        //监听上传成功
+        uploader.on('uploadSuccess', function (file, res) {
+          if (res.status == 1) {
+            _this.changeFileState(file.id,'success');
+            _this.resourceId.push(res.data.resourceId)
+          } else {
+            _this.changeFileState(file.id,'error');
+          }
+        });
+        //监听上传失败
+        uploader.on('uploadError', function (file) {
+          _this.changeFileState(file.id,'error');
+        });
+        //监听validate不通过是的错误提示
+        uploader.on('error', function (type) {
+          switch (type) {
+            case 'Q_EXCEED_NUM_LIMIT':
+              $.alert('文件数量超过' + _this.rules.other.number + '个');
+              break;
+            case 'Q_TYPE_DENIED':
+              $.alert(_this.rules.other.message);
+              break;
+            case 'F_EXCEED_SIZE':
+              var size = WebUploader.formatSize(_this.rules.other.maxSize, ['B', 'KB', 'MB'])
+              $.alert('上传的文件大小超过' + size);
+              break;
+          }
+        })
+      }
+      if (!this.files[0]) {
+        var attrValue = this.attrsData[this.fileInputData.key];
+
+        var value = attrValue ? (attrValue.draftValue == null ? (attrValue.attrValue || '') : attrValue.draftValue) : '';
+        if (value != '') {
+          this.getUploadFile(value);
+//          this.$store.dispatch('setInputData', {key: this.fileInputData.key, value: value});
+        }
+      }
+    },
+    methods: {
+      /*//上传
+      handleUpload: function () {
+        //点击开始文件上传
+        var _this = this;
+        var uploader = _this.uploader;
+        if (_this.files) {
+          $.each(_this.files, function (index, file) {
+            if (file.id && !file.resourceId) {
+              _this.uploadState[file.id] = 'loading';
+              uploader.option('formData', {
+                bpId: _this.hiddenData.bpId
+              });
+              uploader.upload(file);
+            }
+          });
+        }
+      },*/
+      //删除
+      handleRemove: function (file, index) {
+        if (file.id) {
+          this.uploader.removeFile(file);
+          this.files.splice(index, 1)
+        }
+        if (file.resourceId) {
+          this.files.splice(index, 1)
+        }
+        this.resourceId.splice(index, 1);
+      },
+      //改变文件上传的状态
+      changeFileState:function (id,state) {
+        var _this=this;
+        $.each(_this.files,function (key, item) {
+          if(item.id==id){
+            _this.$set(_this.files[key],'state',state);
+//            _this.files[key].state=state;
+            return false;
+          }
+        })
+      },
+      //添加文件
+      addFile: function (file) {
+        this.files.push(file)
+      },
+      //获取默认上传的文件
+      getUploadFile: function (value) {
+        if (value) {
+          this.$store.dispatch('setInputData', {key: this.fileInputData.key, value: value});
+          var options = {
+            url: '/getResources',
+            method: 'get',
+            data: {
+              resourceIds: value
+            }
+          };
+          var _this = this;
+          api.getUploadFiles(options, function (data) {
+            var resourceIds = [];
+            for (var key in data) {
+              var item = data[key];
+              _this.files.push(item);
+              resourceIds.push(item.resourceId)
+            }
+            _this.resourceId = resourceIds;
+          })
+        }
+      },
+      //查看
+      handleLook:function (file) {
+        var type=file.fileType;
+        var href=tools.www_root()+'/getResourceById?resourceId='+file.resourceId;
+        if(type.indexOf('image')>=0){
+          tools.looksImgModal(href)
+        }else{
+          window.location.href=href;
+        }
+      }
+    },
+    watch: {
+      resourceId: function (value) {
+        if (value) {
+          this.$store.dispatch('setInputData', {
+            key: this.fileInputData.key,
+            value: value.join(',')
+          })
+        }
+      }
+    }
+
+  }
+</script>

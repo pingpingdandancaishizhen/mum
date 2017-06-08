@@ -1,0 +1,30 @@
+package cn.sunfit.risk.buz.api.vo.p2p.imp;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class ImportResult implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private boolean success;
+
+    private List<ImportError> errors;
+
+    public List<ImportError> getErrors() {
+        return errors;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setErrors(List<ImportError> errors) {
+        this.errors = errors;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+}

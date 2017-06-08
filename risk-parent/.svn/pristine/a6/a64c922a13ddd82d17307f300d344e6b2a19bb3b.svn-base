@@ -1,0 +1,157 @@
+<template>
+  <div :class="!checkedAdd?(data.cols?'form-group col-md-'+data.cols*3:'form-group col-md-3'):''" :id="data.key">
+    <label :class="data.required?'require':''" v-if="!checkedAdd">{{data.label}}</label>
+    <div>
+      <div :class="data.binding.indexOf(data.key+'_detail')>=0?'col-md-6 row':''">
+        <input class="form-control" type="text" :id="data.key+'_input'" >
+      </div>
+      <div class="col-md-6 row" v-if="data.binding.indexOf(data.key+'_detail')>=0">
+        <input type="text" class="form-control" :id="data.key+'_detail'" placeholder="请填写详细地址" @change="handleSetPosition" :value="addArr[data.key+'_detail']" :disabled="data.readonly?true:false">
+      </div>
+    </div>
+
+  </div>
+
+</template>
+<style>
+</style>
+<script>
+  import {mapGetters} from 'vuex';
+  import * as api from '../api'
+  export default{
+    data(){
+      return {
+        position: '',
+        cityPicker: "",
+        addData:'',
+        detailAddress:''
+      }
+    },
+    props: ['data','attrsData','checkedAdd'],
+ /*   created:function () {
+      this.$store.dispatch('setInputData', {key: this.data.key, value: ''})
+      var binding=this.data.binding||'';
+      var bindingArr=binding.split(',');
+      var positionArr=[];
+      for(var i in bindingArr){
+        var item=bindingArr[i];
+        var detailObject=this.attrsData[item];
+        var value='';
+        if(detailObject){
+          value=detailObject.draftValue||detailObject.attrValue||'';
+        }
+        positionArr.push(value);
+        this.$store.dispatch('setInputData', {key: item, value: value})
+      }
+      this.$store.dispatch('setInputData', {key: this.data.key, value: positionArr.join(' ').trim()})
+
+    },*/
+    mounted: function () {
+      if(!this.addData){
+        this.getAddress()
+      }
+    },
+
+    computed:{
+      /*...mapGetters({
+        'addData':'addressData'
+      }),*/
+      addArr(){
+        var binding=this.data.binding||'';
+        var bindingArr=binding.split(',');
+        var addArr={};
+        var positionArr=[];
+        for(var i in bindingArr){
+          var item=bindingArr[i];
+          var attrValue=this.attrsData[item]||{};
+          var value=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+          this.$store.dispatch('setInputData', {key: item, value: value});
+          addArr[item]=value;
+          positionArr.push(value)
+        }
+        this.detailAddress=addArr[this.data.key+"_detail"];
+        this.$store.dispatch('setInputData', {key: this.data.key, value: positionArr.join(' ').trim()});
+        return addArr;
+      },
+     /* detailAddress(){
+        var detail='';
+        var detailObject=this.attrsData[this.data.key+'_detail']
+        if(detailObject){
+          detail=detailObject.draftValue||detailObject.attrValue
+        }
+        return detail;
+      }*/
+    },
+    methods: {
+      handleSetPosition:function (e) {
+        var $el=e.target;
+        var detailAddress=$el.value;
+        this.detailAddress=detailAddress;
+        this.setPosition();
+      },
+      setPosition:function () {
+        var position=this.position;
+        var posArr=position.split('/');
+        var addArr={};
+        var positionDetail=[]
+        var key=this.data.key;
+        addArr[key+'_province']=posArr[0]||"";
+        addArr[key+'_city']=posArr[1]||"";
+        addArr[key+'_counties']=posArr[2]||"";
+        addArr[key+'_detail']=this.detailAddress;
+        for(var key in addArr){
+          var value=addArr[key];
+          this.$store.dispatch('setInputData', {key: key, value: value});
+          positionDetail.push(value);
+        }
+        this.$store.dispatch('setInputData', {key: this.data.key, value: positionDetail.join(' ').trim()});
+      },
+      getAddress:function () {
+        var _this=this;
+        var option={
+          url:'/district/info',
+          method:'get',
+        };
+        api.getAddressData(option,function (data) {
+          _this.$nextTick(function () {
+            var domId = '#' + this.data.key+'_input';
+            if(this.cityPicker){
+              $(domId).citypicker('destroy')
+            }
+            var binding=this.data.binding||'';
+            var bindingArr=binding.split(',');
+            var level=[];
+            $.each(bindingArr,function (index, item) {
+              var value=item.split('_').pop();
+              if(value=='province'||value=='city'){
+                level.push(value);
+              }
+              if(value=='counties'){
+                level.push('district')
+              }
+            });
+            var cityPicker = $(domId).citypicker({
+              province:this.addArr[this.data.key+'_province']||'',
+              city:this.addArr[this.data.key+'_city']||'',
+              district:this.addArr[this.data.key+'_counties']||'',
+              level:level,
+              data:data,
+              simple:true,
+            }, function (data) {
+              if (data) {
+                _this.position=data;
+                _this.setPosition();
+              }
+            });
+            if(_this.data.readonly){
+              $(domId).citypicker('unbind')
+            }
+            this.cityPicker = cityPicker;
+            this.addData=data;
+          })
+
+        })
+      }
+    }
+  }
+</script>

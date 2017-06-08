@@ -1,0 +1,28 @@
+{
+	"loanasseth_type" : [],
+	"loanasseth_buy_type" : 
+	"loanasseth_found_time" : [],
+	"loanasseth_ownership" : [],
+	"loanasseth_ownership_other" : [],
+	"loanasseth_obligee1" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入2-20个字，只支持中文或英文","fieldKey":"loanasseth_obligee1","condition":null,"detail":{"regexp":"^[\\u4e00-\\u9fa5_a-zA-Z]{2,20}$"}}],
+	"loanasseth_license_num1" : [{"ruleType":"idnumber","ruleLevel":"field","message":"请输入正确的身份证号","fieldKey":"loanasseth_license_num1","condition":null,"detail":null}],
+	"loanasseth_obligee2" : [{"ruleType":"regexp","ruleLevel":"field","message":"请输入2-20个字，只支持中文或英文","fieldKey":"loanasseth_obligee2","condition":null,"detail":{"regexp":"^[\\u4e00-\\u9fa5_a-zA-Z]{2,20}$"}}],
+	"loanasseth_license_num2" : [{"ruleType":"idnumber","ruleLevel":"field","message":"请输入正确的身份证号","fieldKey":"loanasseth_license_num2","condition":null,"detail":null}],
+	"loanasseth_estate_name" : [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"loanasseth_estate_name","condition":null,"detail":{"max":"40","min":"0"}}],
+	"loanasseth_estate_license_num" : [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"loanasseth_estate_license_num","condition":null,"detail":{"max":"40","min":"0"}}],
+	"loanasseth_register_price" : [{"ruleType":"decimal","ruleLevel":"field","message":"仅支持0-1000000000000的数字，小数点后最多可输入两位","fieldKey":"loanasseth_register_price","condition":null,"detail":{"min":"0","max":"1000000000000","digits":"2"}}],
+	"loanasseth_valuation" : [{"ruleType":"decimal","ruleLevel":"field","message":"仅支持0-1000000000000的数字，小数点后最多可输入两位","fieldKey":"loanasseth_valuation","condition":null,"detail":{"min":"0","max":"1000000000000","digits":"2"}}],
+	"loanasseth_acreage" : [{"ruleType":"decimal","ruleLevel":"field","message":"仅支持0-1000000000000的数字，小数点后最多可输入两位","fieldKey":"loanasseth_acreage","condition":null,"detail":{"min":"0","max":"1000000000000","digits":"2"}}],
+	"loanasseth_status" : [],
+	"loanasseth_original_loan_bank" : [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"loanasseth_original_loan_bank","condition":null,"detail":{"max":"40","min":"0"}}],
+	"loanasseth_original_loan_amount" : [{"ruleType":"decimal","ruleLevel":"field","message":"仅支持0-1000000000000的数字，小数点后最多可输入两位","fieldKey":"loanasseth_original_loan_amount","condition":null,"detail":{"min":"0","max":"1000000000000","digits":"2"}}],
+	"loanasseth_current_principal" : [{"ruleType":"decimal","ruleLevel":"field","message":"仅支持0-1000000000000的数字，小数点后最多可输入两位","fieldKey":"loanasseth_current_principal","condition":null,"detail":{"min":"0","max":"1000000000000","digits":"2"}}],
+	"loanasseth_current_loan_bank" : [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过40","fieldKey":"loanasseth_current_loan_bank","condition":null,"detail":{"max":"40","min":"0"}}],
+	"loanasseth_current_loan_amount" : [{"ruleType":"decimal","ruleLevel":"field","message":"仅支持0-1000000000000的数字，小数点后最多可输入两位","fieldKey":"loanasseth_current_loan_amount","condition":null,"detail":{"min":"0","max":"1000000000000","digits":"2"}}],
+	"loanasseth_supervision" : [{"ruleType":"decimal","ruleLevel":"field","message":"仅支持0-1000000000000的数字，小数点后最多可输入两位","fieldKey":"loanasseth_supervision","condition":null,"detail":{"min":"0","max":"1000000000000","digits":"2"}}],
+	"loanasseth_address" : [],
+	"loanasseth_address_province" : [],
+	"loanasseth_address_city" : [],
+	"loanasseth_address_counties" : [],
+	"loanasseth_address_detail" : [{"ruleType":"length","ruleLevel":"field","message":"请输入1到50位字符","fieldKey":"loanasseth_address_detail","condition":null,"detail":{"min":"1","max":"50"}}]
+}

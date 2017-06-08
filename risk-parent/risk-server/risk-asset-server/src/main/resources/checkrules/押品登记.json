@@ -1,0 +1,18 @@
+{
+    "loansecurity_id1": [],
+    "loansecurity_name1": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过20","fieldKey":"loansecurity_name1","condition":null,"detail":{"max":"20","min":"1"}}],
+    "loansecurity_status1": [],
+    "loansecurity_desc1": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过100","fieldKey":"loansecurity_desc1","condition":null,"detail":{"max":"100","min":"1"}}],
+    "loansecurity_id2": [],
+    "loansecurity_name2": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过20","fieldKey":"loansecurity_name2","condition":null,"detail":{"max":"20","min":"1"}}],
+    "loansecurity_status2": [],
+    "loansecurity_desc2": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过100","fieldKey":"loansecurity_desc2","condition":null,"detail":{"max":"100","min":"1"}}],
+    "loansecurity_id3": [],
+    "loansecurity_name3": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过20","fieldKey":"loansecurity_name3","condition":null,"detail":{"max":"20","min":"1"}}],
+    "loansecurity_status3": [],
+    "loansecurity_desc3": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过100","fieldKey":"loansecurity_desc3","condition":null,"detail":{"max":"100","min":"1"}}],
+    "loansecurity_id4": [],
+    "loansecurity_name4": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过20","fieldKey":"loansecurity_name4","condition":null,"detail":{"max":"20","min":"1"}}],
+    "loansecurity_status4": [],
+    "loansecurity_desc4": [{"ruleType":"length","ruleLevel":"field","message":"长度不能超过100","fieldKey":"loansecurity_desc4","condition":null,"detail":{"max":"100","min":"1"}}]
+}

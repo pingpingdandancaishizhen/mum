@@ -1,0 +1,63 @@
+<template>
+  <div class="row-right" :class="!checkedAdd?'col-sm-6':'col-sm-3'">
+    <div class="form-group input-group " :id="data.key">
+      <label class="label-head label-head-lg label-head-top  text-right"  v-if="!checkedAdd"><span :class="data.required?'require':''">{{data.label}}:</span></label>
+      <div class="label-box">
+        <input type="text" class="form-control" :name="data.key"  placeholder=""  :value="number"  readonly>
+      </div>
+      <span class="input-group-btn" v-if="number==''">
+        <div v-if="!data.readonly"  class="btn btn-primary" data-loading-text="获取中..." type="button" @click="handleClick"> 获取{{data.label}}</div>
+      </span>
+    </div>
+
+  </div>
+</template>
+<script>
+  import {mapGetters} from 'vuex';
+  import * as api from '../api';
+  import checkRule from '../mixins/checkRule'
+  export default{
+    mixins:[checkRule],
+    data(){
+      return {
+        getNo:''
+      }
+    },
+    props: ['data','oData','attrsData','checkedAdd'],
+    methods:{
+      handleClick:function (e) {
+        var _this=this;
+        var data={
+          productId:this.hiddenData.productId,
+        };
+        var param=_this.data.param;
+        var option={
+          url:'/data/genNo'+'?'+param,
+          method:'get',
+          data:data,
+          beforeSend(){
+            _this.$store.dispatch('showLoad',{[_this.data.key]:true});
+          },
+          complete(){
+            _this.$store.dispatch('showLoad',{[_this.data.key]:false});
+          }
+        };
+        api.getGenNO(option,function (data) {
+          _this.getNo=data;
+        })
+      }
+    },
+    computed: {
+      ...mapGetters({
+        'hiddenData': 'defaultHiddenData',
+      }),
+      number(){
+        var attrValue=this.attrsData[this.data.key]||{};
+        var value=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+        var number=this.getNo||value;
+        this.$store.dispatch('setInputData', {[this.data.key]:number});
+        return number
+      }
+    }
+  }
+</script>

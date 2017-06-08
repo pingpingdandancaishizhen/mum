@@ -1,0 +1,53 @@
+<template>
+  <div class="col-md-12">
+    <div class="form" v-for="(item, index) in data">
+      <a :name="item.key" :id="'a-'+item.key"></a>
+      <!--表单-->
+
+      <div v-if="item.layout=='form'">
+        <div class="sub-head">
+          {{item.label}}
+        </div>
+        <div class="panel panel-default" :id="item.key">
+          <!--<div class="panel-heading">{{item.label}}</div>-->
+          <div class="panel-body form-label-auto">
+            <app-layout :data="item.editors" :addData="addData" keep-alive></app-layout>
+          </div>
+        </div>
+      </div>
+      <!--上传表格-->
+      <div v-if="item.layout=='file_upload_table'">
+        <div class="sub-head">
+          {{item.label}}
+        </div>
+        <div class="panel panel-default" :id="item.key">
+          <div class="panel-body">
+            <app-table-file :data="item" keep-alive></app-table-file>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</template>
+<style>
+</style>
+<script>
+  import Layout from './layout.vue';
+  import Tablefile from './tableFile.vue';
+  import Heightexamine from './heightExamine.vue'
+  export default{
+    data(){
+      return {
+      }
+    },
+    props:['data','addData'],
+    components: {
+      'app-layout':Layout,
+      'app-table-file':Tablefile,
+      'app-height-examine':Heightexamine
+    }
+  }
+</script>

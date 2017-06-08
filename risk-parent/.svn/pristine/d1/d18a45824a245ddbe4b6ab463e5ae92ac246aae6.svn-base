@@ -1,0 +1,34 @@
+<template>
+  <div>
+    <div :class="data.cols?'form-group col-md-'+data.cols*3:'form-group col-md-3'" :id="data.key">
+      <label :class="data.required?'require':''">{{data.label}}</label>
+      <app-checkbox-input v-for="item in oData[data.dataSource]" v-if="item" :type="'checkbox'" :oData="item" :attrData="attrsData[data.key]" :data="data" :checked="checkBox"></app-checkbox-input>
+    </div>
+  </div>
+</template>
+<style>
+</style>
+<script>
+  import Input from './checkbox-input.vue'
+  export default{
+    data(){
+      return{
+        checkBox:"",//单选 checkbox string 多选 checkbox Array
+      }
+    },
+    props:['data','oData','attrsData'],
+    watch:{
+      checkBox:function (value) {
+        this.$store.dispatch('setInputData',{key:this.data.key,value:value})
+      }
+    },
+    created:function () {
+      var attrValue=this.attrsData[this.data.key]||{};
+      var defaultChecked=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+      this.checkBox=defaultChecked;
+    },
+    components:{
+      'app-checkbox-input':Input,
+    },
+  }
+</script>

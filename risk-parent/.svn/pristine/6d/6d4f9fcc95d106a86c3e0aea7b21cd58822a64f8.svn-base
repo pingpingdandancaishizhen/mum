@@ -1,0 +1,612 @@
+package cn.sunfit.risk.web.controller.order;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.util.CollectionUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import orj.worf.util.JsonUtils;
+import orj.worf.util.StringUtils;
+import cn.sunfit.risk.buz.api.beans.p2p.ApiReq;
+import cn.sunfit.risk.buz.api.beans.p2p.LoanInfoAttachment;
+import cn.sunfit.risk.buz.api.beans.p2p.P2PCustOperLog;
+import cn.sunfit.risk.buz.api.beans.p2p.P2PProduct;
+import cn.sunfit.risk.buz.api.beans.p2p.order.LoanInfoBean;
+import cn.sunfit.risk.buz.api.constants.GlobalConstants;
+import cn.sunfit.risk.buz.api.constants.form.FormModelType;
+import cn.sunfit.risk.buz.api.constants.form.OperationType;
+import cn.sunfit.risk.buz.api.constants.order.OrderStatus;
+import cn.sunfit.risk.buz.api.exception.ServiceException;
+import cn.sunfit.risk.buz.api.service.p2p.activiti.OperLogService;
+import cn.sunfit.risk.buz.api.service.p2p.activiti.SuperFormService;
+import cn.sunfit.risk.buz.api.service.p2p.excel.ImportExcelTemplateService;
+import cn.sunfit.risk.buz.api.service.p2p.excel.OperationLogService;
+import cn.sunfit.risk.buz.api.service.p2p.imp.ImportOrderService;
+import cn.sunfit.risk.buz.api.service.p2p.product.P2PProductService;
+import cn.sunfit.risk.buz.api.utils.IdUtil;
+import cn.sunfit.risk.buz.api.vo.Resp;
+import cn.sunfit.risk.buz.api.vo.RespPage;
+import cn.sunfit.risk.buz.api.vo.corp.CorpUserDTO;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.BpMetaCorpProductVO;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.BpMetaQueryReq;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.FormData;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.OperLogReq;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.OperLogReviewVO;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.OperLogSimpleVO;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.LoanInfoQueryReq;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.P2PImportExcelTemplateXJD;
+import cn.sunfit.risk.buz.api.vo.p2p.product.config.DaylyFee;
+import cn.sunfit.risk.buz.api.vo.p2p.product.config.MonthlyFee;
+import cn.sunfit.risk.buz.api.vo.p2p.product.config.OtherFee;
+import cn.sunfit.risk.buz.api.vo.p2p.product.config.Term;
+import cn.sunfit.risk.buz.api.vo.p2p.product.config.WyFee;
+import cn.sunfit.risk.buz.api.vo.p2p.product.config.XydFeeConfig;
+import cn.sunfit.risk.buz.api.vo.p2p.product.config.ZnFee;
+import cn.sunfit.risk.web.controller.BaseController;
+import cn.sunfit.risk.web.dto.LoanInfo;
+import cn.sunfit.risk.web.service.ExcelService;
+import cn.sunfit.risk.web.service.OrderService;
+import cn.sunfit.risk.web.utils.LoanInfoRequest;
+import cn.sunfit.risk.web.utils.LoanInfoRes;
+import cn.sunfit.risk.web.utils.OSSUtil;
+import cn.sunfit.risk.web.utils.UrlUtil;
+
+@Controller
+@RequestMapping(value = "/order")
+public class OrderController extends BaseController {
+    @Autowired
+    ImportExcelTemplateService importExcelTemplateService;
+    @Autowired
+    P2PProductService p2PProductService;
+    @Autowired
+    private OSSUtil OSSUtil;
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private OperationLogService operationLogService;
+    @Autowired
+    private ExcelService excelService;
+    @Autowired
+    private SuperFormService superFormService;
+    @Autowired
+    private OperLogService operLogService;
+    @Autowired
+    private ImportOrderService importOrderService;
+
+    @ResponseBody
+    @RequestMapping(value = "/batchSubmit", method = RequestMethod.POST)
+    public Resp batchSubmit(@RequestParam("ids[]") Long[] ids) {
+        Resp resp = new Resp();
+        try {
+            if (ids == null || ids.length == 0)
+                return Resp.buildErrorResponse("请选择需要提交的订单！");
+            String idParam = StringUtils.join(ids, ',');
+            LoanInfoQueryReq req = new LoanInfoQueryReq();
+            req.setIds(idParam);
+            List<P2PImportExcelTemplateXJD> infos = importExcelTemplateService.queryLoanInfoByParam(req);
+            String res = null;
+            List<P2PImportExcelTemplateXJD> sucInfos = new ArrayList<P2PImportExcelTemplateXJD>();
+            List<Map<String, Object>> failInfos = new ArrayList<Map<String, Object>>();
+            Map<String, Object> failInfo = null;
+            for (P2PImportExcelTemplateXJD info : infos) {
+                res = orderService.pushFKP2PApproveXJD(info);
+                if ("success".equals(res)) {
+                    sucInfos.add(info);
+                } else {
+                    failInfo = new HashMap<String, Object>();
+                    failInfo.put("err", res);
+                    failInfo.put("info", info);
+                    failInfos.add(failInfo);
+                }
+            }
+            if (sucInfos.size() > 0)
+                importExcelTemplateService.updateInfoAproveStatus(sucInfos);
+
+            Map<String, Object> result = new HashMap<String, Object>();
+            result.put("subCount", sucInfos.size());
+            result.put("err", failInfos);
+            resp.setData(result);
+            return resp;
+        } catch (Exception e) {
+            return Resp.buildErrorResponse("批量提交失败");
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
+    public Resp fileUpload(@RequestParam(required = true) MultipartFile file,
+            @RequestParam(required = true) String productCode) {
+        Resp resp = new Resp();
+        if (file.isEmpty())
+            return Resp.buildErrorResponse("导入文件失败！");
+        List<Map<String, Object>> dataList = null;
+        try {
+            CorpUserDTO user = getCurrentUser();
+            String importCode = IdUtil.geneId();
+            // Map<String, Object> result = excelService.batchImportLoan(user.getId(), file.getInputStream(),
+            // importExcelTemplateService, excelService.getXjdCheckTemp(), importCode);
+            // if (result == null) {
+            // return Resp.buildErrorResponse("文件内容为空！");
+            // }
+            // if (result.containsKey("errStr"))
+            // return Resp.buildErrorResponse(result.get("errStr").toString());
+            // dataList = (List<Map<String, Object>>) result.get("data");
+            // if (dataList.size() > 0) {
+            // String res = importExcelTemplateService.insertLoanInfo(dataList, "XJD");
+            // if (!"success".equals(res)) {
+            // return new Resp().buildErrorResponse(res);
+            // }
+            // }
+            Map<String, Object> result = importOrderService.importExcel(user, file.getBytes(), productCode, importCode);
+            Map<String, Object> respResult = new HashMap<String, Object>();
+            respResult.put("err", result.get("err"));
+            respResult.put("importCount", ((List<LoanInfoBean>) result.get("loans")).size());
+            respResult.put("errCount", ((List<Map<String, Object>>) result.get("err")).size());
+            resp.setData(respResult);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Resp.buildErrorResponse("解析批量导入订单错误！", e);
+        }
+        return resp;
+    }
+
+    /**
+     * 
+     * @Title: getFormData
+     * @Description: 获取表单
+     * @param @return   
+     * @return Resp 
+     * @author DELL 2017年4月17日 
+     * @throws
+     */
+    @RequestMapping(value = "/getFormData", method = RequestMethod.GET)
+    @ResponseBody
+    public Resp getFormData(@Valid FormQuery req, BindingResult result) {
+        Resp r = buildValidationFaildResponse(result);
+        if (r.getStatus() == DATA_VALIDATION_ERROR) {
+            return r;
+        }
+        // 如果是taskId是空，那么是开始表单任务
+        req.setCorpInfo(getCurrentUser());
+        FormData formdata;
+        if (FormModelType.isView(req.getModel())) {
+            formdata = superFormService.queryNodeFormData4View(req);
+        } else if (FormModelType.isHandle(req.getModel())) {
+            formdata = superFormService.queryNodeFormData(req);
+        } else if (FormModelType.isEdit(req.getModel())) {
+            formdata = superFormService.queryNodeFormData4Edit(req);
+        } else {
+            throw new ServiceException("不支持此模式");
+        }
+        return new Resp(formdata);
+    }
+
+    /**
+     * 获取参数
+     * @param req
+     * @param aresult
+     * @return
+     */
+    @RequestMapping(value = "/getFormParam", method = RequestMethod.POST)
+    @ResponseBody
+    public Resp getFormParam(@Valid FormQuery req, BindingResult aresult) {
+        Resp a = buildValidationFaildResponse(aresult);
+        if (a.getStatus() == DATA_VALIDATION_ERROR) {
+            return a;
+        }
+        BpMetaQueryReq s = new BpMetaQueryReq();
+        s.setCorpInfo(getCurrentUser());
+        s.setLastest(true);
+        s.setProductId(req.getProductId());
+        BpMetaCorpProductVO vo = p2PProductService.queryMetaByProduct(s);
+        if (vo == null) {
+            throw new ServiceException("流程查询异常");
+        } else {
+            if (!StringUtils.contains(vo.getVersion(), ":")) {
+                throw new ServiceException("流程未部署");
+            }
+            req.setBpDefId(vo.getBpDefId());
+            req.setBpDefKey(vo.getBpDefKey());
+            req.setDeptId(getCurrentUser().getDeptId());
+            req.setView(FormModelType.isView(req.getModel()));
+            return new Resp(req);
+        }
+    }
+
+    /**
+         * 
+         * @Title: getRates
+         * @Description: 根据产品编码，贷款金额，还款期限获取该产品的各种汇率
+         * @param @param req
+         * @param @return   
+         * @return Resp 
+         * @author RJS 2017年5月8日 
+         * @throws
+         */
+    @ResponseBody
+    @RequestMapping(value = "/getRates", method = RequestMethod.POST)
+    public Resp getRates(@Valid LoanInfoRequest req) {
+        Resp resp = new Resp();
+        LoanInfoRes re = new LoanInfoRes();
+        List<P2PProduct> products = p2PProductService.findByProductCode(req.getProductCode());
+        if (CollectionUtils.isEmpty(products)) {
+            return Resp.buildErrorResponse("此订单的产品不存在！");
+        }
+        XydFeeConfig feeConfig = null;
+        try {
+            feeConfig = JsonUtils.parseJSON(products.get(0).getFeeConfig(), XydFeeConfig.class);
+
+            for (DaylyFee df : feeConfig.getDaylyFee()) {
+                if (req.getTermText().equals(df.getTermText())) {
+                    re.setLoan_daylyRate(df.getDaylyRate());
+                    re.setLoan_daylyGLFee(df.getDaylyGLRate());
+                    break;
+                }
+            }
+
+            for (MonthlyFee mf : feeConfig.getMonthlyFee()) {
+                if (req.getTermText().equals(mf.getTermText())) {
+                    re.setLoan_monthlyRate(Double.valueOf(mf.getMonthlyRate()));
+                    re.setLoan_monthlyGLFee(Double.valueOf(mf.getMonthlyGLRate()));
+                    break;
+                }
+            }
+            BigDecimal money = new BigDecimal(req.getLoanMoney());
+            boolean flag = false;
+            List<ZnFee> znfees = feeConfig.getZnFee();
+            if (!CollectionUtils.isEmpty(znfees)) {
+                if (org.springframework.util.StringUtils.isEmpty(znfees.get(0).getTermText())) {
+                    // 按借款金额配置
+                    flag = false;
+                    for (ZnFee zf : znfees) {
+                        if (new BigDecimal(zf.getZnlStart()).compareTo(money) == -1
+                                && new BigDecimal(zf.getZnlEnd()).compareTo(money) == 1) {
+                            re.setLoan_znjFee(zf.getZnlFee());
+                            flag = true;
+                            break;
+                        }
+
+                    }
+                    if (!flag) {
+                        throw new ServiceException("该贷款范围内的滞纳金未配置,请修改贷款金额");
+                    }
+
+                } else {// 按借款期限配置
+                    for (ZnFee zf : znfees) {
+                        if (req.getTermText().equals(zf.getTermText())) {
+                            re.setLoan_znjFee(zf.getZnlRate());
+                            break;
+                        }
+                    }
+                }
+            }
+
+            List<WyFee> wyfees = feeConfig.getWyFee();
+            if (!CollectionUtils.isEmpty(wyfees)) {
+                flag = false;
+                for (WyFee wy : wyfees) {
+                    if (new BigDecimal(wy.getWylStart()).compareTo(money) == -1
+                            && new BigDecimal(wy.getWylEnd()).compareTo(money) == 1) {
+                        re.setLoan_wyFee(wy.getWylFee());
+                        flag = true;
+                        break;
+                    }
+
+                }
+                if (!flag) {
+                    throw new ServiceException("该贷款范围内的违约金未配置,请修改贷款金额");
+                }
+
+            }
+
+            List<OtherFee> otherfees = feeConfig.getOtherFee();
+            if (!CollectionUtils.isEmpty(otherfees)) {
+                flag = false;
+                for (OtherFee wy : otherfees) {
+                    if (new BigDecimal(wy.getOtherStart()).compareTo(money) == -1
+                            && new BigDecimal(wy.getOtherEnd()).compareTo(money) == 1) {
+                        re.setLoan_otherFee(wy.getOtherFee());
+                        flag = true;
+                        break;
+                    }
+
+                }
+                if (!flag) {
+                    throw new ServiceException("该贷款范围内的其他费用未配置,请修改贷款金额");
+                }
+            }
+
+            resp.setData(re);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServiceException("产品配置出错");
+        }
+
+        return resp;
+
+    }
+
+    /**
+     * @Title: loadAllLoanByCustomer
+     * @Description: 相同客户历史订单
+     * @param @param req
+     * @param @return   
+     * @return Resp 
+     * @author DELL 2017年5月4日 
+     * @throws
+     */
+    @ResponseBody
+    @RequestMapping(value = "/loadAllLoanByCustomer", method = RequestMethod.POST)
+    public Resp loadAllLoanByCustomer(LoanInfoQueryReq req) {
+        req.setPaseSize(100);
+        RespPage<List<P2PImportExcelTemplateXJD>> info = importExcelTemplateService.queryLoanInfoByCustomer(req);
+        return new Resp(info);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/removeAttach", method = RequestMethod.POST)
+    public Resp loadAllLoanByCustomer(@RequestParam(required = true) String attachId) {
+        try {
+            importExcelTemplateService.backupAttach(attachId);
+            importExcelTemplateService.removeAttach(attachId);
+            return new Resp("success!");
+        } catch (Exception e) {
+            return Resp.buildErrorResponse("删除失败", 0);
+        }
+    }
+
+    /**
+     * 
+     * @Title: loadAllLoanManager
+     * @Description: 订单列表数据
+     * @param @param req
+     * @param @return   
+     * @return Resp 
+     * @author DELL 2017年5月4日 
+     * @throws
+     */
+    @ResponseBody
+    @RequestMapping(value = "/loadAllLoanManager", method = RequestMethod.POST)
+    public Resp loadAllLoanManager(LoanInfoQueryReq req) {
+        RespPage<List<P2PImportExcelTemplateXJD>> info = importExcelTemplateService.queryLoanInfoList(req);
+        return new Resp(info);
+    }
+
+    /**
+     * 
+     * @Title: loadAllLoanManager
+     * @Description: 订单列表
+     * @param @param request
+     * @param @return   
+     * @return String 
+     * @author DELL 2017年5月4日 
+     * @throws
+     */
+    @RequestMapping(value = "/loadOrderManager", method = RequestMethod.GET)
+    public String loadAllLoanManager(ModelMap map) {
+        // 查询所有产品
+        List<P2PProduct> ls = p2PProductService.queryAllRiskProduct();
+        map.put("products", ls);
+        map.put("orderStatus", OrderStatus.values());
+        return "/order/loadOrderManager";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/loanInfoPlugin", method = RequestMethod.POST)
+    public Resp loanInfoPlugin(String productCode) {
+        Resp resp = new Resp();
+        List<P2PProduct> products = p2PProductService.findByProductCode(productCode);
+        if (CollectionUtils.isEmpty(products)) {
+            return Resp.buildErrorResponse("此订单的产品不存在！");
+        }
+
+        P2PProduct pro = products.get(0);
+        XydFeeConfig feeConfig = null;
+        List infos = new ArrayList<LoanInfoBean>();
+        try {
+            feeConfig = JsonUtils.parseJSON(pro.getFeeConfig(), XydFeeConfig.class);
+            LoanInfo info = null;
+            for (cn.sunfit.risk.buz.api.vo.p2p.product.config.RepaymentType re : feeConfig.getRepaymentTypes()) {
+                info = new LoanInfo();
+                if ("3".equals(re.getRepaymentType())) {
+                    if (!CollectionUtils.isEmpty(feeConfig.getLumpSumTerms())) {
+                        Term t = new Term();
+                        t.setTerm(feeConfig.getLumpSumTerms().get(0).getTerm());
+                        t.setTermName(feeConfig.getLumpSumTerms().get(0).getTermName());
+                        List<Term> terms = new ArrayList<Term>();
+                        terms.add(t);
+                        info.setTerms(terms);
+                    }
+                } else {
+                    info.setTerms(feeConfig.getTerms());
+                }
+                info.setRepaymentType(re.getRepaymentType());
+                info.setRepaymentTypeName(re.getRepaymentTypeName());
+                infos.add(info);
+            }
+            resp.setData(infos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServiceException("产品配置出错");
+        }
+
+        return resp;
+    }
+
+    /**
+     * @Title: orderEdit
+     * @Description: 编辑订单
+     * @param @param req
+     * @param @param data
+     * @param @param result
+     * @param @return   
+     * @return Resp 
+     * @author DELL 2017年5月5日 
+     * @throws
+     */
+    @RequestMapping(value = "/submit", method = RequestMethod.POST)
+    @ResponseBody
+    public Resp orderEdit(@Valid FormQuery req, String data, BindingResult result) {
+        Resp r = buildValidationFaildResponse(result);
+        if (r.getStatus() == DATA_VALIDATION_ERROR) {
+            return r;
+        }
+        req.setCorpInfo(getCurrentUser());
+        Map<String, String> formdata = JsonUtils.parseJSON(data, Map.class, String.class, String.class);
+        logger.debug("提交订单参数{}", formdata);
+        if (FormModelType.isHandle(req.getModel())) {
+            superFormService.submit(req, formdata);
+        } else if (FormModelType.isEdit(req.getModel())) {
+            superFormService.editFormData(req, formdata);
+        } else {
+            throw new ServiceException("不支持此模式修改草稿");
+        }
+
+        return new Resp();
+    }
+
+    /**
+     * @Title: orderEditDraft
+     * @Description: 保存草稿
+     * @param @param req
+     * @param @param data
+     * @param @param result
+     * @param @return   
+     * @return Resp 
+     * @author DELL 2017年5月5日 
+     * @throws
+     */
+    @RequestMapping(value = "/saveDraft", method = RequestMethod.POST)
+    @ResponseBody
+    public Resp orderEditDraft(@Valid FormQuery req, String data, BindingResult result) {
+        Resp r = buildValidationFaildResponse(result);
+        if (r.getStatus() == DATA_VALIDATION_ERROR) {
+            return r;
+        }
+        req.setCorpInfo(getCurrentUser());
+        Map<String, String> formdata = JsonUtils.parseJSON(data, Map.class, String.class, String.class);
+        logger.debug("提交草稿订单参数{}", formdata);
+        if (FormModelType.isHandle(req.getModel())) {
+            superFormService.saveDraft(req, formdata);
+        } else if (FormModelType.isEdit(req.getModel())) {
+            superFormService.editFormDataDraft(req, formdata);
+        } else {
+            throw new ServiceException("不支持此模式修改草稿");
+        }
+        superFormService.editFormDataDraft(req, formdata);
+        return new Resp();
+    }
+
+    // getFeeConfig
+
+    /**
+     * 查询操作日志
+     */
+    @RequestMapping(value = "/queryOperLog", method = RequestMethod.POST)
+    @ResponseBody
+    public Resp queryOperLog(@Valid OperLogReq req, BindingResult result) {
+        Resp r = buildValidationFaildResponse(result);
+        if (r.getStatus() == DATA_VALIDATION_ERROR) {
+            return r;
+        }
+        req.setCorpInfo(getCurrentUser());
+        RespPage<List<OperLogSimpleVO>> list = operLogService.querySimpleOperLog(req);
+        return new Resp(list);
+    }
+
+    /**
+     * 查询审核日志
+     */
+    @RequestMapping(value = "/queryOperReviewLog", method = RequestMethod.POST)
+    @ResponseBody
+    public Resp queryOperReviewLog(@Valid OperLogReq req, BindingResult result) {
+        Resp r = buildValidationFaildResponse(result);
+        if (r.getStatus() == DATA_VALIDATION_ERROR) {
+            return r;
+        }
+        req.setCorpInfo(getCurrentUser());
+        RespPage<List<OperLogReviewVO>> list = operLogService.queryReviewOperLog(req);
+        return new Resp(list);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/api/refuseInform", method = RequestMethod.POST)
+    public Resp refuseInform(@RequestBody Map<String, Object> param) {
+        Resp resp = new Resp();
+        try {
+            ApiReq req = new ApiReq();
+            req.setOrderId(Long.valueOf(param.get("orderId").toString()));
+            req.setStatus(param.get("status").toString());
+            req.setReason(param.get("reason").toString());
+            importExcelTemplateService.updateInfoAproveStatus(req);
+            P2PCustOperLog col = new P2PCustOperLog();
+            col.setUid("1");
+            col.setOrderId(req.getOrderId());
+            col.setOperType(OperationType.REJECT.getStatus());
+            col.setOperTime(new Date());
+            col.setDetail(req.getReason());
+            operationLogService.insertOperLog(col);
+            return resp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Resp.buildErrorResponse("拒绝订单失败！错误：" + e.getMessage());
+        }
+    }
+
+    @RequestMapping(value = "/uploadLoanAttach", method = RequestMethod.POST)
+    @ResponseBody
+    public Resp uploadCorpLogo(@RequestParam(required = true) MultipartFile file,
+            @RequestParam(required = true) String loanInfoId, @RequestParam(required = true) String attachGroup,
+            @RequestParam(required = true) String attachType) {
+        Long size = file.getSize();
+        if (size > 10 * 1024 * 1024) {
+            return Resp.buildErrorResponse("上传文件大小超过10M，请重新上传！", "");
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        String suffix = file.getOriginalFilename().toString()
+                .substring(file.getOriginalFilename().toString().lastIndexOf("."));
+        String key = UrlUtil.getLOGOUrl("p2puploader", dateFormat.format(new Date()), suffix);
+        try {
+            OSSUtil.uploadFile(key, file.getBytes());
+        } catch (IOException e) {
+            logger.error("file getBytes exception," + e.getMessage());
+            throw new RuntimeException("file getBytes exception," + e.getMessage());
+        }
+        CorpUserDTO user = getCurrentUser();
+        String coverUrl = OSSUtil.buildUrl(key);
+        LoanInfoAttachment loanInfoAttachment = new LoanInfoAttachment();
+        loanInfoAttachment.setAttachSize(String.valueOf(size));
+        loanInfoAttachment.setAttachOldName(file.getOriginalFilename().toString());
+        String[] keys = key.split("/");
+        loanInfoAttachment.setAttachNewName(keys[keys.length - 1]);
+        loanInfoAttachment.setAttachPath(key);
+        loanInfoAttachment.setAttachGroup(attachGroup);
+        loanInfoAttachment.setAttachType(attachType);
+        loanInfoAttachment.setFullPath(coverUrl);
+        loanInfoAttachment.setLoanInfoId(loanInfoId);
+        loanInfoAttachment
+                .setCreateTime(new SimpleDateFormat(GlobalConstants.DATE_FORMAT_DATE_TIME).format(new Date()));
+        loanInfoAttachment.setCreateUser(user.getId());
+        importExcelTemplateService.insertLoanInfoAttach(loanInfoAttachment);
+        return new Resp("upload success!");
+    }
+}

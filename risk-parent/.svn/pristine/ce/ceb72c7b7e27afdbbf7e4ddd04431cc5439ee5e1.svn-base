@@ -1,0 +1,66 @@
+package cn.sunfit.risk.buz.server.service.p2p.productTypeName;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.sunfit.risk.buz.api.beans.p2p.ProductTypeName;
+import cn.sunfit.risk.buz.api.service.p2p.productTypeName.ProductTypeNameService;
+import cn.sunfit.risk.buz.server.dao.p2p.productTypeName.ProductTypeNameDAO;
+
+@Service("risk.p2pProductTypeNameService")
+public class ProductTypeNameServiceImpl implements ProductTypeNameService {
+
+    @Autowired
+    private ProductTypeNameDAO productTypeNameDAO;
+
+    @Override
+    public int deleteByPrimaryKey(String id) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public List<ProductTypeName> findAll() {
+        // TODO Auto-generated method stub
+        return productTypeNameDAO.findAll();
+    }
+
+    @Override
+    public List<ProductTypeName> findByTypeId(String typeId) {
+        // TODO Auto-generated method stub
+        return productTypeNameDAO.findByTypeId(typeId);
+    }
+
+    @Override
+    public int insert(ProductTypeName record) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int insertSelective(ProductTypeName record) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public ProductTypeName selectByPrimaryKey(String id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public int updateByPrimaryKey(ProductTypeName record) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(ProductTypeName record) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+}

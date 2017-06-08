@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.system.SystemMenuDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.system.SystemMenu" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="system_type" property="systemType" jdbcType="VARCHAR" />
+    <result column="action_url" property="actionUrl" jdbcType="VARCHAR" />
+    <result column="menu_img" property="menuImg" jdbcType="VARCHAR" />
+    <result column="menu_level" property="menuLevel" jdbcType="VARCHAR" />
+    <result column="is_active" property="isActive" jdbcType="VARCHAR" />
+    <result column="is_leaf" property="isLeaf" jdbcType="VARCHAR" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="display_order" property="displayOrder" jdbcType="INTEGER" />
+    <result column="menu_type" property="menuType" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap type="cn.sunfit.risk.buz.api.vo.system.SystemMenuFunc" id="BaseResultMap_Func" extends="BaseResultMap">
+  	<collection property="funcList" fetchType="eager" select="cn.sunfit.risk.buz.server.dao.system.SystemFuncDAO.queryFuncByMenuCorp" column="{menuId=id,corpId=corp_id}">
+  	</collection>
+  </resultMap>
+  <resultMap type="cn.sunfit.risk.buz.api.vo.system.SystemMenuFunc" id="BaseResultMap_Func_Role" extends="BaseResultMap">
+  	<collection property="funcList" fetchType="eager" select="cn.sunfit.risk.buz.server.dao.system.SystemFuncDAO.queryFuncByMenuCorpRole" column="{menuId=id,corpId=corp_id,roleId=role_id}">
+  	</collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, menu_code, menu_name, system_type, action_url, menu_img, menu_level, is_active, 
+    is_leaf, parent_code, display_order, menu_type
+  </sql>
+  <sql id="Base_Column_List_M" >
+    m.id, m.menu_code, m.menu_name, m.system_type, m.action_url, m.menu_img, m.menu_level, m.is_active, 
+    m.is_leaf, m.parent_code, m.display_order, m.menu_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from risk_system_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.system.SystemMenu" >
+    insert into risk_system_menu (id, menu_code, menu_name, 
+      system_type, action_url, menu_img, 
+      menu_level, is_active, is_leaf, 
+      parent_code, display_order, menu_type
+      )
+    values (#{id,jdbcType=VARCHAR}, #{menuCode,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, 
+      #{systemType,jdbcType=VARCHAR}, #{actionUrl,jdbcType=VARCHAR}, #{menuImg,jdbcType=VARCHAR}, 
+      #{menuLevel,jdbcType=VARCHAR}, #{isActive,jdbcType=VARCHAR}, #{isLeaf,jdbcType=VARCHAR}, 
+      #{parentCode,jdbcType=VARCHAR}, #{displayOrder,jdbcType=INTEGER}, #{menuType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.system.SystemMenu" >
+    update risk_system_menu
+    set menu_code = #{menuCode,jdbcType=VARCHAR},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      system_type = #{systemType,jdbcType=VARCHAR},
+      action_url = #{actionUrl,jdbcType=VARCHAR},
+      menu_img = #{menuImg,jdbcType=VARCHAR},
+      menu_level = #{menuLevel,jdbcType=VARCHAR},
+      is_active = #{isActive,jdbcType=VARCHAR},
+      is_leaf = #{isLeaf,jdbcType=VARCHAR},
+      parent_code = #{parentCode,jdbcType=VARCHAR},
+      display_order = #{displayOrder,jdbcType=INTEGER},
+      menu_type = #{menuType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  	<select id="selectMenusByRoles" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT	DISTINCT <include refid="Base_Column_List_M" />
+		from risk_corp_role r,risk_corp_role_menu_rel t, risk_corp_menu_rel n,risk_system_menu m
+		where  r.id in
+		   <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+		 	    '${roleId}'
+		   </foreach>
+		  and r. STATUS = '0'
+		  and m.is_active = '0'
+		  and r.id = t.role_id
+		  and n.menu_id = t.menu_id
+          and n.corp_id =r.corp_id 
+          and m.id = n.menu_id	  
+          and m.menu_type =0
+          and (m.system_id=#{systemId} or m.system_id is null)
+		  order by m.display_order,m.menu_code
+	</select>
+	
+	<select id="selectMenuFuncByCorp" parameterType="java.lang.String"  resultMap="BaseResultMap_Func" >
+		SELECT  <include refid="Base_Column_List_M" />,n.corp_id
+		from risk_corp_menu_rel n,risk_system_menu m
+		where n.corp_id=#{corpId}  and m.is_active = '0' and  n.menu_id = m.id
+	</select>
+	
+    <select id="selectMenuFuncByRoleCorp" parameterType="java.util.Map"  resultMap="BaseResultMap_Func_Role" >
+		SELECT	DISTINCT <include refid="Base_Column_List_M" />,n.corp_id, t.role_id
+		from risk_corp_role r,risk_corp_role_menu_rel t, risk_corp_menu_rel n,risk_system_menu m
+		where  r.id =#{roleId} and n.corp_id=#{corpId}
+		 <!--  and r. STATUS = '0' -->
+		 <!--  and m.is_active = '0' -->
+		  and r.id = t.role_id
+		  and n.menu_id = t.menu_id
+          and n.corp_id =r.corp_id 
+          and m.id = n.menu_id	  
+          and m.menu_type =0
+		  order by m.display_order,m.menu_code
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.buz.BPOperLogDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.buz.BPOperLog" >
+    <id column="log_id" property="logId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="bp_id" property="bpId" jdbcType="VARCHAR" />
+    <result column="log_time" property="logTime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="log_type" property="logType" jdbcType="VARCHAR" />
+    <result column="pretask" property="pretask" jdbcType="VARCHAR" />
+    <result column="curtask" property="curtask" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="log_oper_type" property="logOperType" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+    <result column="handle_task_key" property="handleTaskKey" jdbcType="VARCHAR" />
+    <result column="handle_task_name" property="handleTaskName" jdbcType="VARCHAR" />
+    <result column="pretaskkey" property="pretaskkey" jdbcType="VARCHAR" />
+    <result column="curtaskkey" property="curtaskkey" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.sunfit.risk.buz.api.beans.buz.BPOperLog" extends="BaseResultMap" >
+    <result column="field_detail" property="fieldDetail" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    log_id, corp_id, bp_id, log_time, user_id, log_type, pretask, curtask, user_name, content ,
+    reason,log_oper_type,bp_def_id,handle_task_key,handle_task_name,pretaskkey,curtaskkey
+  </sql>
+    <sql id="Base_Column_List_log" >
+    log.log_id, log.corp_id, log.bp_id, log.log_time, log.user_id, log.log_type, log.pretask, log.curtask, log.user_name, log.content ,
+    log.reason,log.log_oper_type,log.bp_def_id,log.handle_task_key,log.handle_task_name,log.pretaskkey,log.curtaskkey
+  </sql>
+  <sql id="Blob_Column_List" >
+    field_detail
+  </sql>
+  <select id="selectBpOperLog" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.vo.buz.OperLogReq" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ${domain}_bp_oper_logs
+    where bp_id=#{bpId}
+    <if test="operUserName!=null and operUserName!=''">
+    	and user_name like concat('%',#{operUserName},'%')
+    </if>
+    <if test="start!=null and start!=''">
+    	and log_time <![CDATA[>]]> #{start}
+    </if>
+    <if test="end!=null and end !=''">
+    	and log_time <![CDATA[<]]> #{end}
+    </if>
+    order by log_time desc
+  </select>
+  <select id="selectBpOperLogReview" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.vo.buz.OperLogReq" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ${domain}_bp_oper_logs
+    where bp_id=#{bpId} and log_type='2'
+    <if test="operUserName!=null and operUserName!=''">
+    	and user_name like concat('%',#{operUserName},'%')
+    </if>
+    <if test="start!=null and start!=''">
+    	and log_time <![CDATA[>]]> #{start}
+    </if>
+    <if test="end!=null and end !=''">
+    	and log_time <![CDATA[<]]> #{end}
+    </if>
+    order by log_time desc
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.buz.BPOperLog" >
+    insert into ${domain}_bp_oper_logs (log_id, corp_id, bp_id, 
+      log_time, user_id, log_type, 
+      pretask, curtask, user_name, 
+      reason, content, field_detail,log_oper_type,
+      bp_def_id,handle_task_key,handle_task_name,pretaskkey,curtaskkey
+      )
+    values (#{logId,jdbcType=VARCHAR}, #{corpId,jdbcType=VARCHAR}, #{bpId,jdbcType=VARCHAR}, 
+      #{logTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}, #{logType,jdbcType=VARCHAR}, 
+      #{pretask,jdbcType=VARCHAR}, #{curtask,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{fieldDetail,jdbcType=LONGVARCHAR},#{logOperType},
+      #{bpDefId,jdbcType=VARCHAR},#{handleTaskKey,jdbcType=VARCHAR},#{handleTaskName,jdbcType=VARCHAR},
+      #{pretaskkey,jdbcType=VARCHAR},#{curtaskkey,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+    <select id="selectLastestLogReview" resultMap="BaseResultMap"   >
+    SELECT <include refid="Base_Column_List_log" /> from
+	(select max(log_time) lg,bp_id from ${domain}_bp_oper_logs where bp_id in 
+	<foreach collection="bpids" open="(" close=")" separator="," item="bpid">
+		'${bpid}'
+	</foreach>
+	and log_type='2'  group by bp_id  ) log1
+	LEFT JOIN  ${domain}_bp_oper_logs log 
+	on log.log_time=log1.lg and log.bp_id=log1.bp_id;
+  </select>
+</mapper>

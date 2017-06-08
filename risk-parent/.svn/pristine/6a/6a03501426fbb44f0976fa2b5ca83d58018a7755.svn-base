@@ -1,0 +1,22 @@
+package cn.sunfit.risk.buz.api.service.p2p.activiti;
+
+import java.util.List;
+
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.BPMetaNode;
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.TodoQueryDTO;
+import cn.sunfit.risk.buz.api.beans.p2p.activiti.TodoQueryReq;
+import cn.sunfit.risk.buz.api.vo.RespPage;
+
+
+public interface BpService {
+    public List<String> getDataRole(String userId, String corpId);
+
+
+    List<BPMetaNode> selectAllBPMetaNode(String domain);
+
+
+    List<BPMetaNode> selectBPMetaNodeByProduct(String domain, String product);
+
+
+    public RespPage<List<TodoQueryDTO>> selectTodoList(TodoQueryReq req);
+}

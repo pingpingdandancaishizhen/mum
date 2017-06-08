@@ -1,0 +1,40 @@
+<template>
+  <div class="row-right" :class="!checkedAdd?'col-sm-6':'col-sm-6 checkedAdd'">
+    <div class="form-group input-group " :id="data.key">
+      <label class="label-head label-head-lg label-head-top  text-right"  v-if="!checkedAdd"><span :class="data.required?'require':''">{{data.label}}:</span></label>
+      <div class="label-box label-box-sm" :class="data.unit?'label-box-has-unit':''">
+        <input type="text" class="form-control" :name="data.key"  placeholder="" v-model="value" :disabled="data.readonly?true:false">
+        <div class="form-error-tip">{{errorTip}}</div>
+      </div>
+      <div class="label-unit" v-if="data.unit">
+       {{data.unit}}
+      </div>
+    </div>
+  </div>
+
+</template>
+<script>
+  import checkRule from '../mixins/checkRule'
+  export default{
+    mixins:[checkRule],
+    data(){
+      return {
+        value:''
+      }
+    },
+    props: ['data','oData','attrsData','ruleData','checkedAdd'],
+    created:function () {
+      var attrValue=this.attrsData[this.data.key];
+      var value=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+      this.value=value;
+      this.$store.dispatch('setInputData', {key: this.data.key, value: value});
+      this.$watch('value',value)
+    },
+    methods:{
+      handleWatch(val){
+        this.checkRuleValue=val;
+        this.$store.dispatch('setInputData', {key: this.data.key, value: val});
+      }
+    }
+  }
+</script>

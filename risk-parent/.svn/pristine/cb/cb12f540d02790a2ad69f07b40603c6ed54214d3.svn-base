@@ -1,0 +1,9 @@
+{
+    "loanbank_account_name": [{"ruleType":"length","ruleLevel":"field","message":"请输入1到20位字符","fieldKey":"loanbank_account_name","condition":null,"detail":{"min":"1","max":"20"}}],
+    "loanbank_account_no": [{"ruleType":"regexp","ruleLevel":"field","message":"请输入正确银行卡号","fieldKey":"loanbank_account_no","condition":null,"detail":{"regexp":"^\\d{16}|\\d{19}$"}}],
+    "loanbank_bank": [],
+    "loanbank_addr_province": [],
+    "loanbank_addr": [],
+    "loanbank_addr_city": [],
+    "loanbank_branch": []
+}

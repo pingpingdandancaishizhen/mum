@@ -1,0 +1,589 @@
+WARN  [risk-p2p-server] 2017-05-22 09:53:57.189 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+WARN  [risk-p2p-server] 2017-05-22 10:13:04.236 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 10:16:24.215 [New I/O worker #2] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 10:17:03.917 [New I/O worker #3] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 10:19:56.356 [New I/O worker #4] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 10:24:00.429 [New I/O worker #5] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 10:38:25.546 [New I/O worker #6] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 10:39:05.637 [New I/O worker #7] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 10:39:32.597 [New I/O worker #8] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 10:39:56.755 [New I/O worker #9] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 10:40:36.647 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 10:41:28.520 [New I/O worker #2] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 10:45:34.724 [New I/O worker #3] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 10:46:02.120 [New I/O worker #4] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 11:08:39.975 [New I/O worker #5] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 11:11:36.006 [New I/O worker #6] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 11:12:04.575 [New I/O worker #7] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 11:12:33.879 [New I/O worker #8] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 11:13:51.254 [New I/O worker #9] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 11:15:33.802 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 11:24:59.096 [New I/O worker #2] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 11:31:45.415 [New I/O worker #3] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 11:40:44.375 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+WARN  [risk-p2p-server] 2017-05-22 13:34:55.604 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 13:44:44.712 [New I/O worker #2] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 13:55:27.741 [New I/O worker #3] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 14:12:18.084 [New I/O worker #4] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 14:18:47.404 [New I/O worker #5] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 14:19:49.135 [New I/O worker #6] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 14:32:39.217 [New I/O worker #7] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+ERROR [risk-p2p-server] 2017-05-22 14:38:36.650 [DubboServerHandler-172.16.88.107:10020-thread-93] cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl - ********************** Exception is thrown **********************
+异常编号 : EXCEPTION_CODE_0120946543210925
+产生异常的类名 : cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl
+产生异常的方法名 : updateByPrimaryKey
+方法参数 : [cn.sunfit.risk.buz.api.beans.p2p.P2PProduct@236c90fa[
+  id=00abba0d11184d95acfa7c0b5e68cdd7
+  productName=测试车易贷
+  createTime=<null>
+  lastmodTime=Mon May 22 14:38:36 CST 2017
+  status=1
+  desc=中国首次海域天然气水合物(可燃冰)试采成功!据央视新闻今天(18日)援引国土资源部中国地质调查局消息，这标志着我国成为全球第一个实现了在海域可燃冰试开采中获得连续稳定产气的国家。中午，中共中央国务院对海域天然气水合物试采成功发去贺电。 
+国务院贺电全文 央视　　可燃冰，学名天然气水合物(Natural Gas Hydrate，简称Gas Hydrate)，是分布于深海沉积物或陆域的永久冻土中，由天然气与水在高压低温条件下形成的类冰状的结晶物质。因其外观像冰一样而且遇火即可燃烧，所以又被称作“可燃冰”或者“固体瓦斯”和“气冰”。 
+燃烧后，可燃冰仅会生成少量的二氧化碳和水，污染比煤、石油、天然气小很多，但能量高出十倍。此外，可燃冰储量巨大，所含有机碳资源总量相当于全球已知煤、石油和天然气总量的两倍，被国际公认为石油、天然气的接替能源。 
+我国管辖海域和陆区也蕴藏有丰富的可燃冰资源，因此走近、认识可燃冰显得意义非凡。 
+正式出气至今 已累计产出超12万立方米甲烷含量高达99.5%的天然气 
+据央视新闻报道，我国南海北部的神狐海域，也是我国正在进行的可燃冰试开采的现场。这个持续不断燃烧的火焰
+  productType=2
+  medium=<null>
+  feeConfig={"repaymentTypes":[{"repaymentType":"1","repaymentTypeName":"等额等息"},{"repaymentType":"2","repaymentTypeName":"先息后本"},{"repaymentType":"4","repaymentTypeName":"等额本金"},{"repaymentType":"5","repaymentTypeName":"等额本息"}],"terms":[{"term":"M1","termName":"1个月"},{"term":"M2","termName":"2个月"},{"term":"M3","termName":"3个月"},{"term":"M5","termName":"5个月"},{"term":"M6","termName":"6个月"},{"term":"M11","termName":"11个月"},{"term":"M12","termName":"12个月"},{"term":"D1,D60","termName":"按天（1-60天)"}],"firstIssueType":"1","autoTypeCheck":"1","monthlyFee":[{"start":"3","end":"5","repaymentType":"1","repaymentTypeName":"等额等息"},{"start":"2","end":"4","repaymentType":"2","repaymentTypeName":"先息后本"},{"start":"3","end":"5","repaymentType":"4","repaymentTypeName":"等额本金"},{"start":"3","end":"4","repaymentType":"5","repaymentTypeName":"等额本息"}],"daylyFee":[{"start":"1","end":"2","repaymentType":"1","repaymentTypeName":"等额等息"},{"start":"1","end":"2","repaymentType":"2","repaymentTypeName":"先息后本"},{"start":"1","end":"2","repaymentType":"4","repaymentTypeName":"等额本金"},{"start":"1","end":"2","repaymentType":"5","repaymentTypeName":"等额本息"}],"wyFee":[{"wylStart":"500","wylEnd":"1500","wylFee":"5.0"}],"znjCalType":"1","znFee":[{"znlStart":"500","znlEnd":"1500","znlFee":"5.0"}],"bzjType":"1","bzjFee":[{"bzjStart":"500","bzjEnd":"1500","bzjFee":"5.0"}],"zxfType":"1","zxfee":{"start":"0","end":"10"},"otherType":"1","otherFee":[{"otherStart":"500","otherEnd":"900","otherFee":"20.0"}],"gpsType":"1","gpsFirstFee":{"start":"0","end":"1000"},"gpsServiceFee":{"start":"0","end":"1000"},"parkType":"1","parkFee":{"start":"0","end":"1000"}}
+  corpId=4
+  assetId=4facebf6973040ffbd4054208394ee44
+  productCode=CSCYD
+  domain=rjs
+]]
+异常提示信息 : 在业务层发生了异常,可能是一个BUG,请将日志文件中异常编号为[EXCEPTION_CODE_0120946543210925]的异常明细发送给开发团队
+异常发生的时间 : 2017-05-22 14:38:36
+异常堆栈信息 : orj.worf.exception.AppRuntimeException: nested exception is org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.product.P2PProductDAO.updateByPrimaryKey-Inline
+### The error occurred while setting parameters
+### SQL: update rjs_p2p_product     set product_name = ?,       lastmod_time = ?,       `status` = ?,       `desc` = ?,       medium = ?,       product_type = ?,       corp_id = ?,       asset_id = ?,       fee_config = ?,       product_Code = ?     where id = ?
+### Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+; SQL []; Data truncation: Data too long for column 'desc' at row 1; nested exception is com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+	at orj.worf.exception.util.ExceptionUtils.createAppRuntimeException(ExceptionUtils.java:78)
+	at orj.worf.exception.interceptor.ExceptionInterceptor.validateException(ExceptionInterceptor.java:55)
+	at orj.worf.exception.interceptor.ExceptionInterceptor.handleAppException(ExceptionInterceptor.java:44)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:603)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:62)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:85)
+	at orj.worf.service.aspect.ServiceLogAspect.logInboundOutbound(ServiceLogAspect.java:33)
+	at sun.reflect.GeneratedMethodAccessor194.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:610)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:68)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:653)
+	at cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl$$EnhancerBySpringCGLIB$$ae3caf5d.updateByPrimaryKey(<generated>)
+	at com.alibaba.dubbo.common.bytecode.Wrapper15.invokeMethod(Wrapper15.java)
+	at com.alibaba.dubbo.rpc.proxy.javassist.JavassistProxyFactory$1.doInvoke(JavassistProxyFactory.java:48)
+	at com.alibaba.dubbo.rpc.proxy.AbstractProxyInvoker.invoke(AbstractProxyInvoker.java:77)
+	at com.alibaba.dubbo.rpc.protocol.InvokerWrapper.invoke(InvokerWrapper.java:57)
+	at com.alibaba.dubbo.rpc.filter.ExceptionFilter.invoke(ExceptionFilter.java:58)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.TimeoutFilter.invoke(TimeoutFilter.java:43)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.monitor.support.MonitorFilter.invoke(MonitorFilter.java:75)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.protocol.dubbo.filter.TraceFilter.invoke(TraceFilter.java:79)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.ContextFilter.invoke(ContextFilter.java:57)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.GenericFilter.invoke(GenericFilter.java:106)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.ClassLoaderFilter.invoke(ClassLoaderFilter.java:39)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.EchoFilter.invoke(EchoFilter.java:40)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol$1.reply(DubboProtocol.java:114)
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.handleRequest(HeaderExchangeHandler.java:88)
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.received(HeaderExchangeHandler.java:178)
+	at com.alibaba.dubbo.remoting.transport.DecodeHandler.received(DecodeHandler.java:53)
+	at com.alibaba.dubbo.remoting.transport.dispatcher.ChannelEventRunnable.run(ChannelEventRunnable.java:86)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.product.P2PProductDAO.updateByPrimaryKey-Inline
+### The error occurred while setting parameters
+### SQL: update rjs_p2p_product     set product_name = ?,       lastmod_time = ?,       `status` = ?,       `desc` = ?,       medium = ?,       product_type = ?,       corp_id = ?,       asset_id = ?,       fee_config = ?,       product_Code = ?     where id = ?
+### Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+; SQL []; Data truncation: Data too long for column 'desc' at row 1; nested exception is com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:102)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:73)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:371)
+	at com.sun.proxy.$Proxy24.update(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.update(SqlSessionTemplate.java:254)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:54)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:52)
+	at com.sun.proxy.$Proxy50.updateByPrimaryKey(Unknown Source)
+	at cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl.updateByPrimaryKey(P2PProductServiceImpl.java:88)
+	at cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl$$FastClassBySpringCGLIB$$a8f17db1.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:717)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor.invoke(AfterReturningAdviceInterceptor.java:52)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:58)
+	... 42 more
+Caused by: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3845)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3783)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2447)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2594)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2545)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1901)
+	at com.mysql.jdbc.PreparedStatement.execute(PreparedStatement.java:1193)
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.execute(NewProxyPreparedStatement.java:404)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.update(PreparedStatementHandler.java:44)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.update(RoutingStatementHandler.java:69)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:62)
+	at com.sun.proxy.$Proxy46.update(Unknown Source)
+	at org.apache.ibatis.executor.ReuseExecutor.doUpdate(ReuseExecutor.java:50)
+	at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:105)
+	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:71)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:152)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:358)
+	... 55 more
+
+
+ERROR [risk-p2p-server] 2017-05-22 14:38:36.662 [DubboServerHandler-172.16.88.107:10020-thread-93] com.alibaba.dubbo.rpc.filter.ExceptionFilter -  [DUBBO] Got unchecked and undeclared exception which called by 172.16.88.107. service: cn.sunfit.risk.buz.api.service.p2p.product.P2PProductService, method: updateByPrimaryKey, exception: orj.worf.exception.AppRuntimeException: nested exception is org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.product.P2PProductDAO.updateByPrimaryKey-Inline
+### The error occurred while setting parameters
+### SQL: update rjs_p2p_product     set product_name = ?,       lastmod_time = ?,       `status` = ?,       `desc` = ?,       medium = ?,       product_type = ?,       corp_id = ?,       asset_id = ?,       fee_config = ?,       product_Code = ?     where id = ?
+### Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+; SQL []; Data truncation: Data too long for column 'desc' at row 1; nested exception is com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1, dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+orj.worf.exception.AppRuntimeException: nested exception is org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.product.P2PProductDAO.updateByPrimaryKey-Inline
+### The error occurred while setting parameters
+### SQL: update rjs_p2p_product     set product_name = ?,       lastmod_time = ?,       `status` = ?,       `desc` = ?,       medium = ?,       product_type = ?,       corp_id = ?,       asset_id = ?,       fee_config = ?,       product_Code = ?     where id = ?
+### Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+; SQL []; Data truncation: Data too long for column 'desc' at row 1; nested exception is com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+	at orj.worf.exception.util.ExceptionUtils.createAppRuntimeException(ExceptionUtils.java:78) ~[worf-exception-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at orj.worf.exception.interceptor.ExceptionInterceptor.validateException(ExceptionInterceptor.java:55) ~[worf-exception-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at orj.worf.exception.interceptor.ExceptionInterceptor.handleAppException(ExceptionInterceptor.java:44) ~[worf-exception-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:603) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:62) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:85) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at orj.worf.service.aspect.ServiceLogAspect.logInboundOutbound(ServiceLogAspect.java:33) ~[worf-service-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at sun.reflect.GeneratedMethodAccessor194.invoke(Unknown Source) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:610) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:68) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:653) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl$$EnhancerBySpringCGLIB$$ae3caf5d.updateByPrimaryKey(<generated>) ~[spring-core-4.1.3.RELEASE.jar:na]
+	at com.alibaba.dubbo.common.bytecode.Wrapper15.invokeMethod(Wrapper15.java) ~[na:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.proxy.javassist.JavassistProxyFactory$1.doInvoke(JavassistProxyFactory.java:48) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.proxy.AbstractProxyInvoker.invoke(AbstractProxyInvoker.java:77) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.InvokerWrapper.invoke(InvokerWrapper.java:57) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.ExceptionFilter.invoke(ExceptionFilter.java:58) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.TimeoutFilter.invoke(TimeoutFilter.java:43) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.monitor.support.MonitorFilter.invoke(MonitorFilter.java:75) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.dubbo.filter.TraceFilter.invoke(TraceFilter.java:79) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.ContextFilter.invoke(ContextFilter.java:57) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.GenericFilter.invoke(GenericFilter.java:106) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.ClassLoaderFilter.invoke(ClassLoaderFilter.java:39) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.EchoFilter.invoke(EchoFilter.java:40) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol$1.reply(DubboProtocol.java:114) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.handleRequest(HeaderExchangeHandler.java:88) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.received(HeaderExchangeHandler.java:178) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.transport.DecodeHandler.received(DecodeHandler.java:53) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.transport.dispatcher.ChannelEventRunnable.run(ChannelEventRunnable.java:86) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:na]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:na]
+	at java.lang.Thread.run(Thread.java:745) [na:na]
+Caused by: org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.product.P2PProductDAO.updateByPrimaryKey-Inline
+### The error occurred while setting parameters
+### SQL: update rjs_p2p_product     set product_name = ?,       lastmod_time = ?,       `status` = ?,       `desc` = ?,       medium = ?,       product_type = ?,       corp_id = ?,       asset_id = ?,       fee_config = ?,       product_Code = ?     where id = ?
+### Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+; SQL []; Data truncation: Data too long for column 'desc' at row 1; nested exception is com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:102) ~[spring-jdbc-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73) ~[spring-jdbc-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81) ~[spring-jdbc-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81) ~[spring-jdbc-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:73) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:371) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	at com.sun.proxy.$Proxy24.update(Unknown Source) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate.update(SqlSessionTemplate.java:254) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:54) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:52) ~[mybatis-3.2.8.jar:3.2.8]
+	at com.sun.proxy.$Proxy50.updateByPrimaryKey(Unknown Source) ~[na:na]
+	at cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl.updateByPrimaryKey(P2PProductServiceImpl.java:88) ~[classes/:na]
+	at cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl$$FastClassBySpringCGLIB$$a8f17db1.invoke(<generated>) ~[spring-core-4.1.3.RELEASE.jar:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204) ~[spring-core-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:717) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor.invoke(AfterReturningAdviceInterceptor.java:52) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:58) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	... 42 common frames omitted
+Caused by: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3845) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3783) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2447) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2594) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2545) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1901) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.PreparedStatement.execute(PreparedStatement.java:1193) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.execute(NewProxyPreparedStatement.java:404) ~[c3p0-0.9.5-pre9.jar:0.9.5-pre9]
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.update(PreparedStatementHandler.java:44) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.update(RoutingStatementHandler.java:69) ~[mybatis-3.2.8.jar:3.2.8]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:62) ~[mybatis-3.2.8.jar:3.2.8]
+	at com.sun.proxy.$Proxy46.update(Unknown Source) ~[na:na]
+	at org.apache.ibatis.executor.ReuseExecutor.doUpdate(ReuseExecutor.java:50) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:105) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:71) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:152) ~[mybatis-3.2.8.jar:3.2.8]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:358) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	... 55 common frames omitted
+ERROR [risk-p2p-server] 2017-05-22 14:39:01.396 [DubboServerHandler-172.16.88.107:10020-thread-96] cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl - ********************** Exception is thrown **********************
+异常编号 : EXCEPTION_CODE_0120971479689964
+产生异常的类名 : cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl
+产生异常的方法名 : updateByPrimaryKey
+方法参数 : [cn.sunfit.risk.buz.api.beans.p2p.P2PProduct@4542633a[
+  id=00abba0d11184d95acfa7c0b5e68cdd7
+  productName=测试车易贷
+  createTime=<null>
+  lastmodTime=Mon May 22 14:39:01 CST 2017
+  status=1
+  desc=中国首次海域天然气水合物(可燃冰)试采成功!据央视新闻今天(18日)援引国土资源部中国地质调查局消息，这标志着我国成为全球第一个实现了在海域可燃冰试开采中获得连续稳定产气的国家。中午，中共中央国务院对海域天然气水合物试采成功发去贺电。 
+国务院贺电全文 央视　　可燃冰，学名天然气水合物(Natural Gas Hydrate，简称Gas Hydrate)，是分布于深海沉积物或陆域的永久冻土中，由天然气与水在高压低温条件下形成的类冰状的结晶物质。因其外观像冰一样而且遇火即可燃烧，所以又被称作“可燃冰”或者“固体瓦斯”和“气冰”。 
+燃烧后，可燃冰仅会生成少量的二氧化碳和水，污染比煤、石油、天然气小很多，但能量高出十倍。此外，可燃冰储量巨大，所含有机碳资源总量相当于全球已知煤、石油和天然气总量的两倍，被国际公认为石油、天然气的接替能源。 
+我国管辖海域和陆区也蕴藏有丰富的可燃冰资源，因此走近、认识可燃冰显得意义非凡。 
+正式出气至今 已累计产出超12万立方米甲烷含量高达99.5%的天然气 
+据央视新闻报道，我国南海北部的神狐海域，也是我国正在进行的可燃冰试开采的现场。这个持续不断燃烧的火焰
+  productType=2
+  medium=<null>
+  feeConfig={"repaymentTypes":[{"repaymentType":"1","repaymentTypeName":"等额等息"},{"repaymentType":"2","repaymentTypeName":"先息后本"},{"repaymentType":"4","repaymentTypeName":"等额本金"},{"repaymentType":"5","repaymentTypeName":"等额本息"}],"terms":[{"term":"M1","termName":"1个月"},{"term":"M2","termName":"2个月"},{"term":"M3","termName":"3个月"},{"term":"M5","termName":"5个月"},{"term":"M6","termName":"6个月"},{"term":"M11","termName":"11个月"},{"term":"M12","termName":"12个月"},{"term":"D1,D60","termName":"按天（1-60天)"}],"firstIssueType":"1","autoTypeCheck":"1","monthlyFee":[{"start":"3","end":"5","repaymentType":"1","repaymentTypeName":"等额等息"},{"start":"2","end":"4","repaymentType":"2","repaymentTypeName":"先息后本"},{"start":"3","end":"5","repaymentType":"4","repaymentTypeName":"等额本金"},{"start":"3","end":"4","repaymentType":"5","repaymentTypeName":"等额本息"}],"daylyFee":[{"start":"1","end":"2","repaymentType":"1","repaymentTypeName":"等额等息"},{"start":"1","end":"2","repaymentType":"2","repaymentTypeName":"先息后本"},{"start":"1","end":"2","repaymentType":"4","repaymentTypeName":"等额本金"},{"start":"1","end":"2","repaymentType":"5","repaymentTypeName":"等额本息"}],"wyFee":[{"wylStart":"500","wylEnd":"1500","wylFee":"5.0"}],"znjCalType":"1","znFee":[{"znlStart":"500","znlEnd":"1500","znlFee":"5.0"}],"bzjType":"1","bzjFee":[{"bzjStart":"500","bzjEnd":"1500","bzjFee":"5.0"}],"zxfType":"1","zxfee":{"start":"0","end":"10"},"otherType":"1","otherFee":[{"otherStart":"500","otherEnd":"900","otherFee":"20.0"}],"gpsType":"1","gpsFirstFee":{"start":"0","end":"1000"},"gpsServiceFee":{"start":"0","end":"1000"},"parkType":"1","parkFee":{"start":"0","end":"1000"}}
+  corpId=4
+  assetId=4facebf6973040ffbd4054208394ee44
+  productCode=CSCYD
+  domain=rjs
+]]
+异常提示信息 : 在业务层发生了异常,可能是一个BUG,请将日志文件中异常编号为[EXCEPTION_CODE_0120971479689964]的异常明细发送给开发团队
+异常发生的时间 : 2017-05-22 14:39:01
+异常堆栈信息 : orj.worf.exception.AppRuntimeException: nested exception is org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.product.P2PProductDAO.updateByPrimaryKey-Inline
+### The error occurred while setting parameters
+### SQL: update rjs_p2p_product     set product_name = ?,       lastmod_time = ?,       `status` = ?,       `desc` = ?,       medium = ?,       product_type = ?,       corp_id = ?,       asset_id = ?,       fee_config = ?,       product_Code = ?     where id = ?
+### Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+; SQL []; Data truncation: Data too long for column 'desc' at row 1; nested exception is com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+	at orj.worf.exception.util.ExceptionUtils.createAppRuntimeException(ExceptionUtils.java:78)
+	at orj.worf.exception.interceptor.ExceptionInterceptor.validateException(ExceptionInterceptor.java:55)
+	at orj.worf.exception.interceptor.ExceptionInterceptor.handleAppException(ExceptionInterceptor.java:44)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:603)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:62)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:85)
+	at orj.worf.service.aspect.ServiceLogAspect.logInboundOutbound(ServiceLogAspect.java:33)
+	at sun.reflect.GeneratedMethodAccessor194.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:610)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:68)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:653)
+	at cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl$$EnhancerBySpringCGLIB$$ae3caf5d.updateByPrimaryKey(<generated>)
+	at com.alibaba.dubbo.common.bytecode.Wrapper15.invokeMethod(Wrapper15.java)
+	at com.alibaba.dubbo.rpc.proxy.javassist.JavassistProxyFactory$1.doInvoke(JavassistProxyFactory.java:48)
+	at com.alibaba.dubbo.rpc.proxy.AbstractProxyInvoker.invoke(AbstractProxyInvoker.java:77)
+	at com.alibaba.dubbo.rpc.protocol.InvokerWrapper.invoke(InvokerWrapper.java:57)
+	at com.alibaba.dubbo.rpc.filter.ExceptionFilter.invoke(ExceptionFilter.java:58)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.TimeoutFilter.invoke(TimeoutFilter.java:43)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.monitor.support.MonitorFilter.invoke(MonitorFilter.java:75)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.protocol.dubbo.filter.TraceFilter.invoke(TraceFilter.java:79)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.ContextFilter.invoke(ContextFilter.java:57)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.GenericFilter.invoke(GenericFilter.java:106)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.ClassLoaderFilter.invoke(ClassLoaderFilter.java:39)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.filter.EchoFilter.invoke(EchoFilter.java:40)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100)
+	at com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol$1.reply(DubboProtocol.java:114)
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.handleRequest(HeaderExchangeHandler.java:88)
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.received(HeaderExchangeHandler.java:178)
+	at com.alibaba.dubbo.remoting.transport.DecodeHandler.received(DecodeHandler.java:53)
+	at com.alibaba.dubbo.remoting.transport.dispatcher.ChannelEventRunnable.run(ChannelEventRunnable.java:86)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.product.P2PProductDAO.updateByPrimaryKey-Inline
+### The error occurred while setting parameters
+### SQL: update rjs_p2p_product     set product_name = ?,       lastmod_time = ?,       `status` = ?,       `desc` = ?,       medium = ?,       product_type = ?,       corp_id = ?,       asset_id = ?,       fee_config = ?,       product_Code = ?     where id = ?
+### Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+; SQL []; Data truncation: Data too long for column 'desc' at row 1; nested exception is com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:102)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:73)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:371)
+	at com.sun.proxy.$Proxy24.update(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.update(SqlSessionTemplate.java:254)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:54)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:52)
+	at com.sun.proxy.$Proxy50.updateByPrimaryKey(Unknown Source)
+	at cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl.updateByPrimaryKey(P2PProductServiceImpl.java:88)
+	at cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl$$FastClassBySpringCGLIB$$a8f17db1.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:717)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor.invoke(AfterReturningAdviceInterceptor.java:52)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:58)
+	... 42 more
+Caused by: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3845)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3783)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2447)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2594)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2545)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1901)
+	at com.mysql.jdbc.PreparedStatement.execute(PreparedStatement.java:1193)
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.execute(NewProxyPreparedStatement.java:404)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.update(PreparedStatementHandler.java:44)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.update(RoutingStatementHandler.java:69)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:62)
+	at com.sun.proxy.$Proxy46.update(Unknown Source)
+	at org.apache.ibatis.executor.ReuseExecutor.doUpdate(ReuseExecutor.java:50)
+	at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:105)
+	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:71)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:152)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:358)
+	... 55 more
+
+
+ERROR [risk-p2p-server] 2017-05-22 14:39:01.399 [DubboServerHandler-172.16.88.107:10020-thread-96] com.alibaba.dubbo.rpc.filter.ExceptionFilter -  [DUBBO] Got unchecked and undeclared exception which called by 172.16.88.107. service: cn.sunfit.risk.buz.api.service.p2p.product.P2PProductService, method: updateByPrimaryKey, exception: orj.worf.exception.AppRuntimeException: nested exception is org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.product.P2PProductDAO.updateByPrimaryKey-Inline
+### The error occurred while setting parameters
+### SQL: update rjs_p2p_product     set product_name = ?,       lastmod_time = ?,       `status` = ?,       `desc` = ?,       medium = ?,       product_type = ?,       corp_id = ?,       asset_id = ?,       fee_config = ?,       product_Code = ?     where id = ?
+### Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+; SQL []; Data truncation: Data too long for column 'desc' at row 1; nested exception is com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1, dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+orj.worf.exception.AppRuntimeException: nested exception is org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.product.P2PProductDAO.updateByPrimaryKey-Inline
+### The error occurred while setting parameters
+### SQL: update rjs_p2p_product     set product_name = ?,       lastmod_time = ?,       `status` = ?,       `desc` = ?,       medium = ?,       product_type = ?,       corp_id = ?,       asset_id = ?,       fee_config = ?,       product_Code = ?     where id = ?
+### Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+; SQL []; Data truncation: Data too long for column 'desc' at row 1; nested exception is com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+	at orj.worf.exception.util.ExceptionUtils.createAppRuntimeException(ExceptionUtils.java:78) ~[worf-exception-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at orj.worf.exception.interceptor.ExceptionInterceptor.validateException(ExceptionInterceptor.java:55) ~[worf-exception-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at orj.worf.exception.interceptor.ExceptionInterceptor.handleAppException(ExceptionInterceptor.java:44) ~[worf-exception-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:603) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:62) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:85) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at orj.worf.service.aspect.ServiceLogAspect.logInboundOutbound(ServiceLogAspect.java:33) ~[worf-service-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at sun.reflect.GeneratedMethodAccessor194.invoke(Unknown Source) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:621) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:610) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:68) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:168) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:653) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl$$EnhancerBySpringCGLIB$$ae3caf5d.updateByPrimaryKey(<generated>) ~[spring-core-4.1.3.RELEASE.jar:na]
+	at com.alibaba.dubbo.common.bytecode.Wrapper15.invokeMethod(Wrapper15.java) ~[na:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.proxy.javassist.JavassistProxyFactory$1.doInvoke(JavassistProxyFactory.java:48) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.proxy.AbstractProxyInvoker.invoke(AbstractProxyInvoker.java:77) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.InvokerWrapper.invoke(InvokerWrapper.java:57) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.ExceptionFilter.invoke(ExceptionFilter.java:58) ~[worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.TimeoutFilter.invoke(TimeoutFilter.java:43) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.monitor.support.MonitorFilter.invoke(MonitorFilter.java:75) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.dubbo.filter.TraceFilter.invoke(TraceFilter.java:79) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.ContextFilter.invoke(ContextFilter.java:57) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.GenericFilter.invoke(GenericFilter.java:106) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.ClassLoaderFilter.invoke(ClassLoaderFilter.java:39) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.filter.EchoFilter.invoke(EchoFilter.java:40) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:100) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol$1.reply(DubboProtocol.java:114) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.handleRequest(HeaderExchangeHandler.java:88) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.received(HeaderExchangeHandler.java:178) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.transport.DecodeHandler.received(DecodeHandler.java:53) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at com.alibaba.dubbo.remoting.transport.dispatcher.ChannelEventRunnable.run(ChannelEventRunnable.java:86) [worf-remoting-dubbo-0.1.0-SNAPSHOT.jar:0.1.0-SNAPSHOT]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:na]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:na]
+	at java.lang.Thread.run(Thread.java:745) [na:na]
+Caused by: org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+### The error may involve cn.sunfit.risk.buz.server.dao.p2p.product.P2PProductDAO.updateByPrimaryKey-Inline
+### The error occurred while setting parameters
+### SQL: update rjs_p2p_product     set product_name = ?,       lastmod_time = ?,       `status` = ?,       `desc` = ?,       medium = ?,       product_type = ?,       corp_id = ?,       asset_id = ?,       fee_config = ?,       product_Code = ?     where id = ?
+### Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+; SQL []; Data truncation: Data too long for column 'desc' at row 1; nested exception is com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:102) ~[spring-jdbc-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73) ~[spring-jdbc-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81) ~[spring-jdbc-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81) ~[spring-jdbc-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:73) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:371) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	at com.sun.proxy.$Proxy24.update(Unknown Source) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate.update(SqlSessionTemplate.java:254) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:54) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:52) ~[mybatis-3.2.8.jar:3.2.8]
+	at com.sun.proxy.$Proxy50.updateByPrimaryKey(Unknown Source) ~[na:na]
+	at cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl.updateByPrimaryKey(P2PProductServiceImpl.java:88) ~[classes/:na]
+	at cn.sunfit.risk.buz.server.service.p2p.product.P2PProductServiceImpl$$FastClassBySpringCGLIB$$a8f17db1.invoke(<generated>) ~[spring-core-4.1.3.RELEASE.jar:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204) ~[spring-core-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:717) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor.invoke(AfterReturningAdviceInterceptor.java:52) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:58) ~[spring-aop-4.1.3.RELEASE.jar:4.1.3.RELEASE]
+	... 42 common frames omitted
+Caused by: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'desc' at row 1
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3845) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3783) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2447) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2594) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2545) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1901) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mysql.jdbc.PreparedStatement.execute(PreparedStatement.java:1193) ~[mysql-connector-java-5.1.36.jar:5.1.36]
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.execute(NewProxyPreparedStatement.java:404) ~[c3p0-0.9.5-pre9.jar:0.9.5-pre9]
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.update(PreparedStatementHandler.java:44) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.update(RoutingStatementHandler.java:69) ~[mybatis-3.2.8.jar:3.2.8]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:62) ~[mybatis-3.2.8.jar:3.2.8]
+	at com.sun.proxy.$Proxy46.update(Unknown Source) ~[na:na]
+	at org.apache.ibatis.executor.ReuseExecutor.doUpdate(ReuseExecutor.java:50) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:105) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:71) ~[mybatis-3.2.8.jar:3.2.8]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:152) ~[mybatis-3.2.8.jar:3.2.8]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:358) ~[mybatis-spring-1.2.2.jar:1.2.2]
+	... 55 common frames omitted
+WARN  [risk-p2p-server] 2017-05-22 15:58:02.751 [New I/O worker #8] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 16:01:57.698 [New I/O worker #9] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 16:10:33.355 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 16:22:14.477 [New I/O worker #2] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 16:23:05.862 [New I/O worker #3] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 16:28:57.367 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+WARN  [risk-p2p-server] 2017-05-22 16:41:54.656 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 16:44:44.219 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+WARN  [risk-p2p-server] 2017-05-22 17:53:50.154 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 17:54:22.866 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+WARN  [risk-p2p-server] 2017-05-22 18:04:19.735 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 18:23:51.213 [New I/O worker #2] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 18:24:17.278 [New I/O worker #3] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 18:39:33.952 [New I/O worker #4] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 18:42:03.456 [New I/O worker #5] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 18:47:54.709 [New I/O worker #6] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 19:18:05.526 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+WARN  [risk-p2p-server] 2017-05-22 19:50:51.680 [New I/O worker #2] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 20:13:07.636 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+WARN  [risk-p2p-server] 2017-05-22 20:26:41.748 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:00:53.462 [main] org.springframework.context.support.PropertySourcesPlaceholderConfigurer - Could not load properties from class path resource [conf/jms.properties]: class path resource [conf/jms.properties] cannot be opened because it does not exist
+WARN  [risk-p2p-server] 2017-05-22 21:09:42.252 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:15:10.336 [New I/O worker #2] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:16:18.238 [New I/O worker #3] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:19:51.162 [New I/O worker #4] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:20:54.057 [New I/O worker #5] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:22:08.763 [New I/O worker #6] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:25:52.470 [New I/O worker #7] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:27:09.031 [New I/O worker #8] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:27:35.294 [New I/O worker #9] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:29:58.035 [New I/O worker #1] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:32:35.682 [New I/O worker #2] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:33:02.318 [New I/O worker #3] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:33:39.899 [New I/O worker #4] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:34:06.351 [New I/O worker #5] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:34:31.963 [New I/O worker #6] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1
+WARN  [risk-p2p-server] 2017-05-22 21:34:52.799 [New I/O worker #7] com.alibaba.dubbo.remoting.transport.AbstractServer -  [DUBBO] All clients has discontected from /172.16.88.107:10020. You can graceful shutdown now., dubbo version: 0.1.0-SNAPSHOT, current host: 127.0.0.1

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sunfit.risk.buz.server.dao.metadata.BPMetaNodeAssignDAO" >
+  <resultMap id="BaseResultMap" type="cn.sunfit.risk.buz.api.beans.metadata.BPMetaNodeAssign" >
+    <id column="assign_id" property="assignId" jdbcType="VARCHAR" />
+    <result column="assign_type" property="assignType" jdbcType="VARCHAR" />
+    <result column="relate_id" property="relateId" jdbcType="VARCHAR" />
+    <result column="relate_name" property="relateName" jdbcType="VARCHAR" />
+    <result column="relate_type" property="relateType" jdbcType="VARCHAR" />
+    <result column="relate_group" property="relateGroup" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+    <result column="node_id" property="nodeId" jdbcType="VARCHAR" />
+    <result column="bp_def_id" property="bpDefId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    assign_id, assign_type, relate_id, relate_name, create_time, create_user_id, corp_id, 
+    node_id,bp_def_id,relate_type,relate_group
+  </sql>
+  <sql id="Base_Column_List_N" >
+    n.assign_id, n.assign_type, n.relate_id, n.relate_name, n.create_time, n.create_user_id, n.corp_id, 
+    n.node_id,n.bp_def_id,n.relate_type,n.relate_group
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ${domain}_bp_meta_node_assign
+    where assign_id = #{assignId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.sunfit.risk.buz.api.beans.metadata.BPMetaNodeAssign" >
+    insert into ${domain}_bp_meta_node_assign (assign_id, assign_type, relate_id, 
+      relate_name, create_time, create_user_id, 
+      corp_id, node_id,bp_def_id,relate_type,relate_group)
+    values (#{assignId,jdbcType=VARCHAR}, #{assignType,jdbcType=VARCHAR}, #{relateId,jdbcType=VARCHAR}, 
+      #{relateName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, 
+      #{corpId,jdbcType=VARCHAR}, #{nodeId,jdbcType=VARCHAR},#{bpDefId,jdbcType=VARCHAR},#{relateType},#{relateGroup})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.sunfit.risk.buz.api.beans.metadata.BPMetaNodeAssign" >
+    update ${domain}_bp_meta_node_assign
+    set assign_type = #{assignType,jdbcType=VARCHAR},
+      relate_id = #{relateId,jdbcType=VARCHAR},
+      relate_name = #{relateName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      corp_id = #{corpId,jdbcType=VARCHAR},
+      node_id = #{nodeId,jdbcType=VARCHAR},
+      bp_def_id=#{bpDefId,jdbcType=VARCHAR},
+      relate_type=#{relateType},
+      relate_group=#{relateGroup}
+    where assign_id = #{assignId,jdbcType=VARCHAR}
+  </update>
+    <select id="selectByNodeId" resultMap="BaseResultMap" parameterType="cn.sunfit.risk.buz.api.vo.solution.BpMetaNodeAssignQueryReq" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ${domain}_bp_meta_node_assign
+    where node_id = #{nodeId,jdbcType=VARCHAR} and bp_def_id=#{bpDefId,jdbcType=VARCHAR}   order by relate_group asc
+  </select>
+  <insert id="insertBatch" parameterType="java.util.Map">
+    insert into ${domain}_bp_meta_node_assign (assign_id, assign_type, relate_id, 
+      relate_name, create_time, create_user_id, 
+      corp_id, node_id,bp_def_id,relate_type,relate_group) values
+      <foreach collection="assignList" item="assign" separator=",">
+        (#{assign.assignId,jdbcType=VARCHAR}, #{assign.assignType,jdbcType=VARCHAR}, #{assign.relateId,jdbcType=VARCHAR}, 
+      #{assign.relateName,jdbcType=VARCHAR}, #{assign.createTime,jdbcType=TIMESTAMP}, #{assign.createUserId,jdbcType=VARCHAR}, 
+      #{assign.corpId,jdbcType=VARCHAR}, #{assign.nodeId,jdbcType=VARCHAR},#{assign.bpDefId,jdbcType=VARCHAR},
+      #{assign.relateType,jdbcType=VARCHAR},#{assign.relateGroup})
+      </foreach>
+  </insert>
+  
+  <delete id="deleteAssign" parameterType="cn.sunfit.risk.buz.api.vo.solution.BpMetaNodeAssignDeleteReq">
+  	delete from ${domain}_bp_meta_node_assign where assign_id=#{assignId} and corp_id=#{corpId} and node_id=#{nodeId} and bp_def_id=#{bpDefId}
+  </delete>
+  <select id="selectByNodeKey" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List_N" />
+    from ${domain}_bp_meta_node_assign n  
+    left join ${domain}_bp_meta_nodes m on n.node_id=m.node_id 
+    left join ${domain}_bp_meta a on a.bp_def_id = m.bp_def_id
+    where m.node_key = #{nodeKey,jdbcType=VARCHAR} and a.bp_def_id=#{bpDefId,jdbcType=VARCHAR} 
+  </select>
+</mapper>

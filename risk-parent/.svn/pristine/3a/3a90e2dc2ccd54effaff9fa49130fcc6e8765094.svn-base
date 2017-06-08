@@ -1,0 +1,144 @@
+package cn.sunfit.risk.buz.server.service.p2p.excel;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import orj.worf.mybatis.util.CountHelper;
+import cn.sunfit.risk.buz.api.beans.p2p.ApiReq;
+import cn.sunfit.risk.buz.api.beans.p2p.LoanInfoAttachment;
+import cn.sunfit.risk.buz.api.beans.p2p.P2PParams;
+import cn.sunfit.risk.buz.api.constants.ApproveStatusType;
+import cn.sunfit.risk.buz.api.constants.LoanHandleType;
+import cn.sunfit.risk.buz.api.service.p2p.excel.ImportExcelTemplateService;
+import cn.sunfit.risk.buz.api.vo.RespPage;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.FormQuery;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.LoanInfoQueryReq;
+import cn.sunfit.risk.buz.api.vo.p2p.excel.P2PImportExcelTemplateXJD;
+import cn.sunfit.risk.buz.server.dao.p2p.excel.ImportExcelTemplateDao;
+import cn.sunfit.risk.buz.server.util.p2p.DataDisposeUtil;
+
+@Service("risk.importExcelTemplateService")
+public class ImportExcelTemplateServiceImpl implements ImportExcelTemplateService {
+    @Autowired
+    private ImportExcelTemplateDao importExcelTemplateDao;
+
+    private DataDisposeUtil ddu = new DataDisposeUtil<P2PImportExcelTemplateXJD>();
+
+    @Override
+    public void backupAttach(String attachId) {
+        // TODO Auto-generated method stub
+        importExcelTemplateDao.backupAttach(attachId);
+    }
+
+    @Override
+    public boolean hasLoanInfo(FormQuery req) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public String insertLoanInfo(List<Map<String, Object>> temp, String productType) {
+        // TODO Auto-generated method stub
+        try {
+            importExcelTemplateDao.insertLoanInfo(ddu.mapsToObj(temp, P2PImportExcelTemplateXJD.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "导入数据有误，请检查内容类型和长度";
+        }
+        return "success";
+    }
+
+    @Override
+    public void insertLoanInfoAttach(LoanInfoAttachment temp) {
+        // TODO Auto-generated method stub
+        importExcelTemplateDao.insertLoanInfoAttach(temp);
+    }
+
+    @Override
+    public List<P2PParams> queryAttachParamList() {
+        // TODO Auto-generated method stub
+        return importExcelTemplateDao.queryAttachParamList();
+    }
+
+    @Override
+    public List<Long> queryExistLoanIds(Map<String, Object> req) {
+        // TODO Auto-generated method stub
+        return importExcelTemplateDao.queryExistLoanIds(req);
+    }
+
+    @Override
+    public P2PImportExcelTemplateXJD queryLoanInfo(LoanInfoQueryReq req) {
+        // TODO Auto-generated method stub
+        P2PImportExcelTemplateXJD xjd = importExcelTemplateDao.queryLoanInfo(req);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("loanInfoId", req.getId());
+        // xjd.setAttList(importExcelTemplateDao.queryAttachmentList(map));
+        return xjd;
+    }
+
+    @Override
+    public RespPage<List<P2PImportExcelTemplateXJD>> queryLoanInfoByCustomer(LoanInfoQueryReq req) {
+        // TODO Auto-generated method stub
+        List<P2PImportExcelTemplateXJD> list = importExcelTemplateDao.queryLoanInfoByCustomer(req,
+                new RowBounds(req.getOffset(), req.getLimit()));
+        for (P2PImportExcelTemplateXJD imp : list) {
+            imp.setAproveStatus(ApproveStatusType.getLabelByStatus(imp.getAproveStatus()));
+            imp.setLoanHandleType(LoanHandleType.getLabelByStatus(imp.getLoanHandleType()));
+        }
+        final int totalCount = CountHelper.getTotalRow();
+        return new RespPage<List<P2PImportExcelTemplateXJD>>(list, totalCount);
+    }
+
+    @Override
+    public List<P2PImportExcelTemplateXJD> queryLoanInfoByParam(LoanInfoQueryReq req) {
+        // TODO Auto-generated method stub
+        return importExcelTemplateDao.queryLoanInfoByCustomer(req);
+    }
+
+    @Override
+    public RespPage<List<P2PImportExcelTemplateXJD>> queryLoanInfoList(LoanInfoQueryReq req) {
+        // TODO Auto-generated method stub
+        List<P2PImportExcelTemplateXJD> list = importExcelTemplateDao.queryLoanInfoList(req,
+                new RowBounds(req.getOffset(), req.getLimit()));
+        for (P2PImportExcelTemplateXJD imp : list) {
+            imp.setPlusIdIcon("need");
+            imp.setAproveStatus(ApproveStatusType.getLabelByStatus(imp.getAproveStatus()));
+            imp.setLoanHandleType(LoanHandleType.getLabelByStatus(imp.getLoanHandleType()));
+        }
+        final int totalCount = CountHelper.getTotalRow();
+        return new RespPage<List<P2PImportExcelTemplateXJD>>(list, totalCount);
+    }
+
+    @Override
+    public void removeAttach(String attachId) {
+        importExcelTemplateDao.removeAttach(attachId);
+    }
+
+    @Override
+    public void updateInfoAproveStatus(ApiReq req) {
+        // TODO Auto-generated method stub
+        importExcelTemplateDao.updateInfoStatus(req);
+    }
+
+    @Override
+    public void updateInfoAproveStatus(List<P2PImportExcelTemplateXJD> infos) {
+        // TODO Auto-generated method stub
+        String ids = "";
+        for (P2PImportExcelTemplateXJD info : infos) {
+            ids += info.getId() + ",";
+        }
+        ids = ids.substring(0, ids.length() - 1);
+        importExcelTemplateDao.updateInfoAproveStatus(ids);
+    }
+
+    @Override
+    public void updateLoanInfo(P2PImportExcelTemplateXJD info) {
+        // TODO Auto-generated method stub
+        importExcelTemplateDao.updateLoanInfo(info);
+    }
+}

@@ -1,0 +1,523 @@
+<template>
+  <div>
+    <div v-if="examineData">
+      <div class="form-group col-md-3" v-if="repaymentTypesLinkSFP.hasRepaymentTypes" :id="data.key+'_repaymentTypes'">
+        <label class="require">还款方式</label>
+        <div class="input-group">
+          <select name="repaymentTypes" class="form-control" v-model="repaymentTypes" :disabled="data.readonly?true:false">
+            <option value="">请选择还款方式</option>
+            <option v-for="item in examineData.repaymentTypes" :value="item.repaymentType">{{item.repaymentTypeName}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group col-md-3" v-if="monthlyTermLinkMonthAndYearRate.hasmonthlyTerm" >
+        <label class="require">审批期限</label>
+        <div class="input-group" v-if="monthlyTermLinkMonthAndYearRate.hasmonthlyTerm=='select'" :id="data.key+'_monthlyTerm'">
+          <select name="monthlyTerm" class="form-control" v-model="monthlyTerm" :disabled="data.readonly?true:false">
+            <option value="">请选择审批期限</option>
+            <option v-for="item in examineData.monthlyFee" :value="item.term">{{item.termText}}</option>
+          </select>
+        </div>
+        <div class="input-group" v-if="monthlyTermLinkMonthAndYearRate.hasmonthlyTerm=='input'" :id="data.key+'_daylyTerm'">
+          <input type="text" name="daylyTerm" class="form-control" v-model.lazy="daylyTerm" :disabled="data.readonly?true:false">
+          <span  class=" input-group-addon">天</span>
+        </div>
+        <div v-if="monthlyTermLinkMonthAndYearRate.error==2" class="text-red">你输入期限不在审批期限范围里</div>
+      </div>
+
+      <div class="form-group col-md-3" :id="data.key+'_eachTimes'" v-if="monthlyTermLinkMonthAndYearRate.hasEachTimes">
+        <label class="require">每期期长</label>
+        <div class="input-group">
+          <select name="eachTimes" class="form-control" v-model="eachTimes" :disabled="data.readonly?true:false">
+            <option value="">请选择每期期长</option>
+            <option v-for="item in examineData.eachTimes" :value="item.eachTime">{{item.eachTimeName}}</option>
+          </select>
+        </div>
+      </div>
+      <div v-if="monthlyTermLinkMonthAndYearRate.showRateType=='day'">
+        <div class="form-group col-md-3" v-if="monthlyTermLinkMonthAndYearRate.hasDayRate" :id="data.key+'_daylyTerm'">
+          <label class="require">日利率</label>
+          <div class="input-group">
+            <input type="text" readonly name="daylyTerm" class="form-control"  v-model="daylyRate" :disabled="data.readonly?true:false">
+            <span  class="input-group-addon">%</span>
+          </div>
+        </div>
+        <div class="form-group col-md-3" :id="data.key+'_daylyGLFee'">
+          <label class="require">日管理利率</label>
+          <div class="input-group">
+            <select name="monthlyGLFee" class="form-control" v-if="dayGLorZHRate.fixedRate=='GL'" v-model="daylyGLFee" :disabled="data.readonly?true:false">
+              <option value="">请选择日管理利率</option>
+              <option v-for="item in dayGLorZHRate.daylyGLFee" :value="item">{{item}}</option>
+            </select>
+            <input type="text" class="form-control" v-if="dayGLorZHRate.fixedRate=='ZH'" readonly v-model="daylyGLFee" :disabled="data.readonly?true:false">
+            <span  class="input-group-addon">%</span>
+          </div>
+        </div>
+        <div class="form-group col-md-3" :id="data.key+'_daylyZHFee'">
+          <label class="require">日综合利率</label>
+          <div class="input-group">
+            <select name="daylyZHFee" class="form-control" v-if="dayGLorZHRate.fixedRate=='ZH'" v-model="daylyZHFee" :disabled="data.readonly?true:false">
+              <option value="">请选择日综合利率</option>
+              <option v-for="item in dayGLorZHRate.daylyZHFee" :value="item.rate">{{item.rate}}</option>
+            </select>
+            <input type="text" class="form-control" v-if="dayGLorZHRate.fixedRate=='GL'" readonly v-model="daylyZHFee" :disabled="data.readonly?true:false">
+            <span  class="input-group-addon">%</span>
+          </div>
+        </div>
+      </div>
+      <div v-if="monthlyTermLinkMonthAndYearRate.showRateType=='month'">
+        <div class="form-group col-md-3" v-if="monthlyTermLinkMonthAndYearRate.hasMonthRate" :id="data.key+'_monthlyRate'">
+          <label class="require">月利率</label>
+          <div class="input-group">
+            <input type="text" readonly name="monthlyRate" class="form-control"  v-model="monthlyRate" :disabled="data.readonly?true:false">
+            <span  class="input-group-addon">%</span>
+          </div>
+        </div>
+        <div class="form-group col-md-3" v-if="monthlyTermLinkMonthAndYearRate.hasYearRate" :id="data.key+'_yearlyRate'">
+          <label class="require">年化率</label>
+          <div class="input-group">
+            <input type="text" name="yearlyRate" class="form-control" readonly v-model="yearlyRate" :disabled="data.readonly?true:false">
+            <span  class="input-group-addon">%</span>
+          </div>
+        </div>
+        <div class="form-group col-md-3" :id="data.key+'_monthlyGLFee'">
+          <label class="require">月管理利率</label>
+          <div class="input-group">
+            <select name="monthlyGLFee" class="form-control" v-if="monthGLorZHRate.fixedRate=='GL'" v-model="monthlyGLFee" :disabled="data.readonly?true:false">
+              <option value="">请选择月管理利率</option>
+              <option v-for="item in monthGLorZHRate.monthlyGLFee" :value="item">{{item}}</option>
+            </select>
+            <input type="text" class="form-control" v-if="monthGLorZHRate.fixedRate=='ZH'" readonly v-model="monthlyGLFee" :disabled="data.readonly?true:false">
+            <span  class="input-group-addon">%</span>
+          </div>
+        </div>
+        <div class="form-group col-md-3" :id="data.key+'_monthlyZHFee'">
+          <label class="require">月综合利率</label>
+          <div class="input-group">
+            <select name="monthlyZHFee" class="form-control" v-if="monthGLorZHRate.fixedRate=='ZH'" v-model="monthlyZHFee" :disabled="data.readonly?true:false">
+              <option value="">请选择月综合利率</option>
+              <option v-for="item in monthGLorZHRate.monthlyZHFee" :value="item.rate">{{item.rate}}</option>
+            </select>
+            <input type="text" class="form-control" v-if="monthGLorZHRate.fixedRate=='GL'" readonly v-model="monthlyZHFee" :disabled="data.readonly?true:false">
+            <span  class="input-group-addon">%</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="form-group col-md-3" v-if="examineData.wyFee" :id="data.key+'_wyFee'">
+        <label class="require">提前还款违约率</label>
+        <div class="input-group">
+          <select name="wyFee" class="form-control" v-model="wyFee" :disabled="data.readonly?true:false">
+            <option value="">请选择提前还款违约率</option>
+            <option v-for="item in examineData.wyFee" :value="item">{{item}}</option>
+          </select>
+          <span  class="input-group-addon">%</span>
+        </div>
+      </div>
+      <div class="form-group col-md-3" v-if="examineData.bzjFee" :id="data.key+'_bzjFee'" >
+        <label class="require">保证金率</label>
+        <div class="input-group">
+          <select name="bzjFee" class="form-control" v-model="bzjFee" :disabled="data.readonly?true:false">
+            <option value="">请选择保证金率</option>
+            <option v-for="item in examineData.bzjFee" :value="item">{{item}}</option>
+          </select>
+          <span  class="input-group-addon">%</span>
+        </div>
+      </div>
+      <div class="form-group col-md-3" v-if="repaymentTypesLinkSFP.hasSupportFirstPay" :id="data.key+'_supportFirstPay'">
+        <label class="require">首还款支付方式</label>
+        <div class="input-group">
+          <select name="supportFirstPay" class="form-control" v-model="supportFirstPay" :disabled="data.readonly?true:false">
+            <option value="">请选择首还款支付方式</option>
+            <option  v-for="item in repaymentTypesLinkSFP.supportFirstPay" :value="item.payType">{{item.payName}}</option>
+          </select>
+
+        </div>
+      </div>
+      <div class="form-group col-md-3" v-if="examineData.znjFee" :id="data.key+'_znjFee'">
+        <label class="require">滞纳金率</label>
+        <div class="input-group">
+          <select name="znjFee" class="form-control" v-model="znjFee" :disabled="data.readonly?true:false">
+            <option value="">请选择滞纳金率</option>
+            <option  v-for="item in examineData.znjFee" :value="item">{{item}}</option>
+          </select>
+          <span  class="input-group-addon">%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<style>
+
+</style>
+<script>
+  import {mapGetters} from 'vuex';
+  import * as api from '../api';
+  var setDefaultData={
+    repaymentTypes:'',//还款方式
+    monthlyTerm:'',//月审批期限
+    daylyTerm:'',//日审批期限
+    eachTimes:'',//每期期长
+    monthlyRate:'',//月利率
+    yearlyRate:'',//年利率
+    monthlyGLFee:'',//月管理利率
+    daylyGLFee:'',//日管理利率
+    monthlyZHFee:'',//月综合利率
+    daylyZHFee:'',//日综合利率
+    wyFee:'',//违约利率
+    bzjFee:'',//保证金利率
+    supportFirstPay:'',//首付款支付方式
+    daylyRate:'',//日利率
+    znjFee:'',//滞纳金率
+  }
+    export default{
+        data(){
+
+            return setDefaultData
+        },
+      props: ['data'],
+      created:function () {
+        //默认值
+        var attrsData=this.attrsData;
+        for(var key in setDefaultData){
+          var data_key=[this.data.key,key].join('_');
+          if(attrsData.hasOwnProperty(data_key)){
+            var attrValue=attrsData[data_key];
+            var deAttrDataValue=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+            this[key]=deAttrDataValue;
+            this.$store.dispatch('setInputData', {key: data_key, value:deAttrDataValue});
+          }
+        };
+        this.getData();
+      },
+      computed:{
+        ...mapGetters({
+          'attrsData':'attrsData',
+          'examineData':'examineData',
+          'hiddenData': 'defaultHiddenData',
+          'rulesData': 'rulesData'
+        }),
+          //还款方式和首付支付方式关联
+        repaymentTypesLinkSFP(){
+          var linkItem={};
+          var data=this.examineData||{};
+          if('repaymentTypes' in data){
+            linkItem['hasRepaymentTypes']=true;
+          }
+          var repaymentTypes=data.repaymentTypes||[];
+          var temRepaymentTypes={};
+          for(let k in repaymentTypes){
+            var item=repaymentTypes[k];
+            temRepaymentTypes[item.repaymentType]=repaymentTypes[k];
+          }
+          var supportFirstPayItem=temRepaymentTypes[this.repaymentTypes];
+          if(supportFirstPayItem){
+            var supportFirstPayArr=supportFirstPayItem.supportFirstPay||[];
+            if(supportFirstPayArr.length>0){
+              linkItem['hasSupportFirstPay']=true;
+            }
+            linkItem['supportFirstPay']=supportFirstPayItem.supportFirstPay||[];
+
+          }else{
+            linkItem['hasSupportFirstPay']=false;
+          }
+          return linkItem
+        },
+        //审批期限=>月利率=>年利率
+        monthlyTermLinkMonthAndYearRate(){
+          var linkItem={
+            hasMonthRate:false,
+            hasYearRate:false,
+            hasDayRate:false,
+            hasmonthlyTerm:false,
+            showRateType:'',
+            error:1,//在不在还款期限内
+          };
+          var data=this.examineData||{};
+          var dataKey=this.data.key;
+          var reTypesValue=this.repaymentTypes;
+          var feeItems=[];
+          var tempFee={};
+          var item={};
+          if(reTypesValue!='') {
+            if (reTypesValue == 3) {
+              linkItem.hasmonthlyTerm='input'
+              linkItem.showRateType = 'day';
+              feeItems = data.daylyFee || [];
+              var daylyTermValue = this.daylyTerm;
+              var error=false;
+              for (var feeKey in feeItems) {
+                var feeItem = feeItems[feeKey];
+                var termStart=parseInt(feeItem.termStart),termEnd=parseInt(feeItem.termEnd);
+                if (daylyTermValue >= termStart && daylyTermValue <= termEnd) {
+                  item = feeItem
+                  error=true;
+                }
+              }
+              if(!error&&daylyTermValue){
+                linkItem.error=2;
+              }
+              if (this.daylyTerm != '') {
+                var dayRate = item.daylyRate || "";
+                linkItem.hasDayRate = true;
+                this.daylyRate = dayRate;
+              }
+              linkItem.hasEachTimes=false;
+              //初始下月相关利率的值
+              /*this.monthlyRate='';
+              this.yearlyRate='';
+              this.monthlyGLFee='';
+              this.monthlyZHFee='';
+              this.monthlyTerm='';
+              this.eachTimes='';*/
+
+              var inputData=[
+                {key:dataKey+'_daylyRate',value:this.daylyRate},
+                {key:dataKey+'_daylyGLFee',value:this.daylyGLFee},
+                {key:dataKey+'_daylyZHFee',value:this.daylyZHFee},
+                {key:dataKey+'_daylyTerm',value:this.daylyTerm},
+              ]
+              this.$store.dispatch('setInputData',inputData);
+              this.$store.dispatch('delInputData',[dataKey+'_monthlyRate',dataKey+'_yearlyRate',dataKey+'_monthlyGLFee',dataKey+'_monthlyZHFee',dataKey+'_monthlyTerm',dataKey+'_eachTimes'])
+            } else {
+              linkItem.showRateType = 'month';
+              linkItem.hasmonthlyTerm='select';
+              linkItem.hasEachTimes=true;
+
+              feeItems = this.examineData.monthlyFee || [];
+
+              for (var key in feeItems) {
+                var feeItem = feeItems[key]
+                tempFee[feeItem.term] = feeItem;
+              }
+              item = tempFee[this.monthlyTerm] || {};
+              if (this.monthlyTerm != '') {
+                var monthRate = item.monthlyRate || '';
+                var yearRate = item.yearlyRate || "";
+                linkItem.hasMonthRate = true;
+                linkItem.monthRate = monthRate;
+                this.monthlyRate = monthRate;
+                linkItem.hasYearRate = true;
+                linkItem.yearRate = yearRate;
+                this.yearlyRate = yearRate;
+              }
+              //初始化日相关的利率
+              /*this.daylyRate='';
+              this.daylyGLFee='';
+              this.daylyZHFee='';
+              this.daylyTerm='';*/
+              var inputData=[
+                {key:dataKey+'_monthlyRate',value:this.monthlyRate},
+                {key:dataKey+'_yearlyRate',value:this.yearlyRate},
+                {key:dataKey+'_monthlyGLFee',value:this.monthlyGLFee},
+                {key:dataKey+'_monthlyZHFee',value:this.monthlyZHFee},
+                {key:dataKey+'_monthlyTerm',value:this.monthlyTerm},
+                {key:dataKey+'_eachTimes',value:this.eachTimes},
+              ]
+              this.$store.dispatch('setInputData',inputData);
+              this.$store.dispatch('delInputData',[dataKey+'_daylyRate',dataKey+'_daylyGLFee',dataKey+'_daylyZHFee',dataKey+'_daylyTerm'])
+            }
+          }
+
+          return linkItem;
+        },
+        //月管理利率 or 月综合利率 固定
+        monthGLorZHRate(){
+          var orItem={
+            fixedRate:''
+          };
+          var data=this.examineData;
+          var fixedRate;
+          var monthRate=this.monthlyRate;
+
+          switch (data.feeCaType) {
+            case "1":
+              fixedRate='ZH';
+                var monthlyZHFeeValue=this.monthlyZHFee;
+              if(monthRate&&monthRate!=''&&monthlyZHFeeValue&&monthlyZHFeeValue!=''){
+                orItem.glRate=(parseFloat(monthlyZHFeeValue)-parseFloat(monthRate)).toFixed(2);
+                this.monthlyGLFee=orItem.glRate;
+              }
+              //          筛选月综合利率
+              if(!orItem.monthlyZHFee){
+                var deptId=this.hiddenData.deptId;
+                var tempMonthZHRate=[];
+                var tempDefaultMonthZHRate=[];
+                var MonthlyZHFee=this.examineData.monthlyZHFee;
+                var hasDPFee=false;
+                for(var i in MonthlyZHFee){
+                  var item=MonthlyZHFee[i];
+                  if(item.deptId==''){
+                    tempDefaultMonthZHRate.push(item)
+                  }
+                  if(item.deptId==deptId){
+                    hasDPFee=true;
+                    tempMonthZHRate.push(item)
+                  }
+                }
+                if(hasDPFee){
+                  orItem.monthlyZHFee=tempMonthZHRate
+                }else{
+                  orItem.monthlyZHFee=tempDefaultMonthZHRate;
+                }
+              }
+                  break;
+            case "2":
+              fixedRate='GL';
+              var  monthlyGLFeeValue=this.monthlyGLFee;
+              if(monthRate&&monthRate!=''&&monthlyGLFeeValue&&monthlyGLFeeValue!=''){
+                orItem.zhRate=(parseFloat(monthRate)+parseFloat(monthlyGLFeeValue)).toFixed(2);
+                this.monthlyZHFee=orItem.zhRate;
+              }
+              //筛选月管理利率
+              if(!orItem.monthlyGLFee){
+                var MonthlyGLFee=this.examineData.monthlyGLFee;
+                orItem.monthlyGLFee=MonthlyGLFee;
+              }
+                  break;
+            default:
+              fixedRate='';
+          }
+          orItem.fixedRate=fixedRate;
+
+          return orItem;
+        },
+        dayGLorZHRate(){
+          var orItem={
+            fixedRate:''
+          };
+          var data=this.examineData;
+          var fixedRate;
+          var dayRate=this.daylyRate;
+
+          switch (data.feeCaType) {
+            case "1":
+              fixedRate='ZH';
+                var daylyZHFeeValue=this.daylyZHFee;
+              if(dayRate&&dayRate!=''&&daylyZHFeeValue&&daylyZHFeeValue!=''){
+                orItem.glRate=(parseFloat(daylyZHFeeValue)-parseFloat(dayRate)).toFixed(2);
+                this.daylyGLFee=orItem.glRate;
+              }
+              //筛选日综合利率
+              if(!orItem.daylyZHFee){
+                var deptId=this.hiddenData.deptId;
+                var tempDayZHRate=[];
+                var tempDefaultDayZHRate=[];
+                var daylyZHFee=this.examineData.daylyZHFee;
+                var hasDPFee=false;
+                for(var i in daylyZHFee){
+                  var item=daylyZHFee[i];
+                  if(item.deptId==''){
+                    tempDefaultDayZHRate.push(item)
+                  }
+                  if(item.deptId==deptId){
+                    hasDPFee=true;
+                    tempDayZHRate.push(item)
+                  }
+                }
+                if(hasDPFee){
+                  orItem.daylyZHFee=tempDayZHRate
+                }else{
+                  orItem.daylyZHFee=tempDefaultDayZHRate;
+                }
+              }
+                  break;
+            case "2":
+              fixedRate='GL';
+              var  daylyGLFeeValue=this.daylyGLFee;
+              if(dayRate&&dayRate!=''&&daylyGLFeeValue&&daylyGLFeeValue!=''){
+                orItem.zhRate=(parseFloat(dayRate)+parseFloat(daylyGLFeeValue)).toFixed(2);
+                this.daylyZHFee=orItem.zhRate;
+              }
+              //筛选日管理利率
+              if(!orItem.daylyGLFee){
+                var daylyGLFee=this.examineData.daylyGLFee;
+                  orItem.daylyGLFee=daylyGLFee
+              }
+                  break;
+            default:
+              fixedRate='';
+          }
+          orItem.fixedRate=fixedRate;
+          return orItem;
+        },
+      },
+      watch:{
+        /*monthlyTerm:'',//月审批期限
+        daylyTerm:'',//日审批期限
+        repaymentTypes:'',//还款方式
+        eachTimes:'',//每期期长
+        monthlyRate:'',//月利率
+        yearlyRate:'',//年利率
+        monthlyGLFee:'',//月管理利率
+        daylyGLFee:'',//日管理利率
+        monthlyZHFee:'',//月综合利率
+        daylyZHFee:'',//日综合利率
+        wyFee:'',//违约利率
+        bzjFee:'',//保证金利率
+        supportFirstPay:'',//首付款支付方式
+        daylyRate:'',//日利率*/
+        monthlyTerm:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_monthlyTerm', value:val});
+        },
+        daylyTerm:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_daylyTerm', value:val});
+        },
+        repaymentTypes:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_repaymentTypes', value:val});
+        },
+        eachTimes:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_eachTimes', value:val});
+        },
+        monthlyRate:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_monthlyRate', value:val});
+        },
+        yearlyRate:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_yearlyRate', value:val});
+        },
+        monthlyGLFee:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_monthlyGLFee', value:val});
+        },
+        daylyGLFee:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_daylyGLFee', value:val});
+        },
+        monthlyZHFee:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_monthlyZHFee', value:val});
+        },
+        daylyZHFee:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_daylyZHFee', value:val});
+        },
+        wyFee:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_wyFee', value:val});
+        },
+        bzjFee:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_bzjFee', value:val});
+        },
+        supportFirstPay:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_supportFirstPay', value:val});
+        },
+        daylyRate:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_daylyRate', value:val});
+        },
+        znjFee:function (val) {
+          this.$store.dispatch('setInputData', {key: this.data.key+'_znjFee', value:val});
+        },
+
+      },
+      methods:{
+        //获取高审数据
+        getData:function () {
+          var options={
+            url:'/data/getFeeConfig',
+            method:'get',
+            data:{
+              productId:this.hiddenData.productId
+            }
+          };
+          //获取表单数据
+          this.$store.dispatch('getExamineData',options);
+        }
+      }
+    }
+</script>

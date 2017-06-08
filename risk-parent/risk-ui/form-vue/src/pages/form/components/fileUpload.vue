@@ -1,0 +1,248 @@
+<template>
+<div class="form-inline">
+  <div class="form-group col-sm-12">
+    <div class="input-group">
+      <span class="input-group-addon input-group-addon-small" ><span :class="data.required?'require':''" style="display: inline-block;">{{data.label}}</span></span>
+      <div class="form-control">
+        <input type="text" class="hiddenInput" :name="data.key">
+        <div class="file-caption-name" v-if="showFileName" :title="fileName||file.fileName">
+          <i class="glyphicon glyphicon-file"></i>
+          <span v-if="file.resourceId"> <a href="javascript:void(0)" @click="handleLook(file)">{{file.fileName}}</a></span></a></span>
+          <span v-else>{{fileName}}</span>
+        </div>
+        <div class="fileNote">
+          <!--loading-->
+          <i v-if="uploadState=='loading'" class="fa fa-spinner fa-spin"></i>
+          <!--success-->
+          <i v-else-if="uploadState=='success'" class="fa fa-check fileSuccess"></i>
+          <!--error-->
+          <i v-else-if="uploadState=='error'" class="fa fa-close fileError"></i>
+        </div>
+      </div>
+      <div class="input-group-btn" v-if="!data.readonly">
+        <div class="btn btn-upload" @click="handleRemove">
+          <i class="glyphicon glyphicon-trash">
+          </i>
+          <span>删除</span>
+        </div>
+        <!--<div class="btn btn-upload" v-if="state!='uploading'" @click="handleUpload">
+          <i  class="glyphicon glyphicon-upload"></i>
+          <span>上传</span>
+        </div>-->
+        <div :id="'pick-'+data.key" class="btn btn-upload" :class="data.key">
+          <!-- <i class="glyphicon glyphicon-folder-open"></i>
+           <span>选择文件</span>-->
+          <!--<input type="file" @change="handleChange" :name="data.key" :id="data.key" >-->
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="form-error-tip">{{errorMsg[data.key]}}</div>
+</div>
+</template>
+<style>
+</style>
+<script>
+  import * as api from '../api';
+  import checkRule from '../mixins/checkRule'
+  export default{
+    mixins:[checkRule],
+        data(){
+            return{
+              showFileName:'',//是否显示上传的文件名
+              fileName:'',//上传的文件名
+              file:{},//上传的文件列表
+//              state:'',//上传的动作状态
+              uploadState:'',//上传是否成功
+              uploader:'',//当前加载的上传组件
+              resourceId:''
+            }
+        },
+      props:['index','hiddenData'],
+      created:function () {
+        var attr=this.getDefaultValue(this.data.key);
+        this.resourceId=attr;
+        this.$store.dispatch('setInputData', {[this.data.key]: attr});
+        this.$watch('resourceId',this.handleWatch)
+      },
+      computed: {
+        rules(){
+          var accept = {};//上传后缀验证
+          var other = {};
+          var ruleData = this.ruleData[this.data.key];
+          for (var key in ruleData) {
+            var item = ruleData[key];
+            if (item.ruleType == 'file') {
+              var detail = item.detail;
+              accept.extensions = detail.extension;
+              accept.mimeTypes = detail.type;
+              other = detail;
+              other.message=item.message
+            }
+          }
+          return {
+            accept: accept,
+            other: other
+          };
+        }
+      },
+      mounted:function () {
+        var _this=this;
+        var BASE_URL='/static/assets/plugins/webuploader';
+        var pick='#pick-'+this.data.key;
+        //加载webuploader插件
+        if(!_this.uploader&&!this.data.readonly){
+          var uploader=WebUploader.create({
+            auto:true,
+            swf:BASE_URL+'/Uploader.swf',
+            pick:{
+              id:pick,
+              label:'<i class="glyphicon glyphicon-folder-open"></i><span>选择文件</span>'
+            },
+            server: tools.www_root()+'/fileUpload',
+            accept: _this.rules.accept,
+            fileNumLimit: _this.rules.other.number,
+            fileSingleSizeLimit: _this.rules.other.maxSize,
+            clickArea:{
+              width:'100%',
+              height:'100%'
+            }
+          });
+          uploader.option('formData',{
+            bpId:_this.hiddenData.bpId
+          });
+          _this.uploader=uploader;
+          uploader.on('uploadBeforeSend', function (obj, data, headers) {
+            $.extend(headers, {
+              Accept: "*/*"
+            });
+          });
+          //监控文件的加入
+          uploader.on('fileQueued',function (file) {
+            _this.showFileName=true;
+            _this.fileName=file.name;
+            _this.uploadState='';
+            _this.file=file;
+          });
+          /*uploader.on('beforeFileQueued',function (file) {
+           console.log(file)
+           })*/
+          //监听上传状态
+          uploader.on('uploadStart',function (file) {
+            _this.uploadState = 'loading';
+          });
+          //监听上传成功
+          uploader.on('uploadSuccess',function (file,res) {
+            if(res.status==1){
+              var data=res.data;
+              _this.uploadState='success';
+              //传递成功后的返回值
+              _this.resourceId=data.resourceId;
+            }else{
+              _this.uploadState='error';
+            }
+          });
+          //监听上传失败
+          uploader.on('uploadError',function (file,res) {
+            _this.uploadState='error';
+          });
+          //监听validate不通过是的错误提示
+          uploader.on('error', function (type) {
+            switch (type) {
+              case 'Q_EXCEED_NUM_LIMIT':
+                $.alert('文件数量超过' + _this.rules.other.number + '个');
+                break;
+              case 'Q_TYPE_DENIED':
+                $.alert(_this.rules.other.message);
+                break;
+              case 'F_EXCEED_SIZE':
+                var size=WebUploader.formatSize(_this.rules.other.maxSize, ['B', 'KB', 'MB'])
+                $.alert('上传的文件大小超过' + size);
+                break;
+            }
+          })
+        }
+        if(!this.file.fileName){
+          var attr=this.getDefaultValue(this.data.key);
+          if (attr != '') {
+            this.getUploadFile(attr);
+          }
+        }
+      },
+      methods:{
+        handleUpload:function () {
+          //点击开始文件上传
+          var _this=this;
+          var uploader=_this.uploader;
+          if(_this.file.id){
+            _this.uploadState='loading';
+            uploader.option('formData',{
+              bpId:_this.hiddenData.bpId
+            });
+            uploader.upload(_this.file);
+          }
+        },
+        handleRemove:function () {
+          if(this.file.id){
+            this.uploader.removeFile(this.file);
+            this.showFileName=false;
+            this.fileName='';
+            this.uploadState='';
+            this.file={}
+          }
+          if(this.file.resourceId){
+            this.showFileName=false;
+            this.fileName='';
+            this.uploadState='';
+            this.file={}
+          }
+          this.resourceId=''
+        },
+        getUploadFile:function (value) {
+          if(value){
+            this.$store.dispatch('setInputData', {[this.data.key]:value});
+            var options={
+              url:'/getResources',
+              method:'get',
+              data:{
+                resourceIds:value
+              }
+            };
+            var _this=this;
+            api.getUploadFiles(options,function (data) {
+              _this.file=data[value]||{};
+              if(data[value]){
+                _this.showFileName=true;
+              }
+            })
+          }
+        },
+        //查看
+        handleLook:function (file) {
+          /*var type=file.fileType;
+          var href=tools.www_root()+'/getResourceById?resourceId='+file.resourceId;
+          if(type.indexOf('image')>=0||type=='application/octet-stream'){
+            tools.looksImgModal(href)
+          }else{
+            window.location.href=href;
+          }*/
+          var url=file.url||'';
+          var type=url.substring(url.lastIndexOf(".")).replace('.','').toLowerCase();
+          var imgType='jpg|jpeg|png|gif';
+          var href=tools.www_root()+'/getResourceById?resourceId='+file.resourceId;
+          if(imgType.indexOf(type)>=0){
+            tools.looksImgModal(href)
+          }else{
+            window.location.href=href;
+          }
+        },
+        handleWatch(val){
+          var valData={};
+          valData[this.data.key]=val;
+          this.checkRuleValue=Object.assign({},this.checkRuleValue,valData);
+          this.$store.dispatch('setInputData', valData)
+        },
+      },
+    }
+</script>

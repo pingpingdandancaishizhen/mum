@@ -1,0 +1,55 @@
+<template>
+  <div :class="!checkedAdd?(data.cols?'form-group col-md-'+data.cols*3:'form-group col-md-3'):''" :id="data.key">
+    <label :class="data.required?'require':''" v-if="!checkedAdd">{{data.label}}</label>
+    <span class="input-group date" :id="data.key+'_input'" >
+      <input class="form-control" type="text" readonly :value="defaultValue">
+      <span class="input-unit add-on"><i class="fa fa-calendar"></i></span>
+    </span>
+  </div>
+
+</template>
+<style>
+</style>
+<script>
+  export default{
+    data(){
+      return {
+        datetimepicker:{}
+      }
+    },
+    props: ['data','attrsData','checkedAdd'],
+    created:function () {
+      this.$store.dispatch('setInputData', {key: this.data.key, value: ''})
+    },
+    mounted: function () {
+      var _this=this;
+      var dom = '#' + this.data.key+'_input';
+      if(!datetimepicker&&!this.data.readonly){
+        var datetimepicker=$(dom).datepicker({
+          format: 'yyyy-mm-dd',
+          autoclose:true,
+          todayBtn:'linked',
+          todayHighlight:true,
+          language:'zh-CN',
+        },function (date) {
+          _this.setTimeDate(date)
+        });
+        this.datetimepicker=datetimepicker;
+      }
+
+    },
+    computed:{
+      defaultValue(){
+        var attrValue=this.attrsData[this.data.key];
+        var value=attrValue ? (attrValue.draftValue==null?(attrValue.attrValue||''):attrValue.draftValue) : '';
+        value!=''&&this.$store.dispatch('setInputData', {key: this.data.key, value: value})
+        return value
+      }
+    },
+    methods: {
+      setTimeDate:function (date) {
+       this.$store.dispatch('setTimeDate',{key:this.data.key,value:date})
+     }
+    }
+  }
+</script>

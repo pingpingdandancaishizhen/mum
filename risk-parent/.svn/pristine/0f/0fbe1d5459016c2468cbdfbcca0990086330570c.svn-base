@@ -1,0 +1,17 @@
+system.id=0000
+
+message.server.url=${message.message.server.url}
+path.send.sms=${message.path.send.sms}
+path.send.email=${message.path.send.email}
+carpool.ytx.sms.appid=${message.carpool.ytx.sms.appid}
+sms.random.code=${message.sms.random.code}
+
+oss_accessKey_id=${oss.oss_accessKey_id}
+oss_accessKey_secret=${oss.oss_accessKey_secret}
+oss_endpoint=${oss.oss_endpoint}
+oss_bucketName=${oss.oss_bucketName}
+oss_url=${oss.oss_url}
+
+jf_host=${jf.host}
+
+lw_host=${lw.host}

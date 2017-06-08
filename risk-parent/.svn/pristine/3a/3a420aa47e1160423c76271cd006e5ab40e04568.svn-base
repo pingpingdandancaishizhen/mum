@@ -1,0 +1,41 @@
+package cn.sunfit.risk.buz.api.service.p2p.product;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import cn.sunfit.risk.buz.api.beans.p2p.P2PProduct;
+import cn.sunfit.risk.buz.api.vo.RespPage;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.BpMetaCorpProductVO;
+import cn.sunfit.risk.buz.api.vo.p2p.activiti.BpMetaQueryReq;
+import cn.sunfit.risk.buz.api.vo.p2p.product.ProductQueryReq;
+
+public interface P2PProductService {
+
+    List<P2PProduct> checkAssetProductType(P2PProduct product);
+
+    List<P2PProduct> checkByProductCode(P2PProduct product);
+
+    List<P2PProduct> findByProductCode(String productCode);
+
+    List<Map<String, String>> findRiskProductList();
+
+    void insert(P2PProduct product);
+
+    // Object queryFeeConfig(String productId);
+
+    List<P2PProduct> queryAllRiskProduct();
+
+    BpMetaCorpProductVO queryMetaByProduct(BpMetaQueryReq s);
+
+    List<P2PProduct> queryProductByAssetId(String assetId);
+
+    RespPage<List<P2PProduct>> queryProductByCorpId(ProductQueryReq req);
+
+    P2PProduct queryProductById(String productId);
+
+    List<P2PProduct> selectProductByCorpId(@Param("corpId") String corpId);
+
+    void updateByPrimaryKey(P2PProduct record);
+}
